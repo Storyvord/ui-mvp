@@ -14,6 +14,8 @@ import { Table,
     TableHeader,
     TableRow, } from "@/components/ui/table";
 
+import Link from 'next/link'
+
 
 interface project{
     name: string;
@@ -98,12 +100,15 @@ const page = () => {
     const OngoingProjecs = projects.filter((project)=>project.status===false)
         .map((project)=>{
             return (
-                <Card key={project.name} className="px-4 mt-4 flex justify-between cursor-pointer font-semibold shadow">
-                    <h2 className="w-[70%]">{project.name}</h2>
-                    <div>
-                        <h2 className="text-xs font-normal text-gray-700">PLANNING</h2>
-                    </div>
-                </Card>
+                <Link key={project.name} href="/project-details">
+                    <Card className="px-4 mt-4 flex justify-between cursor-pointer font-semibold shadow">
+                        <h2 className="w-[70%]">{project.name}</h2>
+                        <div>
+                            <h2 className="text-xs font-normal text-gray-700">PLANNING</h2>
+                        </div>
+                    </Card>
+                </Link>
+                
             )
         })
 
@@ -111,7 +116,7 @@ const page = () => {
         .map((project)=>(
             <TableRow key={project.name}>
                 <TableCell>
-                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-bold">
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-[800]">
                         {project.name}
                     </p>
                 </TableCell>
@@ -126,17 +131,17 @@ const page = () => {
                     </p>
                 </TableCell>
                 <TableCell>
-                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-medium">
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
                         {project.budget}
                     </p>
                 </TableCell>
                 <TableCell>
-                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-medium">
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
                         {project.location}
                     </p>
                 </TableCell>
                 <TableCell>
-                    <p className="block antialiased text-base leading-relaxed font-medium text-green-500">
+                    <p className="block antialiased text-base leading-relaxed  text-green-500 font-[600]">
                         COMPLETED
                     </p>
                 </TableCell>
@@ -174,7 +179,7 @@ const page = () => {
                     Previous Projects
                 </h6>
             </div>
-            <CardContent className="overflow-x-scroll px-0 pb-2">
+            <CardContent className="overflow-x-auto px-0 pb-2">
                 <Table className="min-w-[640px] table-auto">
                     <TableHeader>
                         <TableRow>
