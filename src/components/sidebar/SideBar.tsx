@@ -20,7 +20,8 @@ import { Report, File, Tasks, Announcements,
     CreateProject,
     Dashboard,
 
- } from './sidebaricons'
+ } from './Sidebaricons'
+ import { useSideBarControl } from '@/contexts/SideBarContext'
 
 type itemType = {
     text: string,
@@ -156,12 +157,16 @@ const projectdetailsItems: projectDetailItem[] = [
     },
     
 ]
+
 const SideBar = () => {
     const pathname = usePathname()
+
     const isSpecificRoute = () => {
         // Example: Check if the current route is '/peoject-details' or its children
         return pathname.startsWith('/project-details');
     };
+
+    const {isSideBarOpen, toggle} = useSideBarControl()
 
     const ProjectDetailsMenu = projectdetailsItems.map((project)=>(
         <div key={project.title}>
@@ -190,8 +195,15 @@ const SideBar = () => {
         
     ))
   return (
-    <aside className="overflow-y-auto bg-white shadow-sm -translate-x-80 fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
+    <aside className={`${isSideBarOpen ? 'translate-x-0' : '-translate-x-80'} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 lg:translate-x-0 border border-blue-gray-100`}>
         <div className="relative">
+            <Button className='absolute right-1 top-0 w-8 h-8 lg:hidden rounded-br-none rounded-tl-none bg-gray-700 hover:bg-gray-900/10 active:bg-gray-900/20' onClick={toggle}>
+                <span className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" aria-hidden="true" className="h-5 w-5 text-white">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </span>
+            </Button>
             <Link className=" mt-4" href="/">
                 <Image className=" mx-auto w-[150px] pt-4 mb-8 " src="/logo-a6299cea.png" width={150} height={78} alt=""/>
             </Link>
