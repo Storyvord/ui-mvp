@@ -19,6 +19,11 @@ const config = {
     },
     extend: {
       colors: {
+        'blue-gray':{
+          100: "rgb(255 255 255 / var(--tw-bg-opacity))",
+          600: "rgb(84 110 122 / var(--tw-text-opacity))",
+          900: "rgb(38 50 56 / var(--tw-text-opacity))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -71,6 +76,9 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
       },
     },
   },
