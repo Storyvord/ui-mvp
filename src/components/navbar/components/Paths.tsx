@@ -11,22 +11,28 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
+import { useProjectControl } from '@/contexts/ProjectContext'
 
 const Paths = () => {
     const pathname = usePathname();
+    const {project} = useProjectControl()
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
           {
-            pathname.startsWith('/dashboard')? 
-                <Link href="/dashboard/home">Dashboard</Link> :
-                <Link href="/project-details">Project-Details</Link>
+            project.id? 
+                <Link href="/project-details">Project-Details</Link>:
+                <Link href="/dashboard/home">Dashboard</Link>      
           }
         </BreadcrumbItem>
         <BreadcrumbSeparator>
           /
         </BreadcrumbSeparator>
+        {
+          project.id &&
+            (<BreadcrumbPage className='Capitalize'>{project.name}</BreadcrumbPage>)
+        }
       </BreadcrumbList>
     </Breadcrumb>
   )

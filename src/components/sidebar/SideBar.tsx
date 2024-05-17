@@ -23,6 +23,7 @@ import ProjectButtonGroup from './components/ProjectButtonGroup'
 import SideBarButton from './components/SideBarButton'
 import SideBarCloseButton from './components/SideBarCloseButton'
 import { useSideBarControl } from '@/contexts/SideBarContext'
+import { useProjectControl } from '@/contexts/ProjectContext'
 
 
 type itemType = {
@@ -181,12 +182,15 @@ const SideBar = () => {
         </div>
         
     ))
+
+    const {setProject} = useProjectControl()
+
   return (
     <aside className={`${isSideBarOpen ? 'translate-x-0' : '-translate-x-80'} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 lg:translate-x-0 border border-blue-gray-100`}>
         <div className="relative">
             <SideBarCloseButton/>
             <Link className=" mt-4" href="/">
-                <Image className=" mx-auto w-[150px] pt-4 mb-8 " src="/logo-a6299cea.png" width={150} height={78} alt=""/>
+                <Image onClick={()=>setProject({id:"", name:""})} className=" mx-auto w-[150px] pt-4 mb-8 " src="/logo-a6299cea.png" width={150} height={78} alt=""/>
             </Link>
         </div>
         <div className='m-4'>
