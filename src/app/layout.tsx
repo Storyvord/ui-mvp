@@ -29,8 +29,7 @@ export default function RootLayout({
               <NavBar/>
               {children}
             </div>
-          </SideBarContextProvider>
-          
+          </SideBarContextProvider> 
         </div>
       </body>
     </html>

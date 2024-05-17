@@ -1,8 +1,8 @@
 import React from 'react'
-import Paths from './Paths'
+import Paths from './components/Paths'
 import Image from 'next/image'
-import ProfileImage from './ProfileImage'
-import SideBarToggler from './SideBarToggler'
+import ProfileImage from './components/ProfileImage'
+import SideBarToggler from './components/SideBarToggler'
 
 const NavBar = () => {
   return (
