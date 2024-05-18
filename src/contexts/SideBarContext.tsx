@@ -15,7 +15,7 @@ export const SideBarContextProvider = ({ children }: { children: React.ReactNode
   const [isSideBarOpen, setisSideBarOpen] = useState<boolean>(false)
 
 
-  function toggle() { console.log('toggle nav');
+  function toggle() {
    setisSideBarOpen(!isSideBarOpen) }
 
 
@@ -34,5 +34,3 @@ export function useSideBarControl() {
   const { isSideBarOpen, setisSideBarOpen, toggle, } = useContext(SideBarContext)
   return { isSideBarOpen, setisSideBarOpen, toggle, }
 }
-
-export const useGlobalContext = () => useContext(SideBarContext);

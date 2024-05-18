@@ -15,9 +15,11 @@ import { Table,
     TableRow, } from "@/components/ui/table";
 
 import Link from 'next/link'
+import OngoingProjectCard from "./OngoingProjectCard";
 
 
 interface project{
+    id:number
     name: string;
     start_date?:string;
     end_date?:string;
@@ -30,6 +32,7 @@ type projectArray = project[];
 
 const projects:projectArray = [
     {
+        id: 1,
         name:"Bruce Lee:The Man and the Legend",
         start_date:"",
         end_date:"",
@@ -38,6 +41,7 @@ const projects:projectArray = [
         status:false,
     },
     {
+        id:2, 
         name:"Til Madness Do Us Part",
         start_date:"",
         end_date:"",
@@ -46,6 +50,7 @@ const projects:projectArray = [
         status: false,
     },
     {
+        id: 3, 
         name:"Sakura Dreams: A Journey Through Japan's Contrasting Culture",
         start_date:"",
         end_date:"",
@@ -54,6 +59,7 @@ const projects:projectArray = [
         status:false,
     },
     {
+        id: 4, 
         name: "The Secret Garden",
         start_date: "2024-06-01",
         end_date: "2024-09-30",
@@ -62,6 +68,7 @@ const projects:projectArray = [
         status: true
     },
     {
+        id: 5,
         name: "Inception",
         start_date: "2024-03-15",
         end_date: "2024-08-30",
@@ -70,6 +77,7 @@ const projects:projectArray = [
         status: true
     },
     {
+        id: 6,
         name: "Avatar 2",
         start_date: "2024-10-01",
         end_date: "2025-03-31",
@@ -78,6 +86,7 @@ const projects:projectArray = [
         status: true
     },
     {
+        id: 7,
         name: "Jurassic World: Dominion",
         start_date: "2023-07-01",
         end_date: "2024-05-30",
@@ -86,6 +95,7 @@ const projects:projectArray = [
         status: true
     },
     {
+        id: 8,
         name: "Wonder Woman 3",
         start_date: "2025-01-15",
         end_date: "2025-06-30",
@@ -100,13 +110,9 @@ const page = () => {
     const OngoingProjecs = projects.filter((project)=>project.status===false)
         .map((project)=>{
             return (
-                <Link key={project.name} href="/project-details">
-                    <Card className="px-4 mt-4 flex justify-between cursor-pointer font-semibold shadow">
-                        <h2 className="w-[70%]">{project.name}</h2>
-                        <div>
-                            <h2 className="text-xs font-normal text-gray-700">PLANNING</h2>
-                        </div>
-                    </Card>
+                <Link key={project.name} 
+                    href={`/project-details/${project.id}`}>
+                    <OngoingProjectCard id={project.id.toString()} name={project.name}/>
                 </Link>
                 
             )

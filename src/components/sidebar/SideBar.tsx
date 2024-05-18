@@ -1,10 +1,8 @@
-"use client"
+'use client'
 
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Button } from '../ui/button'
 import { Report, File, Tasks, Announcements,
     Crew, Suppliers, Compliance, Budget, CallSheet, Calender,
     Script,
@@ -20,8 +18,13 @@ import { Report, File, Tasks, Announcements,
     CreateProject,
     Dashboard,
 
- } from './Sidebaricons'
- import { useSideBarControl } from '@/contexts/SideBarContext'
+ } from './components/Sidebaricons'
+import ProjectButtonGroup from './components/ProjectButtonGroup'
+import SideBarButton from './components/SideBarButton'
+import SideBarCloseButton from './components/SideBarCloseButton'
+import { useSideBarControl } from '@/contexts/SideBarContext'
+import { useProjectControl } from '@/contexts/ProjectContext'
+
 
 type itemType = {
     text: string,
@@ -34,28 +37,30 @@ type projectDetailItem = {
     items: itemType[],
 }
 
+
+
 const projectdetailsItems: projectDetailItem[] = [
     {
         title: "general",
         items: [
             {
                 text: "reports",
-                link: "",
+                link: "reports",
                 icon: <Report/>,
             },
             {
                 text: "File & Documents",
-                link: "",
+                link: "file-documents",
                 icon: <File/>,
             },
             {
-                text: "tesks",
-                link: "",
+                text: "tasks",
+                link: "task",
                 icon: <Tasks/>,
             },
             {
                 text: "announcements",
-                link: "",
+                link: "announcements",
                 icon: <Announcements/>,
             }
         ]
@@ -65,32 +70,32 @@ const projectdetailsItems: projectDetailItem[] = [
         items: [
             {
                 text: "crew",
-                link: "",
+                link: "crew",
                 icon: <Crew/>,
             },
             {
                 text: "suppliers",
-                link: "",
+                link: "resource",
                 icon: <Suppliers/>,
             },
             {
                 text: "compliance",
-                link: "",
+                link: "compliance",
                 icon: <Compliance/>,
             },
             {
                 text: "budget",
-                link: "",
+                link: "budget",
                 icon: <Budget/>,
             },
             {
                 text: "call sheets",
-                link: "",
+                link: "call-sheets",
                 icon: <CallSheet/>,
             },
             {
                 text: "calender",
-                link: "",
+                link: "calender",
                 icon: <Calender/>,
             }
         ]
@@ -100,27 +105,27 @@ const projectdetailsItems: projectDetailItem[] = [
         items: [
             {
                 text: "script",
-                link: "",
+                link: "script",
                 icon: <Script/>,
             },
             {
                 text: "scenes",
-                link: "",
+                link: "scenes",
                 icon: <Scenes/>,
             },
             {
                 text: "shots",
-                link: "",
+                link: "shots",
                 icon: <Shots/>,
             },
             {
                 text: "storyboard",
-                link: "",
+                link: "storyboard",
                 icon: <Storyboard/>,
             },
             {
                 text: "content items",
-                link: "",
+                link: "content-items",
                 icon: <ContentItems/>,
             }
         ]
@@ -130,27 +135,27 @@ const projectdetailsItems: projectDetailItem[] = [
         items: [
             {
                 text: "cast",
-                link: "",
+                link: "cast",
                 icon: <Cast/>,
             },
             {
                 text: "costumes",
-                link: "",
+                link: "costumes",
                 icon: <Costumes/>,
             },
             {
                 text: "makeup & hair",
-                link: "",
+                link: "makeup-hair",
                 icon: <Makeup/>,
             },
             {
                 text: "locations & sets",
-                link: "",
+                link: "locations-sets",
                 icon: <Locations/>,
             },
             {
                 text: "production design",
-                link: "",
+                link: "production-design",
                 icon: <Production/>,
             }
         ]
@@ -159,87 +164,47 @@ const projectdetailsItems: projectDetailItem[] = [
 ]
 
 const SideBar = () => {
-    const pathname = usePathname()
 
-    const isSpecificRoute = () => {
-        // Example: Check if the current route is '/peoject-details' or its children
-        return pathname.startsWith('/project-details');
-    };
+    const {isSideBarOpen} = useSideBarControl()
 
-    const {isSideBarOpen, toggle} = useSideBarControl()
-
-    const ProjectDetailsMenu = projectdetailsItems.map((project)=>(
-        <div key={project.title}>
+    const ProjectDetailsMenu = projectdetailsItems.map((details)=>(
+        <div key={details.title} className='flex flex-col gap-1'>
             <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">
-                {project.title}
+                {details.title}
             </h1>
             {
-                project.items.map((item)=>(
+                details.items.map((item)=>(
                     <li key={item.text} className='list-none'>
-                        <Link className={`${pathname === item.link ? 'active' : ''}`} href={item.link}>
-                            <Button variant="ghost" 
-                                className={`${pathname === item.link ? 'bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]' 
-                                : 'text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30'} w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start`}>
-                                {
-                                    item.icon
-                                }
-                                <p className="block font-sans antialiased text-base leading-relaxed text-inherit font-medium capitalize">
-                                    {item.text}
-                                </p>
-                            </Button>
-                        </Link>
+                        <SideBarButton icon={item.icon} link={item.link} root='project-details' text={item.text}/>
                     </li>
                 ))
             }
         </div>
         
     ))
+
+    const {setProject} = useProjectControl()
+
   return (
     <aside className={`${isSideBarOpen ? 'translate-x-0' : '-translate-x-80'} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 lg:translate-x-0 border border-blue-gray-100`}>
         <div className="relative">
-            <Button className='absolute right-1 top-0 w-8 h-8 lg:hidden rounded-br-none rounded-tl-none bg-gray-700 hover:bg-gray-900/10 active:bg-gray-900/20' onClick={toggle}>
-                <span className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" aria-hidden="true" className="h-5 w-5 text-white">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </span>
-            </Button>
+            <SideBarCloseButton/>
             <Link className=" mt-4" href="/">
-                <Image className=" mx-auto w-[150px] pt-4 mb-8 " src="/logo-a6299cea.png" width={150} height={78} alt=""/>
+                <Image onClick={()=>setProject({id:"", name:""})} className=" mx-auto w-[150px] pt-4 mb-8 " src="/logo-a6299cea.png" width={150} height={78} alt=""/>
             </Link>
         </div>
         <div className='m-4'>
             <ul className='mb-4 flex flex-col gap-1'>
                 <li>
-                    <Link className={`${pathname === '/dashboard/home' ? 'active' : ''}`} href="/dashboard/home">
-                        <Button variant="ghost" 
-                            className={`${pathname === '/dashboard/home' ? 'bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]' 
-                            : 'text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30'} w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start`}>
-                            <Dashboard/>
-                            <p className="block font-sans antialiased text-base leading-relaxed text-inherit font-medium capitalize">
-                                dashboard
-                            </p>
-                        </Button>
-                    </Link>
+                    <SideBarButton icon={<Dashboard/>} text='dashboard' link='home' root='dashboard'/>
                 </li>
                 <li>
-                    <Link className={`${pathname === '/dashboard/new-project' ? 'active' : ''}`} href="/dashboard/new-project">
-                        <Button variant="ghost" 
-                            className={`${pathname === '/dashboard/new-project' ? 'bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]' 
-                            : 'text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30'} w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start`}>
-                            <CreateProject/>
-                            <p className="block font-sans antialiased text-base leading-relaxed text-inherit font-medium capitalize">
-                                Create Project
-                            </p>
-                        </Button>
-                    </Link>
+                    <SideBarButton icon={<CreateProject/>} text='Create Project' link='new-project' root='dashboard'/>
                 </li>
             </ul>
-            {
-                isSpecificRoute() && (
-                    ProjectDetailsMenu
-                )
-            }
+            <ProjectButtonGroup>
+                {ProjectDetailsMenu}
+            </ProjectButtonGroup>
         </div>
     </aside>
   )
