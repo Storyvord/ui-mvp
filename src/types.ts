@@ -1,0 +1,22 @@
+interface project{
+    id:number
+    name: string;
+    start_date?:string;
+    end_date?:string;
+    budget?:string;
+    location?:string;
+    status:boolean;
+} 
+
+export type projectArray = project[];
+
+type itemType = {
+    text: string,
+    link: string,
+    icon: React.FC,
+}
+
+export type projectDetailItem = {
+    title:string,
+    items: itemType[],
+}
