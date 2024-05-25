@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 
 const defaultCtx = {
   isSideBarOpen: false,
-  setisSideBarOpen: (isSearchOpen: boolean) => { },
+  setisSideBarOpen: (isSideBarOpen: boolean) => { },
   toggle: () => { },
 
 }

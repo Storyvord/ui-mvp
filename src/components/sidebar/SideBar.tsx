@@ -3,165 +3,18 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Report, File, Tasks, Announcements,
-    Crew, Suppliers, Compliance, Budget, CallSheet, Calender,
-    Script,
-    Scenes,
-    Shots,
-    Storyboard,
-    ContentItems,
-    Cast,
-    Costumes,
-    Makeup,
-    Locations,
-    Production,
+import { 
     CreateProject,
     Dashboard,
-
  } from './components/Sidebaricons'
 import ProjectButtonGroup from './components/ProjectButtonGroup'
 import SideBarButton from './components/SideBarButton'
 import SideBarCloseButton from './components/SideBarCloseButton'
 import { useSideBarControl } from '@/contexts/SideBarContext'
 import { useProjectControl } from '@/contexts/ProjectContext'
+import { projectdetailsItems } from '@/constants'
 
 
-type itemType = {
-    text: string,
-    link: string,
-    icon: React.ReactNode,
-}
-
-type projectDetailItem = {
-    title:string,
-    items: itemType[],
-}
-
-
-
-const projectdetailsItems: projectDetailItem[] = [
-    {
-        title: "general",
-        items: [
-            {
-                text: "reports",
-                link: "reports",
-                icon: <Report/>,
-            },
-            {
-                text: "File & Documents",
-                link: "file-documents",
-                icon: <File/>,
-            },
-            {
-                text: "tasks",
-                link: "task",
-                icon: <Tasks/>,
-            },
-            {
-                text: "announcements",
-                link: "announcements",
-                icon: <Announcements/>,
-            }
-        ]
-    },
-    {
-        title: "planning",
-        items: [
-            {
-                text: "crew",
-                link: "crew",
-                icon: <Crew/>,
-            },
-            {
-                text: "suppliers",
-                link: "resource",
-                icon: <Suppliers/>,
-            },
-            {
-                text: "compliance",
-                link: "compliance",
-                icon: <Compliance/>,
-            },
-            {
-                text: "budget",
-                link: "budget",
-                icon: <Budget/>,
-            },
-            {
-                text: "call sheets",
-                link: "call-sheets",
-                icon: <CallSheet/>,
-            },
-            {
-                text: "calender",
-                link: "calender",
-                icon: <Calender/>,
-            }
-        ]
-    },
-    {
-        title: "breakdowns & more",
-        items: [
-            {
-                text: "script",
-                link: "script",
-                icon: <Script/>,
-            },
-            {
-                text: "scenes",
-                link: "scenes",
-                icon: <Scenes/>,
-            },
-            {
-                text: "shots",
-                link: "shots",
-                icon: <Shots/>,
-            },
-            {
-                text: "storyboard",
-                link: "storyboard",
-                icon: <Storyboard/>,
-            },
-            {
-                text: "content items",
-                link: "content-items",
-                icon: <ContentItems/>,
-            }
-        ]
-    },
-    {
-        title: "department specific",
-        items: [
-            {
-                text: "cast",
-                link: "cast",
-                icon: <Cast/>,
-            },
-            {
-                text: "costumes",
-                link: "costumes",
-                icon: <Costumes/>,
-            },
-            {
-                text: "makeup & hair",
-                link: "makeup-hair",
-                icon: <Makeup/>,
-            },
-            {
-                text: "locations & sets",
-                link: "locations-sets",
-                icon: <Locations/>,
-            },
-            {
-                text: "production design",
-                link: "production-design",
-                icon: <Production/>,
-            }
-        ]
-    },
-    
-]
 
 const SideBar = () => {
 
@@ -175,7 +28,7 @@ const SideBar = () => {
             {
                 details.items.map((item)=>(
                     <li key={item.text} className='list-none'>
-                        <SideBarButton icon={item.icon} link={item.link} root='project-details' text={item.text}/>
+                        <SideBarButton Icon={item.icon} link={item.link} root='project-details' text={item.text}/>
                     </li>
                 ))
             }
@@ -196,10 +49,10 @@ const SideBar = () => {
         <div className='m-4'>
             <ul className='mb-4 flex flex-col gap-1'>
                 <li>
-                    <SideBarButton icon={<Dashboard/>} text='dashboard' link='home' root='dashboard'/>
+                    <SideBarButton Icon={Dashboard} text='dashboard' link='home' root='dashboard'/>
                 </li>
                 <li>
-                    <SideBarButton icon={<CreateProject/>} text='Create Project' link='new-project' root='dashboard'/>
+                    <SideBarButton Icon={CreateProject} text='Create Project' link='new-project' root='dashboard'/>
                 </li>
             </ul>
             <ProjectButtonGroup>

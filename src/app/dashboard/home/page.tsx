@@ -1,4 +1,5 @@
 import {
+
   Card,
   CardContent,
   CardDescription,
@@ -16,8 +17,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+import { Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow, } from "@/components/ui/table";
+
+
 import Link from "next/link";
 import OngoingProjectCard from "./OngoingProjectCard";
+
 
 interface project {
   id: number;
@@ -105,6 +121,9 @@ const projects: projectArray = [
     status: true,
   },
 ];
+
+import { projects } from "@/constants";
+
 
 const page = () => {
   const OngoingProjecs = projects

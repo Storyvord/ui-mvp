@@ -21,7 +21,7 @@ const Paths = () => {
       <BreadcrumbList>
         <BreadcrumbItem>
           {
-            project.id? 
+            pathname.startsWith('/project-details')? 
                 <Link href="/project-details">Project-Details</Link>:
                 <Link href="/dashboard/home">Dashboard</Link>      
           }
@@ -30,7 +30,7 @@ const Paths = () => {
           /
         </BreadcrumbSeparator>
         {
-          project.id &&
+          (pathname.startsWith('/project-details') && project.id) &&
             (<BreadcrumbPage className='Capitalize'>{project.name}</BreadcrumbPage>)
         }
       </BreadcrumbList>
