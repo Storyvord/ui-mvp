@@ -15,7 +15,7 @@ const ProfileImage = () => {
   return (
     <Popover>
         <PopoverTrigger>
-            <Image src="/photo-1603415526960-f7e0328c63b1.avif" alt="Crew Profile" aria-expanded="true" aria-haspopup="dialog" className="inline-block relative object-cover object-center !rounded-full w-12 h-12 cursor-pointer" width={48} height={48} priority={false} aria-controls=":r9:"/>
+            <Image src="/photo-1603415526960-f7e0328c63b1.avif" alt="Crew Profile" aria-expanded="true" aria-haspopup="dialog" className="inline-block relative object-cover object-center !rounded-full w-12 h-12 cursor-pointer" width={48} height={48} priority aria-controls=":r9:"/>
         </PopoverTrigger>
         <PopoverContent className='p-0 w-fit'>
             <nav className='flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-[#455A64]'>
