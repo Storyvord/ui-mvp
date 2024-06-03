@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { 
     CreateProject,
     Dashboard,
+    File,
  } from './components/Sidebaricons'
 import ProjectButtonGroup from './components/ProjectButtonGroup'
 import SideBarButton from './components/SideBarButton'
@@ -53,6 +54,9 @@ const SideBar = () => {
                 </li>
                 <li>
                     <SideBarButton Icon={CreateProject} text='Create Project' link='new-project' root='dashboard'/>
+                </li>
+                <li>
+                    <SideBarButton Icon={File} text='Files & Documents' link='file&docs' root='dashboard'/>
                 </li>
             </ul>
             <ProjectButtonGroup>
