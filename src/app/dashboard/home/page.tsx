@@ -1,5 +1,4 @@
 import {
-
   Card,
   CardContent,
   CardDescription,
@@ -16,19 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-import { Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow, } from "@/components/ui/table";
 
 
 import Link from "next/link";
@@ -122,7 +108,6 @@ const projects: projectArray = [
   },
 ];
 
-import { projects } from "@/constants";
 
 
 const page = () => {
@@ -177,7 +162,10 @@ const page = () => {
       <div className="md:flex justify-between gap-4">
         <div className="md:w-96 mt-4 w-full">
           <Card className="flex justify-between cursor-pointer">
-            <Link href = "new-project" className="space-y-4 max-w-[70%] md:max-w-[85%]">
+            <Link
+              href="new-project"
+              className="space-y-4 max-w-[70%] md:max-w-[85%]"
+            >
               <CardTitle>Create New Project</CardTitle>
               <CardDescription className="font-normal text-blue-gray-600 leading-5">
                 Start a new project A preect is a work order between you and a
