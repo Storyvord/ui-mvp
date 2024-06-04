@@ -5,7 +5,7 @@ import { calenderFormType } from '@/types';
 
 interface CalendarDialogProps {
   open: boolean;
-  handleChange: (e: React.ChangeEvent<any>)=>void,
+  handleChange: ({name, value}:{name:string, value:string | string[]})=>void,
   data: calenderFormType,
   onClose: () => void,
   handleSubmit: (e: React.FormEvent)=>void,

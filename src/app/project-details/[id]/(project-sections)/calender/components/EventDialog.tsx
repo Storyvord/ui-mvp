@@ -8,10 +8,11 @@ import {
 import { calenderEventType } from '@/types';
 
 
-const EventDialog = ({ open, onClose, event }:{
+const EventDialog = ({ open, onClose, event, deleteEvent }:{
     open: boolean,
     onClose: () => void,
     event: calenderEventType | null
+    deleteEvent: (id:number)=>void
 }) => {
     if (!event) return null; // If no event is provided, do not render anything
 
@@ -26,16 +27,33 @@ const EventDialog = ({ open, onClose, event }:{
               <h5>
                 <strong>End:</strong> {event.end.toLocaleString()}
               </h5>
-              {event.desc && (
+              {event.location && (
                 <h5>
-                    <strong>Description:</strong> {event.desc}
+                    <strong>Location:</strong> {event.location}
                 </h5>
               )}
+              {event.desc && (
+                <h5>
+                    <strong>Description:</strong><br/> 
+                    {event.desc}
+                </h5>
+              )}
+              {(event.participants && event.participants.length>0) && (
+                <h5>
+                    <strong>Participants:</strong>
+                    {event.participants.map((participant)=>(participant+ ', '))}
+                </h5>
+              )}
+              
           </div> 
-          
-          <Button onClick={onClose} className="mt-4" color="primary">
-            Close
-          </Button>
+          <div className='flex flex-wrap justify-between gap-1 w-full mt-2'>
+            <Button onClick={onClose} className="w-[150px]">
+              Close
+            </Button>
+            <Button onClick={()=>deleteEvent(event.id)} className="w-[150px]" variant="destructive">
+              Delete
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     );

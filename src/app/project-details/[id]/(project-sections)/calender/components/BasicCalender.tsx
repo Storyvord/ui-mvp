@@ -32,9 +32,8 @@ const BasicCalender = () => {
         participants: [],
     })
 
-    const handleChange = (e: React.ChangeEvent<any>)=>{
-        const name = e.target.name;
-        const value = e.target.value;
+    const handleChange = ({name, value}:{name:string, value:string | string[]})=>{
+        
         setFormData(values => ({...values, [name]: value}))
     }
 
@@ -46,6 +45,12 @@ const BasicCalender = () => {
             end: moment(event.end).toDate(),
         };
         setEvents((prevEvents) => [...prevEvents, newEvent]);
+    }
+
+    const deleteEvent= (id: number)=>{
+        const newEvents= events.filter((event)=> event.id!==id);
+        setEvents(newEvents);
+        handleCloseEventDialog()
     }
 
     const handleSubmit = (e: React.FormEvent)=>{
@@ -76,11 +81,11 @@ const BasicCalender = () => {
         setIsEventDialogOpen(true);
     }
 
-    
+    console.log(events);
     
   return (
     <div>
-        <Button onClick={()=>setIsDialogOpen(true)} className='mb-2'>Add Event</Button>
+        <Button onClick={()=>setIsDialogOpen(true)} className='mb-2 uppercase bg-blue-500'>Add new Event</Button>
         <div className='h-[90vh]'>
             <Calendar
                 localizer={localizer} 
@@ -91,7 +96,7 @@ const BasicCalender = () => {
             />
         </div>
         <AddTaskDialog open={isDialogOpen} onClose={handleCloseDialog} data={formData} handleChange= {handleChange} handleSubmit={handleSubmit}  />
-        <EventDialog event={eventToDisplay} open={isEventDialogOpen} onClose={handleCloseEventDialog}/>
+        <EventDialog deleteEvent={deleteEvent} event={eventToDisplay} open={isEventDialogOpen} onClose={handleCloseEventDialog}/>
     </div>
     
   )
