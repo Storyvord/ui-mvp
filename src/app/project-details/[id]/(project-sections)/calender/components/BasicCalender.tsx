@@ -8,14 +8,21 @@ import AddTaskDialog from './AddTaskDialog'
 import { calenderEventType, calenderFormType } from '@/types'
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button'
+import EventDialog from './EventDialog'
 
 const localizer = momentLocalizer(moment)
 
 const BasicCalender = () => {
     
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
     const [events, setEvents] = useState<calenderEventType[]>(eventList);
     const handleCloseDialog = () => setIsDialogOpen(false);
+    const handleCloseEventDialog = () => {
+        setEventToDisplay(null);
+        setIsEventDialogOpen(false)
+    };
+    const [eventToDisplay, setEventToDisplay] = useState<calenderEventType | null>(null)
     const [formData, setFormData] = useState({
         start: '',
         end: '',
@@ -64,6 +71,11 @@ const BasicCalender = () => {
         setIsDialogOpen(true);
     }
 
+    const handleSelectEvent = (event: calenderEventType)=>{
+        setEventToDisplay(event);
+        setIsEventDialogOpen(true);
+    }
+
     
     
   return (
@@ -74,10 +86,12 @@ const BasicCalender = () => {
                 localizer={localizer} 
                 events={events}
                 onSelectSlot={handleSelectSlot}
+                onSelectEvent={handleSelectEvent}
                 selectable
             />
         </div>
         <AddTaskDialog open={isDialogOpen} onClose={handleCloseDialog} data={formData} handleChange= {handleChange} handleSubmit={handleSubmit}  />
+        <EventDialog event={eventToDisplay} open={isEventDialogOpen} onClose={handleCloseEventDialog}/>
     </div>
     
   )
