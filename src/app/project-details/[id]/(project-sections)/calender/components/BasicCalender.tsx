@@ -85,7 +85,7 @@ const BasicCalender = () => {
     
   return (
     <div>
-        <Button onClick={()=>setIsDialogOpen(true)} className='mb-2 uppercase bg-blue-500'>Add new Event</Button>
+        <Button onClick={()=>setIsDialogOpen(true)} className='mb-2 uppercase bg-blue-500 hover:bg-blue-700 font-bold'>Add new Event</Button>
         <div className='h-[90vh]'>
             <Calendar
                 localizer={localizer} 

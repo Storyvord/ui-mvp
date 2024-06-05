@@ -18,7 +18,7 @@ const EventDialog = ({ open, onClose, event, deleteEvent }:{
 
     return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="font-sans max-h-[80vh] overflow-auto">
+        <DialogContent className="font-sans max-h-[85vh] overflow-auto">
           <DialogTitle className='text-[30px]'>{event.title}</DialogTitle>
           <div className='text-gray-700 text-[18px]'>
               <h5>
@@ -47,10 +47,10 @@ const EventDialog = ({ open, onClose, event, deleteEvent }:{
               
           </div> 
           <div className='flex flex-wrap justify-between gap-1 w-full mt-2'>
-            <Button onClick={onClose} className="w-[150px]">
+            <Button onClick={onClose} className="w-[150px] font-bold">
               Close
             </Button>
-            <Button onClick={()=>deleteEvent(event.id)} className="w-[150px]" variant="destructive">
+            <Button onClick={()=>deleteEvent(event.id)} className="w-[150px] font-bold" variant="destructive">
               Delete
             </Button>
           </div>

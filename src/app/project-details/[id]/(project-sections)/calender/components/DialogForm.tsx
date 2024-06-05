@@ -4,6 +4,7 @@ import { calenderFormType } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 
 const DialogForm = ({ data, handleChange, handleSubmit}:{
     handleChange: ({name, value}: {name:string, value:string | string[]})=>void,
@@ -60,16 +61,16 @@ const DialogForm = ({ data, handleChange, handleSubmit}:{
             <Label htmlFor="participants">Participants</Label>
             <div className="flex w-full items-center space-x-2">
                 <Input type="text" value={partName} onChange={(e)=>setPartName(e.target.value)} placeholder="Enter name" />
-                <Button type="button" onClick={handleClick}>Add</Button>
+                <Button type="button" onClick={handleClick} disabled={partName===""}>Add</Button>
             </div>
             {
                 data.participants && (
                     <ul className="flex pl-5 gap-1 flex-wrap text-[10px] w-full pt-2">
                         {data.participants.map((participant, index) => (
-                            <li key={index} className="bg-gray-400 text-white p-1 rounded-sm">
+                            <Badge key={index} className='bg-gray-500'>
                                 {participant}
                                 <span onClick={()=>deleteParticipant(index)} className='text-white font-bold ml-4 cursor-pointer'>x</span>
-                            </li>
+                            </Badge>
                         ))}
                     </ul>
                 )
@@ -78,8 +79,8 @@ const DialogForm = ({ data, handleChange, handleSubmit}:{
         </div>
         
         
-        <div className="mt-4">
-            <Button type="submit" className='bg-blue-500'>Add Event</Button>
+        <div className="mt-2">
+            <Button type="submit" className='bg-green-500 hover:bg-green-700 font-bold'>Add Event</Button>
         </div>
     </form>
   )

@@ -15,7 +15,7 @@ const AddTaskDialog: React.FC<CalendarDialogProps> = ({ open, data, handleChange
     
     return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent  className='p-4 max-h-[80vh] overflow-auto font-sans'>
+        <DialogContent  className='p-4 max-h-[85vh] overflow-auto font-sans'>
           <DialogTitle>Add New Event</DialogTitle>
           <DialogDescription>
             Please fill out the details for your new event.
