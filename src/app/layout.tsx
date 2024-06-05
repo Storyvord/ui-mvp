@@ -6,6 +6,7 @@ import NavBar from "@/components/navbar/NavBar";
 import { SideBarContextProvider } from "@/contexts/SideBarContext";
 import { ProjectContextProvider } from "@/contexts/ProjectContext";
 
+
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ weight: '400',
 subsets: ['latin'] });

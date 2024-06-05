@@ -14,6 +14,7 @@ import { useSideBarControl } from '@/contexts/SideBarContext'
 import { useProjectControl } from '@/contexts/ProjectContext'
 import { projectdetailsItems } from '@/constants'
 
+// import Page from './components/crew/page';
 
 
 const SideBar = () => {
@@ -54,6 +55,10 @@ const SideBar = () => {
                 <li>
                     <SideBarButton Icon={CreateProject} text='Create Project' link='new-project' root='dashboard'/>
                 </li>
+                <li>
+                    <SideBarButton Icon={CreateProject} text='Crew-Page' link='crew-page' root='dashboard'/>
+                </li>
+                {/* <li><Page/></li> */}
             </ul>
             <ProjectButtonGroup>
                 {ProjectDetailsMenu}
