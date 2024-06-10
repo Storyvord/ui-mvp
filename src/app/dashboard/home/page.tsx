@@ -7,10 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -19,7 +19,7 @@ import {
 
 import Link from "next/link";
 import OngoingProjectCard from "./OngoingProjectCard";
-
+import { projects } from "@/constants";
 
 interface project {
   id: number;
@@ -107,6 +107,7 @@ const projects: projectArray = [
     status: true,
   },
 ];
+
 
 
 

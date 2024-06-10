@@ -12,9 +12,9 @@ import { Report, File, Tasks, Announcements,
     Production,
 
  } from './components/sidebar/components/Sidebaricons'
-import { projectArray } from './types'
+import { calenderEventType, projectArray } from './types'
 import { projectDetailItem } from './types'
-
+import moment from 'moment'
 
 export const projects:projectArray = [
     {
@@ -214,4 +214,13 @@ export const projectdetailsItems: projectDetailItem[] = [
         ]
     },
     
+]
+
+export const eventList: calenderEventType[] = [
+    {
+        id: 0,
+        start:  moment('2024-06-06T08:00:00').toDate(),
+        end: moment('2024-06-06T11:00:00').toDate(),
+        title: 'Shooting',
+    }
 ]

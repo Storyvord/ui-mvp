@@ -20,3 +20,22 @@ export type projectDetailItem = {
     title:string,
     items: itemType[],
 }
+
+export type calenderFormType = {
+    title: string,
+    start: string,
+    end: string,
+    desc? : string,
+    location? : string,
+    participants? : string[],
+}
+
+export type calenderEventType = {
+    id: number,
+    title: string,
+    start: Date,
+    end: Date,
+    desc? : string,
+    location? : string,
+    participants? : string[],
+}
