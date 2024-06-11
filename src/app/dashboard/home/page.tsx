@@ -19,7 +19,7 @@ import {
 
 import Link from "next/link";
 import OngoingProjectCard from "./OngoingProjectCard";
-import { projects } from "@/constants";
+// import { projects } from "@/constants";
 
 interface project {
   id: number;

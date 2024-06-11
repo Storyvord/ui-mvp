@@ -10,7 +10,6 @@ import { Report, File, Tasks, Announcements,
     Makeup,
     Locations,
     Production,
-
  } from './components/sidebar/components/Sidebaricons'
 import { calenderEventType, projectArray } from './types'
 import { projectDetailItem } from './types'
