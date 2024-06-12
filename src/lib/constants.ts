@@ -10,8 +10,7 @@ import { Report, File, Tasks, Announcements,
     Makeup,
     Locations,
     Production,
-
- } from './components/sidebar/components/Sidebaricons'
+ } from '../components/sidebar/components/Sidebaricons'
 import { calenderEventType, projectArray } from './types'
 import { projectDetailItem } from './types'
 import moment from 'moment'
@@ -224,3 +223,55 @@ export const eventList: calenderEventType[] = [
         title: 'Shooting',
     }
 ]
+
+export const content_type = [
+    "Events",
+    "People Stories",
+    "Animation",
+    "Company News",
+    "Company Stories",
+    "Case Studies",
+    "Interviews",
+    "Tutorial",
+    "Product Demo",
+    "Help & How To",
+    "Virtual Events",
+    "Advertising",
+    "Live Stream",
+    "Speaker",
+    "Recruitment",
+    "Other"
+  ];
+
+  export const equipment_data = [
+    "Camera",
+    "Tripod",
+    "Lighting Kit",
+    "Microphone",
+    "Boom Pole",
+    "Audio Recorder",
+    "Drone",
+    "Gimbal Stabilizer",
+    "Reflectors",
+    "Clapperboard",
+    "Lens Kit",
+    "Monitor",
+    "Video Switcher",
+  ];
+
+  export const crew_data = [
+    "Director",
+    "Producer",
+    "Screenwriter",
+    "Director of Photography(Cinemantography)",
+    "Production Designer",
+    "Art Designer",
+    "Sound Designer",
+    "Editor",
+    "Costume Designer",
+    "Makeup Artist",
+    "Special Effect Supervisor",
+    "Composer",
+    "Casting Designer",
+    "Other"
+  ];

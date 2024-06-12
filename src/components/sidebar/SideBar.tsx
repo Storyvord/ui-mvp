@@ -1,6 +1,6 @@
 'use client'
 
-import { projectdetailsItems } from '@/constants'
+import { projectdetailsItems } from '@/lib/constants'
 import { useProjectControl } from '@/contexts/ProjectContext'
 import { useSideBarControl } from '@/contexts/SideBarContext'
 import Image from 'next/image'
