@@ -273,5 +273,21 @@ export const content_type = [
     "Special Effect Supervisor",
     "Composer",
     "Casting Designer",
-    "Other"
   ];
+
+  export const defaultFormValues = {
+    projectName: "",
+    contentType: "",
+    budget: 5,
+    description: "",
+    additional_details: "",
+    locationDetails: [{
+      location: "",
+      start_date: "",
+      end_date: "",
+      filming_permits: false,
+    }],
+    ai_suggestions: false,
+    crew: {},
+    equipment: {}
+  }

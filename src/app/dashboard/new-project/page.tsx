@@ -11,77 +11,55 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import React, { useState } from "react";
-import CustomSelect from "@/components/create_project_form/CustomSelect";
 import { useForm , useFieldArray} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import  { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { projectFormSchema, projectFormInputType } from "@/lib/types";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { content_type, crew_data } from "@/lib/constants";
+import { content_type, crew_data, defaultFormValues, equipment_data } from "@/lib/constants";
 import { Label } from "@/components/ui/label";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Badge } from "@/components/ui/badge";
-import {z, ZodObject} from "zod"
+
 
 const CreateProjectPage = () => {
+
   const form = useForm<projectFormInputType>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues:{
-      projectName: "",
-      contentType: "",
-      otherContent: "",
-      budget: 0,
-      crew:[],
-      description: "",
-      additional_details: "",
-      locationDetails: [{
-        location: "",
-        start_date: "",
-        end_date: "",
-        filming_permits: false,
-      }],
-      ai_suggestions: false,
-    }
+    defaultValues:defaultFormValues
   })
 
   const locationArray = useFieldArray({
     control: form.control,
     name: "locationDetails"
-  })
+  });
 
-  const crewArray = useFieldArray({
-    control: form.control,
-    name: "crew"
-  })
+
+
  
   // 2. Define a submit handler.
-  function onSubmit(values: projectFormInputType) {
+  function onSubmit(formData: projectFormInputType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
-    form.reset
+    console.log(formData)
+    form.reset(defaultFormValues);
   }
 
-    
-  
   const selectedOption = form.watch('contentType');
-  const [crewInputOpen, setCrewInputOpen]= useState<boolean>(false);
-  const [crewInput, setCrewInput]= useState<string>("");
-  const handleCrewSelect = (value: string) =>{
-    if(value==="Other"){
-        setCrewInputOpen(true);
-    }
-    else{
-      setCrewInputOpen(false);
-      crewArray.append({
-        type: value,
-        count: 1,
-      })
-    }
+
+  const handleCrewRemove = (key:string)=>{
+      const newCrew = form.getValues('crew');
+      delete newCrew[key];
+      form.setValue('crew', { ...newCrew });
   }
+
+  const handleEquipmentRemove = (key:string)=>{
+    const newEquipment = form.getValues('equipment');
+    delete newEquipment[key];
+    form.setValue('equipment', { ...newEquipment });
+}
 
   return (
     <div className="MuiBox-root css-8atqhb">
@@ -157,8 +135,8 @@ const CreateProjectPage = () => {
                 <FormControl>
                   <Slider
                     {...field}
-                    min={0}
-                    max={100}
+                    min={5}
+                    max={200000}
                     step={1}
                     value={[field.value]}
                     onValueChange={value => field.onChange(value[0])}
@@ -168,12 +146,18 @@ const CreateProjectPage = () => {
               </FormItem>
             )}
           />
-          <div>
-            <Label className="sm:text-[18px] font-sans font-bold text-gray-600">Crew</Label>
-            <Select onValueChange={handleCrewSelect} defaultValue={""}>
-                  <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                  </SelectTrigger>
+          <FormField
+            control={form.control}
+            name="crew"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Crew</FormLabel>
+                <Select onValueChange={(val)=>field.onChange({...field.value, [val]:1})}>
+                  <FormControl>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                  </FormControl>
                   <SelectContent className="max-h-[300px]">
                     {crew_data.map((option) => (
                       <SelectItem key={option} value={option}>
@@ -183,50 +167,93 @@ const CreateProjectPage = () => {
                   </SelectContent>
                 </Select>
                 {
-                  crewInputOpen ? (
-                    <div className="relative">
-                        <Input placeholder="Enter Crew Type" value={crewInput} onChange={(e)=>setCrewInput(e.target.value)}  className="mt-[10px]"/>
-                        <Button type="button" variant="outline" size="icon" className="absolute right-1 top-1 border-none h-8 w-8"
-                          onClick={
-                            ()=>{
-                              crewArray.append({
-                                type: crewInput,
-                                count: 1,
-                              })
-                              setCrewInput("");
-                            }
-                          }
-                          disabled={crewInput? false:true}
-                        >
-                          <PlusIcon className="h-5 w-5 " />
-                        </Button>
-                    </div>
-                    
-                  ): null
+                  Object.keys(field.value).length>0 && (
+                      <div className="mt-2 flex gap-2 flex-wrap">
+                        {
+                          Object.keys(field.value).map((key)=>(
+                            <Badge key={key} className="rounded-md py-1 min-w-[200px]">
+                                <FormField
+                                  control={form.control}
+                                  name={`crew.${key}`}
+                                  render={({ field }) => (
+                                    <FormItem className="flex justify-between w-full items-center gap-2">
+                                      <FormLabel className="font-sans font-bold text-white">{key}</FormLabel>
+                                      <FormControl>
+                                        <div className="flex gap-2 items-center relative -top-1">
+                                          <Input type="number" className="w-8 h-full p-1 text-black text-right" {...field} onChange={(e)=>field.onChange(Number(e.target.value))}/>
+                                          <TrashIcon className="h-5 w-5 text-white cursor-pointer hover:text-red-500" onClick={()=>handleCrewRemove(key)}/>
+                                        </div>
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                            </Badge> 
+                            
+                          ))
+                        }
+                      </div>
+                  )
+                  
                 }
-                {crewArray.fields.length>0 && (
-                  <div className="mt-2 flex gap-2 flex-wrap">
-                      {crewArray.fields.map((crew, index)=>(
-                        <Badge key={crew.id} className="flex justify-between rounded-md py-2 min-w-[200px]">
-                          <FormField
-                            control={form.control}
-                            name={`crew.${index}.count` as const}
-                            render={({ field }) => (
-                              <FormItem className="w-full flex justify-between items-center gap-2">
-                                <FormLabel className="sm:text-[16px] font-sans font-bold text-white">{crew.type}</FormLabel>
-                                <FormControl>
-                                  <Input type="number" className="w-10 h-full p-2 text-black text-right"  {...field}/>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                        </Badge>
-                      ))}
-                  </div>
-                )}
-          </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="equipment"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Equipment</FormLabel>
+                <Select onValueChange={(val)=>field.onChange({...field.value, [val]:1})}>
+                  <FormControl>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="max-h-[300px]">
+                    {equipment_data.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {
+                  Object.keys(field.value).length>0 && (
+                      <div className="mt-2 flex gap-2 flex-wrap">
+                        {
+                          Object.keys(field.value).map((key)=>(
+                            <Badge key={key} className="rounded-md py-1 min-w-[200px]">
+                                <FormField
+                                  control={form.control}
+                                  name={`equipment.${key}`}
+                                  render={({ field }) => (
+                                    <FormItem className="flex justify-between w-full items-center gap-2">
+                                      <FormLabel className="font-sans font-bold text-white">{key}</FormLabel>
+                                      <FormControl>
+                                        <div className="flex gap-2 items-center relative -top-1">
+                                          <Input type="number" className="w-8 h-full p-1 text-black text-right" {...field} onChange={(e)=>field.onChange(Number(e.target.value))}/>
+                                          <TrashIcon className="h-5 w-5 text-white cursor-pointer hover:text-red-500" onClick={()=>handleEquipmentRemove(key)}/>
+                                        </div>
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                            </Badge> 
+                            
+                          ))
+                        }
+                      </div>
+                  )
+                  
+                }
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="description"
@@ -271,7 +298,7 @@ const CreateProjectPage = () => {
                             <FormControl>
                               <Input placeholder="Enter Location" {...field}/>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="break-all"/>
                           </FormItem>
                         )}
                       />
@@ -280,10 +307,10 @@ const CreateProjectPage = () => {
                           control={form.control}
                           name={`locationDetails.${index}.start_date` as const}
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="max-w-[300px] w-[40%]">
                               <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Tendative start date</FormLabel>
                               <FormControl>
-                                <Input type="date"  {...field} className="w-fit"/>
+                                <Input type="date"  {...field} className="block"/>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -293,10 +320,10 @@ const CreateProjectPage = () => {
                           control={form.control}
                           name={`locationDetails.${index}.end_date` as const}
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="max-w-[300px] w-[40%]">
                               <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Tendative end date</FormLabel>
                               <FormControl>
-                                <Input type="date"  {...field} className="w-fit"/>
+                                <Input type="date"  {...field} className="block"/>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -308,40 +335,43 @@ const CreateProjectPage = () => {
                           control={form.control}
                           name={`locationDetails.${index}.mode` as const}
                           render={({ field }) => (
-                            <FormItem className="flex flex-wrap items-center gap-1">
-                              <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">
-                                Mode of shooting:
-                              </FormLabel>
-                              <FormControl>
-                                <RadioGroup
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                  className="flex gap-2 space-y-0 items-center"
-                                >
-                                  <FormItem className="flex items-center space-x-1 space-y-0">
-                                    <FormControl>
-                                      <RadioGroupItem value="indoor" />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Indoor
-                                    </FormLabel>
-                                  </FormItem>
-                                  <FormItem className="flex items-center space-x-1 space-y-0">
-                                    <FormControl>
-                                      <RadioGroupItem value="outdoor" />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Outdoor
-                                    </FormLabel>
-                                  </FormItem>
-                                  <FormItem className="flex items-center space-x-1 space-y-0">
-                                    <FormControl>
-                                      <RadioGroupItem value="both" />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">Both</FormLabel>
-                                  </FormItem>
-                                </RadioGroup>
-                              </FormControl>
+                            <FormItem className="">
+                              <div className="flex flex-wrap items-center gap-1">
+                                <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">
+                                  Mode of shooting:
+                                </FormLabel>
+                                <FormControl>
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="flex gap-2 space-y-0 items-center"
+                                  >
+                                    <FormItem className="flex items-center space-x-1 space-y-0">
+                                      <FormControl>
+                                        <RadioGroupItem value="indoor" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">
+                                        Indoor
+                                      </FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-1 space-y-0">
+                                      <FormControl>
+                                        <RadioGroupItem value="outdoor" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">
+                                        Outdoor
+                                      </FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-1 space-y-0">
+                                      <FormControl>
+                                        <RadioGroupItem value="both" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">Both</FormLabel>
+                                    </FormItem>
+                                  </RadioGroup>
+                                </FormControl>
+                              </div>
+                              
                               <FormMessage />
                             </FormItem>
                           )}
