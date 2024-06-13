@@ -45,7 +45,6 @@ export type calenderEventType = {
 export const projectFormSchema = z.object({
     projectName: z.string().min(1, {message:"Project Name is required"}),
     contentType: z.string().min(1, {message:"Content Type is required"}),
-    otherContent: z.string().optional(),
     budget: z.number().min(5, {message:"Minimum budget is $5k"}).max(200000, {message:"Maximum budget is $200000k"}),
     description: z.string().min(1, {message:"Project description is required"}),
     additional_details: z.string().optional(),
@@ -65,10 +64,10 @@ export const projectFormSchema = z.object({
     }
     )),
     ai_suggestions: z.boolean(),
-    crew: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' }))
-        .refine(crew => Object.keys(crew).length > 0, { message: 'At least one crew member is required' }),
-    equipment: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' }))
-    .refine(eqmt => Object.keys(eqmt).length > 0, { message: 'At least Equipment is required' }),
+    crew: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' })),
+        // .refine(crew => Object.keys(crew).length > 0, { message: 'At least one crew member is required' }),
+    equipment: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' })),
+    // .refine(eqmt => Object.keys(eqmt).length > 0, { message: 'At least one equipment is required' }),
   })
 
  

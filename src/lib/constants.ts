@@ -225,60 +225,71 @@ export const eventList: calenderEventType[] = [
 ]
 
 export const content_type = [
-    "Events",
-    "People Stories",
-    "Animation",
-    "Company News",
-    "Company Stories",
-    "Case Studies",
-    "Interviews",
-    "Tutorial",
-    "Product Demo",
-    "Help & How To",
-    "Virtual Events",
-    "Advertising",
-    "Live Stream",
-    "Speaker",
-    "Recruitment",
-    "Other"
+    {
+        value: "Events", label: "Events"
+    },
+    {
+        value: "People Stories", label: "People Stories"
+    },
+    {
+        value: "Animation", label: "Animation"
+    },
+    {
+        value: "Company News", label: "Company News"
+    },
+    { "value": "Company Stories", "label": "Company Stories" },
+    { "value": "Case Studies", "label": "Case Studies" },
+    { "value": "Interviews", "label": "Interviews" },
+    { "value": "Tutorial", "label": "Tutorial" },
+    { "value": "Product Demo", "label": "Product Demo" },
+    { "value": "Help & How To", "label": "Help & How To" },
+    { "value": "Virtual Events", "label": "Virtual Events" },
+    { "value": "Advertising", "label": "Advertising" },
+    { "value": "Live Stream", "label": "Live Stream" },
+    { "value": "Speaker", "label": "Speaker" },
+    { "value": "Recruitment", "label": "Recruitment" }
   ];
 
   export const equipment_data = [
-    "Camera",
-    "Tripod",
-    "Lighting Kit",
-    "Microphone",
-    "Boom Pole",
-    "Audio Recorder",
-    "Drone",
-    "Gimbal Stabilizer",
-    "Reflectors",
-    "Clapperboard",
-    "Lens Kit",
-    "Monitor",
-    "Video Switcher",
-  ];
+    { "value": "Camera", "label": "Camera" },
+    { "value": "Tripod", "label": "Tripod" },
+    { "value": "Lighting Kit", "label": "Lighting Kit" },
+    { "value": "Microphone", "label": "Microphone" },
+    { "value": "Boom Pole", "label": "Boom Pole" },
+    { "value": "Audio Recorder", "label": "Audio Recorder" },
+    { "value": "Drone", "label": "Drone" },
+    { "value": "Gimbal Stabilizer", "label": "Gimbal Stabilizer" },
+    { "value": "Reflectors", "label": "Reflectors" },
+    { "value": "Clapperboard", "label": "Clapperboard" },
+    { "value": "Lens Kit", "label": "Lens Kit" },
+    { "value": "Monitor", "label": "Monitor" },
+    { "value": "Video Switcher", "label": "Video Switcher" }
+]
 
-  export const crew_data = [
-    "Director",
-    "Producer",
-    "Screenwriter",
-    "Director of Photography(Cinemantography)",
-    "Production Designer",
-    "Art Designer",
-    "Sound Designer",
-    "Editor",
-    "Costume Designer",
-    "Makeup Artist",
-    "Special Effect Supervisor",
-    "Composer",
-    "Casting Designer",
-  ];
+
+  export const crew_data =[
+    { "value": "Producer", "label": "Producer" },
+    { "value": "Director", "label": "Director" },
+    { "value": "Technical Director", "label": "Technical Director" },
+    { "value": "Camera Operator", "label": "Camera Operator" },
+    { "value": "Sound Engineer", "label": "Sound Engineer" },
+    { "value": "Lighting Technician", "label": "Lighting Technician" },
+    { "value": "Graphics Operator", "label": "Graphics Operator" },
+    { "value": "Streaming Technician", "label": "Streaming Technician" },
+    { "value": "Floor Manager", "label": "Floor Manager" },
+    { "value": "Teleprompter Operator", "label": "Teleprompter Operator" },
+    { "value": "IT Support", "label": "IT Support" },
+    { "value": "Logistics Coordinator", "label": "Logistics Coordinator" },
+    { "value": "Talent/Host", "label": "Talent/Host" },
+    { "value": "Makeup Artist and Hair Stylist", "label": "Makeup Artist and Hair Stylist" },
+    { "value": "Venue Coordinator", "label": "Venue Coordinator" },
+    { "value": "Time Zone Manager", "label": "Time Zone Manager" }
+]
 
   export const defaultFormValues = {
     projectName: "",
     contentType: "",
-    budget: 5,
+    budget: 5000,
     description: "",
     additional_details: "",
     locationDetails: [{
@@ -287,7 +298,7 @@ export const content_type = [
       end_date: "",
       filming_permits: false,
     }],
-    ai_suggestions: false,
+    ai_suggestions: true,
     crew: {},
     equipment: {}
   }

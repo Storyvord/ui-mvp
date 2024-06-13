@@ -13,14 +13,13 @@ import {
 import React, { useState } from "react";
 import { useForm , useFieldArray} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PlusIcon, TrashIcon } from "@radix-ui/react-icons"
-import  { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlusIcon, ReloadIcon, TrashIcon } from "@radix-ui/react-icons"
+import Select from 'react-select'
 import { Slider } from "@/components/ui/slider";
 import { projectFormSchema, projectFormInputType } from "@/lib/types";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { content_type, crew_data, defaultFormValues, equipment_data } from "@/lib/constants";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 
 
@@ -36,18 +35,16 @@ const CreateProjectPage = () => {
     name: "locationDetails"
   });
 
-
-
+  
  
   // 2. Define a submit handler.
-  function onSubmit(formData: projectFormInputType) {
+  async function onSubmit(formData: projectFormInputType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    await new Promise((resolve)=>setTimeout(resolve, 1000));
     console.log(formData)
     form.reset(defaultFormValues);
   }
-
-  const selectedOption = form.watch('contentType');
 
   const handleCrewRemove = (key:string)=>{
       const newCrew = form.getValues('crew');
@@ -76,7 +73,7 @@ const CreateProjectPage = () => {
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Project Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Project Title" {...field}/>
+                  <Input placeholder="Enter Your Project Title" {...field} className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -88,36 +85,13 @@ const CreateProjectPage = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Content Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-[300px]">
-                    {content_type.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {
-                  selectedOption === "Other" ? (
-                    <FormField
-                      control={form.control}
-                      name="otherContent"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Enter Your Content Type" {...field} className="mt-[20px]"/>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                    )}
-          />
-                  ): null
-            }
+                <Select
+                  {...field}
+                  options={content_type}
+                  onChange={(selected) => field.onChange(selected ? selected.value : '')}
+                  onBlur={field.onBlur}
+                  value={content_type.find(option => option.value === field.value)}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -129,17 +103,17 @@ const CreateProjectPage = () => {
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Budget:  
                   <span className="text-black pl-[10px]">
-                    ${form.getValues().budget}k
+                    ${(form.getValues().budget)/1000}k
                   </span>
                 </FormLabel>
                 <FormControl>
                   <Slider
                     {...field}
                     min={5}
-                    max={200000}
+                    max={200}
                     step={1}
-                    value={[field.value]}
-                    onValueChange={value => field.onChange(value[0])}
+                    value={[field.value/1000]}
+                    onValueChange={value => field.onChange(value[0]*1000)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -152,26 +126,23 @@ const CreateProjectPage = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Crew</FormLabel>
-                <Select onValueChange={(val)=>field.onChange({...field.value, [val]:1})}>
-                  <FormControl>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-[300px]">
-                    {crew_data.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <Select
+                    {...field}
+                    options={crew_data}
+                    placeholder="Select required crew members..."
+                    onChange={(selected) => field.onChange(selected?{...field.value, [selected.value]:1}: {...field.value})}
+                    onBlur={field.onBlur}
+                    value={crew_data.find(option => Object.keys(field.value).includes(option.value))}
+                    controlShouldRenderValue={false}
+                  />
+                </FormControl>
                 {
                   Object.keys(field.value).length>0 && (
                       <div className="mt-2 flex gap-2 flex-wrap">
                         {
                           Object.keys(field.value).map((key)=>(
-                            <Badge key={key} className="rounded-md py-1 min-w-[200px]">
+                            <Badge key={key} className="rounded-md py-1 min-w-[200px] hover:bg-black">
                                 <FormField
                                   control={form.control}
                                   name={`crew.${key}`}
@@ -206,26 +177,24 @@ const CreateProjectPage = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Equipment</FormLabel>
-                <Select onValueChange={(val)=>field.onChange({...field.value, [val]:1})}>
-                  <FormControl>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-[300px]">
-                    {equipment_data.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <Select
+                    {...field}
+                    options={equipment_data}
+                    placeholder="Select required equipments..."
+                    onChange={(selected) => field.onChange(selected?{...field.value, [selected.value]:1}: {...field.value})}
+                    onBlur={field.onBlur}
+                    value={equipment_data.find(option => Object.keys(field.value).includes(option.value))}
+                    controlShouldRenderValue={false}
+                  />
+                </FormControl>
+                
                 {
                   Object.keys(field.value).length>0 && (
                       <div className="mt-2 flex gap-2 flex-wrap">
                         {
                           Object.keys(field.value).map((key)=>(
-                            <Badge key={key} className="rounded-md py-1 min-w-[200px]">
+                            <Badge key={key} className="rounded-md py-1 min-w-[200px] hover:bg-black">
                                 <FormField
                                   control={form.control}
                                   name={`equipment.${key}`}
@@ -261,7 +230,7 @@ const CreateProjectPage = () => {
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Project Brief</FormLabel>
                 <FormControl>
-                  <Textarea rows={4} placeholder="Enter Your Project description" className="resize-none" {...field}/>
+                  <Textarea rows={4} placeholder="Enter Your Project description" className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)] resize-none" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -274,7 +243,7 @@ const CreateProjectPage = () => {
               <FormItem>
                 <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">Additional details</FormLabel>
                 <FormControl>
-                  <Textarea rows={4} placeholder="More details about the project..." className="resize-none" {...field}/>
+                  <Textarea rows={4} placeholder="More details about the project..." className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)] resize-none" {...field}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -286,7 +255,7 @@ const CreateProjectPage = () => {
               locationArray.fields.map((location, index)=> (
                 <div key={location.id} className="relative w-full h-fit p-5 border border-gray-300 rounded">
                     <div className="absolute top-2 right-2">
-                      <TrashIcon className="h-5 w-5 text-red-500 cursor-pointer hover:text-red-400" onClick={()=>locationArray.remove(index)}/>
+                      <TrashIcon className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-400" onClick={()=>locationArray.remove(index)}/>
                     </div>
                     <div className="space-y-4">
                       <FormField
@@ -296,7 +265,7 @@ const CreateProjectPage = () => {
                           <FormItem>
                             <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Shoot Location</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter Location" {...field}/>
+                              <Input placeholder="Enter Location" {...field} className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                             </FormControl>
                             <FormMessage className="break-all"/>
                           </FormItem>
@@ -307,10 +276,10 @@ const CreateProjectPage = () => {
                           control={form.control}
                           name={`locationDetails.${index}.start_date` as const}
                           render={({ field }) => (
-                            <FormItem className="max-w-[300px] w-[40%]">
+                            <FormItem className="min-w-[200px] w-[40%]">
                               <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Tendative start date</FormLabel>
                               <FormControl>
-                                <Input type="date"  {...field} className="block"/>
+                                <Input type="date"  {...field} className="block focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -320,10 +289,10 @@ const CreateProjectPage = () => {
                           control={form.control}
                           name={`locationDetails.${index}.end_date` as const}
                           render={({ field }) => (
-                            <FormItem className="max-w-[300px] w-[40%]">
+                            <FormItem className="min-w-[200px] w-[40%]">
                               <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Tendative end date</FormLabel>
                               <FormControl>
-                                <Input type="date"  {...field} className="block"/>
+                                <Input type="date"  {...field} className="block focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -348,7 +317,7 @@ const CreateProjectPage = () => {
                                   >
                                     <FormItem className="flex items-center space-x-1 space-y-0">
                                       <FormControl>
-                                        <RadioGroupItem value="indoor" />
+                                        <RadioGroupItem value="indoor" className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                                       </FormControl>
                                       <FormLabel className="font-normal">
                                         Indoor
@@ -356,7 +325,7 @@ const CreateProjectPage = () => {
                                     </FormItem>
                                     <FormItem className="flex items-center space-x-1 space-y-0">
                                       <FormControl>
-                                        <RadioGroupItem value="outdoor" />
+                                        <RadioGroupItem value="outdoor" className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                                       </FormControl>
                                       <FormLabel className="font-normal">
                                         Outdoor
@@ -364,7 +333,7 @@ const CreateProjectPage = () => {
                                     </FormItem>
                                     <FormItem className="flex items-center space-x-1 space-y-0">
                                       <FormControl>
-                                        <RadioGroupItem value="both" />
+                                        <RadioGroupItem value="both" className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
                                       </FormControl>
                                       <FormLabel className="font-normal">Both</FormLabel>
                                     </FormItem>
@@ -385,6 +354,7 @@ const CreateProjectPage = () => {
                                   <Checkbox
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
+                                    className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                                   />
                                 </FormControl>
                                 <div className="space-y-1 leading-none">
@@ -424,6 +394,7 @@ const CreateProjectPage = () => {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -434,7 +405,16 @@ const CreateProjectPage = () => {
                 </FormItem>
             )}
           />
-          <Button type="submit" className="w-[300px] font-bold text-[16px] mx-auto">Submit</Button>
+          <Button type="submit" className="w-[300px] font-bold text-[16px] mx-auto" disabled={form.formState.isSubmitting}>
+            {
+              form.formState.isSubmitting ? (
+                <p className="flex items-center">
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                </p>
+              ): "Submit"
+            }
+          </Button>
         </form>
       </Form>
         </div>
