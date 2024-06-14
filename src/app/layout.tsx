@@ -5,6 +5,7 @@ import SideBar from "@/components/sidebar/SideBar";
 import NavBar from "@/components/navbar/NavBar";
 import { SideBarContextProvider } from "@/contexts/SideBarContext";
 import { ProjectContextProvider } from "@/contexts/ProjectContext";
+import { ReactQueryClientProvider } from "@/contexts/ReactQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ weight: '400',
@@ -21,22 +22,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        <div className='w-full min-h-screen bg-[#eceff180] relative'>
-          
-            <SideBarContextProvider>
-              <ProjectContextProvider>
-                <SideBar/>
-                <div className="p-4 lg:ml-80">
-                  <NavBar/>
-                  {children}
-                </div>
-              </ProjectContextProvider>
-            </SideBarContextProvider> 
-          
-        </div>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+        <html lang="en">
+          <body className={roboto.className}>
+            <div className='w-full min-h-screen bg-[#eceff180] relative'>
+              
+                <SideBarContextProvider>
+                  <ProjectContextProvider>
+                    <SideBar/>
+                    <div className="p-4 lg:ml-80">
+                      <NavBar/>
+                      {children}
+                    </div>
+                  </ProjectContextProvider>
+                </SideBarContextProvider> 
+              
+            </div>
+          </body>
+        </html>
+    </ReactQueryClientProvider>
+    
   );
 }

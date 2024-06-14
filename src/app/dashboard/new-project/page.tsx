@@ -13,7 +13,7 @@ import {
 import React, { useState } from "react";
 import { useForm , useFieldArray} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PlusIcon, ReloadIcon, TrashIcon } from "@radix-ui/react-icons"
+import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons"
 import Select from 'react-select'
 import { Slider } from "@/components/ui/slider";
 import { projectFormSchema, projectFormInputType } from "@/lib/types";
@@ -21,6 +21,20 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { content_type, crew_data, defaultFormValues, equipment_data } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
+import { fetchLocation } from "@/services/locationFetching";
+import { useQuery, useMutation } from "react-query";
+import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
+
+interface OptionType {
+  label: string;
+  value: string;
+}
+
+const ForwardedAsyncPaginate = React.forwardRef<any, any>((props, ref) => (
+  <AsyncPaginate {...props} forwardedRef={ref} />
+));
+
+ForwardedAsyncPaginate.displayName = 'ForwardedAsyncPaginate';
 
 
 const CreateProjectPage = () => {
@@ -30,13 +44,22 @@ const CreateProjectPage = () => {
     defaultValues:defaultFormValues
   })
 
+ 
   const locationArray = useFieldArray({
     control: form.control,
     name: "locationDetails"
   });
+  // const [search, setSearch] = useState("")
+  // const {data:locationData, isLoading}= useQuery({queryKey:["location", {search}], queryFn:{fetchLocation}})
 
+  const loadOptions:LoadOptions<OptionType, never, { page: number }> = (
+    search,
+    loadedOptions,
+    additional
+) => {
+    return fetchLocation(search, additional || { page: 1 });
+};
   
- 
   // 2. Define a submit handler.
   async function onSubmit(formData: projectFormInputType) {
     // Do something with the form values.
@@ -265,7 +288,19 @@ const CreateProjectPage = () => {
                           <FormItem>
                             <FormLabel className="sm:text-[16px] font-sans font-bold text-gray-600">Shoot Location</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter Location" {...field} className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"/>
+                            <ForwardedAsyncPaginate
+                              {...field}
+                              debounceTimeout={1000}
+                              loadOptions={loadOptions}
+                              additional={{
+                                page: 1,
+                              }}
+                              placeholder="Select Location"
+                              // isLoading={isLoading}
+                              onChange={(selected:{value:string, label:string})=>field.onChange(selected? selected.value: "")}
+                              // options={options}
+                              value={field.value ? { value: field.value, label: field.value } : null}
+                            />
                             </FormControl>
                             <FormMessage className="break-all"/>
                           </FormItem>
