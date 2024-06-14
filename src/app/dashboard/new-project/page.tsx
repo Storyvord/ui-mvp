@@ -76,7 +76,6 @@ const CreateProjectPage = () => {
     // ✅ This will be type-safe and validated.
     try{
       await createProjectMutation(formData);
-      console.log(formData)
       form.reset(defaultFormValues);
     }
     catch(e){

@@ -3,7 +3,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { Plus, Find, Sort, List } from '../ui/docsIcons';
 import { Button } from '@/components/ui/button';
-import { FolderOpen, X, Trash2, File, HandCoins, Landmark } from 'lucide-react';
+import { FolderOpen, X, Trash2, File, PersonStanding } from 'lucide-react';
 import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -17,7 +17,7 @@ interface ObjectData {
     file: File;
 }
 
-const Bank: FC = () => {
+const Crew: FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [objects, setObjects] = useState<ObjectData[]>([]);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
@@ -89,11 +89,11 @@ const Bank: FC = () => {
     return (
         <section className="">
             <div className='py-5 flex flex-row gap-2 -mb-2 mt-5'>
-                <Landmark />
+                <PersonStanding />
                 <div className='flex flex-col -mt-2'>
-                    <span className='text-2xl font-medium'>Bank</span>
+                    <span className='text-2xl font-medium'>Crew</span>
                     <span className='text-slate-500 text-xs'>
-                        You may arrange all bank contracts here.
+                        Here you can arrange all contracts for crew.
                     </span>
                 </div>
             </div>
@@ -105,7 +105,7 @@ const Bank: FC = () => {
                         <span className='font-semibold ml-2'>Create Contract</span>
                     </Button>
                 </div>
-                
+               
             </div>
             <div className='mt-8 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {objects.map((object, index) => (
@@ -224,7 +224,7 @@ const Bank: FC = () => {
                                 </div>
                             ) : previewFile.type === 'application/pdf' && isLg ? (
                                 <div className="text-center">
-                                    <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
+                                    <p>Your browser does not support PDFs. Please download the PDF to view it:</p>
                                     <a href={URL.createObjectURL(previewFile)} download={previewFile.name} className="text-blue-500 underline">
                                         Download PDF
                                     </a>
@@ -240,4 +240,4 @@ const Bank: FC = () => {
     );
 };
 
-export default Bank;
+export default Crew;
