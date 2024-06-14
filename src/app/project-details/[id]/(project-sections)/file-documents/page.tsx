@@ -35,11 +35,11 @@ const File: FC = () => {
     const [selectedIconIndex, setSelectedIconIndex] = useState<number | null>(null);
 
     const [changingIconForRoomIndex, setChangingIconForRoomIndex] = useState<number | null>(null);
-
+    const changingIconForPredefined = useRef<boolean>(false);
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>();
 
     const emailFieldRef = useRef<HTMLDivElement>(null);
-
+    const moreVerticalMenuRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [files] = useState<RoomDataType[]>([
         {
             icon: Contracts,
@@ -85,13 +85,21 @@ const File: FC = () => {
     };
 
     const handleDeleteRoom = (index: number) => {
-        setCreatedRooms(rooms => rooms.filter((_, i) => i !== index));
+        if (index < files.length) {
+            alert("Cannot delete predefined files!");
+        } else {
+            setCreatedRooms(rooms => rooms.filter((_, i) => i !== index - files.length));
+        }
     };
 
     const handleChangeIcon = (index: number, newIcon: React.ElementType) => {
-        setCreatedRooms(rooms =>
-            rooms.map((room, i) => i === index ? { ...room, icon: newIcon } : room)
-        );
+        if (index < files.length) {
+            files[index].icon = newIcon;
+        } else {
+            setCreatedRooms(rooms =>
+                rooms.map((room, i) => i === index - files.length ? { ...room, icon: newIcon } : room)
+            );
+        }
     };
 
     const handleDotClick = (index: number) => {
@@ -99,12 +107,14 @@ const File: FC = () => {
     };
 
     const handleOpenChangeIconModal = (index: number) => {
+        if (index < files.length) changingIconForPredefined.current = true;
         setChangingIconForRoomIndex(index);
         setSelectedIconIndex(null);
     };
 
     const handleCloseChangeIconModal = () => {
         setChangingIconForRoomIndex(null);
+        changingIconForPredefined.current = false;
     };
 
     const handleIconSelect = (newIcon: React.ElementType) => {
@@ -121,12 +131,19 @@ const File: FC = () => {
                 setShowEmailField(false);
                 setValue('email', '');
             }
+
+            if (selectedRoomIndex !== null) {
+                const currentMenuRef = moreVerticalMenuRefs.current[selectedRoomIndex];
+                if (currentMenuRef && !currentMenuRef.contains(event.target as Node)) {
+                    setSelectedRoomIndex(null);
+                }
+            }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [emailFieldRef, setValue]);
+    }, [emailFieldRef, setValue, selectedRoomIndex]);
 
     const handleEmailSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -190,7 +207,7 @@ const File: FC = () => {
                                 <h3 className='font-semibold'>{file.title}</h3>
                                 <span className='text-slate-500 text-sm'>{file.description}</span>
                             </div>
-                            {index >= files.length && (
+                            {(index > 0) && (
                                 <div className="relative">
                                     <Button
                                         variant="ghost"
@@ -202,17 +219,19 @@ const File: FC = () => {
                                         <MoreVertical />
                                     </Button>
                                     {selectedRoomIndex === index && (
-                                        <div className="absolute right-0 mt-8 bg-white border border-gray-200 rounded shadow-lg p-2 w-32">
+                                        <div ref={(el) => {
+                                            moreVerticalMenuRefs.current[index] = el;
+                                        }} className="absolute right-0 mt-8 bg-white border border-gray-200 rounded shadow-lg p-2 w-32">
                                             <button
-                                                className="w-full text-left text-xs px-2 py-1 border-b hover:bg-gray-100 flex items-center"
-                                                onClick={() => handleOpenChangeIconModal(index - files.length)}
+                                                className="w-full text-left text-xs px-2 py-1 hover:bg-gray-100 flex items-center"
+                                                onClick={() => handleOpenChangeIconModal(index)}
                                             >
                                                 <Images className="mr-2 h-4 w-4" /> Change Icon
                                             </button>
                                             <button
                                                 className="w-full text-left text-xs text-red-500 px-2 py-1 hover:bg-gray-100 flex items-center"
                                                 onClick={() => {
-                                                    handleDeleteRoom(index - files.length);
+                                                    handleDeleteRoom(index);
                                                     setSelectedRoomIndex(null);
                                                 }}
                                             >
