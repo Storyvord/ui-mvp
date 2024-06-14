@@ -1,11 +1,13 @@
 "use client";
 
 import React, { FC, useState } from 'react';
-import { Contracts, Plus, Find, List, Sort } from './ui/docsIcons';
 import { Button } from '@/components/ui/button';
-import { contracts, icons } from './constants/const';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Contracts, Plus, Find, List, Sort } from './ui/docsIcons';
+import { MoreVertical, Images, Trash } from 'lucide-react';
+import { contracts, icons } from './constants/const';
 
+// Import the individual contract components
 import Animals from './Contracts/animals';
 import Costumes from './Contracts/costumes';
 import Insurances from './Contracts/insurances';
@@ -21,10 +23,17 @@ import Miscellaneous from './Contracts/misc';
 interface FormData {
   roomName: string;
   roomDesc: string;
+  icon: keyof typeof icons;
 }
 
+type RoomDataType = {
+  icon: keyof typeof icons;
+  title: string;
+  description: string;
+};
+
 const IconWrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className='size-xl'>
+  <div className="size-xl">
     {children}
   </div>
 );
@@ -32,16 +41,58 @@ const IconWrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
 const ContractsPage: FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [currentContract, setCurrentContract] = useState<string | null>(null);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>();
+  const [selectedIconIndex, setSelectedIconIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [createdRooms, setCreatedRooms] = useState<RoomDataType[]>([]);
+  const [selectedRoomIndex, setSelectedRoomIndex] = useState<number | null>(null);
+  const [changingIconForRoomIndex, setChangingIconForRoomIndex] = useState<number | null>(null);
 
   const onSubmit: SubmitHandler<FormData> = data => {
-    console.log(data);
-    setShowForm(false);
-    reset();
+    setLoading(true);
+    const newRoom: RoomDataType = {
+      icon: data.icon,
+      title: data.roomName,
+      description: data.roomDesc,
+    };
+    setTimeout(() => {
+      setCreatedRooms([...createdRooms, newRoom]);
+      setLoading(false);
+      setShowForm(false);
+      reset();
+      setSelectedIconIndex(null);
+    }, 1000); // Simulate API call delay
   };
 
   const handleContractClick = (title: string) => {
     setCurrentContract(title);
+  };
+
+  const handleDotClick = (index: number) => {
+    setSelectedRoomIndex(index === selectedRoomIndex ? null : index);
+  };
+
+  const handleDeleteRoom = (index: number) => {
+    setCreatedRooms(rooms => rooms.filter((_, i) => i !== index));
+    setSelectedRoomIndex(null);
+  };
+
+  const handleOpenChangeIconModal = (index: number) => {
+    setChangingIconForRoomIndex(index);
+    setSelectedIconIndex(null);  // Reset selected icon index when opening the modal
+  };
+
+  const handleCloseChangeIconModal = () => {
+    setChangingIconForRoomIndex(null);
+  };
+
+  const handleIconSelect = (newIcon: keyof typeof icons) => {
+    if (changingIconForRoomIndex !== null) {
+      setCreatedRooms(rooms =>
+        rooms.map((room, i) => i === changingIconForRoomIndex ? { ...room, icon: newIcon } : room)
+      );
+      handleCloseChangeIconModal();
+    }
   };
 
   const contractComponents: { [key: string]: React.ElementType } = {
@@ -64,27 +115,25 @@ const ContractsPage: FC = () => {
   }
 
   return (
-    <section className=''>
-      <div className='py-5 flex flex-row gap-2 -mb-2 mt-5'>
+    <section className="">
+      <div className="py-5 flex flex-row gap-2 -mb-2 mt-5">
         <IconWrapper>
           <Contracts />
         </IconWrapper>
 
-        <div className='flex flex-col -mt-2'>
-          <span className='text-2xl font-medium'>Contracts</span>
-          <span className='text-slate-500 text-xs'>
-            You can find contracts for actors, insurances and more here.
-          </span>
+        <div className="flex flex-col -mt-2">
+          <span className="text-2xl font-medium">Contracts</span>
+          <span className="text-slate-500 text-xs">You can find contracts for actors, insurances and more here.</span>
         </div>
       </div>
-      <div className='text-black mt-2 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between'>
-        <div className='flex'>
-          <Button variant="outline" className='w-26 h-12 flex flex-row' onClick={() => setShowForm(true)}>
+      <div className="text-black mt-2 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between">
+        <div className="flex">
+          <Button variant="outline" className="w-26 h-12 flex flex-row" onClick={() => setShowForm(true)}>
             <Plus />
-            <span className='font-semibold ml-2'>Create Room</span>
+            <span className="font-semibold ml-2">Create Room</span>
           </Button>
         </div>
-        <div className='flex space-x-1 mt-4'>
+        <div className="flex space-x-1 mt-4">
           <Button variant="outline" size="icon">
             <Find />
           </Button>
@@ -96,35 +145,73 @@ const ContractsPage: FC = () => {
           </Button>
         </div>
       </div>
-      <div className='mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-        {contracts.map(({ icon, title, description }, index) => {
-          const IconComponent = icons[icon];
-          return (
-            <div
-              key={index}
-              className='shadow-md rounded-lg p-4 bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer'
-              onClick={() => handleContractClick(title)} // Add onClick event handler
-            >
-              <IconComponent className='w-6 h-6 mb-2' />
-              <h3 className='font-semibold'>{title}</h3>
-              <p className='text-sm text-slate-400'>{description}</p>
-            </div>
-          );
-        })}
+      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {
+          // Combine predefined contracts and created rooms for display
+          [...contracts, ...createdRooms].map(({ icon, title, description }, index) => {
+            const IconComponent = icons[icon];
+            return (
+              <div
+                key={index}
+                className="relative shadow-md rounded-lg p-4 bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                onClick={() => index < contracts.length && handleContractClick(title)} // Only for predefined contracts
+              >
+                <div className='flex justify-between items-start'>
+                  <div className='flex flex-col space-y-1'>
+                    <IconComponent className="w-6 h-6 mb-2" />
+                    <h3 className="font-semibold">{title}</h3>
+                    <p className="text-sm text-slate-400">{description}</p>
+                  </div>
+                  {index >= contracts.length && ( // Only for created rooms
+                    <div className="relative">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute top-0 right-0 p-1 text-gray-500"
+                        onClick={() => handleDotClick(index)}
+                        style={{ fontSize: '1.2rem', padding: '0.1rem' }}
+                      >
+                        <MoreVertical />
+                      </Button>
+                      {selectedRoomIndex === index && (
+                        <div className="absolute right-0 mt-8 bg-white border border-gray-200 rounded shadow-lg p-2 w-32">
+                          <button
+                            className="w-full text-left text-xs px-2 py-1 border-b hover:bg-gray-100 flex items-center"
+                            onClick={() => handleOpenChangeIconModal(index - contracts.length)}
+                          >
+                            <Images className="mr-2 h-4 w-4" /> Change Icon
+                          </button>
+                          <button
+                            className="w-full text-left text-xs text-red-500 px-2 py-1 hover:bg-gray-100 flex items-center"
+                            onClick={() => {
+                              handleDeleteRoom(index - contracts.length);
+                            }}
+                          >
+                            <Trash className="mr-2 h-4 w-4" /> Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        }
       </div>
 
       {showForm && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center shadow-lg'>
-          <div className='bg-white p-6 rounded w-96 max-h-full'>
-            <div className='flex justify-between items-center pb-2 mb-4'>
-              <h2 className='text-xl font-medium'>Create Room</h2>
-              <button onClick={() => { setShowForm(false); reset(); }}>
-                <span className='text-2xl font-light'>&times;</span>
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center shadow-lg">
+          <div className="bg-white p-6 rounded w-96 max-h-full">
+            <div className="flex justify-between items-center pb-2 mb-4">
+              <h2 className="text-xl font-medium">Create Room</h2>
+              <button onClick={() => { setShowForm(false); reset(); setSelectedIconIndex(null); }}>
+                <span className="text-2xl font-light">&times;</span>
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <label className='block mb-2 text-xs'>
+                <label className="block mb-2 text-xs">
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -137,7 +224,7 @@ const ContractsPage: FC = () => {
                 )}
               </div>
               <div>
-                <label className='block mb-2 text-xs'>
+                <label className="block mb-2 text-xs">
                   Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -148,19 +235,60 @@ const ContractsPage: FC = () => {
                   <span className="text-red-500 text-sm">{errors.roomDesc.message}</span>
                 )}
               </div>
-              <div className='flex flex-col'>
-                <label className='text-medium'>Select Icon</label>
-                <div className='grid lg:grid-cols-6 md:grid-cols-6 grid-cols-6 lg:gap-2 md:gap-2 gap-2 px-4 py-4 cursor-pointer text-slate-400'>
+              <div className="flex flex-col">
+                <label className="text-medium">Select Icon</label>
+                <div className="grid lg:grid-cols-6 md:grid-cols-6 grid-cols-6 lg:gap-2 md:gap-2 gap-2 px-4 py-4 cursor-pointer text-slate-400">
                   {Object.entries(icons).map(([key, Icon], index) => (
-                    <Icon key={index} className='' />
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setValue('icon', key as keyof typeof icons);
+                        setSelectedIconIndex(index);
+                      }}
+                      className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? 'text-black' : 'text-slate-400'} ${selectedIconIndex === index && 'hover:opacity-75'}`}
+                    >
+                      <Icon />
+                    </div>
                   ))}
                 </div>
+                {errors.icon && (
+                  <span className="text-red-500 text-sm">{errors.icon.message}</span>
+                )}
               </div>
-              <footer className='pt-4 flex justify-end space-x-3 mt-4'>
-                <Button onClick={() => { setShowForm(false); reset(); }} type="button" variant="outline">Cancel</Button>
-                <Button type="submit">Create</Button>
+              <footer className="pt-4 flex justify-end space-x-3 mt-4">
+                <Button onClick={() => { setShowForm(false); reset(); setSelectedIconIndex(null); }} type="button" variant="outline">Cancel</Button>
+                <Button type="submit" variant="default">
+                  {loading ? "Creating..." : "Create"}
+                </Button>
               </footer>
             </form>
+          </div>
+        </div>
+      )}
+
+      {changingIconForRoomIndex !== null && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center shadow-lg">
+          <div className="bg-white p-6 rounded w-96 max-h-full">
+            <div className="flex justify-between items-center pb-2 mb-2">
+              <h2 className="text-xl font-medium">Change Icon</h2>
+              <button onClick={handleCloseChangeIconModal}>
+                <span className="text-2xl font-light">&times;</span>
+              </button>
+            </div>
+            <div className="grid lg:grid-cols-6 md:grid-cols-6 grid-cols-6 lg:gap-2 md:gap-2 gap-2 px-4 py-4 cursor-pointer text-slate-400">
+              {Object.entries(icons).map(([key, Icon], index) => (
+                <div
+                  key={index}
+                  onClick={() => handleIconSelect(key as keyof typeof icons)}
+                  className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? 'text-black hover:opacity-75' : 'text-slate-400'}`}
+                >
+                  <Icon />
+                </div>
+              ))}
+            </div>
+            <footer className="pt-4 flex justify-end space-x-3 mt-1">
+              <Button onClick={handleCloseChangeIconModal} type="button" variant="outline">Close</Button>
+            </footer>
           </div>
         </div>
       )}
