@@ -19,6 +19,7 @@ import Bond from './Contracts/completionBond'
 import Locations from './Contracts/location'
 import Product from './Contracts/productDesign'
 import Miscellaneous from './Contracts/misc';
+import Crew from './Contracts/crew';
 
 interface FormData {
   roomName: string;
@@ -107,6 +108,7 @@ const ContractsPage: FC = () => {
     'Locations': Locations,
     'Production Design': Product,
     'Miscellaneous Contracts': Miscellaneous,
+    'Crew': Crew,
   };
 
   if (currentContract) {
@@ -202,12 +204,9 @@ const ContractsPage: FC = () => {
 
       {showForm && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center shadow-lg">
-          <div className="bg-white p-6 rounded w-96 max-h-full">
-            <div className="flex justify-between items-center pb-2 mb-4">
-              <h2 className="text-xl font-medium">Create Room</h2>
-              <button onClick={() => { setShowForm(false); reset(); setSelectedIconIndex(null); }}>
-                <span className="text-2xl font-light">&times;</span>
-              </button>
+          <div className="bg-white p-8 rounded-lg w-96 max-h-full shadow-xl transform transition-transform duration-300">
+            <div className='flex justify-center items-center pb-2 mb-4 border-b'>
+              <h2 className='text-2xl font-medium'>Create Room</h2>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>

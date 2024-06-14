@@ -220,11 +220,8 @@ const ScriptsPage: FC = () => {
       {isModalOpen && (
         <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
           <div className='bg-white p-8 rounded-lg shadow-xl w-96 max-h-full transform transition-transform duration-300'>
-            <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
+            <div className='flex justify-center pb-2 mb-4 border-b border-gray-200'>
               <h2 className='text-xl font-semibold'>{editIndex !== null ? 'Edit Object' : 'Create Object'}</h2>
-              <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
-                <X size={24} />
-              </button>
             </div>
             <form onSubmit={handleSubmit}>
               <div>
@@ -305,8 +302,8 @@ const ScriptsPage: FC = () => {
         selectedFolder && (
           <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
             <div className='bg-white p-8 rounded-lg shadow-xl w-full sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6 max-h-full mx-2 sm:mx-4 md:mx-6 transform transition-transform duration-300'>
-              <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
-                <h2 className='text-lg md:text-xl font-semibold'>{selectedFolder.title} Contents</h2>
+              <div className='flex justify-between items-center pb-2 mb-2 border-b border-gray-200'>
+                <h2 className='text-lg md:text-xl font-semibold'>{selectedFolder.title} </h2>
                 <button onClick={handleCloseFolderModal} className="text-gray-500 hover:text-gray-700">
                   <X size={24} className='text-2xl font-light' />
                 </button>
@@ -325,10 +322,10 @@ const ScriptsPage: FC = () => {
                               alt={file.name}
                               width={200}
                               height={200}
-                              className="rounded-md mb-2"
+                              className="rounded-md mb-2 cursor-pointer"
                             />
                           ) : (
-                            <div className='text-sm text-gray-700'>{file.name}</div>
+                            <div className='text-sm text-gray-700 cursor-pointer'>{file.name}</div>
                           )}
                         </div>
                         <button
@@ -349,7 +346,7 @@ const ScriptsPage: FC = () => {
       }
 
       {previewFile && !isMobile && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 py-8'>
           <div className='bg-white p-6 rounded w-full sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6 h-full max-h-screen mx-auto flex flex-col'>
             <div className='flex justify-between items-center pb-2 mb-4'>
               <h2 className='text-lg md:text-xl font-medium'>{previewFile.name}</h2>

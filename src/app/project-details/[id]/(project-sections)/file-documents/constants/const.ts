@@ -1,5 +1,5 @@
 
-import { Dog, Coins, Shirt, Users, HandCoins, Landmark, Folders, ShieldCheck, MapPinned, Tag, BookUser, GalleryHorizontalEnd, MonitorPlay, CookingPot, Star, Pencil, Cloud, Bus, ShirtIcon, Phone, PersonStanding, ScrollText, Megaphone, LandmarkIcon, ListChecks, Fullscreen, Utensils, CalendarDaysIcon, } from 'lucide-react';
+import { Dog, Coins, Shirt, Users, HandCoins, Landmark,Component, Folders, ShieldCheck, MapPinned, Tag, BookUser, GalleryHorizontalEnd, MonitorPlay, CookingPot, Star, Pencil, Cloud, Bus, ShirtIcon, Phone, PersonStanding, ScrollText, Megaphone, LandmarkIcon, ListChecks, Fullscreen, Utensils, CalendarDaysIcon, } from 'lucide-react';
 
 export const icons = {
     Dog,
@@ -23,7 +23,7 @@ export const icons = {
     Megaphone,
     LandmarkIcon,
     ListChecks, Fullscreen, Utensils, CalendarDaysIcon,
-    Star, Pencil, Cloud, Bus,
+    Star, Pencil, Cloud, Bus,Component,
 } as const;
 
 interface Contract {
@@ -58,7 +58,7 @@ export const contracts: ContractsArray = [
     {
         icon: 'HandCoins',
         title: 'Overall Financing',
-        description: 'This is where contract investors can be found.',
+        description: 'This is where contracts for investors can be found.',
     },
     {
         icon: 'Landmark',
@@ -87,7 +87,7 @@ export const contracts: ContractsArray = [
     },
 
     {
-        icon: 'Tag',
+        icon: 'Component',
         title: 'Production Design',
         description: 'Each and every production design contract is available here.',
     }, {

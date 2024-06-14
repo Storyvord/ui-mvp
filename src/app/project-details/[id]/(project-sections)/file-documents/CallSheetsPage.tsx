@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { FC, useState, useEffect } from 'react';
 import { Plus, Sheet, Find, Sort, List } from './ui/docsIcons';
@@ -24,10 +24,12 @@ const CallSheetsPage: FC = () => {
   const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMd, setIsMd] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      setIsMd(window.innerWidth > 768 && window.innerWidth <= 1024);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -61,7 +63,7 @@ const CallSheetsPage: FC = () => {
   };
 
   const handlePreview = (file: File) => {
-    if (isMobile) {
+    if (isMobile || isMd) {
       const url = URL.createObjectURL(file);
       const link = document.createElement('a');
       link.href = url;
@@ -143,7 +145,7 @@ const CallSheetsPage: FC = () => {
         <div className="relative mb-4 border-2 border-solid border-gray-200 rounded flex flex-col items-center justify-center py-10">
           <FolderOpen className="text-blue-500 lg:w-22 lg:h-22 md:w-20 md:h-20 w-10 h-10 mb-4 stroke-1" />
           <label className="block text-sm text-slate-500 mb-2">
-            No objects added.
+            No objects have been added yet.
           </label>
           {errors.file && (
             <span className="text-red-500 text-sm">{errors.file.message}</span>
@@ -160,11 +162,8 @@ const CallSheetsPage: FC = () => {
       {isModalOpen && (
         <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
           <div className='bg-white p-8 rounded-lg shadow-xl w-96 max-h-full transform transition-transform duration-300'>
-            <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
-              <h2 className='text-xl font-semibold'>Create Object</h2>
-              <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
-                <X size={24} />
-              </button>
+            <div className='flex justify-center items-center pb-2 mb-4 border-b'>
+              <h2 className='text-2xl font-medium'>Create Object</h2>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
@@ -215,7 +214,7 @@ const CallSheetsPage: FC = () => {
       )}
 
       {previewFile && !isMobile && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 py-8'>
           <div className='bg-white p-8 rounded-lg shadow-xl w-full sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6 h-full max-h-screen mx-auto flex flex-col transform transition-transform duration-300'>
             <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
               <h2 className='text-lg md:text-xl font-medium'>{previewFile.name}</h2>
@@ -233,6 +232,13 @@ const CallSheetsPage: FC = () => {
                     objectFit="contain"
                     className="rounded-lg"
                   />
+                </div>
+              ) : !window.navigator.pdfViewerEnabled ? (
+                <div className="text-center">
+                  <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
+                  <a href={URL.createObjectURL(previewFile)} download={previewFile.name} className="text-blue-500 underline">
+                    Download PDF
+                  </a>
                 </div>
               ) : (
                 <iframe src={URL.createObjectURL(previewFile)} className="w-full h-full border-0"></iframe>

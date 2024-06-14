@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import React, { FC, useState, useRef, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Contracts, Find, List, Plus, Script, Sheet, Sort } from './ui/docsIcons';
-import { Lock, MoreVertical, Images, Trash } from 'lucide-react';
+import { LockKeyhole, MoreVertical, Images, Trash } from 'lucide-react';
 import { icons } from './ui/Icons';
 
 import ContractsPage from './ContractsPage';
@@ -78,6 +78,9 @@ const File: FC = () => {
     };
 
     const handleLockClick = () => {
+        if (showEmailField) {
+            setValue('email', '');  // Reset email field when toggling off
+        }
         setShowEmailField(prev => !prev);
     };
 
@@ -108,6 +111,7 @@ const File: FC = () => {
         if (changingIconForRoomIndex !== null) {
             handleChangeIcon(changingIconForRoomIndex, newIcon);
             handleCloseChangeIconModal();
+            setSelectedRoomIndex(null);  // Close the options menu
         }
     };
 
@@ -115,13 +119,20 @@ const File: FC = () => {
         const handleClickOutside = (event: MouseEvent) => {
             if (emailFieldRef.current && !emailFieldRef.current.contains(event.target as Node)) {
                 setShowEmailField(false);
+                setValue('email', '');  // Reset email field when clicking outside
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [emailFieldRef]);
+    }, [emailFieldRef, setValue]);
+
+    const handleEmailSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        setShowEmailField(false);
+        setValue('email', '');  // Reset email field on submit
+    };
 
     if (currentPage === 'contracts') {
         return <ContractsPage />;
@@ -160,20 +171,23 @@ const File: FC = () => {
                             onClick={handleLockClick}
                             className="hover:text-blue-500"
                         >
-                            <Lock />
+                            <LockKeyhole />
                         </Button>
 
                         {showEmailField && (
                             <div ref={emailFieldRef} className="absolute mt-2 bg-white p-2 border border-gray-200 rounded shadow-lg right-0 z-30">
-                                <input
-                                    className='w-48 p-1 border border-gray-200 rounded text-xs'
-                                    type="email"
-                                    {...register("email", { required: "Email is required" })}
-                                    placeholder='invitemembers@gmail.com'
-                                />
-                                {errors.email && (
-                                    <span className="text-red-500 text-xs">{errors.email.message}</span>
-                                )}
+                                <label className="block text-xs mb-1">Invite members</label>
+                                <form onSubmit={handleEmailSubmit}>
+                                    <input
+                                        className='w-40 lg:w-48 md:48 p-1 border border-gray-200 rounded text-xs'
+                                        type="email"
+                                        {...register("email", { required: "Email is required" })}
+                                        placeholder='Enter email address'
+                                    />
+                                    {errors.email && (
+                                        <span className="text-red-500 text-xs">{errors.email.message}</span>
+                                    )}
+                                </form>
                             </div>
                         )}
                     </div>
@@ -228,12 +242,9 @@ const File: FC = () => {
 
             {showForm && (
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center shadow-lg'>
-                    <div className='bg-white p-6 rounded w-96 max-h-full'>
-                        <div className='flex justify-between items-center pb-2 mb-4'>
-                            <h2 className='text-xl font-medium'>Create Room</h2>
-                            <button onClick={() => { setShowForm(false); reset(); }}>
-                                <span className='text-2xl font-light'>&times;</span>
-                            </button>
+                    <div className='bg-white p-8 rounded-lg w-96 max-h-screen transform transition-transform duration-300 shadow-xl'>
+                        <div className='flex justify-center items-center pb-2 mb-4 border-b'>
+                            <h2 className='text-2xl font-medium'>Create Room</h2>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div>
@@ -263,7 +274,7 @@ const File: FC = () => {
                             </div>
                             <div className='flex flex-col'>
                                 <label className='text-medium'>Select Icon</label>
-                                <div className='grid lg:grid-cols-6 md:grid-cols-6 grid-cols-6 lg:gap-2 md:gap-2 gap-2 px-4 py-4 cursor-pointer text-slate-400'>
+                                <div className='grid lg:grid-cols-6 md:grid-cols-6 grid-cols-6 lg:gap-2 md:gap-2 gap-2 px-4 py-2 cursor-pointer text-slate-400'>
                                     {icons.map((Icon, index) => (
                                         <div
                                             key={index}
@@ -278,7 +289,7 @@ const File: FC = () => {
                                     ))}
                                 </div>
                             </div>
-                            <footer className='pt-4 flex justify-end space-x-3 mt-4'>
+                            <footer className='pt-4 flex justify-end space-x-3 mt-2'>
                                 <Button onClick={() => { setShowForm(false); reset(); }} type="button" variant="outline">Cancel</Button>
                                 <Button type="submit" variant="default">
                                     {loading ? "Creating..." : "Create"}

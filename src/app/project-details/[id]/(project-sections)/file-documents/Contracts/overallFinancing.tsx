@@ -93,7 +93,7 @@ const Financing: FC = () => {
                 <div className='flex flex-col -mt-2'>
                     <span className='text-2xl font-medium'>Overall Financing</span>
                     <span className='text-slate-500 text-xs'>
-                        This is where contract investors can be found.
+                        This is where contracts for investors can be found.
                     </span>
                 </div>
             </div>
@@ -161,11 +161,8 @@ const Financing: FC = () => {
             {isModalOpen && (
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
                     <div className='bg-white p-8 rounded-lg shadow-xl w-96 max-h-full transform transition-transform duration-300'>
-                        <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
-                            <h2 className='text-xl font-semibold'>Create Contract</h2>
-                            <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
-                                <X size={24} />
-                            </button>
+                        <div className='flex justify-center items-center pb-2 mb-4 border-b'>
+                            <h2 className='text-2xl font-medium'>Create Contract</h2>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div>
@@ -237,7 +234,7 @@ const Financing: FC = () => {
                                 </div>
                             ) : previewFile.type === 'application/pdf' && isLg ? (
                                 <div className="text-center">
-                                    <p>Your browser does not support PDFs. Please download the PDF to view it:</p>
+                                    <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
                                     <a href={URL.createObjectURL(previewFile)} download={previewFile.name} className="text-blue-500 underline">
                                         Download PDF
                                     </a>

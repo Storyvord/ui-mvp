@@ -161,11 +161,8 @@ const Crew: FC = () => {
             {isModalOpen && (
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
                     <div className='bg-white p-8 rounded-lg shadow-xl w-96 max-h-full transform transition-transform duration-300'>
-                        <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
-                            <h2 className='text-xl font-semibold'>Create Contract</h2>
-                            <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
-                                <X size={24} />
-                            </button>
+                        <div className='flex justify-center items-center pb-2 mb-4 border-b'>
+                            <h2 className='text-2xl font-medium'>Create Contract</h2>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div>
