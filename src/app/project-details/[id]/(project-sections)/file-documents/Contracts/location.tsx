@@ -106,17 +106,7 @@ const Locations: FC = () => {
                         <span className='font-semibold ml-2'>Create Contract</span>
                     </Button>
                 </div>
-                <div className='flex space-x-1 mt-4'>
-                    <Button variant="outline" size="icon">
-                        <Find />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                        <Sort />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                        <List />
-                    </Button>
-                </div>
+              
             </div>
             <div className='mt-8 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {objects.map((object, index) => (

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import React, { FC, useState, useRef, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Contracts, Find, List, Plus, Script, Sheet, Sort } from './ui/docsIcons';
+import { Contracts, Plus, Script, Sheet } from './ui/docsIcons';
 import { LockKeyhole, MoreVertical, Images, Trash } from 'lucide-react';
 import { icons } from './ui/Icons';
 
@@ -79,7 +79,7 @@ const File: FC = () => {
 
     const handleLockClick = () => {
         if (showEmailField) {
-            setValue('email', '');  // Reset email field when toggling off
+            setValue('email', '');
         }
         setShowEmailField(prev => !prev);
     };
@@ -100,7 +100,7 @@ const File: FC = () => {
 
     const handleOpenChangeIconModal = (index: number) => {
         setChangingIconForRoomIndex(index);
-        setSelectedIconIndex(null);  // Reset selected icon index when opening the modal
+        setSelectedIconIndex(null);
     };
 
     const handleCloseChangeIconModal = () => {
@@ -111,7 +111,7 @@ const File: FC = () => {
         if (changingIconForRoomIndex !== null) {
             handleChangeIcon(changingIconForRoomIndex, newIcon);
             handleCloseChangeIconModal();
-            setSelectedRoomIndex(null);  // Close the options menu
+            setSelectedRoomIndex(null);
         }
     };
 
@@ -119,7 +119,7 @@ const File: FC = () => {
         const handleClickOutside = (event: MouseEvent) => {
             if (emailFieldRef.current && !emailFieldRef.current.contains(event.target as Node)) {
                 setShowEmailField(false);
-                setValue('email', '');  // Reset email field when clicking outside
+                setValue('email', '');
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -131,7 +131,7 @@ const File: FC = () => {
     const handleEmailSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         setShowEmailField(false);
-        setValue('email', '');  // Reset email field on submit
+        setValue('email', '');
     };
 
     if (currentPage === 'contracts') {
@@ -154,44 +154,31 @@ const File: FC = () => {
                     <span className='font-semibold ml-2'>Create Room</span>
                 </Button>
 
-                <div className='flex space-x-1 mt-4'>
-                    <Button variant="outline" size="icon">
-                        <Find />
+                {!showEmailField && (
+                    <Button variant="outline" className='w-26 h-12 flex flex-row mt-4 md:mt-0 lg:mt-0' onClick={handleLockClick}>
+                        <LockKeyhole />
+                        <span className='font-semibold ml-2'>Access Rights</span>
                     </Button>
-                    <Button variant="outline" size="icon">
-                        <Sort />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                        <List />
-                    </Button>
-                    <div className="relative">
-                        <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={handleLockClick}
-                            className="hover:text-blue-500"
-                        >
-                            <LockKeyhole />
-                        </Button>
+                )}
 
-                        {showEmailField && (
-                            <div ref={emailFieldRef} className="absolute mt-2 bg-white p-2 border border-gray-200 rounded shadow-lg right-0 z-30">
-                                <label className="block text-xs mb-1">Invite members</label>
-                                <form onSubmit={handleEmailSubmit}>
-                                    <input
-                                        className='w-40 lg:w-48 md:48 p-1 border border-gray-200 rounded text-xs'
-                                        type="email"
-                                        {...register("email", { required: "Email is required" })}
-                                        placeholder='Enter email address'
-                                    />
-                                    {errors.email && (
-                                        <span className="text-red-500 text-xs">{errors.email.message}</span>
-                                    )}
-                                </form>
-                            </div>
-                        )}
+                {showEmailField && (
+                    <div ref={emailFieldRef} className="relative mt-4 md:mt-0 lg:mt-0 flex items-center">
+                        <form onSubmit={handleEmailSubmit} className="flex items-center">
+                            <input
+                                className="w-[35] lg:w-40 md:w-40 h-10 p-1 border border-gray-200 rounded text-sm"
+                                type="email"
+                                {...register("email", { required: "Email is required" })}
+                                placeholder="Enter email address"
+                            />
+                            {errors.email && (
+                                <span className="text-red-500 text-xs">{errors.email.message}</span>
+                            )}
+                            <Button type="submit" variant="outline" size="icon" className="ml-2">
+                                <LockKeyhole />
+                            </Button>
+                        </form>
                     </div>
-                </div>
+                )}
             </div>
 
             <div className='mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>

@@ -135,28 +135,18 @@ const ContractsPage: FC = () => {
             <span className="font-semibold ml-2">Create Room</span>
           </Button>
         </div>
-        <div className="flex space-x-1 mt-4">
-          <Button variant="outline" size="icon">
-            <Find />
-          </Button>
-          <Button variant="outline" size="icon">
-            <Sort />
-          </Button>
-          <Button variant="outline" size="icon">
-            <List />
-          </Button>
-        </div>
+
       </div>
       <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {
-          // Combine predefined contracts and created rooms for display
+
           [...contracts, ...createdRooms].map(({ icon, title, description }, index) => {
             const IconComponent = icons[icon];
             return (
               <div
                 key={index}
                 className="relative shadow-md rounded-lg p-4 bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                onClick={() => index < contracts.length && handleContractClick(title)} // Only for predefined contracts
+                onClick={() => index < contracts.length && handleContractClick(title)}
               >
                 <div className='flex justify-between items-start'>
                   <div className='flex flex-col space-y-1'>
@@ -164,7 +154,7 @@ const ContractsPage: FC = () => {
                     <h3 className="font-semibold">{title}</h3>
                     <p className="text-sm text-slate-400">{description}</p>
                   </div>
-                  {index >= contracts.length && ( // Only for created rooms
+                  {index >= contracts.length && ( //
                     <div className="relative">
                       <Button
                         variant="ghost"
