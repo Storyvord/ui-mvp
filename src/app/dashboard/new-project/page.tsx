@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { fetchLocation } from "@/services/locationFetching";
 import { useQuery, useMutation } from "react-query";
 import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
+import { createProject } from "@/services/createProject";
 
 interface OptionType {
   label: string;
@@ -44,7 +45,16 @@ const CreateProjectPage = () => {
     defaultValues:defaultFormValues
   })
 
- 
+  const {mutateAsync: createProjectMutation} = useMutation({
+    mutationFn: createProject,
+    onSuccess: (data) => {
+      console.log('Form submitted successfully:', data);
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
+  })
+
   const locationArray = useFieldArray({
     control: form.control,
     name: "locationDetails"
@@ -64,9 +74,15 @@ const CreateProjectPage = () => {
   async function onSubmit(formData: projectFormInputType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    await new Promise((resolve)=>setTimeout(resolve, 1000));
-    console.log(formData)
-    form.reset(defaultFormValues);
+    try{
+      await createProjectMutation(formData);
+      console.log(formData)
+      form.reset(defaultFormValues);
+    }
+    catch(e){
+      console.error(e);
+    }
+    
   }
 
   const handleCrewRemove = (key:string)=>{

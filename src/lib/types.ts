@@ -47,7 +47,7 @@ export const projectFormSchema = z.object({
     contentType: z.string().min(1, {message:"Content Type is required"}),
     budget: z.number().min(5, {message:"Minimum budget is $5k"}).max(200000, {message:"Maximum budget is $200000k"}),
     description: z.string().min(1, {message:"Project description is required"}),
-    additional_details: z.string().optional(),
+    additional_details: z.string().min(1, {message:"Additional details required"}),
     locationDetails: z.array(z.object({
       location: z.string().min(1, {message:"Location is required"}),
       start_date: z.string().date(),
