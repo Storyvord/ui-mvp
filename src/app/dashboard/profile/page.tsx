@@ -1,11 +1,56 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/page";
 
-const page = () => {
-  const projectsData = [
+interface ProjectData {
+  imageUrl: string;
+  projectTitle: string;
+  projectDescription: string;
+  projectLink: string;
+}
+
+interface PageProps {
+  profileData?: {
+    name: string;
+    role: string;
+    location: string;
+    rate: string;
+    rating: string;
+    reviewScore: string;
+    imageUrl: string;
+    bio: string;
+    topReview: string;
+    website: string;
+    profileLink: string;
+    socialMedia: { name: string; link: string }[];
+  };
+  projectsData?: ProjectData[];
+}
+
+const Page: React.FC<PageProps> = ({ profileData, projectsData }) => {
+  const defaultProfileData = {
+    name: "Scott P.",
+    role: "As an animator",
+    location: ", United States",
+    rate: "$400/Day",
+    rating: "4.5",
+    reviewScore: "⭐⭐⭐⭐⭐",
+    imageUrl:
+      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
+    bio: "As an animator, designer, and illustrator, Scott has helped create a variety of work, including Vice TV’s Most Expensivest, advertising campaigns like Brooklyn Brewery’s Pulp Art IPA, music videos for artists such as TVOD, documentaries like BuzzFeed Studio’s Unclickable, educational content for institutions like Harvard University, and much more. As a filmmaker, Scott’s independent films — including Someplace in Time, Goldfish, and others — have been recognized in over 70 festivals, museums, and exhibitions worldwide, including the 29th Raindance Film Festival, Animist Tallinn, NYC Indie Shorts Awards, Motionographer, the Museum of Fine Arts Boston, and the Kurt Vonnegut Museum and Library.",
+    topReview:
+      "Janes work on our feature film was nothing short of spectacular. Highly recommend.",
+    website: "https://www.scottpalazzo.com/",
+    profileLink: "/dashboard/profile",
+    socialMedia: [
+      { name: "LinkedIn", link: "/dashboard/profile" },
+      { name: "Twitter", link: "/dashboard/profile" },
+      { name: "Instagram", link: "/dashboard/profile" },
+    ],
+  };
+
+  const projectDataFallback = [
     {
       imageUrl:
         "https://res.cloudinary.com/ddsqycvoq/image/upload/t_embed_thumbnail,f_auto,q_auto/v1/images/84a3eec81a8396ebf0e2405c2e012b9b8f778201",
@@ -32,6 +77,9 @@ const page = () => {
     },
   ];
 
+  const profile = profileData || defaultProfileData;
+  const projects = projectsData || projectDataFallback;
+
   return (
     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
       <div className="p-4">
@@ -54,8 +102,8 @@ const page = () => {
                   <div className="flex justify-center">
                     <div className="w-full flex justify-center">
                       <Image
-                        src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80"
-                        alt="Crew Profile"
+                        src={profile.imageUrl}
+                        alt="Profile"
                         className="rounded-full w-24 h-24 lg:w-36 lg:h-36 mx-auto"
                         width={144}
                         height={144}
@@ -63,28 +111,28 @@ const page = () => {
                     </div>
                   </div>
                   <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-bold text-center mt-4">
-                    Scott P.
+                    {profile.name}
                   </h6>
                   <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 text-center mt-2">
-                    As an animator
+                    {profile.role}
                   </p>
                 </div>
                 <div className="w-full lg:w-3/4 p-4">
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 text-center lg:text-left">
-                      , United States
+                      {profile.location}
                     </p>
                     <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 mt-2 lg:mt-0">
-                      $400/Day
+                      {profile.rate}
                     </p>
                   </div>
                   <div className="flex flex-col lg:flex-row items-center justify-between mt-4">
                     <div className="flex items-center">
                       <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 mr-2">
-                        4.5
+                        {profile.rating}
                       </p>
                       <p className="block antialiased font-sans text-base font-light leading-relaxed text-yellow-400">
-                        ⭐⭐⭐⭐⭐
+                        {profile.reviewScore}
                       </p>
                     </div>
                     <div className="flex mt-4 lg:mt-0">
@@ -109,25 +157,13 @@ const page = () => {
                   Bio
                 </h6>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
-                  As an animator, designer, and illustrator, Scott has helped
-                  create a variety of work, including Vice TV’s Most
-                  Expensivest, advertising campaigns like Brooklyn Brewery’s
-                  Pulp Art IPA, music videos for artists such as TVOD,
-                  documentaries like BuzzFeed Studio’s Unclickable, educational
-                  content for institutions like Harvard University, and much
-                  more. As a filmmaker, Scott’s independent films — including
-                  Someplace in Time, Goldfish, and others — have been recognized
-                  in over 70 festivals, museums, and exhibitions worldwide,
-                  including the 29th Raindance Film Festival, Animist Tallinn,
-                  NYC Indie Shorts Awards, Motionographer, the Museum of Fine
-                  Arts Boston, and the Kurt Vonnegut Museum and Library.
+                  {profile.bio}
                 </p>
                 <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                   Reviews
                 </h6>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
-                  Jane was fantastic to work with - professional, punctual, and
-                  brought a great energy to the set.
+                  {profile.topReview}
                 </p>
               </div>
             </div>
@@ -136,21 +172,20 @@ const page = () => {
                 Top Review
               </h6>
               <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
-                Janes work on our feature film was nothing short of spectacular.
-                Highly recommend.
+                {profile.topReview}
               </p>
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Website
               </h6>
-              <Link href="https://www.scottpalazzo.com/">
+              <Link href={profile.website}>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
-                  https://www.scottpalazzo.com/
+                  {profile.website}
                 </p>
               </Link>
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Profile Link
               </h6>
-              <Link href="/dashboard/profile">
+              <Link href={profile.profileLink}>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
                   View Profile
                 </p>
@@ -158,22 +193,14 @@ const page = () => {
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Social Media
               </h6>
-              <div className="flex mt-2">
-                <Link href="/dashboard/profile">
-                  <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
-                    LinkedIn
-                  </p>
-                </Link>
-                <Link href="/dashboard/profile">
-                  <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
-                    Twitter
-                  </p>
-                </Link>
-                <Link href="/dashboard/profile">
-                  <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
-                    Instagram
-                  </p>
-                </Link>
+              <div className="flex mt-2 flex-wrap gap-2">
+                {profile.socialMedia.map((social, index) => (
+                  <Link key={index} href={social.link}>
+                    <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
+                      {social.name}
+                    </p>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -187,8 +214,8 @@ const page = () => {
             Architects design houses
           </p>
 
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
-            {projectsData.map((project, index) => (
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-3">
+            {projects.map((project, index) => (
               <ProjectComponent key={index} {...project} />
             ))}
           </div>
@@ -198,4 +225,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
