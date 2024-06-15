@@ -33,91 +33,18 @@ interface project {
 
 type projectArray = project[];
 
-// const projects: projectArray = [
-//   {
-//     id: 1,
-//     name: "Bruce Lee:The Man and the Legend",
-//     start_date: "",
-//     end_date: "",
-//     budget: "",
-//     location: "",
-//     status: false,
-//   },
-//   {
-//     id: 2,
-//     name: "Til Madness Do Us Part",
-//     start_date: "",
-//     end_date: "",
-//     budget: "",
-//     location: "",
-//     status: false,
-//   },
-//   {
-//     id: 3,
-//     name: "Sakura Dreams: A Journey Through Japan's Contrasting Culture",
-//     start_date: "",
-//     end_date: "",
-//     budget: "",
-//     location: "",
-//     status: false,
-//   },
-//   {
-//     id: 4,
-//     name: "The Secret Garden",
-//     start_date: "2024-06-01",
-//     end_date: "2024-09-30",
-//     budget: "$50,000,000",
-//     location: "England",
-//     status: true,
-//   },
-//   {
-//     id: 5,
-//     name: "Inception",
-//     start_date: "2024-03-15",
-//     end_date: "2024-08-30",
-//     budget: "$160,000,000",
-//     location: "United States",
-//     status: true,
-//   },
-//   {
-//     id: 6,
-//     name: "Avatar 2",
-//     start_date: "2024-10-01",
-//     end_date: "2025-03-31",
-//     budget: "$300,000,000",
-//     location: "New Zealand",
-//     status: true,
-//   },
-//   {
-//     id: 7,
-//     name: "Jurassic World: Dominion",
-//     start_date: "2023-07-01",
-//     end_date: "2024-05-30",
-//     budget: "$200,000,000",
-//     location: "United Kingdom",
-//     status: true,
-//   },
-//   {
-//     id: 8,
-//     name: "Wonder Woman 3",
-//     start_date: "2025-01-15",
-//     end_date: "2025-06-30",
-//     budget: "$120,000,000",
-//     location: "United States",
-//     status: true,
-//   },
-// ];
+const page = async () => {
+  const res = await fetch(
+    "https://sv-aibackend.azurewebsites.net/api/crew/list-projects/"
+  );
+  const projectsData = await res.json()
 
-
-
-
-const page = () => {
-  const OngoingProjecs = projects
-    .filter((project) => project.status === false)
-    .map((project) => {
+  const OngoingProjecs = 
+    projectsData.map((project: any) => {
       return (
-        <Link key={project.name} href={`/project-details/${project.id}`}>
-          <OngoingProjectCard id={project.id.toString()} name={project.name} />
+        <Link key={project.name} href={`/project-details/${project.project_id
+        }`}>
+          <OngoingProjectCard id={project.project_id.toString()} name={project.project_name} />
         </Link>
       );
     });
