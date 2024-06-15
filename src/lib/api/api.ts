@@ -1,3 +1,23 @@
+import { projectFormInputType } from "@/types";
+import { API_KEY } from "@/utils/constant";
+
+export const createProject = async (formData: projectFormInputType) =>{
+    const res = await fetch(`${API_KEY}/api/crew/create-project/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json', 
+        },
+        body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+        throw new Error('Failed to create project');
+      }
+    
+      return res.json();
+}
+
+
 
 
 export const fetchLocation = async (search: string,

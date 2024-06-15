@@ -1,46 +1,4 @@
-import { z, ZodObject, ZodTypeAny } from "zod"
-
-interface project{
-    id:number
-    name: string;
-    start_date?:string;
-    end_date?:string;
-    budget?:string;
-    location?:string;
-    status:boolean;
-} 
-
-export type projectArray = project[];
-
-type itemType = {
-    text: string,
-    link: string,
-    icon: React.FC,
-}
-
-export type projectDetailItem = {
-    title:string,
-    items: itemType[],
-}
-
-export type calenderFormType = {
-    title: string,
-    start: string,
-    end: string,
-    desc? : string,
-    location? : string,
-    participants? : string[],
-}
-
-export type calenderEventType = {
-    id: number,
-    title: string,
-    start: Date,
-    end: Date,
-    desc? : string,
-    location? : string,
-    participants? : string[],
-}
+import { z } from "zod"
 
 export const projectFormSchema = z.object({
     projectName: z.string().min(1, {message:"Project Name is required"}),
@@ -69,7 +27,3 @@ export const projectFormSchema = z.object({
     equipment: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' })),
     // .refine(eqmt => Object.keys(eqmt).length > 0, { message: 'At least one equipment is required' }),
   })
-
- 
-  
-  export type projectFormInputType = z.infer<typeof projectFormSchema>

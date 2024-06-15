@@ -11,7 +11,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
-import { useProjectControl } from '@/contexts/ProjectContext'
+import { useProjectControl } from '@/hooks/ProjectContext'
 
 const Paths = () => {
     const pathname = usePathname();

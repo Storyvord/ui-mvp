@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button } from '../../ui/button'
-import { useSideBarControl } from '@/contexts/SideBarContext'
+import { useSideBarControl } from '@/hooks/SideBarContext'
 
 const SideBarCloseButton = () => {
   const {toggle} = useSideBarControl()

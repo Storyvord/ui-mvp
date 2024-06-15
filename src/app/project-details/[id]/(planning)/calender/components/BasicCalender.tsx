@@ -3,9 +3,9 @@
 import React, {useState} from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import {eventList} from '@/lib/constants'
+import {eventList} from '@/utils/constant'
 import AddTaskDialog from './AddTaskDialog'
-import { calenderEventType, calenderFormType } from '@/lib/types'
+import { calenderEventType, calenderFormType } from '@/types'
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button'
 import EventDialog from './EventDialog'

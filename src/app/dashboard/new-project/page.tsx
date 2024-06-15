@@ -16,7 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import Select from "react-select";
 import { Slider } from "@/components/ui/slider";
-import { projectFormSchema, projectFormInputType } from "@/lib/types";
+import {  projectFormInputType } from "@/types";
+import { projectFormSchema } from "@/lib/validation/createProjectFormValidation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -24,12 +25,12 @@ import {
   crew_data,
   defaultFormValues,
   equipment_data,
-} from "@/lib/constants";
+} from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
-import { fetchLocation } from "@/services/locationFetching";
+import { fetchLocation, createProject } from "@/lib/api/api"; 
 import { useQuery, useMutation } from "react-query";
 import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
-import { createProject } from "@/services/createProject";
+import { useCreateProject } from "@/lib/react-query/queriesAndMutations";
 
 interface OptionType {
   label: string;
@@ -49,15 +50,7 @@ const CreateProjectPage = () => {
     defaultValues: defaultFormValues,
   });
 
-  const { mutateAsync: createProjectMutation } = useMutation({
-    mutationFn: createProject,
-    onSuccess: (data) => {
-      console.log("Form submitted successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
-    },
-  });
+  const { mutateAsync: createProjectMutation } = useCreateProject()
 
   const locationArray = useFieldArray({
     control: form.control,
