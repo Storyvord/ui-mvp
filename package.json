@@ -21,12 +21,6 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.378.0",
-<<<<<<< HEAD
-    "next": "^14.2.3",
-    "react": "^18.3.1",
-    "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
-=======
     "moment": "^2.30.1",
     "next": "14.2.3",
     "react": "^18",
@@ -34,8 +28,11 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "react-horizontal-scrolling-menu": "^7.1.0",
+    "react-modal": "^3.16.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "shadcn-ui": "^0.8.0",
->>>>>>> a760e7aa0266dd07559959fefc5e7953abefe3f8
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -44,6 +41,7 @@
     "@types/react": "^18",
     "@types/react-big-calendar": "^1.8.9",
     "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
