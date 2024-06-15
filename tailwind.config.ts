@@ -80,6 +80,9 @@ const config = {
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
       },
+      boxShadow:{
+        
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
