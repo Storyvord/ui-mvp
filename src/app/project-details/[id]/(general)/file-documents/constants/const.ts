@@ -1,0 +1,98 @@
+
+import { Dog, Coins, Shirt, Users, HandCoins, Landmark,Component, Folders, ShieldCheck, MapPinned, Tag, BookUser, GalleryHorizontalEnd, MonitorPlay, CookingPot, Star, Pencil, Cloud, Bus, ShirtIcon, Phone, PersonStanding, ScrollText, Megaphone, LandmarkIcon, ListChecks, Fullscreen, Utensils, CalendarDaysIcon, } from 'lucide-react';
+
+export const icons = {
+    Dog,
+    HandCoins,
+    Coins,
+    Shirt,
+    Users,
+    Landmark,
+    Folders,
+    ShieldCheck,
+    MapPinned,
+    Tag,
+    BookUser,
+    GalleryHorizontalEnd,
+    MonitorPlay,
+    CookingPot,
+    ShirtIcon,
+    Phone,
+    ScrollText,
+    PersonStanding,
+    Megaphone,
+    LandmarkIcon,
+    ListChecks, Fullscreen, Utensils, CalendarDaysIcon,
+    Star, Pencil, Cloud, Bus,Component,
+} as const;
+
+interface Contract {
+    icon: keyof typeof icons;
+    title: string;
+    description: string;
+}
+
+export type ContractsArray = Contract[];
+
+export const contracts: ContractsArray = [
+    {
+        icon: 'Dog',
+        title: 'Animals',
+        description: 'You can find all contracts for animals here.',
+    },
+    {
+        icon: 'Shirt',
+        title: 'Costumes',
+        description: 'Here are the contracts for every piece.',
+    },
+    {
+        icon: 'Coins',
+        title: 'Insurances',
+        description: 'Here you can organize all contracts for insurance.',
+    },
+    {
+        icon: 'Users',
+        title: 'Cast',
+        description: 'All of the cast members contracts are available here.',
+    },
+    {
+        icon: 'HandCoins',
+        title: 'Overall Financing',
+        description: 'This is where contracts for investors can be found.',
+    },
+    {
+        icon: 'Landmark',
+        title: 'Bank',
+        description: 'You may arrange all bank contracts here.',
+    },
+    {
+        icon: 'PersonStanding',
+        title: 'Crew',
+        description: 'Here you can arrange all contracts for crew.',
+    },
+    {
+        icon: 'Folders',
+        title: 'Rights',
+        description: 'Here you can organise all contracts for rights.',
+    },
+    {
+        icon: 'ShieldCheck',
+        title: 'Completion Bond',
+        description: 'All contracts can be arranged here for completion bond.',
+    },
+    {
+        icon: 'MapPinned',
+        title: 'Locations',
+        description: 'All location contracts can be arranged here.',
+    },
+
+    {
+        icon: 'Component',
+        title: 'Production Design',
+        description: 'Each and every production design contract is available here.',
+    }, {
+        icon: 'BookUser',
+        title: 'Miscellaneous Contracts',
+        description: 'Contracts for other miscellaneous purposes can be arranged here.',
+    },
+];
