@@ -1,5 +1,5 @@
 import {useMutation} from 'react-query'
-import { createProject } from '../api/api';
+import { createProject, fetchLocation } from '../api/api';
 
 export const useCreateProject = () => {
     return useMutation({
@@ -11,4 +11,14 @@ export const useCreateProject = () => {
           console.error("Error submitting form:", error);
         },
     });
+}
+
+export const useLocationList = () => {
+  return useMutation(
+    (params: { search: string, page: number }) => fetchLocation(params),
+    {
+      onError: (error) => {
+        console.error("Error in fetching location:", error);
+    },
+});
 }

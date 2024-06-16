@@ -20,10 +20,10 @@ export const createProject = async (formData: projectFormInputType) =>{
 
 
 
-export const fetchLocation = async (search: string,
-    { page }: {page:number}) => {
+export const fetchLocation = async ( params: { search: string, page: number }) => {
+    const { search, page } = params;
         const apiKey = process.env.NEXT_PUBLIC_LOCATION_API_KEY;
-    const response = await fetch(
+    const res = await fetch(
       `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${search}&page=${page}&limit=10`, // Adjust pagination parameters as required
       {
         headers: {
@@ -32,15 +32,11 @@ export const fetchLocation = async (search: string,
         },
       }
     );
+    
+    if (!res.ok) {
+      throw new Error('Failed to fetch location');
+    }
+
   
-    const data = await response.json();
-  
-    return {
-        options: data.data.map((location: any) => ({
-            value: location.name,
-            label: location.name,
-          })),
-          hasMore: Boolean(data.links?.next),
-          
-    };
+    return  res.json();
   };

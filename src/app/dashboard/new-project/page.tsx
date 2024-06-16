@@ -28,9 +28,8 @@ import {
 } from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
 import { fetchLocation, createProject } from "@/lib/api/api"; 
-import { useQuery, useMutation } from "react-query";
 import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
-import { useCreateProject } from "@/lib/react-query/queriesAndMutations";
+import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
 
 interface OptionType {
   label: string;
@@ -59,12 +58,31 @@ const CreateProjectPage = () => {
   // const [search, setSearch] = useState("")
   // const {data:locationData, isLoading}= useQuery({queryKey:["location", {search}], queryFn:{fetchLocation}})
 
-  const loadOptions: LoadOptions<OptionType, never, { page: number }> = (
+  const {mutateAsync: LocationMutation} = useLocationList();
+
+  const loadOptions: LoadOptions<OptionType, never, { page: number }> = async (
     search,
     loadedOptions,
     additional
   ) => {
-    return fetchLocation(search, additional || { page: 1 });
+    const { page } = additional ? additional : {page: 1}
+    try {
+      const data = await LocationMutation({search, page});
+      return {
+        options: data.data.map((location: any) => ({
+            value: location.name,
+            label: location.name,
+        })),
+        hasMore: Boolean(data.links?.next),  
+      }
+    }
+    catch(error){
+      console.error(error)
+      return {
+        options: [],
+        hasMore: false,
+      };
+    }
   };
 
   // 2. Define a submit handler.
@@ -75,6 +93,7 @@ const CreateProjectPage = () => {
       await createProjectMutation(formData);
       form.reset(defaultFormValues);
     } catch (e) {
+      form.setError("root", {type: 'manual', message:"Form submission failed"});
       console.error(e);
     }
   }
@@ -561,6 +580,13 @@ const CreateProjectPage = () => {
                 </FormItem>
               )}
             />
+            {
+              form.formState.errors.root && (
+                <FormMessage>
+                  {form.formState.errors.root.message}
+                </FormMessage>
+              )
+            }
             <Button
               type="submit"
               className="w-[300px] font-bold text-[16px] mx-auto"
@@ -576,6 +602,7 @@ const CreateProjectPage = () => {
               )}
             </Button>
           </form>
+          
         </Form>
       </div>
     </div>
