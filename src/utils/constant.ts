@@ -11,9 +11,11 @@ import { Report, File, Tasks, Announcements,
     Locations,
     Production,
  } from '../components/sidebar/components/Sidebaricons'
-import { calenderEventType, projectArray } from './types'
-import { projectDetailItem } from './types'
+import { calenderEventType, projectArray } from '../types'
+import { projectDetailItem } from '../types'
 import moment from 'moment'
+
+export const API_KEY = 'https://sv-aibackend.azurewebsites.net';
 
 export const projects:projectArray = [
     {

@@ -16,7 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import Select from "react-select";
 import { Slider } from "@/components/ui/slider";
-import { projectFormSchema, projectFormInputType } from "@/lib/types";
+import {  projectFormInputType } from "@/types";
+import { projectFormSchema } from "@/lib/validation/createProjectFormValidation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -24,12 +25,11 @@ import {
   crew_data,
   defaultFormValues,
   equipment_data,
-} from "@/lib/constants";
+} from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
-import { fetchLocation } from "@/services/locationFetching";
-import { useQuery, useMutation } from "react-query";
+import { fetchLocation, createProject } from "@/lib/api/api"; 
 import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
-import { createProject } from "@/services/createProject";
+import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
 
 interface OptionType {
   label: string;
@@ -49,15 +49,7 @@ const CreateProjectPage = () => {
     defaultValues: defaultFormValues,
   });
 
-  const { mutateAsync: createProjectMutation } = useMutation({
-    mutationFn: createProject,
-    onSuccess: (data) => {
-      console.log("Form submitted successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
-    },
-  });
+  const { mutateAsync: createProjectMutation } = useCreateProject()
 
   const locationArray = useFieldArray({
     control: form.control,
@@ -66,12 +58,31 @@ const CreateProjectPage = () => {
   // const [search, setSearch] = useState("")
   // const {data:locationData, isLoading}= useQuery({queryKey:["location", {search}], queryFn:{fetchLocation}})
 
-  const loadOptions: LoadOptions<OptionType, never, { page: number }> = (
+  const {mutateAsync: LocationMutation} = useLocationList();
+
+  const loadOptions: LoadOptions<OptionType, never, { page: number }> = async (
     search,
     loadedOptions,
     additional
   ) => {
-    return fetchLocation(search, additional || { page: 1 });
+    const { page } = additional ? additional : {page: 1}
+    try {
+      const data = await LocationMutation({search, page});
+      return {
+        options: data.data.map((location: any) => ({
+            value: location.name,
+            label: location.name,
+        })),
+        hasMore: Boolean(data.links?.next),  
+      }
+    }
+    catch(error){
+      console.error(error)
+      return {
+        options: [],
+        hasMore: false,
+      };
+    }
   };
 
   // 2. Define a submit handler.
@@ -82,6 +93,7 @@ const CreateProjectPage = () => {
       await createProjectMutation(formData);
       form.reset(defaultFormValues);
     } catch (e) {
+      form.setError("root", {type: 'manual', message:"Form submission failed"});
       console.error(e);
     }
   }
@@ -568,6 +580,13 @@ const CreateProjectPage = () => {
                 </FormItem>
               )}
             />
+            {
+              form.formState.errors.root && (
+                <FormMessage>
+                  {form.formState.errors.root.message}
+                </FormMessage>
+              )
+            }
             <Button
               type="submit"
               className="w-[300px] font-bold text-[16px] mx-auto"
@@ -583,6 +602,7 @@ const CreateProjectPage = () => {
               )}
             </Button>
           </form>
+          
         </Form>
       </div>
     </div>

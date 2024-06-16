@@ -3,9 +3,9 @@ import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import SideBar from "@/components/sidebar/SideBar";
 import NavBar from "@/components/navbar/NavBar";
-import { SideBarContextProvider } from "@/contexts/SideBarContext";
-import { ProjectContextProvider } from "@/contexts/ProjectContext";
-import { ReactQueryClientProvider } from "@/contexts/ReactQueryClientProvider";
+import { SideBarContextProvider } from "@/hooks/SideBarContext";
+import { ProjectContextProvider } from "@/hooks/ProjectContext";
+import { ReactQueryClientProvider } from "@/lib/react-query/ReactQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ weight: '400',

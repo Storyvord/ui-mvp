@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import DialogForm from './DialogForm';
-import { calenderFormType } from '@/lib/types';
+import { calenderFormType } from '@/types';
 
 interface CalendarDialogProps {
   open: boolean;
