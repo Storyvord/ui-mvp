@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button } from '../../ui/button'
-import { useSideBarControl } from '@/hooks/SideBarContext'
+import { useSideBarControl } from '@/context/SideBarContext'
 
 const SideBarToggler = () => {
     const {toggle}= useSideBarControl()

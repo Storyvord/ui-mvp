@@ -1,8 +1,8 @@
 'use client'
 
 import { projectdetailsItems } from '@/utils/constant'
-import { useProjectControl } from '@/hooks/ProjectContext'
-import { useSideBarControl } from '@/hooks/SideBarContext'
+import { useProjectControl } from '@/context/ProjectContext'
+import { useSideBarControl } from '@/context/SideBarContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProjectButtonGroup from './components/ProjectButtonGroup'

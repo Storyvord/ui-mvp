@@ -17,7 +17,7 @@ import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import Select from "react-select";
 import { Slider } from "@/components/ui/slider";
 import {  projectFormInputType } from "@/types";
-import { projectFormSchema } from "@/lib/validation/createProjectFormValidation";
+import { projectFormSchema } from "@/lib/validation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -27,7 +27,6 @@ import {
   equipment_data,
 } from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
-import { fetchLocation, createProject } from "@/lib/api/api"; 
 import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
 import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
 
