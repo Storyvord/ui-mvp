@@ -1,11 +1,11 @@
 "use client";
 
 import React, { FC, useState, useEffect } from 'react';
-import { Plus, Find, Sort, List } from '../ui/docsIcons';
+import { Plus, Sheet, Find, Sort, List } from './ui/docsIcons';
 import { Button } from '@/components/ui/button';
-import { FolderOpen, X, Trash2, File, HandCoins, Landmark } from 'lucide-react';
-import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { FolderOpen, X, Trash2, File } from 'lucide-react';
+import Image from 'next/image';
 
 interface FormData {
     name: string;
@@ -17,19 +17,19 @@ interface ObjectData {
     file: File;
 }
 
-const Bank: FC = () => {
+const RoomPage: FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [objects, setObjects] = useState<ObjectData[]>([]);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
     const [previewFile, setPreviewFile] = useState<File | null>(null);
     const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
-    const [isMobileOrMd, setIsMobileOrMd] = useState(false);
-    const [isLg, setIsLg] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isMd, setIsMd] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobileOrMd(window.innerWidth <= 1024);
-            setIsLg(window.innerWidth > 768 && window.innerWidth <= 1024);
+            setIsMobile(window.innerWidth <= 768);
+            setIsMd(window.innerWidth > 768 && window.innerWidth <= 1024);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -63,7 +63,7 @@ const Bank: FC = () => {
     };
 
     const handlePreview = (file: File) => {
-        if (isMobileOrMd) {
+        if (isMobile || isMd) {
             const url = URL.createObjectURL(file);
             const link = document.createElement('a');
             link.href = url;
@@ -71,8 +71,6 @@ const Bank: FC = () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        } else if (isLg) {
-            setPreviewFile(file);
         } else {
             setPreviewFile(file);
         }
@@ -88,24 +86,15 @@ const Bank: FC = () => {
 
     return (
         <section className="">
-            <div className='py-5 flex flex-row gap-2 -mb-2 mt-5'>
-                <Landmark />
-                <div className='flex flex-col -mt-2'>
-                    <span className='text-2xl font-medium'>Bank</span>
-                    <span className='text-slate-500 text-xs'>
-                        You may arrange all bank contracts here.
-                    </span>
-                </div>
-            </div>
-
-            <div className='text-black mt-2 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between'>
+           
+            <div className='flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5'>
                 <div className='flex'>
-                    <Button variant="outline" className='w-26 h-12 flex flex-row' onClick={handleOpenModal}>
+                    <Button variant="outline" className='flex flex-row' onClick={handleOpenModal}>
                         <Plus />
-                        <span className='font-semibold ml-2'>Create Contract</span>
+                        <span className='ml-2'>Create Object</span>
                     </Button>
                 </div>
-                
+
             </div>
             <div className='mt-8 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {objects.map((object, index) => (
@@ -140,11 +129,17 @@ const Bank: FC = () => {
                 <div className="relative mb-4 border-2 border-solid border-gray-200 rounded flex flex-col items-center justify-center py-10">
                     <FolderOpen className="text-blue-500 lg:w-22 lg:h-22 md:w-20 md:h-20 w-10 h-10 mb-4 stroke-1" />
                     <label className="block text-sm text-slate-500 mb-2">
-                        No contracts have been added yet.
+                        No objects have been added yet.
                     </label>
                     {errors.file && (
                         <span className="text-red-500 text-sm">{errors.file.message}</span>
                     )}
+                    <div className='flex py-3'>
+                        <Button variant="outline" className='w-26 h-12 flex flex-row' onClick={handleOpenModal}>
+                            <Plus />
+                            <span className='font-semibold ml-2'>Create Object</span>
+                        </Button>
+                    </div>
                 </div>
             )}
 
@@ -152,7 +147,7 @@ const Bank: FC = () => {
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
                     <div className='bg-white p-8 rounded-lg shadow-xl w-96 max-h-full transform transition-transform duration-300'>
                         <div className='flex justify-center items-center pb-2 mb-4 border-b'>
-                            <h2 className='text-2xl font-medium'>Create Contract</h2>
+                            <h2 className='text-2xl font-medium'>Create Object</h2>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div>
@@ -202,9 +197,9 @@ const Bank: FC = () => {
                 </div>
             )}
 
-            {previewFile && (
+            {previewFile && !isMobile && (
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 py-8'>
-                    <div className={`bg-white p-8 rounded-lg shadow-xl w-full ${isLg ? 'sm:w-5/6 md:w-5/6 lg:w-1/2' : 'sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6'} h-full max-h-screen mx-auto flex flex-col transform transition-transform duration-300`}>
+                    <div className='bg-white p-8 rounded-lg shadow-xl w-full sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6 h-full max-h-screen mx-auto flex flex-col transform transition-transform duration-300'>
                         <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
                             <h2 className='text-lg md:text-xl font-medium'>{previewFile.name}</h2>
                             <button onClick={handleClosePreview} className="text-gray-500 hover:text-gray-700">
@@ -222,7 +217,7 @@ const Bank: FC = () => {
                                         className="rounded-lg"
                                     />
                                 </div>
-                            ) : previewFile.type === 'application/pdf' && isLg ? (
+                            ) : !window.navigator.pdfViewerEnabled ? (
                                 <div className="text-center">
                                     <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
                                     <a href={URL.createObjectURL(previewFile)} download={previewFile.name} className="text-blue-500 underline">
@@ -240,4 +235,4 @@ const Bank: FC = () => {
     );
 };
 
-export default Bank;
+export default RoomPage;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useState, useEffect } from 'react';
-import { Plus, Sheet, Find, Sort, List } from './ui/docsIcons';
+import { Plus, Sheet } from './ui/docsIcons';
 import { Button } from '@/components/ui/button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FolderOpen, X, Trash2, File } from 'lucide-react';
