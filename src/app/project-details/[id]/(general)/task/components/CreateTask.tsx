@@ -1,6 +1,6 @@
 import { taskFormType, taskType } from '@/types'
 import { FC } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../../../../../../components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../../../../components/ui/dialog'
 import { Button } from '../../../../../../components/ui/button'
 import { Input } from '../../../../../../components/ui/input'
 import { useForm } from 'react-hook-form'
@@ -35,8 +35,6 @@ const CreateTask: FC<CreateTaskProps> = ({taskEditing, formOpen, handleSubmissio
     })
 
     function onSubmit(formData: taskFormType) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         try {
           handleSubmission(formData);
           setFormOpen(!formOpen)
@@ -52,7 +50,7 @@ const CreateTask: FC<CreateTaskProps> = ({taskEditing, formOpen, handleSubmissio
     <Dialog open={formOpen} onOpenChange={()=>setFormOpen(!formOpen)}>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>{defaultData ? "Edit Task" : "Create Task"}</DialogTitle>
+                <DialogTitle>{taskEditing ? "Edit Task" : "Create Task"}</DialogTitle>
             </DialogHeader>
             <Form {...form}>
                 <form
