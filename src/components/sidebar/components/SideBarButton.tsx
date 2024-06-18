@@ -4,8 +4,8 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from '../../ui/button'
 import { useSelectedLayoutSegments } from 'next/navigation'
-import { useSideBarControl } from '@/hooks/SideBarContext'
-import { useProjectControl } from '@/hooks/ProjectContext'
+import { useSideBarControl } from '@/context/SideBarContext'
+import { useProjectControl } from '@/context/ProjectContext'
 
 
 const SideBarButton = ({Icon, text, link, root}:{

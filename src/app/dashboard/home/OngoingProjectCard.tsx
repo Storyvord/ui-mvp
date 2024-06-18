@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
-import { useProjectControl } from '@/hooks/ProjectContext'
+import { useProjectControl } from '@/context/ProjectContext'
 
 const OngoingProjectCard = ({id, name}:{
     id:string,

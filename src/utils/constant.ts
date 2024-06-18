@@ -304,3 +304,35 @@ export const content_type = [
     crew: {},
     equipment: {}
   }
+
+  export const tempTaskList = [
+    {
+        id: 1,
+        title: "Location Permit",
+        desc: "Get permit for the locations",
+        deadline: "2022-05-30",
+        status: false,
+    },
+    {
+        id: 2,
+        title: "Permit for Talent",
+        desc: "Get permit for Talent",
+        deadline: "2022-06-15",
+        status: true,
+    },
+    {
+        id: 3,
+        title: "Equipment Rental",
+        desc: "Rent equipment for the project",
+        deadline: "2022-06-20",
+        status: false,
+    },
+    {
+        id: 4,
+        title: "Location Scouting",
+        desc: "Scout locations for the project",
+        deadline: "2022-06-25",
+        status: false,
+    },
+    
+  ]

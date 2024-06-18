@@ -27,3 +27,9 @@ export const projectFormSchema = z.object({
     equipment: z.record(z.string(), z.number().min(1, { message: 'Value must be greater than 0' })),
     // .refine(eqmt => Object.keys(eqmt).length > 0, { message: 'At least one equipment is required' }),
   })
+
+ export const taskFormSchema = z.object({
+    title: z.string().min(1, {message:"Task title is required"}),
+    desc: z.string().optional(),
+    deadline: z.string().date(),
+  })

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { projectFormSchema } from "../lib/validation/createProjectFormValidation";
+import { projectFormSchema, taskFormSchema } from "../lib/validation";
 
 interface project{
     id:number
@@ -42,9 +42,15 @@ export type calenderEventType = {
     location? : string,
     participants? : string[],
 }
-
-
-
- 
   
   export type projectFormInputType = z.infer<typeof projectFormSchema>
+
+  export type taskType = {
+    id: number,
+    title: string,
+    desc?: string,
+    deadline: string,
+    status: boolean,
+  }
+
+  export type taskFormType = z.infer<typeof taskFormSchema>
