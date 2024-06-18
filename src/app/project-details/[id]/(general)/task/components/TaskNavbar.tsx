@@ -30,7 +30,7 @@ const TaskNavbar: FC<TaskNavbarProps> = ({taskFilter, setTaskFilter}) => {
 
     return (
         //code a for a navbar
-        <div className='w-full flex gap-2 mt-7'>
+        <div className='w-full flex flex-wrap gap-2 mt-7'>
             {
                 taskNavbarMenu.map((item) => {
                     return (

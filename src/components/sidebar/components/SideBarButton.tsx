@@ -9,7 +9,7 @@ import { useProjectControl } from '@/context/ProjectContext'
 
 
 const SideBarButton = ({Icon, text, link, root}:{
-    Icon: React.FC,
+    Icon: React.FC<React.SVGProps<SVGSVGElement>>,
     text: string,
     link: string, 
     root: string
@@ -31,12 +31,14 @@ const SideBarButton = ({Icon, text, link, root}:{
         }
         setisSideBarOpen(false)
     }
+
+    const checkLink = (segments[length-2]==="project-details") ? "" : segments[length-1]
   return (
-    <Link className={`${segments[length-1]==link ? 'active' : ''}`} href={url}>
+    <Link className={`${checkLink===link ? 'active' : ''}`} href={url}>
         <Button onClick={handleClick} variant="ghost"
-            className={`${segments[length-1]==link ? 'bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]' 
+            className={`${checkLink==link ? 'bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]' 
             : 'text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30'} w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start`}>
-            <Icon />
+            <Icon className="w-6 h-6"/>
             <p className="block font-sans antialiased text-base leading-relaxed text-inherit font-medium capitalize">
                 {text}
             </p>

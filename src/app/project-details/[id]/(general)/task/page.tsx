@@ -35,7 +35,7 @@ const TaskPage = () => {
   
   const createTask = (task: taskFormType) => {
       const newTask: taskType = {
-        id: tasks.length + 1,
+        id: tasks[tasks.length-1].id+1,
         title: task.title,
         desc: task.desc,
         deadline: task.deadline,
@@ -59,7 +59,7 @@ const TaskPage = () => {
     })
     setTasks(updatedTasks)
   };
-  const [sortBy, setSortBy] = useState<"deadline" | "title" | "status">("deadline")
+  const [sortBy, setSortBy] = useState<"id" | "deadline" | "title" | "status">("id")
   const [taskFilter, setTaskFilter] = useState("all")
   const [searchFilter, setSearchFilter] = useState("")
  const getSortTasks = useCallback(() => {
@@ -72,6 +72,9 @@ const TaskPage = () => {
       filteredTasks = [...filteredTasks].filter((task) => task.status);
     }
     const sortedTasks = [...filteredTasks].sort((a, b) => {
+      if(sortBy==="id"){
+        return b.id - a.id
+      }
       if (a[sortBy] < b[sortBy]) {
         return -1;
       }
@@ -93,7 +96,7 @@ const TaskPage = () => {
     <div>
       <TaskNavbar taskFilter={taskFilter} setTaskFilter={setTaskFilter}/>
       <hr></hr>
-      <ToolBar searchFilter={searchFilter} setSearchFilter={setSearchFilter} formOpen={formOpen} setFormOpen={setFormOpen} sortBy={sortBy} handleSort={(value:"deadline" | "title" | "status")=>setSortBy(value)}/>
+      <ToolBar searchFilter={searchFilter} setSearchFilter={setSearchFilter} formOpen={formOpen} setFormOpen={setFormOpen} sortBy={sortBy} handleSort={(value:"id" |"deadline" | "title" | "status")=>setSortBy(value)}/>
       <CreateTask setFormOpen={setFormOpen} formOpen={formOpen} handleSubmission={createTask}/>
       <div className='w-full mt-4 flex flex-col gap-2'>
         {

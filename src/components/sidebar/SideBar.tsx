@@ -8,11 +8,8 @@ import Link from 'next/link'
 import ProjectButtonGroup from './components/ProjectButtonGroup'
 import SideBarButton from './components/SideBarButton'
 import SideBarCloseButton from './components/SideBarCloseButton'
-import {
-    CreateProject,
-    Dashboard,
-} from './components/Sidebaricons'
-
+import { GiFilmProjector } from "react-icons/gi";
+import { HiHome, HiBanknotes  } from "react-icons/hi2";
 
 
 const SideBar = () => {
@@ -46,16 +43,17 @@ const SideBar = () => {
                 </Link>
             </div>
             <div className='m-4'>
-                <ul className='mb-4 flex flex-col gap-1'>
+                <ul className='mb-1 flex flex-col gap-1'>
                     <li>
-                        <SideBarButton Icon={Dashboard} text='dashboard' link='home' root='dashboard' />
+                        <SideBarButton Icon={HiHome} text='dashboard' link='home' root='dashboard' />
                     </li>
                     <li>
-                        <SideBarButton Icon={CreateProject} text='Create Project' link='new-project' root='dashboard' />
+                        <SideBarButton Icon={HiBanknotes} text='Create Project' link='new-project' root='dashboard' />
                     </li>
 
                 </ul>
                 <ProjectButtonGroup>
+                    <SideBarButton Icon={GiFilmProjector} text='Project Details' link='' root='project-details'/> 
                     {ProjectDetailsMenu}
                 </ProjectButtonGroup>
             </div>
