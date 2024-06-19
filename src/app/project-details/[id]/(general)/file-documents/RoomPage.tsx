@@ -42,6 +42,11 @@ const RoomPage: FC = () => {
         if (storedObjects) {
             setObjects(JSON.parse(storedObjects));
         }
+
+        return () => {
+            // Clear the localStorage entry for this page when unmounting
+            localStorage.removeItem(storageKey);
+        };
     }, []); // Load from local storage once on component mount
 
     useEffect(() => {

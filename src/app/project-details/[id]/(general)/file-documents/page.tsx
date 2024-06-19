@@ -205,8 +205,7 @@ const File: FC = () => {
                     <div className="text-black mb-5 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
                         <Button
                             variant="outline"
-                            className="flex items-center mb-4 md:mb-0 lg:mb-0"
-                            onClick={() => setShowForm(true)}
+                            className="flex items-center mb-4 md:mb-0 lg:mb-0" onClick={() => setShowForm(true)}
                         >
                             <Plus className="mr-2" /> Create Room
                         </Button>
@@ -269,8 +268,7 @@ const File: FC = () => {
                                                 >
                                                     <button
                                                         className="w-full text-left text-xs px-2 py-1 hover:bg-gray-100 flex items-center"
-                                                        onClick={(e) => { e.stopPropagation(); handleOpenChangeIconModal(index); }}
-                                                    >
+                                                        onClick={(e) => { e.stopPropagation(); handleOpenChangeIconModal(index); }}>
                                                         <Images className="mr-2 h-4 w-4" /> Change Icon
                                                     </button>
                                                     <button
@@ -305,7 +303,7 @@ const File: FC = () => {
                                 <div
                                     key={index}
                                     onClick={() => handleIconSelect(Icon)}
-                                    className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black hover:opacity-75" : "text-slate-400"}`}
+                                    className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black" : "text-slate-400"} ${selectedIconIndex === index && "hover:opacity-75"}`}
                                 >
                                     <Icon />
                                 </div>
@@ -358,7 +356,7 @@ const File: FC = () => {
                                                 setValue("icon", Icon);
                                                 setSelectedIconIndex(index);
                                             }}
-                                            className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black" : "text-slate-400"} ${selectedIconIndex === index && "hover:opacity-75"}`}
+                                            className={`p-2 rounded cursor-pointer hover:text-black ${selectedIconIndex === index ? "text-black" : "text-slate-400"}`}
                                         >
                                             <Icon />
                                         </div>
