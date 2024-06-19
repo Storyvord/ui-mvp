@@ -1,11 +1,13 @@
 "use client";
 
 import React, { FC, useState, useEffect } from 'react';
-import { Plus, Sheet, Find, Sort, List } from './ui/docsIcons';
+import { Plus } from './ui/docsIcons';
 import { Button } from '@/components/ui/button';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { FolderOpen, X, Trash2, File } from 'lucide-react';
+import { FolderOpen, X, Trash2, FileAxis3D } from 'lucide-react';
 import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface FormData {
     name: string;
@@ -14,29 +16,37 @@ interface FormData {
 
 interface ObjectData {
     name: string;
-    file: File;
+    fileName: string;
+    fileType: string;
+    fileData: string;
 }
 
 const RoomPage: FC = () => {
+    const storageKey = 'roomPageObjects'; // Unique storage key for RoomPage
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [objects, setObjects] = useState<ObjectData[]>([]);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
-    const [previewFile, setPreviewFile] = useState<File | null>(null);
+    const [previewFile, setPreviewFile] = useState<{ file: Blob, url: string, fileName: string } | null>(null);
     const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState(false);
-    const [isMd, setIsMd] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-            setIsMd(window.innerWidth > 768 && window.innerWidth <= 1024);
-        };
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
         handleResize();
         window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        const storedObjects = localStorage.getItem(storageKey);
+        if (storedObjects) {
+            setObjects(JSON.parse(storedObjects));
+        }
+    }, []); // Load from local storage once on component mount
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(objects));
+    }, [objects]); // Update local storage whenever `objects` state changes
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => {
@@ -48,35 +58,55 @@ const RoomPage: FC = () => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            register("file").onChange(e);
+            const fileSizeLimit = 10 * 1024 * 1024; // 10 MB
+            if (file.size > fileSizeLimit) {
+                toast.error('The maximum size for each file is 10 MB.');
+                return;
+            }
             setSelectedFileName(file.name);
         }
     };
 
-    const onSubmit: SubmitHandler<FormData> = data => {
-        const newObject: ObjectData = {
-            name: data.name,
-            file: data.file[0],
-        };
-        setObjects(prevObjects => [...prevObjects, newObject]);
-        handleCloseModal();
+    const fileToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+        });
     };
 
-    const handlePreview = (file: File) => {
-        if (isMobile || isMd) {
-            const url = URL.createObjectURL(file);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', file.name);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else {
-            setPreviewFile(file);
+    const onSubmit: SubmitHandler<FormData> = async data => {
+        if (data.file && data.file.length > 0) {
+            const file = data.file[0];
+            const fileData = await fileToBase64(file);
+            const newObject: ObjectData = {
+                name: data.name,
+                fileName: file.name,
+                fileType: file.type,
+                fileData: fileData
+            };
+            setObjects(prevObjects => [...prevObjects, newObject]);
+            handleCloseModal();
         }
     };
 
+    const handlePreview = (fileData: string, fileName: string, fileType: string) => {
+        const byteString = atob(fileData.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], { type: fileType });
+        const url = URL.createObjectURL(blob);
+        setPreviewFile({ file: blob, url, fileName });
+    };
+
     const handleClosePreview = () => {
+        if (previewFile) {
+            URL.revokeObjectURL(previewFile.url);
+        }
         setPreviewFile(null);
     };
 
@@ -84,38 +114,80 @@ const RoomPage: FC = () => {
         setObjects(prevObjects => prevObjects.filter((_, i) => i !== index));
     };
 
-    return (
-        <section className="">
-           
-            <div className='flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5'>
-                <div className='flex'>
-                    <Button variant="outline" className='flex flex-row' onClick={handleOpenModal}>
-                        <Plus />
-                        <span className='ml-2'>Create Object</span>
-                    </Button>
-                </div>
+    const renderFilePreview = (object: ObjectData) => {
+        const byteString = atob(object.fileData.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], { type: object.fileType });
+        const url = URL.createObjectURL(blob);
 
+        if (object.fileType && object.fileType.startsWith('image/')) {
+            return (
+                <Image
+                    src={url}
+                    alt={object.fileName}
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-t-lg"
+                />
+            );
+        } else {
+            return <FileAxis3D className="text-blue-500 w-20 h-20 stroke-1" />;
+        }
+    };
+
+    const renderPreviewContent = (file: Blob, fileType: string, url: string) => {
+        if (fileType && fileType.startsWith('image/')) {
+            return (
+                <div className='relative w-full h-full'>
+                    <Image
+                        src={url}
+                        alt=""
+                        layout="fill"
+                        objectFit="contain"
+                        className="rounded-lg"
+                    />
+                </div>
+            );
+        } else if (fileType === 'application/pdf') {
+            return (
+                <iframe src={url} className="w-full h-full border-0" title=""></iframe>
+            );
+        } else {
+            return <p>File preview not supported for this file type. Please download the file to view it.</p>;
+        }
+    };
+
+    return (
+        <section>
+            <ToastContainer />
+            <div className='flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5'>
+                <Button variant="outline" className='flex flex-row' onClick={handleOpenModal}>
+                    <Plus />
+                    <span className='ml-2'>Create Object</span>
+                </Button>
             </div>
+
             <div className='mt-8 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {objects.map((object, index) => (
-                    <div key={index} className="relative w-full h-60 md:h-64 lg:h-64 shadow-md rounded-lg bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-                        <div className="h-[80%] flex items-center justify-center" onClick={() => handlePreview(object.file)} >
-                            {object.file.type.startsWith('image/') ? (
-                                <Image
-                                    src={URL.createObjectURL(object.file)}
-                                    alt={object.name}
-                                    layout="fill"
-                                    objectFit="contain"
-                                    className="rounded-t-lg"
-                                />
-                            ) : (
-                                <File className="text-blue-500 w-20 h-20 stroke-1" />
-                            )}
+                    <div
+                        key={index}
+                        className="relative w-full h-60 md:h-64 lg:h-64 shadow-md rounded-lg bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+                    >
+                        <div
+                            className="h-[80%] flex items-center justify-center"
+                            onClick={() => handlePreview(object.fileData, object.fileName, object.fileType)}
+                        >
+                            {renderFilePreview(object)}
                         </div>
+
                         <div className="absolute bottom-0 left-0 w-full h-[20%] bg-white flex items-center justify-between p-4 border-t border-gray-200">
-                            <div onClick={() => handlePreview(object.file)} className="flex-grow">
+                            <div onClick={() => handlePreview(object.fileData, object.fileName, object.fileType)} className="flex-grow">
                                 <h3 className="text-black font-medium">{object.name}</h3>
-                                <span className="text-slate-500 text-sm">{object.file.name}</span>
+                                <span className="text-slate-500 text-sm">{object.fileName}</span>
                             </div>
                             <button className="text-red-500" onClick={() => handleDelete(index)}>
                                 <Trash2 size={24} />
@@ -168,7 +240,7 @@ const RoomPage: FC = () => {
                                     Choose a file <span className="text-red-500">*</span>
                                 </label>
                                 <div className="relative mb-4 border-2 border-dashed border-gray-300 rounded-lg py-10 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
-                                    <File className="text-blue-500 w-10 h-10 mb-4 mx-auto" />
+                                    <FileAxis3D className="text-blue-500 w-10 h-10 mb-4 mx-auto" />
                                     <label className="block text-sm text-slate-500 mb-2">
                                         Drag and Upload File or Click to Select
                                     </label>
@@ -201,32 +273,13 @@ const RoomPage: FC = () => {
                 <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 py-8'>
                     <div className='bg-white p-8 rounded-lg shadow-xl w-full sm:w-5/6 md:w-4/6 lg:w-3/6 xl:w-2/6 h-full max-h-screen mx-auto flex flex-col transform transition-transform duration-300'>
                         <div className='flex justify-between items-center pb-2 mb-4 border-b border-gray-200'>
-                            <h2 className='text-lg md:text-xl font-medium'>{previewFile.name}</h2>
+                            <h2 className='text-lg md:text-xl font-medium'>{previewFile.fileName}</h2>
                             <button onClick={handleClosePreview} className="text-gray-500 hover:text-gray-700">
                                 <X size={24} />
                             </button>
                         </div>
                         <div className='flex-grow overflow-auto'>
-                            {previewFile.type.startsWith('image/') ? (
-                                <div className='relative w-full h-full'>
-                                    <Image
-                                        src={URL.createObjectURL(previewFile)}
-                                        alt={previewFile.name}
-                                        layout="fill"
-                                        objectFit="contain"
-                                        className="rounded-lg"
-                                    />
-                                </div>
-                            ) : !window.navigator.pdfViewerEnabled ? (
-                                <div className="text-center">
-                                    <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
-                                    <a href={URL.createObjectURL(previewFile)} download={previewFile.name} className="text-blue-500 underline">
-                                        Download PDF
-                                    </a>
-                                </div>
-                            ) : (
-                                <iframe src={URL.createObjectURL(previewFile)} className="w-full h-full border-0"></iframe>
-                            )}
+                            {renderPreviewContent(previewFile.file, previewFile.file.type, previewFile.url)}
                         </div>
                     </div>
                 </div>

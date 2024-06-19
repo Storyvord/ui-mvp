@@ -6,10 +6,11 @@ import { Images, LockKeyhole, MoreVertical, Plus, Trash } from "lucide-react";
 import { icons } from "./ui/Icons";
 import { Contracts, Script, Sheet } from "./ui/docsIcons";
 import { Button } from "@/components/ui/button";
-import RoomPage from "./RoomPage"; 
+import RoomPage from "./RoomPage";
 import ContractsPage from "./ContractsPage";
 import ScriptsPage from "./ScriptsPage";
 import Tabs from "./Tabs";
+import CallSheetsPage from "./CallSheetsPage";
 
 type FormData = {
     roomName: string;
@@ -27,13 +28,13 @@ type RoomDataType = {
 };
 
 type Pages = {
-    [key: string]: FC<any>;
+    [key: string]: FC<{ roomId: string }>;
 };
 
 const pages: Pages = {
     contracts: ContractsPage,
     "scripts-development": ScriptsPage,
-    "sent-call-sheets": RoomPage,
+    "sent-call-sheets": CallSheetsPage,
 };
 
 const File: FC = () => {
@@ -49,6 +50,7 @@ const File: FC = () => {
 
     const [changingIconForRoomIndex, setChangingIconForRoomIndex] = useState<number | null>(null);
     const changingIconForPredefined = useRef<boolean>(false);
+
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>();
 
     const emailFieldRef = useRef<HTMLDivElement>(null);
@@ -77,13 +79,13 @@ const File: FC = () => {
     const handleCardClick = (file: RoomDataType) => {
         setIsHome(false);
         setCurrentRoomId(file.id);
-        setActiveTab(file.title); 
+        setActiveTab(file.title);
     };
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         setLoading(true);
         setTimeout(() => {
-            const roomId = `room-${createdRooms.length + 1}-${data.roomName}`;
+            const roomId = `user-room-${createdRooms.length + 1}-${data.roomName}`;
             const room: RoomDataType = {
                 id: roomId,
                 icon: data.icon || Contracts,
@@ -171,9 +173,9 @@ const File: FC = () => {
         setValue("email", "");
     };
 
-    const RoomComponent = currentRoomId
-        ? pages[currentRoomId] || RoomPage
-        : null;
+    const RoomComponent = currentRoomId && currentRoomId.startsWith("user-room")
+        ? RoomPage
+        : (currentRoomId ? pages[currentRoomId] : RoomPage);
 
     const defaultTabs = ["Contracts", "Scripts & Development", "Sent Call Sheets"];
     const allTabs = ["Home"].concat(isHome ? [] : defaultTabs.concat(createdRooms.map(room => room.title)));
