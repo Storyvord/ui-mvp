@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 
 const page = async ({params}: {params: {id: string;}}) => {
-  const res = await fetch(`https://sv-aibackend.azurewebsites.net/api/crew/complete-project-details/?project_id=${params.id}`)
+  const res = await fetch(`https://sv-aibackend.azurewebsites.net/api/project/complete-project-details/?project_id=${params.id}`)
   const projectDetails = await res.json()
 
   return (
@@ -36,7 +36,10 @@ const page = async ({params}: {params: {id: string;}}) => {
           </div>
           <div className="mt-4">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Location</h2>
-            <p className="text-base text-gray-600 dark:text-gray-200">{projectDetails.locations[0]}</p>
+            {
+              projectDetails.locations && (<p className="text-base text-gray-600 dark:text-gray-200">{projectDetails.locations[0]}</p>)
+            }
+            
           </div>
         </CardContent>
       </Card>

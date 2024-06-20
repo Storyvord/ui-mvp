@@ -1,15 +1,25 @@
-"use client";
 
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import Navbar from "@/components/homepage/Navbar";
+import Hero from "@/components/homepage/Hero";
+import About from "@/components/homepage/About";
+import Work from "@/components/homepage/Work";
+import GetStarted from "@/components/homepage/GetStarted";
+import Location from "@/components/homepage/Location";
+import Testimonials from "@/components/homepage/Testimonials";
+import Footer from "@/components/homepage/Footer";
 
 const Page = () => {
-  const [message, setMessage] = useState(false);
   return (
-    <div className=" h-screen flex flex-col items-center justify-center">
-      <Button onClick={() => setMessage((prev) => !prev)}>Click Me</Button>
+    <div>
+      <Navbar/>
+      <Hero />
+      <About />
+      <Work />
+      <GetStarted />
+      <Location />
+      {/* <Testimonials /> */}
+      <Footer/> 
 
-      {message && <p className=" mt-6 text-2xl font-semibold">Happy Coding</p>}
     </div>
   );
 };

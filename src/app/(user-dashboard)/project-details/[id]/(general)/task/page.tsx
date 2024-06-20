@@ -1,7 +1,7 @@
 "use client"
 
 import CreateTask from './components/CreateTask'
-import TaskCard from '@/app/project-details/[id]/(general)/task/components/TaskCard'
+import TaskCard from './components/TaskCard'
 import TaskNavbar from './components/TaskNavbar'
 import ToolBar from './components/ToolBar'
 import { taskFormType, taskType } from '@/types'
