@@ -6,8 +6,8 @@ import { ArrowDownAZIcon, SearchIcon} from 'lucide-react'
 import { FC, useState} from 'react'
 
 interface ToolBarProps {
-  sortBy: "deadline" | "title" | "status",
-  handleSort: (property:"deadline" | "title" | "status") => void,
+  sortBy: "id" | "deadline" | "title" | "status",
+  handleSort: (property:"id" |"deadline" | "title" | "status") => void,
   setFormOpen: (value: boolean) => void,
   formOpen: boolean,
   searchFilter: string,
@@ -23,7 +23,7 @@ const ToolBar: FC<ToolBarProps> = ({sortBy, handleSort, setFormOpen, formOpen, s
   
 
   return (
-    <div className='flex w-full justify-between mt-4'>
+    <div className='flex flex-wrap w-full justify-between mt-4'>
         <div>
             <Button variant="outline" className='flex flex-row' onClick={()=>setFormOpen(!formOpen)}>
                 <PlusIcon />
@@ -50,6 +50,7 @@ const ToolBar: FC<ToolBarProps> = ({sortBy, handleSort, setFormOpen, formOpen, s
                     <DropdownMenuLabel>Sort by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuRadioGroup value={sortBy} onValueChange={(value)=>(handleSort(value as "deadline" | "title" | "status"))}>
+                        <DropdownMenuRadioItem value="id">date added</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="deadline">deadline</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="title">title</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="status">Project status</DropdownMenuRadioItem>

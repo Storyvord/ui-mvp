@@ -1,19 +1,18 @@
-import { Report, File, Tasks, Announcements,
-    Crew, Suppliers, Compliance, Budget, CallSheet, Calender,
-    Script,
-    Scenes,
-    Shots,
-    Storyboard,
-    ContentItems,
-    Cast,
-    Costumes,
-    Makeup,
-    Locations,
-    Production,
- } from '../components/sidebar/components/Sidebaricons'
 import { calenderEventType, projectArray } from '../types'
 import { projectDetailItem } from '../types'
 import moment from 'moment'
+import { RiRobot2Line } from "react-icons/ri";
+import { IoDocumentsSharp, IoLocationOutline, IoPeopleOutline } from "react-icons/io5";
+import { FaTasks } from "react-icons/fa";
+import { GrAnnounce, GrResources, GrMoney } from "react-icons/gr";
+import { LuFileSpreadsheet, LuMonitorPlay } from "react-icons/lu";
+import { SlCalender } from "react-icons/sl";
+import { MdOutlineDescription, MdCamera, MdGroups, MdGridView } from "react-icons/md";
+import { PiCoatHanger } from "react-icons/pi";
+import { GiLipstick } from "react-icons/gi";
+import { CiShoppingTag } from "react-icons/ci";
+import { GoLaw } from "react-icons/go";
+import { CgFilm } from "react-icons/cg";
 
 export const API_KEY = 'https://sv-aibackend.azurewebsites.net';
 
@@ -100,22 +99,22 @@ export const projectdetailsItems: projectDetailItem[] = [
             {
                 text: "reports",
                 link: "reports",
-                icon: Report,
+                icon: RiRobot2Line,
             },
             {
                 text: "File & Documents",
                 link: "file-documents",
-                icon: File,
+                icon: IoDocumentsSharp,
             },
             {
                 text: "tasks",
                 link: "task",
-                icon: Tasks,
+                icon: FaTasks,
             },
             {
                 text: "announcements",
                 link: "announcements",
-                icon: Announcements,
+                icon: GrAnnounce,
             }
         ]
     },
@@ -125,32 +124,32 @@ export const projectdetailsItems: projectDetailItem[] = [
             {
                 text: "crew",
                 link: "crew",
-                icon: Crew,
+                icon: MdGroups,
             },
             {
                 text: "suppliers",
                 link: "resource",
-                icon: Suppliers,
+                icon: GrResources,
             },
             {
                 text: "compliance",
                 link: "compliance",
-                icon: Compliance,
+                icon: GoLaw,
             },
             {
                 text: "budget",
                 link: "budget",
-                icon: Budget,
+                icon: GrMoney,
             },
             {
                 text: "call sheets",
                 link: "call-sheets",
-                icon: CallSheet,
+                icon: LuFileSpreadsheet,
             },
             {
                 text: "calender",
                 link: "calender",
-                icon: Calender,
+                icon: SlCalender,
             }
         ]
     },
@@ -160,27 +159,27 @@ export const projectdetailsItems: projectDetailItem[] = [
             {
                 text: "script",
                 link: "script",
-                icon: Script,
+                icon: MdOutlineDescription,
             },
             {
                 text: "scenes",
                 link: "scenes",
-                icon: Scenes,
+                icon: CgFilm,
             },
             {
                 text: "shots",
                 link: "shots",
-                icon: Shots,
+                icon: MdCamera,
             },
             {
                 text: "storyboard",
                 link: "storyboard",
-                icon: Storyboard,
+                icon: MdGridView,
             },
             {
                 text: "content items",
                 link: "content-items",
-                icon: ContentItems,
+                icon: LuMonitorPlay,
             }
         ]
     },
@@ -190,27 +189,27 @@ export const projectdetailsItems: projectDetailItem[] = [
             {
                 text: "cast",
                 link: "cast",
-                icon: Cast,
+                icon: IoPeopleOutline,
             },
             {
                 text: "costumes",
                 link: "costumes",
-                icon: Costumes,
+                icon: PiCoatHanger,
             },
             {
                 text: "makeup & hair",
                 link: "makeup-hair",
-                icon: Makeup,
+                icon: GiLipstick,
             },
             {
                 text: "locations & sets",
                 link: "locations-sets",
-                icon: Locations,
+                icon: IoLocationOutline,
             },
             {
                 text: "production design",
                 link: "production-design",
-                icon: Production,
+                icon: CiShoppingTag,
             }
         ]
     },
