@@ -6,10 +6,11 @@ import { Images, LockKeyhole, MoreVertical, Plus, Trash } from "lucide-react";
 import { icons } from "./ui/Icons";
 import { Contracts, Script, Sheet } from "./ui/docsIcons";
 import { Button } from "@/components/ui/button";
-import RoomPage from "./RoomPage"; 
+import RoomPage from "./RoomPage";
 import ContractsPage from "./ContractsPage";
 import ScriptsPage from "./ScriptsPage";
 import Tabs from "./Tabs";
+import CallSheetsPage from "./CallSheetsPage";
 
 type FormData = {
     roomName: string;
@@ -27,13 +28,13 @@ type RoomDataType = {
 };
 
 type Pages = {
-    [key: string]: FC<any>;
+    [key: string]: FC<{ roomId: string }>;
 };
 
 const pages: Pages = {
     contracts: ContractsPage,
     "scripts-development": ScriptsPage,
-    "sent-call-sheets": RoomPage,
+    "sent-call-sheets": CallSheetsPage,
 };
 
 const File: FC = () => {
@@ -49,6 +50,7 @@ const File: FC = () => {
 
     const [changingIconForRoomIndex, setChangingIconForRoomIndex] = useState<number | null>(null);
     const changingIconForPredefined = useRef<boolean>(false);
+
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>();
 
     const emailFieldRef = useRef<HTMLDivElement>(null);
@@ -77,13 +79,13 @@ const File: FC = () => {
     const handleCardClick = (file: RoomDataType) => {
         setIsHome(false);
         setCurrentRoomId(file.id);
-        setActiveTab(file.title); 
+        setActiveTab(file.title);
     };
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         setLoading(true);
         setTimeout(() => {
-            const roomId = `room-${createdRooms.length + 1}-${data.roomName}`;
+            const roomId = `user-room-${createdRooms.length + 1}-${data.roomName}`;
             const room: RoomDataType = {
                 id: roomId,
                 icon: data.icon || Contracts,
@@ -108,6 +110,8 @@ const File: FC = () => {
         if (index < files.length) {
             alert("Cannot delete predefined files!");
         } else {
+            const roomIdToDelete = createdRooms[index - files.length].id;
+            localStorage.removeItem(`${roomIdToDelete}-objects`);
             setCreatedRooms((rooms) => rooms.filter((_, i) => i !== index - files.length));
         }
     };
@@ -171,9 +175,9 @@ const File: FC = () => {
         setValue("email", "");
     };
 
-    const RoomComponent = currentRoomId
-        ? pages[currentRoomId] || RoomPage
-        : null;
+    const RoomComponent = currentRoomId && currentRoomId.startsWith("user-room")
+        ? RoomPage
+        : (currentRoomId ? pages[currentRoomId] : RoomPage);
 
     const defaultTabs = ["Contracts", "Scripts & Development", "Sent Call Sheets"];
     const allTabs = ["Home"].concat(isHome ? [] : defaultTabs.concat(createdRooms.map(room => room.title)));
@@ -203,8 +207,7 @@ const File: FC = () => {
                     <div className="text-black mb-5 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
                         <Button
                             variant="outline"
-                            className="flex items-center mb-4 md:mb-0 lg:mb-0"
-                            onClick={() => setShowForm(true)}
+                            className="flex items-center mb-4 md:mb-0 lg:mb-0" onClick={() => setShowForm(true)}
                         >
                             <Plus className="mr-2" /> Create Room
                         </Button>
@@ -267,8 +270,7 @@ const File: FC = () => {
                                                 >
                                                     <button
                                                         className="w-full text-left text-xs px-2 py-1 hover:bg-gray-100 flex items-center"
-                                                        onClick={(e) => { e.stopPropagation(); handleOpenChangeIconModal(index); }}
-                                                    >
+                                                        onClick={(e) => { e.stopPropagation(); handleOpenChangeIconModal(index); }}>
                                                         <Images className="mr-2 h-4 w-4" /> Change Icon
                                                     </button>
                                                     <button
@@ -289,7 +291,7 @@ const File: FC = () => {
             )}
 
             {!isHome && currentRoomId && RoomComponent && (
-                <RoomComponent roomId={currentRoomId} />
+                <RoomComponent key={currentRoomId} roomId={currentRoomId} />
             )}
 
             {changingIconForRoomIndex !== null && (
@@ -303,7 +305,7 @@ const File: FC = () => {
                                 <div
                                     key={index}
                                     onClick={() => handleIconSelect(Icon)}
-                                    className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black hover:opacity-75" : "text-slate-400"}`}
+                                    className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black" : "text-slate-400"} ${selectedIconIndex === index && "hover:opacity-75"}`}
                                 >
                                     <Icon />
                                 </div>
@@ -356,7 +358,7 @@ const File: FC = () => {
                                                 setValue("icon", Icon);
                                                 setSelectedIconIndex(index);
                                             }}
-                                            className={`p-2 rounded cursor-pointer ${selectedIconIndex === index ? "text-black" : "text-slate-400"} ${selectedIconIndex === index && "hover:opacity-75"}`}
+                                            className={`p-2 rounded cursor-pointer hover:text-black ${selectedIconIndex === index ? "text-black" : "text-slate-400"}`}
                                         >
                                             <Icon />
                                         </div>
