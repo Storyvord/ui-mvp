@@ -21,37 +21,37 @@ interface ObjectData {
     fileData: string;
 }
 
-const RoomPage: FC = () => {
-    const storageKey = 'roomPageObjects'; // Unique storage key for RoomPage
+const RoomPage: FC<{ roomId: string }> = ({ roomId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [objects, setObjects] = useState<ObjectData[]>([]);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
     const [previewFile, setPreviewFile] = useState<{ file: Blob, url: string, fileName: string } | null>(null);
     const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isMd, setIsMd] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+            setIsMd(window.innerWidth > 768 && window.innerWidth <= 1024);
+        };
         handleResize();
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     useEffect(() => {
-        const storedObjects = localStorage.getItem(storageKey);
+        const storedObjects = localStorage.getItem(`${roomId}-objects`);
         if (storedObjects) {
             setObjects(JSON.parse(storedObjects));
         }
-
-        return () => {
-            // Clear the localStorage entry for this page when unmounting
-            localStorage.removeItem(storageKey);
-        };
-    }, []); // Load from local storage once on component mount
+    }, [roomId]);
 
     useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(objects));
-    }, [objects]); // Update local storage whenever `objects` state changes
+        localStorage.setItem(`${roomId}-objects`, JSON.stringify(objects));
+    }, [objects, roomId]);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => {
@@ -158,7 +158,14 @@ const RoomPage: FC = () => {
                 </div>
             );
         } else if (fileType === 'application/pdf') {
-            return (
+            return !window.navigator.pdfViewerEnabled ? (
+                <div className="text-center">
+                    <p className='text-slate-500'>Your browser does not support PDFs. Please download the PDF to view it:</p>
+                    <a href={url} download className="text-blue-500 underline">
+                        Download PDF
+                    </a>
+                </div>
+            ) : (
                 <iframe src={url} className="w-full h-full border-0" title=""></iframe>
             );
         } else {

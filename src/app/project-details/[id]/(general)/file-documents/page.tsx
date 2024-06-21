@@ -110,6 +110,8 @@ const File: FC = () => {
         if (index < files.length) {
             alert("Cannot delete predefined files!");
         } else {
+            const roomIdToDelete = createdRooms[index - files.length].id;
+            localStorage.removeItem(`${roomIdToDelete}-objects`);
             setCreatedRooms((rooms) => rooms.filter((_, i) => i !== index - files.length));
         }
     };
@@ -289,7 +291,7 @@ const File: FC = () => {
             )}
 
             {!isHome && currentRoomId && RoomComponent && (
-                <RoomComponent roomId={currentRoomId} />
+                <RoomComponent key={currentRoomId} roomId={currentRoomId} />
             )}
 
             {changingIconForRoomIndex !== null && (
