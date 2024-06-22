@@ -2,11 +2,11 @@
 
 import { taskFormType, taskType } from '@/types'
 import { FC, useState } from 'react'
-import { Card } from '../../../../../../components/ui/card'
-import { Button } from '../../../../../../components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { PencilIcon, Trash2 } from 'lucide-react'
-import { Checkbox } from '../../../../../../components/ui/checkbox'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../../../../components/ui/accordion'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import CreateTask from './CreateTask'
 
 interface TaskCardProps {

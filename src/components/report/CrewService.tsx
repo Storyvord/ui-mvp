@@ -18,6 +18,7 @@ export interface CrewMember {
       throw new Error('Failed to fetch data');
     }
     const data: CrewData[] = await response.json();
+    console.log(data)
     return data;
   };
   

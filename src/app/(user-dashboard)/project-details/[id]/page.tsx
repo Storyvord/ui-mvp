@@ -7,11 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const page = async ({ params }: { params: { id: string } }) => {
-  const res = await fetch(
-    `https://sv-aibackend.azurewebsites.net/api/crew/complete-project-details/?project_id=${params.id}`
-  );
-  const projectDetails = await res.json();
+const page = async ({params}: {params: {id: string;}}) => {
+  const res = await fetch(`https://sv-aibackend.azurewebsites.net/api/project/complete-project-details/?project_id=${params.id}`)
+  const projectDetails = await res.json()
 
   return (
     <div className="flex flex-col items-center  min-h-screen py-2 w-full h-full">
@@ -55,14 +53,11 @@ const page = async ({ params }: { params: { id: string } }) => {
             </CardDescription>
           </div>
           <div className="mt-4">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Location
-            </h2>
-            {projectDetails.locations && (
-              <p className="text-base text-gray-600 dark:text-gray-200">
-                {projectDetails.locations[0]}
-              </p>
-            )}
+            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Location</h2>
+            {
+              projectDetails.locations && (<p className="text-base text-gray-600 dark:text-gray-200">{projectDetails.locations[0]}</p>)
+            }
+            
           </div>
         </CardContent>
       </Card>

@@ -3,7 +3,7 @@
 const nextConfig = {
    reactStrictMode: false,
   images: {
-    domains: ['images.unsplash.com','res.cloudinary.com'], // Allow images from any domain
+    domains: ['images.unsplash.com','res.cloudinary.com', 'storyvord.com'], // Allow images from any domain
   },
 };
 
