@@ -8,7 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1100 },
-        items: 4,
+        items: 3,
         slidesToSlide: 1,
     },
     tablet: {
@@ -74,14 +74,13 @@ const Work = () => {
     return (
         <section>
             <div className="container max-w-full p-6 lg:p-20 bg-[#092679] flex justify-center items-start relative">
-                <div className="text-white text-left w-full lg:w-4/5 py-4">
+                <div className="text-white text-left w-full lg:w-4/5 py-4 relative">
                     <h2 className="text-[30px] lg:text-[40px] font-bold font-barlow-2 uppercase">Our Work</h2>
                     <p className="font-Josefin-Sans text-[16px] lg:text-[20px] py-2">Content for any audience, goal, or budget</p>
-                    <div className="relative text-white z-[100]">
-
+                    <div className="absolute right-0 bottom-[10px] sm:top-[20px] text-white z-[100]">
                         <Image width={120} height={100}
                             src="https://storyvord.com/img/drag.svg"
-                            className="w-[60px] h-[50px] lg:w-[120px] lg:h-[100px] hover:scale-75 transform-none absolute right-0 bottom-[-470px] sm:top-[-80px]  cursor-pointer"
+                            className="w-[60px] h-[50px] sm:w-[90px] sm:h-[75px] lg:w-[120px] lg:h-[100px] hover:scale-75 transform-none  cursor-pointer"
                             alt="drag"
                             onClick={handleNext}
                         />
@@ -94,6 +93,8 @@ const Work = () => {
                             arrows={false}
                             showDots={false}
                             ref={carouselRef}
+                            autoPlay
+                            autoPlaySpeed={5000}
                         >
                             {sliderImageUrl.map((imageUrl, index) => (
                                 <div className="mx-2 relative overflow-x-hidden overflow-y-hidden" key={index}>

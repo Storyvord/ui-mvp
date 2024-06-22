@@ -55,7 +55,7 @@ const page = async ({params}: {params: {id: string;}}) => {
           <div className="mt-4">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Location</h2>
             {
-              projectDetails.locations && (<p className="text-base text-gray-600 dark:text-gray-200">{projectDetails.locations[0]}</p>)
+              projectDetails.location_details.length>0 && (<div className="text-base text-gray-600 dark:text-gray-200 flex">{projectDetails.location_details.map((item:any)=>(<p key={item.location}>{item.location}, </p>))}</div>)
             }
             
           </div>

@@ -10,14 +10,14 @@ import Footer from "@/components/homepage/Footer";
 
 const Page = () => {
   return (
-    <div>
+    <div className="width-full overflow-x-hidden">
       <Navbar/>
       <Hero />
       <About />
       <Work />
       <GetStarted />
       <Location />
-      {/* <Testimonials /> */}
+      <Testimonials />
       <Footer/> 
 
     </div>

@@ -4,17 +4,18 @@ const Location = () => {
 
   return (
     <>
-     <section className='overflow-hidden'>
-      <div className='relative h-max'>
-       <div className=" sm:realtive hidden sm:flex justify-evenly sm:bg-gradient-to-b from-[#092579] to-[#25D765] h-[230vh] w-[40%] md:w-[37%] lg:w-[33%]
-         md:ml-[150px] top-0 bottom-0">
+     <section className='relative overflow-hidden'>
+        <div className=" sm:absolute hidden sm:flex justify-evenly sm:bg-gradient-to-b from-[#092579] to-[#25D765] h-full w-[40%] md:w-[37%] lg:w-[33%]
+         lg:ml-[150px] top-0 bottom-0 -z-10">
           {/* <img src="https://storyvord.com/img/line2.png" alt="" className='' /> */}
           <div className=" bg-gray-100 bg-opacity-10 w-0.5 min-h-[100%]"></div>
           <div className=" bg-gray-100 bg-opacity-10 w-0.5 min-h-[100%]"></div>
         </div>
-       <div className=" ml-[2vw] md:ml-[19vw] flex-col mt-[7vh] sm:mt-[-210vh]">
+      <div className='h-max'>
+       
+       <div className=" ml-[2vw] lg:ml-[19vw] flex-col mt-[7vh] ">
          <div className="grid grid-cols-1 sm:grid-cols-2 ">
-           <h1 className="text-black sm:text-white h-[150px] w-[280px] p-4 md:w-[25vw] 2xl:w-[19vw] text-2xl md:text-4xl font-barlow font-black">
+           <h1 className="text-black sm:text-white h-[150px] w-[280px] p-4 md:w-[25vw] 2xl:w-[19vw] text-2xl md:text-4xl font-barlow font-black z-1">
             MOST POPULAR LOCATION WE WORK ON</h1>
            <p className=" des text-[#454242] text-[20px] md:text-[25px] 2xl:text-[28px] font-normal  lg:mr-[100px] lg:ml-[50px] 2xl:ml-[-15vw] md:w-[35vw] font-sans_serif">
            With our network of creators, you can choose any location for your
@@ -38,11 +39,11 @@ const Location = () => {
             ))}
           </div>
           {/* trusted brands */}
-          <div className="loc_3 flex flex-col sm:flex-row mt-[40px] mb-[20px]">
+          <div className="loc_3 flex flex-col items-center sm:flex-row mt-[40px] mb-[20px]">
             <h1 className=" text-lg sm:text-xl md:text-2xl lg:text-3xl lg:w-[20vw] font-black text-black sm:text-white font-['Barlow'] pr-4 pl-2">
               TRUSTED BY MANY BRANDS
             </h1>
-            <div className=" grid grid-cols-3 lg:grid-cols-5 gap-y-6 gap-x-8 sm:ml-[11vw] lg:p-[25px] p-[20px]">
+            <div className=" flex flex-wrap justify-center gap-3 sm:ml-[11vw] lg:p-[25px] p-[20px]">
               <Image width={200} height={200}
                 className="w-[90px] lg:w-[80px] xl:w-[105px] grayscale hover:grayscale-0"
                 src="https://storyvord.com/img/brand-logo11.svg"
