@@ -28,7 +28,7 @@ interface PageProps {
   projectsData?: ProjectData[];
 }
 
-const Page: React.FC<PageProps> = ({ profileData, projectsData }) => {
+const Page: React.FC = () => {
   const defaultProfileData = {
     name: "Scott P.",
     role: "As an animator",
@@ -77,8 +77,8 @@ const Page: React.FC<PageProps> = ({ profileData, projectsData }) => {
     },
   ];
 
-  const profile = profileData || defaultProfileData;
-  const projects = projectsData || projectDataFallback;
+  const profile = defaultProfileData;
+  const projects = projectDataFallback;
 
   return (
     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">

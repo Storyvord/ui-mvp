@@ -14,7 +14,7 @@ function Footer() {
         <div className='flex flex-col sm:flex-row sm:gap-16 md:gap-20 md:ml-1 sm:mr-3 md:mr-10 lg:ml-8 xl:ml-[5vw]'>
           {/* Contact Us */}
           <div className=' relative w-[85vw] sm:w-[40vw] xl:w-[35vw] 2xl:w-[30vw] h-full sm:pb-20 bg-gradient-to-b from-[#25D765] to-[#092579]'>
-            <Image width={200} height={200} src="https://storyvord.com/img/camera-stand-img.png" alt="image" className="w-full h-full absolute mix-blend-overlay object-cover" />
+            <Image width={200} height={200} src="https://storyvord.com/img/camera-stand-img.png" alt="image" className="w-full h-full absolute mix-blend-overlay object-cover" priority />
             <Image width={200} height={200} src="https://storyvord.com/img/line2.png" alt="image" className="w-full h-full absolute mix-blend-overlay object-cover" />
             <div className="text-white p-5 pl-3 pr-10 lg:pl-10  mt-14 z-10">
               <h1 className=" font-barlow-2 text-2xl md:text-4xl font-bold md:font-extrabold">CONTACT US</h1>
@@ -32,7 +32,7 @@ function Footer() {
               </div>
             </div>
             <Image width={200} height={200} src="https://storyvord.com/img/footr-reel-img.svg" alt="image"
-              className=" scale-50 xsm:scale-75 md:scale-90 absolute bottom-[-45px] xsm:bottom-[-27px] md:bottom-[-10px] right-[-82px] xsm:right-[-78px]" />
+              className="w-auto h-auto scale-50 xsm:scale-75 md:scale-90 absolute bottom-[-45px] xsm:bottom-[-27px] md:bottom-[-10px] right-[-82px] xsm:right-[-78px]" />
           </div>
           {/* Have a Question */}
           <div className='mt-8 ml-4 mr-4 sm:mt-16 sm:w-[45vw] lg:w-[45vw] xl:w-[40vw]'>
@@ -61,7 +61,7 @@ function Footer() {
           <div className=' flex justify-between flex-wrap'>
             <div className=" w-full md:w-3/4 xl:w-[20vw] flex flex-col mx-auto xl:mx-0 justify-center mb-10">
               <div className=' flex justify-center'>
-                <Image width={200} height={200} src="https://storyvord.com/img/logo.svg" alt="logo" className=' cursor-pointer w-[200px] h-[100px] md:w-[250px] md:h-[150px] lg:w-[150px] lg:h-[75px]' />
+                <Image width={200} height={200} src="https://storyvord.com/img/logo.svg" alt="logo" className=' cursor-pointer w-[200px] h-auto md:w-[250px]  lg:w-[150px]' />
               </div>
               <p className=" font-josefin text-center xl:text-left">Storyvord makes it easy to get creative content for your business, produced quickly and at scale, and supported by a strong creator team and with exclusive performance statistics.</p>
               <div className="flex gap-4 mt-4 ml-2 justify-center">

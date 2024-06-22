@@ -48,7 +48,7 @@ const About = () => {
     </div>
   </div>
   <div className="w-[90%] sm:w-[80%] mt-8 xsm:mt-4">
-    <Image width={200} height={200} src="https://storyvord.com/img/video-bg.png" alt="Video Background" className="w-full" />
+    <Image width={200} height={200} src="https://storyvord.com/img/video-bg.png" alt="Video Background" className="w-full" priority />
   </div>
 </div>
 
@@ -63,15 +63,15 @@ const About = () => {
                     < Image width={200} height={200} src={item.image}  className="w-[130px] mx-auto"alt="" />
                   </div> 
                   
-                    <div className=" overflow-hidden group relative left-0 top-[-55px] bg-[rgb(255,_255,_255)] rounded-lg w-[90px] h-[90px] [box-shadow:-12px_11px_18px_rgba(0,_0,_0,_.[15vw])] flex flex-col justify-center items-center before:absolute before:top-full before:left-0 before:h-full before:w-full before:bg-custom-gradient before:transition-transform before:duration-300 hover:before:-translate-y-full ">
+                    <div className=" overflow-hidden group absolute left-3 top-[80px] bg-[rgb(255,_255,_255)] rounded-lg w-[90px] h-[90px] [box-shadow:-12px_11px_18px_rgba(0,_0,_0,_.[15vw])] flex flex-col justify-center items-center before:absolute before:top-full before:left-0 before:h-full before:w-full before:bg-custom-gradient before:transition-transform before:duration-300 hover:before:-translate-y-full ">
                       <Image width={200} height={200} src={item.image} className=" w-[75px] relative z-10 block transition-colors duration-300 group hover:brightness-[100]" alt="" />
                     </div>
                  
                   
-                    <h1 className=" relative  text-2xl font-bold font-barlow">
+                    <h1 className=" relative text-lg  sm:text-2xl font-bold font-barlow mt-[30px] sm:mt-[50px]">
                       {item.title}
                     </h1> 
-                    <h3 className=" relative  text-[20px] pr-[3vw] leading-7 font-Josefin-Sans ">
+                    <h3 className=" relative text-[16px]  sm:text-[20px] pr-[3vw] leading-7 font-Josefin-Sans ">
                      {item.desc}
                     </h3>
             </div>

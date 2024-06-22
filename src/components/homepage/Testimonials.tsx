@@ -1,38 +1,45 @@
 "use client"
 
-import { useRef, useEffect } from "react";
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import { useRef } from "react";
 import Image from "next/image";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
+const responsive = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1100 },
+        items: 2,
+        slidesToSlide: 1,
+    },
+    tablet: {
+        breakpoint: { max: 1100, min: 768 },
+        items: 1,
+        slidesToSlide: 1,
+    },
+    mobile: {
+        breakpoint: { max: 767, min: 0 },
+        items: 1,
+        slidesToSlide: 1,
+    },
+};
+
+
 
 const Testimonials = () => {
-    const carouselRef = useRef<OwlCarousel>(null);
+    const carouselRef = useRef<Carousel>(null);
 
     const handlePrevSlide = () => {
         if (carouselRef.current) {
-            carouselRef.current.prev(300);
+            carouselRef.current.previous(1);
         }
     };
 
     const handleNextSlide = () => {
         if (carouselRef.current) {
-            carouselRef.current.next(300);
+            carouselRef.current.next(1);
         }
     };
 
-    const handleTouchStart = () => {
-        // Log touch start event
-        console.log('Touch start event detected');
-    };
-
-    useEffect(() => {
-        document.addEventListener('touchstart', handleTouchStart, { passive: true });
-
-        return () => {
-            document.removeEventListener('touchstart', handleTouchStart);
-        };
-    }, []);
 
     const data = [
         {
@@ -51,13 +58,30 @@ const Testimonials = () => {
 
     return (
         <section>
-            <div className='text-white h-[600px] bg-[#092679] flex flex-col items-center relative'>
+            <div className='text-white h-auto bg-[#092679] flex flex-col items-center relative pb-[50px]'>
                 <h2 className="md:text-[37px] text-[23px] lg:text-[48px] font-barlow-2 font-bold uppercase text-center tracking-wide lg:py-20 py-10 p-8 mt-[20px] mb-15">
                     Why Creators love <span className="uppercase text-green-400 tracking-wide">Storyvord?</span>
                 </h2>
 
                 <div className='lg:w-[60%] md:w-[35%] w-[90%] overflow-hidden lg:mx-auto my-[-2px] relative'>
-                    <OwlCarousel
+                    <Carousel
+                        responsive={responsive}
+                        infinite={true}
+                        // stagePadding={0}
+                        arrows={false}
+                        showDots={false}
+                        ref={carouselRef}
+                    >
+                        {data.map((d, index) => (
+                            <div key={index} className='testimonial-item max-w-[500px] mx-auto'>
+                                <div className='text-center rounded-3xl pl-3 lg:p-8 p-4 mx-3 bg-[#000821] lg:h-110% h-90%'>
+                                    <p className='lg:text-[16px] text-[15px] font-Josefin-Sans font-semibold text-white py-2'>{d.description}</p>
+                                    <h3 className='lg:text-[30px] text-[24px] font-extrabold font-barlow text-white uppercase py-1'>{d.name}</h3>
+                                </div>
+                            </div>
+                        ))}
+                    </Carousel>
+                    {/* <OwlCarousel
                         className='owl-theme'
                         ref={carouselRef}
                         loop
@@ -82,14 +106,14 @@ const Testimonials = () => {
                         }}
                     >
                         {data.map((d, index) => (
-                            <div key={index} className='testimonial-item'>
+                            <div key={index} className='testimonial-item max-w-[500px] mx-auto'>
                                 <div className='text-center rounded-3xl pl-3 lg:p-8 p-4 mx-3 bg-[#000821] lg:h-110% h-90%'>
                                     <p className='lg:text-[16px] text-[15px] font-Josefin-Sans font-semibold text-white py-2'>{d.description}</p>
                                     <h3 className='lg:text-[30px] text-[24px] font-extrabold font-barlow text-white uppercase py-1'>{d.name}</h3>
                                 </div>
                             </div>
                         ))}
-                    </OwlCarousel>
+                    </OwlCarousel> */}
                 </div>
                 <div className='flex lg:flex-col flex-row mt-10 space-x-4'>
                     <div className="lg:absolute left-[15%] top-[60%] transform -translate-y-1/2 cursor-pointer lg:z-20" onClick={handlePrevSlide}>
