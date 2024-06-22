@@ -5,7 +5,7 @@ export const useCreateProject = () => {
     return useMutation({
         mutationFn: createProject,
         onSuccess: (data) => {
-          console.log("Form submitted successfully:", data);
+          return data
         },
         onError: (error) => {
           console.error("Error submitting form:", error);

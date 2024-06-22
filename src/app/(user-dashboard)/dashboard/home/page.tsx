@@ -35,9 +35,10 @@ type projectArray = project[];
 
 const page = async () => {
   const res = await fetch(
-    "https://sv-aibackend.azurewebsites.net/api/project/list-projects/?status=PENDING"
+    "https://sv-aibackend.azurewebsites.net/api/project/list-projects"
   );
   const projectsData = await res.json()
+  console.log(projectsData)
 
   const OngoingProjecs = 
     projectsData.map((project: any) => {

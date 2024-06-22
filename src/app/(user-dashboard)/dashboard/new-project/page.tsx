@@ -29,6 +29,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
 import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
+import { redirect, useRouter } from "next/navigation";
 
 interface OptionType {
   label: string;
@@ -83,14 +84,15 @@ const CreateProjectPage = () => {
       };
     }
   };
-
+  const router = useRouter()
   // 2. Define a submit handler.
   async function onSubmit(formData: projectFormInputType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     try {
-      await createProjectMutation(formData);
-      form.reset(defaultFormValues);
+      const project = await createProjectMutation(formData);
+      console.log(project)
+      router.push(`/project-details/${project.project_id}`)
     } catch (e) {
       form.setError("root", {type: 'manual', message:"Form submission failed"});
       console.error(e);
