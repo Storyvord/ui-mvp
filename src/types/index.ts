@@ -54,3 +54,27 @@ export type calenderEventType = {
   }
 
   export type taskFormType = z.infer<typeof taskFormSchema>
+
+
+  export interface CrewMember {
+    name: string;
+    yoe: number; // Years of Experience
+    minRatePerDay: string; // Keeping it as string if that's how it comes from the backend
+    maxRatePerDay: string; // Keeping it as string if that's how it comes from the backend
+    location: string;
+    profile_pic: string;
+    preferred_because: string;
+  }
+  
+  export interface CrewRequirement {
+    role: string;
+    location: string;
+    crewMembers: CrewMember[];
+  }
+  
+  export interface CrewData {
+    project_id: string;
+    project_name: string;
+    crew_requirements_set: CrewRequirement[];
+  }
+  
