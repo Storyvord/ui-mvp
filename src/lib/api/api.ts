@@ -17,7 +17,14 @@ export const createProject = async (formData: projectFormInputType) =>{
       return res.json();
 }
 
-
+export const fetchProjectDetails = async ( {project_id}: {  project_id: string }) => {
+    const res = await fetch(`${API_URL}/api/project/complete-project-details/?project_id=${project_id}`)
+    if (!res.ok) {
+        throw new Error('Failed to fetch project details');
+    }
+    
+    return  res.json();
+}
 
 
 export const fetchLocation = async ( params: { search: string, page: number }) => {
