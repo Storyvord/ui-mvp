@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Logo from '../Logo/logo.png'; // Import the same logo used in sign-in
+import Logo from '../Logo/logo.png'; 
 
 interface SignUpFormData {
     email: string;
