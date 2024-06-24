@@ -34,10 +34,17 @@ const SignUp: React.FC = () => {
         router.push('/auth/sign-in');
     };
 
+    const handleLogoClick = () => {
+        router.push('/');
+    };
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
             <div className="w-full max-w-sm p-6 bg-white rounded shadow-md relative">
-                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[#04052e] p-2 rounded-full">
+                <div
+                    className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[#04052e] p-2 rounded-full cursor-pointer"
+                    onClick={handleLogoClick}
+                >
                     <img src="https://storyvord.com/img/logo.svg" alt="Logo" className="h-16" />
                 </div>
                 <div className="mt-10">

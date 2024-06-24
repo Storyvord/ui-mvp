@@ -24,7 +24,6 @@ const SignIn: React.FC = () => {
             router.push('/dashboard/home');
         } catch (err) {
             console.error(err);
-
         } finally {
             setIsSubmitting(false);
         }
@@ -34,10 +33,17 @@ const SignIn: React.FC = () => {
         router.push('/auth/sign-up');
     };
 
+    const handleLogoClick = () => {
+        router.push('/');
+    };
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
             <div className="w-full max-w-sm p-6 bg-white rounded shadow-md relative">
-                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[#04052e] p-2 rounded-full">
+                <div
+                    className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[#04052e] p-2 rounded-full cursor-pointer"
+                    onClick={handleLogoClick}
+                >
                     <img src="https://storyvord.com/img/logo.svg" alt="Logo" className="h-16" />
                 </div>
                 <div className="mt-10">
@@ -85,9 +91,9 @@ const SignIn: React.FC = () => {
                     </form>
                     <div className="mt-4 text-center">
                         <span className="text-sm text-slate-600">
-                            Looking to Sign up?{' '}
+                            Don't have an account yet?{' '}
                             <span className="underline text-indigo-500 hover:text-indigo-700 cursor-pointer" onClick={handleSignUpClick}>
-                                Get started
+                                Create Account
                             </span>
                         </span>
                     </div>
