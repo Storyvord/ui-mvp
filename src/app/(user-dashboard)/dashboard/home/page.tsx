@@ -43,7 +43,7 @@ const page = async () => {
   const OngoingProjecs = 
     projectsData.map((project: any) => {
       return (
-        <Link key={project.name} href={`/project-details/${project.project_id
+        <Link key={project.id} href={`/project-details/${project.project_id
         }`}>
           <OngoingProjectCard id={project.project_id.toString()} name={project.project_name} />
         </Link>

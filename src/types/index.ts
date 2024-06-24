@@ -78,3 +78,19 @@ export type calenderEventType = {
     crew_requirements_set: CrewRequirement[];
   }
   
+  export type SelectedCrewMember = {
+    id: number;
+    profile_pic: string;
+    name: string;
+    userid: string;
+    crewType: string;
+    role: string;
+    services: string;
+    tags: string;
+    expertise: string;
+    yoe: number;
+    minRatePerDay: string;
+    maxRatePerDay: string;
+    next_available_date: string;
+    location: string;
+  };
