@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Logo from '../Logo/logo.png'; // Import the same logo used in sign-in
 
 interface SignUpFormData {
     email: string;
@@ -40,15 +42,12 @@ const SignUp: React.FC = () => {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
-            <div className="w-full max-w-sm p-6 bg-white rounded shadow-md relative">
-                <div
-                    className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[#04052e] p-2 rounded-full cursor-pointer"
-                    onClick={handleLogoClick}
-                >
-                    <img src="https://storyvord.com/img/logo.svg" alt="Logo" className="h-16" />
+            <div className="w-full max-w-sm p-6 bg-white rounded shadow-md">
+                <div className="flex justify-center m-2 cursor-pointer" onClick={handleLogoClick}>
+                    <Image src={Logo} alt="Logo" />
                 </div>
-                <div className="mt-10">
-                    <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+                <div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="rounded-md shadow-sm -space-y-px">
                             <div className="py-2">
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
