@@ -97,7 +97,7 @@ const SignUp: React.FC = () => {
                                 />
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
-                            <div className="mb-6 py-1">
+                            <div className="mb-8">
                                 <Label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</Label>
                                 <Input
                                     type="password"
