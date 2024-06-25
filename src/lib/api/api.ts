@@ -18,14 +18,44 @@ export const createProject = async (formData: projectFormInputType) =>{
 }
 
 export const fetchProjectDetails = async ( {project_id}: {  project_id: string }) => {
-    const res = await fetch(`${API_URL}/api/project/complete-project-details/?project_id=${project_id}`)
-    if (!res.ok) {
-        throw new Error('Failed to fetch project details');
+    try{
+        const res = await fetch(`${API_URL}/api/project/complete-project-details/?project_id=${project_id}`)
+        if (!res.ok) {
+            throw new Error('Failed to fetch project details');
+        }
+        
+        return  res.json();
     }
-    
-    return  res.json();
+    catch(err){
+        console.log(err)
+    }
 }
 
+
+export const deleteProject = async ( {project_id}: {  project_id: string }) => {
+    const res = await fetch(`${API_URL}/api/project/delete-project/?project_id=${project_id}`, {
+        method: 'DELETE',
+    })
+    if (!res.ok) {
+        throw new Error('Failed to delete project');
+    }
+    return res.json();
+}
+
+
+export const completeProject = async ( {project_id}: {  project_id: string }) => {
+    const res = await fetch(`${API_URL}/api/project/mark-project-as-completed/?project_id=${project_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json', 
+      },
+      body: JSON.stringify({project_id}),
+    })
+    if (!res.ok) {
+        throw new Error('Failed to mark project as completed');
+    }
+    return res.json();
+}
 
 export const fetchLocation = async ( params: { search: string, page: number }) => {
     const { search, page } = params;
