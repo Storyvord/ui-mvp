@@ -4,6 +4,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Logo from '../Logo/logo.png';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 interface SignUpFormData {
     email: string;
@@ -50,8 +53,8 @@ const SignUp: React.FC = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="rounded-md shadow-sm -space-y-px">
                             <div className="py-2">
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                <input
+                                <Label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</Label>
+                                <Input
                                     type="email"
                                     id="email"
                                     placeholder="Enter your email address"
@@ -62,13 +65,13 @@ const SignUp: React.FC = () => {
                                             message: 'Invalid email address'
                                         }
                                     })}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-10 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                                 />
                                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                             </div>
                             <div className="py-1">
-                                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                                <input
+                                <Label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</Label>
+                                <Input
                                     type="text"
                                     id="username"
                                     placeholder="Enter your username"
@@ -76,13 +79,13 @@ const SignUp: React.FC = () => {
                                         required: 'Username is required',
                                         minLength: { value: 3, message: 'Username must be at least 3 characters' }
                                     })}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-10 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                                 />
                                 {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
                             </div>
                             <div className="py-2">
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                                <input
+                                <Label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</Label>
+                                <Input
                                     type="password"
                                     id="password"
                                     placeholder="Enter your password"
@@ -90,13 +93,13 @@ const SignUp: React.FC = () => {
                                         required: 'Password is required',
                                         minLength: { value: 6, message: 'Password must be at least 6 characters' }
                                     })}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-10 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                                 />
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
-                            <div className="mb-6">
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
-                                <input
+                            <div className="mb-6 py-1">
+                                <Label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</Label>
+                                <Input
                                     type="password"
                                     id="confirmPassword"
                                     placeholder="Confirm your password"
@@ -104,17 +107,17 @@ const SignUp: React.FC = () => {
                                         required: 'Confirm Password is required',
                                         validate: value => value === getValues().password || 'Passwords do not match'
                                     })}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-10 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                                 />
                                 {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
                             </div>
                         </div>
-                        <button type="submit"
+                        <Button type="submit"
                             className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting ? 'bg-gray-400' : 'bg-black hover:bg-slate-800 hover:text-white'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? 'Signing Up...' : 'Sign Up'}
-                        </button>
+                        </Button>
                     </form>
                     <div className="mt-4 text-center">
                         <span className="text-sm text-slate-600">
