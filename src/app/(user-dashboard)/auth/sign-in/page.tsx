@@ -90,7 +90,7 @@ const SignIn: React.FC = () => {
                     </form>
                     <div className="mt-4 text-center">
                         <span className="text-sm text-slate-600">
-                            Don't have an account yet?{' '}
+                            Don&apos;t have an account yet?{' '}
                             <span className="underline text-indigo-500 hover:text-indigo-700 cursor-pointer" onClick={handleSignUpClick}>
                                 Create Account
                             </span>
