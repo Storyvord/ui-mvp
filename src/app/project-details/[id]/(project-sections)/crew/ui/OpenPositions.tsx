@@ -1,7 +1,9 @@
 import React, { useState, FormEvent } from 'react';
-
 interface Position {
   positionName: string;
+  displayName: string;
+  department: string;
+  onSet: boolean;
   description: string;
   id: number;
 }
@@ -11,6 +13,13 @@ const OpenPositions: React.FC = () => {
   const [positions, setPositions] = useState<Position[]>([]);
   const [isChecked, setIsChecked] = useState(false);
   const [activePositionId, setActivePositionId] = useState<number | null>(null);
+  const [isImage1, setIsImage1] = useState(false);
+  const [isImage2, setIsImage2] = useState(false);
+
+  const [isImage3, setIsImage3] = useState(false);
+  const [isImage4, setIsImage4] = useState(false);
+
+
 
   const handleAddPositionClick = () => {
     setIsFormOpen(true);
@@ -21,7 +30,10 @@ const OpenPositions: React.FC = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newPosition: Position = {
-      positionName: formData.get('displayName') as string,
+      positionName: formData.get('positionSelect') as string,
+      displayName: formData.get('displayName') as string,
+      department: formData.get('departmentSelect') as string,
+      onSet: isChecked,
       description: formData.get('description') as string,
       id: Date.now(), // Unique ID for each position
     };
@@ -42,6 +54,20 @@ const OpenPositions: React.FC = () => {
   const handleShowPositionClick = (id: number) => {
     setActivePositionId(id); // Set active position to display its details
   };
+
+  const handleImageChange = () => {
+    setIsImage1(!isImage1);
+  };
+  const handleImageChange2 = () => {
+    setIsImage2(!isImage2);
+  };
+  const handleImageChange3 = () => {
+    setIsImage3(!isImage3);
+  };
+  const handleImageChange4 = () => {
+    setIsImage4(!isImage4);
+  };
+
 
   return (
     <div>
@@ -98,13 +124,11 @@ const OpenPositions: React.FC = () => {
                     className="h-10 rounded-sm border-[1.1px] border-gray-300"
                   >
                     <option value="">Select an option</option>
-<option value="position">ADMINISTRATORS</option>
-<option value="position">Project administrator</option>
-<option value="position">PRODUCTION</option>
-<option value="position">Producer</option>
-<option value="position">Co-Producer</option>
-
-
+                    <option value="ADMINISTRATORS">ADMINISTRATORS</option>
+                    <option value="Project administrator">Project administrator</option>
+                    <option value="PRODUCTION">PRODUCTION</option>
+                    <option value="Producer">Producer</option>
+                    <option value="Co-Producer">Co-Producer</option>
                   </select>
                 </label>
                 <br />
@@ -126,10 +150,10 @@ const OpenPositions: React.FC = () => {
                     className="h-10 rounded-sm border-[1.1px] border-gray-300"
                   >  
                     <option value="" >Select an option</option>
-                    <option value="department1">All</option>
-                    <option value="department2">Administrators</option>
-                    <option value="department3">Production</option>
-                    <option value="department3">Misc.</option>
+                    <option value="All">All</option>
+                    <option value="Administrators">Administrators</option>
+                    <option value="Production">Production</option>
+                    <option value="Misc.">Misc.</option>
                   </select>
                 </label>
                 <br />
@@ -181,19 +205,71 @@ const OpenPositions: React.FC = () => {
       )}
          
       {activePositionId !== null && !isFormOpen && (
-          //  form details
         <div className="mt-5 p-5 border-[1.1px] border-gray-300 rounded-md">
           {positions.map((position) => (
             position.id === activePositionId && (
-              <div key={position.id}>
-                <h3 className="text-xl font-bold">Project admisitrator</h3>
-                <p><strong>Position Name:</strong> {position.positionName}</p>
-                <p><strong>Description:</strong> {position.description}</p>
-                <p><strong>Description:</strong> {position.description}</p>
+              <div className=' flex justify-between'>
+                      <div className=' w-[40%] flex flex-col items-center  '>
 
+                                <div className='border-[1.1px] border-gray-300 w-[80%] h-[200px] rounded-md flex justify-center items-center'> <img src="https://cdn-icons-png.flaticon.com/128/2984/2984971.png" alt="" /> </div>
+                                    <div><h1 className='text-[25px] font-bold'>  {position.positionName} </h1> <p className='text-gray-400'>not assigned yet</p></div>
+                                <div className=" w-[80%] h-[70px] mt-2 flex ">
+                                     <div className=" w-[50px] mr-3 flex flex-col items-center "><img src="https://cdn-icons-png.flaticon.com/128/11526/11526855.png" alt="" className='w-10 h-10 border-[1.1px] border-gray-300 p-3 rounded-md'/>   <div className="text-[10px]">Mark</div>   </div>
+                                     <div className=" w-[50px] mr-3 flex flex-col items-center "><img src="https://cdn-icons-png.flaticon.com/128/593/593374.png" alt="" className='w-10 h-10 border-[1.1px] border-gray-300 p-2 rounded-md'/>   <div className="text-[10px] text-center">Item seen by</div>   </div>
+                                     <div className=" w-[50px] mr-3 flex flex-col items-center "><img src="https://cdn-icons-png.flaticon.com/128/10065/10065140.png" alt="" className='w-10 h-10 border-[1.1px] border-gray-300 p-3 rounded-md'/>   <div className="text-[10px]">Delete</div>   </div>
+                                </div>
 
-                <div>Hellooooooooooo</div>
+                      </div>
+              <div className=' border-blue-500 w-[60%] h-fit p-3 rounded-sm '> 
+                   
+           <div key={position.id} className={` ${isImage1 ? 'h-[400px]' : 'h-[50px]'}  rounded-md   `}>
+            <div className="   h-[50px] px-2 flex items-center justify-between  rounded-sm  bg-gray-200"> <h3 className="text-xl font-bold ">General Information</h3>  <img  src={isImage1 ? 'https://cdn-icons-png.flaticon.com/128/3106/3106683.png' : 'https://cdn-icons-png.flaticon.com/128/2985/2985150.png'} alt=""  className='h-[20px] w-[20px] m-4'  onClick={handleImageChange}/></div>
+               
+                 <div className={`relative ${isImage1 ? 'flex-col' : 'hidden'} `}>
+                <p><strong>Display Name: <br /> </strong>  {position.positionName}</p>
+                {/* <p><strong>Department:</strong> {position.department}</p> */}
+                <p><strong>Description: <br /></strong> {position.description} </p>
+                <p><strong>On Set: <br /></strong > {position.onSet ? 'Yes' : 'No'}</p>
+                </div>
+                    <div className={`w-full  h-36 border-[1.1px] border-gray-400 mt-3 p-2 text-[20px]   ${isImage1 ? 'flex-col' : 'hidden'}`}>Access rights after invitation ⓘ </div>
               </div>
+
+              {/* Crew suggestions */}
+               <div key={position.id} className={` my-2 ${isImage2 ? 'h-[300px]' : 'h-[50px]'} rounded-sm   `}>
+               <div className=" h-[50px] px-2 bg-gray-200  flex items-center justify-between  rounded-sm  z-10"> <h3 className="text-xl font-bold">Crew suggestions</h3>  <img  src={isImage2 ? 'https://cdn-icons-png.flaticon.com/128/3106/3106683.png' : 'https://cdn-icons-png.flaticon.com/128/2985/2985150.png'} alt=""  className='h-[20px] w-[20px] m-4'  onClick={handleImageChange2}/></div>
+               <div className={`relative ${isImage2 ? 'flex-col' : 'hidden'}  flex flex-col justify-center items-center  h-full `}>
+                  <div className='my-2'><img src="https://cdn-icons-png.flaticon.com/128/3085/3085481.png" alt="" className='w-[50px] h-[50px]' /></div>
+                    <p className='m-2'>No external contacts have been added yet.</p>
+               <button  className="bg-blue-700 w-60 h-10 text-white flex items-center justify-center mx-2 rounded-sm text-[15px] my-2">+ Suggest external contact </button>
+
+              </div>
+
+               </div>
+               {/* My created tasks */}
+               <div key={position.id} className={` my-2 ${isImage3 ? 'h-[300px]' : 'h-[50px]'} rounded-sm `}>
+               <div className="h-[50px]  px-2 bg-gray-200  flex items-center justify-between  rounded-sm  z-10"> <h3 className="text-xl font-bold">My created tasks</h3>  <img  src={isImage3 ? 'https://cdn-icons-png.flaticon.com/128/3106/3106683.png' : 'https://cdn-icons-png.flaticon.com/128/2985/2985150.png'} alt=""  className='h-[20px] w-[20px] m-4'  onClick={handleImageChange3}/></div>
+               <div className={`relative ${isImage3 ? 'flex-col' : 'hidden'} flex flex-col justify-center items-center  h-full  `}>
+               <div className='my-2'><img src="https://cdn-icons-png.flaticon.com/128/7997/7997870.png" alt="" className='w-[50px] h-[50px] relative -top-2' /></div>
+                    <p className='m-2 relative -top-2'>There are no tasks available.</p>
+               <button  className="bg-blue-700 w-36 h-10 text-white flex items-center justify-center mx-2 rounded-sm text-[15px] my-2 relative -top-2 ">+ Create task </button>
+
+              </div>
+               </div>
+
+               {/* comments */}
+               <div key={position.id} className={` my-2 ${isImage4 ? 'h-[300px]' : 'h-[50px]'} rounded-sm  `}>
+               <div className=" h-[50px] px-2 bg-gray-200   flex items-center justify-between  rounded-sm  z-10"> <h3 className="text-xl font-bold">Comments</h3>  <img  src={isImage4 ? 'https://cdn-icons-png.flaticon.com/128/3106/3106683.png' : 'https://cdn-icons-png.flaticon.com/128/2985/2985150.png'} alt=""  className='h-[20px] w-[20px] m-4'  onClick={handleImageChange4}/></div>
+               <div className={`relative ${isImage4 ? 'flex-col' : 'hidden'} flex flex-col justify-center items-center  h-full  `}>
+               <div className='my-2'><img src="https://cdn-icons-png.flaticon.com/128/11198/11198445.png" alt="" className='w-[50px] h-[50px] relative -top-2' /></div>
+                    <p className='m-2 relative -top-2'>There are no comments yet.</p>
+               <button  className="bg-blue-700 w-36 h-10 text-white flex items-center justify-center mx-2 rounded-sm text-[15px] my-2 relative -top-2 ">+ Wrtie Comments </button>
+
+              </div>
+               </div>
+
+              </div>
+              </div>
+                   
             )
           ))}
           <button 
@@ -209,11 +285,14 @@ const OpenPositions: React.FC = () => {
         positions.map((position) => (
           <div key={position.id}>
             <div 
-              className="mt-5 p-5 border-[1.1px] border-gray-300 rounded-md cursor-pointer" 
-              onClick={() => handleShowPositionClick(position.id)}
-            >
-              
-              <h3 className="text-xl font-bold">{position.positionName}</h3>
+              className="mt-5 py-0 border-[1.1px] border-gray-300 rounded-md cursor-pointer flex items-center h-[55px] justify-between "  
+              onClick={() => handleShowPositionClick(position.id)}>  
+              <div className='border-2 border-red-700 flex'>
+             <div className="flex items-center justify-center border-[1.1px] border-gray-300 relative h-[55px] w-[50px]"><img src="https://cdn-icons-png.flaticon.com/128/471/471664.png" alt=""  className='h-[20px] w-[20px] flex  '/></div>
+              <h3 className="text-xl font-bold flex items-center justify-cente">{position.positionName}</h3>
+              </div>
+              <div className="  h-[65px] flex items-center justify-center  rounded-e-md"><img src="https://cdn-icons-png.flaticon.com/128/8212/8212730.png" alt="" className='h-[35px] w-[35px] '  /></div>
+
             </div>
           </div>
         ))
