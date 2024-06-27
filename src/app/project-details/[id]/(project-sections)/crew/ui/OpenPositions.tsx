@@ -287,9 +287,9 @@ const OpenPositions: React.FC = () => {
             <div 
               className="mt-5 py-0 border-[1.1px] border-gray-300 rounded-md cursor-pointer flex items-center h-[55px] justify-between "  
               onClick={() => handleShowPositionClick(position.id)}>  
-              <div className='border-2 border-red-700 flex'>
+              <div className=' flex'>
              <div className="flex items-center justify-center border-[1.1px] border-gray-300 relative h-[55px] w-[50px]"><img src="https://cdn-icons-png.flaticon.com/128/471/471664.png" alt=""  className='h-[20px] w-[20px] flex  '/></div>
-              <h3 className="text-xl font-bold flex items-center justify-cente">{position.positionName}</h3>
+              <h3 className="text-xl font-bold flex items-center justify-cente mx-2">{position.positionName}</h3>
               </div>
               <div className="  h-[65px] flex items-center justify-center  rounded-e-md"><img src="https://cdn-icons-png.flaticon.com/128/8212/8212730.png" alt="" className='h-[35px] w-[35px] '  /></div>
 
