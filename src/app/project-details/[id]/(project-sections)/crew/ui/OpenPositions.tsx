@@ -88,13 +88,15 @@ const OpenPositions: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="w-full h-auto p-[50px] mt-[20px] border-[1.1px] border-gray-300 rounded-sm">
+            <div className="w-full h-auto  mt-[20px]  rounded-sm flex flex-row justify-between items-center">
               <button
                 className="bg-blue-500 hover:bg-blue-700 w-[200px] text-white font-bold py-2 m-2 rounded-sm"
                 onClick={handleAddPositionClick}
               >
                 + Add open position
               </button>
+              <img src="https://cdn-icons-png.flaticon.com/128/5636/5636698.png" alt="" className=' w-[30px] h-[30px] p-1 border-[1.1px] border-gray-300 rounded-sm mr-2' />
+
             </div>
           )}
         </div>
