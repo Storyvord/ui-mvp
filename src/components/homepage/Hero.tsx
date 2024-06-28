@@ -44,7 +44,7 @@ const Hero = () => {
                         </div>
                     </div>
                 </div>
-                <div className="lg:w-96 w-full lg:h-24 h-10 relative lg:top-[165px] top-[135px] flex justify-between lg:space-x-4 space-x-2 lg:px-11 md:space-x-1 lg:ml-[20px] md:mr-1">
+                <div className="lg:w-96 w-full lg:h-24 h-10 relative lg:top-[165px] top-[135px] flex justify-between lg:space-x-16 space-x-2 lg:px-11 md:space-x-1 lg:ml-12 md:mr-1">
                     <Image width={200} height={200} src="https://storyvord.com/img/svgicon/move-icon22.svg" className=" lg:w-20 lg:h-20 w-12 h-14 md:w-15 md:h-18" alt="" />
                     <Image width={200} height={200} src="https://storyvord.com/img/svgicon/move-icon11.svg" className=" lg:w-20 lg:h-20 w-12 h-14 md:w-15 md:h-18" alt="" />
                     <Image width={200} height={200} src="https://storyvord.com/img/svgicon/move-icon33.svg" className=" lg:w-20 lg:h-20 w-12 h-14 md:w-15 md:h-18" alt="" />

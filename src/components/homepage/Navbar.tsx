@@ -15,9 +15,9 @@ const Navbar = () => {
             </div>
             <Link href="/dashboard/home" className="text-white text-md font-josefin font-[15px]">Dashboard</Link>
             <div>
-                <button className="bg-gradient-to-r from-[#03256c] to-green-500 text-white font-josefin font-[15px] px-4 py-1.5 xsm:px-10 lg:mr-24">
+                <Link href="/auth/sign-in" className="bg-gradient-to-r from-[#03256c] to-green-500 text-white font-josefin font-[15px] px-4 py-1.5 xsm:px-10 lg:mr-24">
                     Login
-                </button>
+                </Link>
             </div>
         </nav>
     )
