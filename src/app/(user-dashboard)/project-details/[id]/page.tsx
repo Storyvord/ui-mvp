@@ -151,7 +151,7 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">Location: </h2>
             {
-              projectDetails?.location_details.length>0 && (<div className="text-base text-gray-600 dark:text-gray-200 flex">{projectDetails?.location_details.map((item:any)=>(<p key={item.location}>{item.location}, &nbsp;</p>))}</div>)
+              projectDetails?.location_details?.length>0 && (<div className="text-base text-gray-600 dark:text-gray-200 flex">{projectDetails?.location_details.map((item:any)=>(<p key={item.location}>{item.location}, &nbsp;</p>))}</div>)
             }
           </div>
           <div>
