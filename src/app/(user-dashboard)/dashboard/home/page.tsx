@@ -35,7 +35,9 @@ type projectArray = project[];
 
 const page = async () => {
   const res = await fetch(
-    "https://sv-aibackend.azurewebsites.net/api/project/list-projects"
+    "https://sv-aibackend.azurewebsites.net/api/project/list-projects", {
+      next: { revalidate: 10 },
+    },
   );
   const projectsData = await res.json()
   console.log(projectsData)

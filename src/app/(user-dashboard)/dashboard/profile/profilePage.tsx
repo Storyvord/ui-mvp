@@ -1,6 +1,7 @@
 // pages/profile.tsx
 import React from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();
@@ -10,7 +11,7 @@ const ProfilePage: React.FC = () => {
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
         <div className="flex flex-col items-center">
-          <img
+          <Image
             className="w-32 h-32 rounded-full border-4 border-gray-200 object-cover mb-4"
             src={profile_pic as string}
             alt={`${name}'s Profile Picture`}
