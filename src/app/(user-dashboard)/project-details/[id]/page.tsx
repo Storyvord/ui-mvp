@@ -96,31 +96,31 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
             <div className="flex items-center gap-2">
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger disabled= {projectDetails.status==="COMPLETED"}>
+                <TooltipTrigger disabled= {projectDetails?.status==="COMPLETED"}>
                   <div onClick={handleCompleteProject} > 
                     {
                       completingProject? <ReloadIcon className="h-5 w-5 animate-spin text-bold text-gray-500" /> : (
-                        <GrStatusGood className={`w-5 h-5 sm:w-6 sm:h-6 cursor-pointer ${projectDetails.status==="COMPLETED" ? "text-green-500" : "text-gray-500"}`}/>
+                        <GrStatusGood className={`w-5 h-5 sm:w-6 sm:h-6 cursor-pointer ${projectDetails?.status==="COMPLETED" ? "text-green-500" : "text-gray-500"}`}/>
                       )
                     }
                   </div>
                 </TooltipTrigger>
-                <TooltipContent className={`${projectDetails.status==="COMPLETED" ? "hidden" : ""} bg-transparent shadow-none border-none`}>
+                <TooltipContent className={`${projectDetails?.status==="COMPLETED" ? "hidden" : ""} bg-transparent shadow-none border-none`}>
                   <p className="text-sm text-green-500 bold">Mark Project As Completed</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
             
             <div>
-              {projectDetails.status === "INITIALIZED" && <div className="text-sm sm:text-base text-gray-500 font-bold">INITIALIZED</div>}
-              {projectDetails.status === "COMPLETED" && <div className="text-sm sm:text-base text-green-500 font-bold">COMPLETED</div>}
-              {projectDetails.status === "PLANNING" && <div className="text-sm sm:text-base text-yellow-500 font-bold">PLANNING</div>}
+              {projectDetails?.status === "INITIALIZED" && <div className="text-sm sm:text-base text-gray-500 font-bold">INITIALIZED</div>}
+              {projectDetails?.status === "COMPLETED" && <div className="text-sm sm:text-base text-green-500 font-bold">COMPLETED</div>}
+              {projectDetails?.status === "PLANNING" && <div className="text-sm sm:text-base text-yellow-500 font-bold">PLANNING</div>}
             </div>
             </div>
             
           </div> 
           <CardTitle className="sm:text-3xl font-bold text-gray-900 dark:text-white float-left">
-            {projectDetails.project_name}
+            {projectDetails?.project_name}
           </CardTitle>
         </CardHeader>
         <CardContent className="font-sans p-0 flex flex-col gap-2 mt-4">
@@ -129,7 +129,7 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
               Content Type: 
             </h2>
             <p className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails.content_type}
+              {projectDetails?.content_type}
             </p>
           </div>
           <div >
@@ -137,7 +137,7 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
               Description
             </h2>
             <CardDescription className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails.description}
+              {projectDetails?.description}
             </CardDescription>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -145,13 +145,13 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
               Budget:
             </h2>
             <p className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails.budget}
+              {projectDetails?.budget}
             </p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">Location: </h2>
             {
-              projectDetails.location_details.length>0 && (<div className="text-base text-gray-600 dark:text-gray-200 flex">{projectDetails.location_details.map((item:any)=>(<p key={item.location}>{item.location}, &nbsp;</p>))}</div>)
+              projectDetails?.location_details.length>0 && (<div className="text-base text-gray-600 dark:text-gray-200 flex">{projectDetails?.location_details.map((item:any)=>(<p key={item.location}>{item.location}, &nbsp;</p>))}</div>)
             }
           </div>
           <div>
@@ -159,13 +159,13 @@ const ProjectPage = ({params}: {params: {id: string;}}) => {
               Additional Details
             </h2>
             <CardDescription className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails.additional_details}
+              {projectDetails?.additional_details}
             </CardDescription>
           </div>
         </CardContent>
       </Card>
       <div className="w-full h-auto mt-5">
-            <SelectedCrew crews={projectDetails.selected_crews_set}/>
+            <SelectedCrew crews={projectDetails?.selected_crews_set}/>
       </div>
     </div>
   );

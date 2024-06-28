@@ -77,3 +77,31 @@ export const fetchLocation = async ( params: { search: string, page: number }) =
   
     return  res.json();
   };
+
+export const fetchProjectLogistics = async ( {project_id}: {  project_id: string }) => {
+    try {
+        const res = await fetch(`${API_URL}/api/logistics/list-project-logistics/${project_id}`);
+        if (!res.ok) {
+            throw new Error('Failed to fetch project logistics');
+        }
+        const data = await res.json();
+        return data;
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+export const fetchProjectCulture = async ( {project_id}: {  project_id: string }) => {
+    try {
+        const res = await fetch(`${API_URL}/api/culture/project-cultures/${project_id}`);
+        if (!res.ok) {
+            throw new Error('Failed to fetch project Cultures');
+        }
+        const data = await res.json();
+        return data;
+    }
+    catch(err){
+        console.log(err)
+    }
+}

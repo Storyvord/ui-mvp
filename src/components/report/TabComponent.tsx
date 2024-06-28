@@ -6,7 +6,7 @@ interface TabsProps {
 }
 
 const Tabs: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
-  const tabs = ["Crew", "Equipment", "Logistics", "Compliance", "Budget"];
+  const tabs = ["Crew", "Equipment", "Logistics", "Compliance", "Culture", "Budget"];
 
   return (
     <div className="border-b border-gray-200 mb-4 overflow-x-auto">

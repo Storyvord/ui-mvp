@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from 'react-query'
-import { completeProject, createProject, deleteProject, fetchLocation, fetchProjectDetails } from '../api/api';
+import { completeProject, createProject, deleteProject, fetchLocation, fetchProjectCulture, fetchProjectDetails, fetchProjectLogistics } from '../api/api';
 
 export const useCreateProject = () => {
     return useMutation({
@@ -59,5 +59,27 @@ export const useLocationList = () => {
         console.error("Error in fetching location:", error);
     },
 });
+}
+
+export const useProjectLogistics = (project_id:string) => {
+  return useQuery(
+    {queryKey: ['projectLogistics', project_id],
+    queryFn: ({ queryKey }) => {
+      const [_key, project_id] = queryKey;
+      return fetchProjectLogistics({ project_id });
+    }, 
+    }
+  )
+}
+
+export const useProjectCulture = (project_id:string) => {
+  return useQuery(
+    {queryKey: ['projectCulture', project_id],
+    queryFn: ({ queryKey }) => {
+      const [_key, project_id] = queryKey;
+      return fetchProjectCulture({ project_id });
+    }, 
+    }
+  )
 }
 
