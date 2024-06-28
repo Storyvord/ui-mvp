@@ -19,7 +19,6 @@ const Page = () => {
       <Location />
       <Testimonials />
       <Footer/> 
-
     </div>
   );
 };

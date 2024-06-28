@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image'; 
+import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import Logo from "../Logo/logo.png"; 
+import Logo from "../Logo/logo.png";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface SignInFormData {
     email: string;
@@ -49,8 +51,8 @@ const SignIn: React.FC = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="rounded-md shadow-sm -space-y-px">
                             <div className="mb-4">
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                <input
+                                <Label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</Label>
+                                <Input
                                     type="email"
                                     id="email"
                                     placeholder='Enter your email address'
@@ -61,13 +63,13 @@ const SignIn: React.FC = () => {
                                             message: 'Invalid email address'
                                         }
                                     })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-8 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded shadow-sm h-8 text-sm px-2 border-gray-200 focus:border-none focus:outline-gray-200"
                                 />
                                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                                <input
+                                <Label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</Label>
+                                <Input
                                     type="password"
                                     id="password"
                                     placeholder='Enter your password'
@@ -75,7 +77,7 @@ const SignIn: React.FC = () => {
                                         required: 'Password is required',
                                         minLength: { value: 6, message: 'Password must be at least 6 characters' }
                                     })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 h-8 text-slate-900 text-sm px-2"
+                                    className="mt-1 block w-full rounded shadow-sm h-8 text-sm px-2 border-gray-200 focus:border-none focus:outline-gray-200"
                                 />
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
