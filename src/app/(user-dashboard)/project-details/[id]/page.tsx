@@ -155,7 +155,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
               </TooltipProvider>
 
               <div>
-                {projectDetails?.status === "INITIALIZED" && (
+                {projectDetails?.status === "INITIATED" && (
                   <div className="text-sm sm:text-base text-gray-500 font-bold">
                     INITIALIZED
                   </div>
@@ -225,7 +225,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
         </CardContent>
       </Card>
       <div className="w-full h-auto mt-5">
-        <SelectedCrew crews={projectDetails?.suggested_crews_set} />
+        <SelectedCrew crews={projectDetails?.selected_crews_set} />
       </div>
     </div>
   );

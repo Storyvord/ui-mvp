@@ -105,3 +105,17 @@ export const fetchProjectCulture = async ( {project_id}: {  project_id: string }
         console.log(err)
     }
 }
+
+export const fetchProjectComplience = async ( {project_id}: {  project_id: string }) => {
+    try {
+        const res = await fetch(`${API_URL}/api/compliance/project-compliance/?project_id=${project_id}`);
+        if (!res.ok) {
+            throw new Error('Failed to fetch project complience');
+        }
+        const data = await res.json();
+        return data;
+    }
+    catch(err){
+        console.log(err)
+    }
+}
