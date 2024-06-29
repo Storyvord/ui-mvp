@@ -6,7 +6,7 @@ import Tabs from "@/components/report/TabComponent";
 import CrewPageClient from "./CrewPageClient";
 import EquipmentPage from "./EquipmentPage";
 import LogisticsPage from "./logistics/LogisticsPage";
-import CompliancePage from "./CompliancePage";
+import CompliancePage from "./compliance/CompliancePage";
 import BudgetPage from "./BudgetPage";
 import { CrewRequirement } from "@/types";
 import CulturePage from "./culture/CulturePage";
@@ -28,7 +28,7 @@ const ClientComponent: React.FC<ClientComponentProps> = ({
       {activeTab === "Crew" && <CrewPageClient crewRequirements={crewRequirements} />}
       {activeTab === "Equipment" && <EquipmentPage />}
       {activeTab === "Logistics" && <LogisticsPage project_id={project_id} />}
-      {activeTab === "Compliance" && <CompliancePage />}
+      {activeTab === "Compliance" && <CompliancePage project_id={project_id} />}
       {activeTab === "Culture" && <CulturePage project_id={project_id} />}
       {activeTab === "Budget" && <BudgetPage />}
     </div>

@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from 'react-query'
-import { completeProject, createProject, deleteProject, fetchLocation, fetchProjectCulture, fetchProjectDetails, fetchProjectLogistics } from '../api/api';
+import { completeProject, createProject, deleteProject, fetchLocation, fetchProjectComplience, fetchProjectCulture, fetchProjectDetails, fetchProjectLogistics } from '../api/api';
 
 export const useCreateProject = () => {
     return useMutation({
@@ -78,6 +78,17 @@ export const useProjectCulture = (project_id:string) => {
     queryFn: ({ queryKey }) => {
       const [_key, project_id] = queryKey;
       return fetchProjectCulture({ project_id });
+    }, 
+    }
+  )
+}
+
+export const useProjectComplience = (project_id:string) => {
+  return useQuery(
+    {queryKey: ['projectComplience', project_id],
+    queryFn: ({ queryKey }) => {
+      const [_key, project_id] = queryKey;
+      return fetchProjectComplience({ project_id });
     }, 
     }
   )
