@@ -47,7 +47,7 @@ const LogisticsPage: FC<CulturePageProps> = ({project_id}) => {
             })
             .map((item:any)=>(
               <div key={item.id} className="w-full flex flex-col gap-3">
-                <h1 className="text-[25px] font-sans font-bold underline underline-offset-1">{item.location? item.location : item.id}</h1>
+                <h1 className="text-[25px] font-sans font-bold underline underline-offset-1 capitalize">{item.location? item.location : item.id}</h1>
                 <div className='w-full'>
                   <h1 className="text-[20px] font-sans font-bold">Hotel Details</h1>
                   <div className='flex w-full gap-3 mt-1 pb-3 overflow-x-auto'>

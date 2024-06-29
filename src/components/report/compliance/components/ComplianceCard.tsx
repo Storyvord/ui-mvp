@@ -18,9 +18,9 @@ const ComplianceCard: FC<ComplianceCardProps> = ({compliance}) => {
             <p className="text-gray-500 text-base">
               {compliance.time_frame}
             </p>
-            <p className="text-gray-500 text-base">
+            <p className="text-gray-500 text-base capitalize">
               <strong>Mode: </strong>
-              {compliance.mode}
+              {compliance.mode==="both" ? "Indoor & Outdoor" : compliance.mode}
             </p>
             <p className="text-gray-500 text-base">
               <strong>Crew Size: </strong>
