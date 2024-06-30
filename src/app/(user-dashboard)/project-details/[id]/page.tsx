@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -38,9 +38,6 @@ import { useRouter } from "next/navigation";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 const ProjectPage = ({ params }: { params: { id: string } }) => {
-  // const res = await fetch(`https://sv-aibackend.azurewebsites.net/api/project/complete-project-details/?project_id=${params.id}`)
-  // const projectDetails = await res.json()
-  // const [projectStatus, setProjectStatus] = useState("");
   const {
     data: projectDetails,
     isLoading: projectDetailsLoading,
@@ -51,11 +48,6 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
   const { mutateAsync: completeProject, isLoading: completingProject } =
     useCompleteProject(params.id);
 
-  console.log(projectDetails);
-
-  // useEffect(()=>{
-  //     setProjectStatus(projectDetails ? projectDetails.status : "");
-  // }, [projectDetails])
   const router = useRouter();
   const handleDeleteProject = async () => {
     await deleteProject({ project_id: params.id });
@@ -73,7 +65,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
 
   if (error) {
     return (
-      <div className="w-full text-center text-gray-700">
+      <div className="w-full text-center text-red-700">
         Failed to fetch project details
       </div>
     );
@@ -81,20 +73,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="flex flex-col items-center gap-2 py-2 w-full h-auto">
-      {/* <div className="w-full flex flex-wrap gap-3 justify-between">
-        <Button variant="destructive" className="font-bold w-full xsm:w-auto">
-           DELETE PROJECT
-        </Button>
-        <Button className="bg-green-500 hover:bg-green-400 active:bg-green-600 font-bold w-full xsm:w-auto">
-           MARK AS COMPLETED
-        </Button>
-      </div> */}
       <Card className="relative w-full h-full bg-white shadow-lg rounded-xl overflow-auto pt-2">
-        {/* <div className="sm:hidden absolute right-2 bottom-2">
-          {projectDetails.status === "INITIALIZED" && <div className="text-gray-500 font-bold">INITIALIZED</div>}
-          {projectDetails.status === "COMPLETED" && <div className="text-green-500 font-bold">COMPLETED</div>}
-          {projectDetails.status === "PLANNING" && <div className="text-yellow-500 font-bold">PLANNING</div>}
-        </div> */}
         <CardHeader className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between sm:space-y-0">
           <div className="flex gap-2 items-end justify-between sm:justify-end">
             <AlertDialog>
@@ -225,7 +204,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
         </CardContent>
       </Card>
       <div className="w-full h-auto mt-5">
-        <SelectedCrew crews={projectDetails?.selected_crews_set} />
+        <SelectedCrew project_id={projectDetails?.project_id} status={projectDetails?.status} />
       </div>
     </div>
   );
