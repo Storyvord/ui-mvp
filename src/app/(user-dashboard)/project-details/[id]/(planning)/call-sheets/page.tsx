@@ -65,7 +65,6 @@ const Page: FC = () => {
                   Country: {sheet.country},
                   Website: {sheet.website},
                   Contact: {sheet.contactNumber}
-                  {/* Display other details here */}
                 </li>
               ))}
             </ul>
