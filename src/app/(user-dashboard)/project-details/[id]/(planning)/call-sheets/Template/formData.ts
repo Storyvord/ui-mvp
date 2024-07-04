@@ -1,5 +1,7 @@
 // formData.ts
-export const initialFormData = {
+import { CallSheet } from '../types';
+
+export const initialFormData: CallSheet = {
     title: '',
     date: '',
     callTime: '',
