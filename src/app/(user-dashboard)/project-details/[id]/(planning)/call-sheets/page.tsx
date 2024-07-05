@@ -1,4 +1,6 @@
-"use client"
+"use client";
+import { Button } from '@/components/ui/button';
+import { ArrowDownToLine, Clapperboard, Edit2, MoreVertical, Trash2 } from 'lucide-react';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import CreateCallSheetFormModal from './createCallSheet';
@@ -6,36 +8,60 @@ import Tabs from './tabs';
 import CallSheetTemplate from './Template/CallSheetTemplate';
 import { initialFormData } from './Template/formData';
 import { CallSheet } from './types';
-import { ArrowDownToLine, Clapperboard, Edit2, MoreVertical, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 const Page: FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Call Sheets");
-  const [callSheets, setCallSheets] = useState<CallSheet[]>(() => {
-    const storedCallSheets = localStorage.getItem('callSheets');
-    return storedCallSheets ? JSON.parse(storedCallSheets) : [];
-  });
+  const [callSheets, setCallSheets] = useState<CallSheet[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedCallSheet, setSelectedCallSheet] = useState<CallSheet | null>(null);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const templateRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem('callSheets', JSON.stringify(callSheets));
-  }, [callSheets]);
+    if (typeof window !== 'undefined') {
+      const storedCallSheets = localStorage.getItem('callSheets');
+      const storedSelectedCallSheet = localStorage.getItem('selectedCallSheet');
+      try {
+        setCallSheets(storedCallSheets ? JSON.parse(storedCallSheets) : []);
+        setSelectedCallSheet(storedSelectedCallSheet ? JSON.parse(storedSelectedCallSheet) : null);
+      } catch (error) {
+        console.error('Error parsing stored call sheets:', error);
+        setCallSheets([]);
+        setSelectedCallSheet(null);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('callSheets', JSON.stringify(callSheets));
+      if (selectedCallSheet) {
+        localStorage.setItem('selectedCallSheet', JSON.stringify(selectedCallSheet));
+      } else {
+        localStorage.removeItem('selectedCallSheet');
+      }
+    }
+  }, [callSheets, selectedCallSheet]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleFormSubmit = (formData: CallSheet) => {
-    try {
-      const updatedCallSheets = selectedCallSheet ? callSheets.map(sheet => sheet === selectedCallSheet ? formData : sheet) : [...callSheets, formData];
-      setCallSheets(updatedCallSheets);
-      setSelectedCallSheet(formData);
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error('Error saving call sheet:', error);
-    }
+    const pdfData = generatePdfFromFormData(formData);
+    const updatedCallSheets = selectedCallSheet
+      ? callSheets.map(sheet => sheet === selectedCallSheet ? { ...formData, pdf: pdfData } as CallSheet : sheet)
+      : [...callSheets, { ...formData, pdf: pdfData } as CallSheet];
+    setCallSheets(updatedCallSheets);
+    setSelectedCallSheet({ ...formData, pdf: pdfData } as CallSheet);
+    setIsModalOpen(false);
+  };
+
+  const generatePdfFromFormData = (formData: CallSheet): any => {
+    const pdfData = {
+      title: formData.title || '',
+      date: formData.date || '',
+    };
+    return pdfData;
   };
 
   const handlePrint = useReactToPrint({
@@ -75,7 +101,7 @@ const Page: FC = () => {
           <>
             {!selectedCallSheet && (
               <div className="flex flex-col items-center">
-                <div className="text-slate-500 text-sm lg:text-xl md:text-lg text-center mb-1 py-2">
+                <div className="text-slate-500 text-lg lg:text-xl text-center mb-1 py-2">
                   Generate ready to go, pre-populated call sheets in minutes with breakdown, schedule, and department information attached.
                 </div>
 
@@ -97,7 +123,6 @@ const Page: FC = () => {
                   <span>Create Call Sheet</span>
                 </Button>
                 <img src='https://face.storyvord.com/assets/callsheetss-6c088084.png' alt="Call Sheet Example" className="mt-5 w-5/6 max-w-full h-auto" />
-
               </div>
             )}
             <CreateCallSheetFormModal isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} initialFormData={selectedCallSheet || initialFormData} />
