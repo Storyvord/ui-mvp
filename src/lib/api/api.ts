@@ -1,5 +1,5 @@
 import { projectFormInputType } from "@/types";
-import { API_URL } from "@/utils/constant";
+import { API_URL, USER_API } from "@/utils/constant";
 
 export const createProject = async (formData: projectFormInputType) => {
   const res = await fetch(`${API_URL}/api/project/create-project/`, {
@@ -109,6 +109,7 @@ export const fetchProjectLogistics = async ({
     return data;
   } catch (err) {
     console.log(err);
+    throw err
   }
 };
 
@@ -128,6 +129,7 @@ export const fetchProjectCulture = async ({
     return data;
   } catch (err) {
     console.log(err);
+    throw err
   }
 };
 
@@ -147,6 +149,7 @@ export const fetchProjectComplience = async ({
     return data;
   } catch (err) {
     console.log(err);
+    throw err
   }
 };
 export const getSuggestedCrew = async (project_id: string) => {
@@ -163,3 +166,54 @@ export const getSuggestedCrew = async (project_id: string) => {
     console.log(err);
   }
 };
+
+export const registerUser = async (data: {
+  username: string;
+  email: string;
+  password: string;
+}) => {
+  const res = await fetch(`${USER_API}/auth/users/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to register user");
+  }
+  return res.json();  
+};
+
+
+export const userSignIn = async ({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) => {
+  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to login user");
+  }
+  return res.json();
+}
+
+export const getUserDetails = async (token: string) => {
+  const res = await fetch(`${USER_API}/auth/users/me/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+}

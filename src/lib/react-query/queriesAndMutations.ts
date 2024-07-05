@@ -9,7 +9,55 @@ import {
   fetchProjectDetails,
   fetchProjectLogistics,
   getSuggestedCrew,
+  getUserDetails,
+  registerUser,
+  userSignIn,
 } from "../api/api";
+import Cookies from 'js-cookie';
+
+export const useRegisterUser = () => {
+  return useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      console.log(data);
+      return data;
+    },
+    onError: (error) => {
+      console.error(error);
+    }
+  })
+}
+
+export const useUserSignIn = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userSignIn,
+    onSuccess: (data) => {
+      console.log(data);
+      Cookies.set("accessToken", data.access);
+      Cookies.set("refreshToken", data.refresh);
+      queryClient.invalidateQueries('userDetails');
+    },
+    onError: (error) => {
+      console.error(error);
+    }
+  })
+}
+
+export const useGetUserDetails = () => {
+
+  return useQuery({
+    queryKey: ["userDetails"],
+    queryFn: async () => {
+      const token = Cookies.get("accessToken");
+      if (!token) {
+        throw new Error('No auth token found');
+      }
+      return await getUserDetails(token);
+    },
+    enabled: !!Cookies.get('accessToken'), // Only fetch if token exists
+  })
+}
 
 export const useCreateProject = () => {
   return useMutation({

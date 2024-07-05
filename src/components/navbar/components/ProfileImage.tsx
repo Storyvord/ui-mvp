@@ -9,9 +9,17 @@ import {
 } from "@/components/ui/popover"
 import Link from 'next/link'
 import { Button } from '../../ui/button'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation';
 
 
 const ProfileImage = () => {
+    const router = useRouter();
+    const handleClick = () => {
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        router.push('/auth/sign-in');
+    }
     return (
         <Popover>
             <PopoverTrigger>
@@ -24,7 +32,7 @@ const ProfileImage = () => {
                             Profile
                         </Button>
                     </Link>
-                    <Button variant="ghost" className='w-full justify-start text-base  p-3 '>
+                    <Button variant="ghost" className='w-full justify-start text-base  p-3 ' onClick={handleClick}>
                         Logout
                     </Button>
                 </nav>
