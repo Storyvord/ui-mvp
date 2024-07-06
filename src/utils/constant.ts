@@ -16,6 +16,7 @@ import { CgFilm } from "react-icons/cg";
 
 
 export const API_URL = 'https://sv-aibackend.azurewebsites.net';
+export const USER_API = 'https://storyvord-back-end-d432tn3msq-uc.a.run.app'
 
 export const projects:projectArray = [
     {

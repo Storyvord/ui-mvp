@@ -7,6 +7,7 @@ import Logo from '../Logo/logo.png';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { useRegisterUser } from '@/lib/react-query/queriesAndMutations';
 
 interface SignUpFormData {
     email: string;
@@ -19,17 +20,19 @@ const SignUp: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm<SignUpFormData>();
+    const { register, handleSubmit, setError, formState: { errors }, getValues } = useForm<SignUpFormData>();
+    const { mutateAsync: registerUser } = useRegisterUser();
 
     const onSubmit: SubmitHandler<SignUpFormData> = async data => {
         setIsSubmitting(true);
         try {
             console.log(data);
-
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            router.push('/dashboard/home');
+            const {email, username, password } = data;
+            await registerUser({email, username, password});
+            router.push('/auth/sign-in');
         } catch (err) {
             console.error(err);
+            setError("root", {type: 'manual', message:"Failed to create an account"});
         } finally {
             setIsSubmitting(false);
         }
@@ -112,6 +115,7 @@ const SignUp: React.FC = () => {
                                 {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
                             </div>
                         </div>
+                        {errors.root && <p className="text-red-500 text-xs mt-1">{errors.root.message}</p>}
                         <Button type="submit"
                             className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting ? 'bg-gray-400' : 'bg-black hover:bg-slate-800 hover:text-white'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                             disabled={isSubmitting}
