@@ -40,7 +40,6 @@ const page = async () => {
     },
   );
   const projectsData = await res.json()
-  console.log(projectsData)
 
   const OngoingProjecs = 
     projectsData.map((project: any) => {
