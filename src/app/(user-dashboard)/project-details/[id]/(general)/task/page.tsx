@@ -1,9 +1,9 @@
 "use client"
 
-import CreateTask from './components/CreateTask'
-import TaskCard from './components/TaskCard'
-import TaskNavbar from './components/TaskNavbar'
-import ToolBar from './components/ToolBar'
+import CreateTask from '@/components/tasks/CreateTask'
+import TaskCard from '@/components/tasks/TaskCard'
+import TaskNavbar from '@/components/tasks/TaskNavbar'
+import ToolBar from '@/components/tasks/ToolBar'
 import { taskFormType, taskType } from '@/types'
 import { tempTaskList } from '@/utils/constant'
 import React, { useCallback, useEffect, useState } from 'react'

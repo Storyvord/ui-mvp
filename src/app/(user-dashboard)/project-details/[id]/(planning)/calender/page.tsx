@@ -1,7 +1,7 @@
 
 import React from 'react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import BasicCalender from './components/BasicCalender';
+import BasicCalender from '@/components/calender/BasicCalender';
 
 const MyCalendarPage = () => (
   <div className='h-auto bg-white p-4'>

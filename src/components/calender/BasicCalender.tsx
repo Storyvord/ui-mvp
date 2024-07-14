@@ -3,11 +3,11 @@
 import React, {useState} from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import {eventList} from '@/utils/constant'
-import AddTaskDialog from './AddTaskDialog'
-import { calenderEventType, calenderFormType } from '@/types'
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button'
+import { calenderEventType, calenderFormType } from '@/types'
+import {eventList} from '@/utils/constant'
+import AddTaskDialog from './AddTaskDialog'
 import EventDialog from './EventDialog'
 
 const localizer = momentLocalizer(moment)

@@ -1,32 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import ProjectComponent from "@/components/profile/page";
+import ProjectComponent from "@/components/profile/ProjectComponent";
 
-interface ProjectData {
-  imageUrl: string;
-  projectTitle: string;
-  projectDescription: string;
-  projectLink: string;
-}
 
-interface PageProps {
-  profileData?: {
-    name: string;
-    role: string;
-    location: string;
-    rate: string;
-    rating: string;
-    reviewScore: string;
-    imageUrl: string;
-    bio: string;
-    topReview: string;
-    website: string;
-    profileLink: string;
-    socialMedia: { name: string; link: string }[];
-  };
-  projectsData?: ProjectData[];
-}
+
 
 const Page: React.FC = () => {
   const defaultProfileData = {

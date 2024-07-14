@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import Logo from "../Logo/logo.png";
+import Logo from "@assets/logo.png";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useGetUserDetails, useUserSignIn } from '@/lib/react-query/queriesAndMutations';

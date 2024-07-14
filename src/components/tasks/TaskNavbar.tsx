@@ -1,7 +1,8 @@
 "use client"
 
 import { FC, useState } from 'react'
-import NavbarItem from './ui/NavbarItem'
+import NavbarItem from './NavbarItem'
+
 
 const taskNavbarMenu = [
     {

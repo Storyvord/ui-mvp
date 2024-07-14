@@ -1,31 +1,8 @@
 "use client";
+import { FormData, Project } from "@/types";
 import React, { useState } from "react";
 
 // Define the Project interface
-interface Project {
-  title: string;
-  description: string;
-  link: string;
-  thumbnailUrl: string;
-  createTime: string;
-}
-
-// Define the FormData interface
-interface FormData {
-  firstName: string;
-  lastName: string;
-  formalName: string;
-  role: string;
-  description: string;
-  location: string;
-  countryName: string;
-  locality: string;
-  rating: string;
-  personalWebsite: string;
-  minRate: string;
-  maxRate: string;
-  projects: Project[];
-}
 
 const Page: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({

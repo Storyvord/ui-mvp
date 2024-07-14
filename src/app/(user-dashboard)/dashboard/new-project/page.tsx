@@ -1,6 +1,12 @@
 "use client";
+import React, { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import Select from "react-select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,11 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React, { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
-import Select from "react-select";
 import { Slider } from "@/components/ui/slider";
 import {  projectFormInputType } from "@/types";
 import { projectFormSchema } from "@/lib/validation";
@@ -27,9 +29,7 @@ import {
   equipment_data,
 } from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
-import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
 import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
-import { redirect, useRouter } from "next/navigation";
 
 interface OptionType {
   label: string;

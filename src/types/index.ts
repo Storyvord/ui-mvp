@@ -99,3 +99,53 @@ export type PreferredCrewMember = {
   crew_member: SelectedCrewMember;
   preferred_because: string;
 };
+
+export type Project = {
+  title: string;
+  description: string;
+  link: string;
+  thumbnailUrl: string;
+  createTime: string;
+}
+
+// Define the FormData interface
+export type FormData = {
+  firstName: string;
+  lastName: string;
+  formalName: string;
+  role: string;
+  description: string;
+  location: string;
+  countryName: string;
+  locality: string;
+  rating: string;
+  personalWebsite: string;
+  minRate: string;
+  maxRate: string;
+  projects: Project[];
+}
+
+export type ProjectData = {
+  imageUrl: string;
+  projectTitle: string;
+  projectDescription: string;
+  projectLink: string;
+}
+
+export type PageProps = {
+  profileData?: {
+    name: string;
+    role: string;
+    location: string;
+    rate: string;
+    rating: string;
+    reviewScore: string;
+    imageUrl: string;
+    bio: string;
+    topReview: string;
+    website: string;
+    profileLink: string;
+    socialMedia: { name: string; link: string }[];
+  };
+  projectsData?: ProjectData[];
+}

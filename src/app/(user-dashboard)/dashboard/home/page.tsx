@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/table";
 
 import Link from "next/link";
-import OngoingProjectCard from "./OngoingProjectCard";
+import OngoingProjectCard from "@/components/dashboardHome/OngoingProjectCard";
 import { projects } from "@/utils/constant";
 
 interface project {
