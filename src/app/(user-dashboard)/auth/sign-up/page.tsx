@@ -11,7 +11,6 @@ import { useRegisterUser } from "@/lib/react-query/queriesAndMutations";
 
 interface SignUpFormData {
   email: string;
-  username: string;
   password: string;
   confirmPassword: string;
 }
@@ -33,8 +32,8 @@ const SignUp: React.FC = () => {
     setIsSubmitting(true);
     try {
       console.log(data);
-      const { email, username, password } = data;
-      await registerUser({ email, username, password });
+      const { email, password, confirmPassword} = data;
+      await registerUser({ email, password, confirmPassword });
       router.push("/auth/sign-in");
     } catch (err) {
       console.error(err);
@@ -56,21 +55,21 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-sm p-6 bg-white rounded shadow-md">
+    <div className="flex min-h-screen justify-center bg-white -m-4">
+      <div className="w-full max-w-sm md:mt-10">
         <div
           className="flex justify-center m-2 cursor-pointer"
           onClick={handleLogoClick}
         >
-          <Image src={Logo} alt="Logo" />
+          <Image src={Logo} className=" w-44" alt="Logo" />
         </div>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div className="py-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
+            <div className="rounded-md shadow-sm space-y-4">
+              <div className="">
                 <Label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-[17px] font-bold text-gray-600"
                 >
                   Email
                 </Label>
@@ -85,7 +84,6 @@ const SignUp: React.FC = () => {
                       message: "Invalid email address",
                     },
                   })}
-                  className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-xs mt-1">
@@ -93,36 +91,10 @@ const SignUp: React.FC = () => {
                   </p>
                 )}
               </div>
-              <div className="py-1">
-                <Label
-                  htmlFor="username"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Username
-                </Label>
-                <Input
-                  type="text"
-                  id="username"
-                  placeholder="Enter your username"
-                  {...register("username", {
-                    required: "Username is required",
-                    minLength: {
-                      value: 3,
-                      message: "Username must be at least 3 characters",
-                    },
-                  })}
-                  className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.username.message}
-                  </p>
-                )}
-              </div>
-              <div className="py-2">
+              <div className="">
                 <Label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-[17px] font-bold text-gray-600"
                 >
                   Password
                 </Label>
@@ -137,7 +109,6 @@ const SignUp: React.FC = () => {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                 />
                 {errors.password && (
                   <p className="text-red-500 text-xs mt-1">
@@ -148,7 +119,7 @@ const SignUp: React.FC = () => {
               <div className="mb-8">
                 <Label
                   htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-[17px] font-bold text-gray-600"
                 >
                   Confirm Password
                 </Label>
@@ -162,7 +133,6 @@ const SignUp: React.FC = () => {
                       value === getValues().password ||
                       "Passwords do not match",
                   })}
-                  className="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-none focus:outline-gray-200 h-8 text-slate-900 text-sm px-2"
                 />
                 {errors.confirmPassword && (
                   <p className="text-red-500 text-xs mt-1">
@@ -186,7 +156,7 @@ const SignUp: React.FC = () => {
               {isSubmitting ? "Signing Up..." : "Sign Up"}
             </Button>
           </form>
-          <div className="mt-4 text-center">
+          <div className="my-4  text-center">
             <span className="text-sm text-slate-600">
               Already have an account?{" "}
               <span

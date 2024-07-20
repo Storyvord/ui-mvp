@@ -11,6 +11,13 @@ interface project {
   status: boolean;
 }
 
+export type SignUpFormData = {
+  email: string;
+  userType: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export type projectArray = project[];
 
 type itemType = {

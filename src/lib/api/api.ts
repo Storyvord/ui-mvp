@@ -109,7 +109,7 @@ export const fetchProjectLogistics = async ({
     return data;
   } catch (err) {
     console.log(err);
-    throw err
+    throw err;
   }
 };
 
@@ -129,7 +129,7 @@ export const fetchProjectCulture = async ({
     return data;
   } catch (err) {
     console.log(err);
-    throw err
+    throw err;
   }
 };
 
@@ -149,7 +149,7 @@ export const fetchProjectComplience = async ({
     return data;
   } catch (err) {
     console.log(err);
-    throw err
+    throw err;
   }
 };
 export const getSuggestedCrew = async (project_id: string) => {
@@ -168,29 +168,34 @@ export const getSuggestedCrew = async (project_id: string) => {
 };
 
 export const registerUser = async (data: {
-  username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }) => {
+  const signUpUserData = {
+    user_type: "crew",
+    email: data.email,
+    password: data.password,
+    re_password: data.password,
+  };
   const res = await fetch(`${USER_API}/auth/users/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(signUpUserData),
   });
   if (!res.ok) {
     throw new Error("Failed to register user");
   }
-  return res.json();  
+  return res.json();
 };
 
-
 export const userSignIn = async ({
-  username,
+  email,
   password,
 }: {
-  username: string;
+  email: string;
   password: string;
 }) => {
   const res = await fetch(`${USER_API}/auth/jwt/create/`, {
@@ -198,13 +203,13 @@ export const userSignIn = async ({
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
   });
   if (!res.ok) {
     throw new Error("Failed to login user");
   }
   return res.json();
-}
+};
 
 export const getUserDetails = async (token: string) => {
   const res = await fetch(`${USER_API}/auth/users/me/`, {
@@ -216,4 +221,4 @@ export const getUserDetails = async (token: string) => {
     throw new Error("Failed to fetch user details");
   }
   return res.json();
-}
+};
