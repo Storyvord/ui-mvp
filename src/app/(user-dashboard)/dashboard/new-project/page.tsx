@@ -55,8 +55,6 @@ const CreateProjectPage = () => {
     control: form.control,
     name: "locationDetails",
   });
-  // const [search, setSearch] = useState("")
-  // const {data:locationData, isLoading}= useQuery({queryKey:["location", {search}], queryFn:{fetchLocation}})
 
   const {mutateAsync: LocationMutation} = useLocationList();
 
@@ -87,16 +85,17 @@ const CreateProjectPage = () => {
   const router = useRouter()
   // 2. Define a submit handler.
   async function onSubmit(formData: projectFormInputType) {
+    console.log(formData)
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    try {
-      const project = await createProjectMutation(formData);
-      console.log(project)
-      router.push(`/project-details/${project.project_id}`)
-    } catch (e) {
-      form.setError("root", {type: 'manual', message:"Form submission failed"});
-      console.error(e);
-    }
+    // try {
+    //   const project = await createProjectMutation(formData);
+    //   console.log(project)
+    //   router.push(`/project-details/${project.project_id}`)
+    // } catch (e) {
+    //   form.setError("root", {type: 'manual', message:"Form submission failed"});
+    //   console.error(e);
+    // }
   }
 
   const handleCrewRemove = (key: string) => {

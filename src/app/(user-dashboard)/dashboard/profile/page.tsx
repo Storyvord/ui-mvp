@@ -1,12 +1,15 @@
+"use client"
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/ProjectComponent";
+import { useUser } from "@/context/UserContext";
 
 
 
 
 const Page: React.FC = () => {
+  console.log(useUser())
   const defaultProfileData = {
     name: "Scott P.",
     role: "As an animator",
@@ -57,6 +60,9 @@ const Page: React.FC = () => {
 
   const profile = defaultProfileData;
   const projects = projectDataFallback;
+
+  const { userDetails } = useUser();
+  console.log(userDetails)
 
   return (
     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">

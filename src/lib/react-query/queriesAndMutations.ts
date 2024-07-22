@@ -33,9 +33,8 @@ export const useUserSignIn = () => {
   return useMutation({
     mutationFn: userSignIn,
     onSuccess: (data) => {
-      console.log(data);
-      localStorage.setItem("accessToken", data.access);
-      localStorage.setItem("refreshToken", data.refresh);
+      Cookies.set("accessToken", data.access);
+      Cookies.set("refreshToken", data.refresh);
       queryClient.invalidateQueries('userDetails');
     },
     onError: (error) => {

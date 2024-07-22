@@ -12,6 +12,9 @@ import {
   useUserSignIn,
 } from "@/lib/react-query/queriesAndMutations";
 import { useUser } from "@/context/UserContext";
+import { getUserDetails } from "@/lib/api/api";
+import Cookies from 'js-cookie';
+
 
 interface SignInFormData {
   email: string;
@@ -35,20 +38,17 @@ const SignIn: React.FC = () => {
   });
   const { mutateAsync: loginUser } = useUserSignIn();
 
-  const { data: userDetails, error: userDetailsError } = useGetUserDetails();
+  const { data: userDetails } = useGetUserDetails();
   const { setUserDetails } = useUser();
-
   useEffect(() => {
     if (userDetails) {
       setUserDetails(userDetails);
-      console.log(userDetails);
     }
   }, [userDetails, setUserDetails]);
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      console.log(data);
       await loginUser(data);
       router.push("/dashboard/home");
     } catch (err) {
@@ -131,7 +131,9 @@ const SignIn: React.FC = () => {
               </div>
             </div>
             {errors.root && (
-              <p className="text-red-500 text-center mt-1">{errors.root.message}</p>
+              <p className="text-red-500 text-center mt-1">
+                {errors.root.message}
+              </p>
             )}
             <Button
               variant="outline"

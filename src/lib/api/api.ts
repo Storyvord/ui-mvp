@@ -1,5 +1,5 @@
 import { projectFormInputType } from "@/types";
-import { API_URL, USER_API } from "@/utils/constant";
+import { API_URL, NEW_API_URL, USER_API } from "@/utils/constant";
 
 export const createProject = async (formData: projectFormInputType) => {
   const res = await fetch(`${API_URL}/api/project/create-project/`, {
@@ -212,7 +212,7 @@ export const userSignIn = async ({
 };
 
 export const getUserDetails = async (token: string) => {
-  const res = await fetch(`${USER_API}/auth/users/me/`, {
+  const res = await fetch(`${NEW_API_URL}/auth/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

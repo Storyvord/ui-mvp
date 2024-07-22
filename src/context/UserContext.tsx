@@ -1,4 +1,3 @@
-// src/context/UserContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface UserDetails {
@@ -30,5 +29,5 @@ export const useUser = () => {
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');
   }
-  return context;
+    return context;
 };

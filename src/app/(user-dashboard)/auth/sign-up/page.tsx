@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
@@ -9,10 +9,16 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useRegisterUser } from "@/lib/react-query/queriesAndMutations";
 
+const userTypeOptions = [
+  { value: "client", label: "client" },
+  { value: "crew", label: "crew" },
+];
+
 interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
+  userType: string;
 }
 
 const SignUp: React.FC = () => {
@@ -25,14 +31,14 @@ const SignUp: React.FC = () => {
     setError,
     formState: { errors },
     getValues,
+    control,
   } = useForm<SignUpFormData>();
   const { mutateAsync: registerUser } = useRegisterUser();
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      console.log(data);
-      const { email, password, confirmPassword} = data;
+      const { email, password, confirmPassword } = data;
       await registerUser({ email, password, confirmPassword });
       router.push("/auth/sign-in");
     } catch (err) {
@@ -54,6 +60,8 @@ const SignUp: React.FC = () => {
     router.push("/");
   };
 
+  const [selectedUserType, setSelectedUserType] = useState();
+
   return (
     <div className="flex min-h-screen justify-center bg-white -m-4">
       <div className="w-full max-w-sm md:mt-10">
@@ -65,7 +73,7 @@ const SignUp: React.FC = () => {
         </div>
         <div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
-            <div className="rounded-md shadow-sm space-y-4">
+            <div className="space-y-4">
               <div className="">
                 <Label
                   htmlFor="email"
@@ -89,6 +97,39 @@ const SignUp: React.FC = () => {
                   <p className="text-red-500 text-xs mt-1">
                     {errors.email.message}
                   </p>
+                )}
+              </div>
+              <div className="">
+                <Label
+                  htmlFor="email"
+                  className="block text-[17px] font-bold text-gray-600"
+                >
+                  User Type
+                </Label>
+                <Controller
+                  name="userType"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <select
+                      {...field}
+                      className="block w-full mt-1 p-2 border border-gray-300 rounded-sm  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                      <option value="" disabled>
+                        Select an option
+                      </option>
+                      {userTypeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
+
+                {errors.userType && (
+                  <p className=" text-red-500">{errors.userType.message}</p>
                 )}
               </div>
               <div className="">
