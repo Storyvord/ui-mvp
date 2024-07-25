@@ -169,11 +169,12 @@ export const getSuggestedCrew = async (project_id: string) => {
 
 export const registerUser = async (data: {
   email: string;
+  userType: string;
   password: string;
   confirmPassword: string;
 }) => {
   const signUpUserData = {
-    user_type: "crew",
+    user_type: data.userType,
     email: data.email,
     password: data.password,
     re_password: data.password,
@@ -212,7 +213,7 @@ export const userSignIn = async ({
 };
 
 export const getUserDetails = async (token: string) => {
-  const res = await fetch(`${NEW_API_URL}/auth/users/me`, {
+  const res = await fetch(`${USER_API}/auth/users/me/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

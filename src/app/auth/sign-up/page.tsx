@@ -38,8 +38,8 @@ const SignUp: React.FC = () => {
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      const { email, password, confirmPassword } = data;
-      await registerUser({ email, password, confirmPassword });
+      const { email, userType, password, confirmPassword } = data;
+      await registerUser({ email, userType, password, confirmPassword });
       router.push("/auth/sign-in");
     } catch (err) {
       console.error(err);
@@ -114,13 +114,13 @@ const SignUp: React.FC = () => {
                   render={({ field }) => (
                     <select
                       {...field}
-                      className="block w-full mt-1 p-2 border border-gray-300 rounded-sm  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full bg-white mt-1 p-2 border border-gray-300 rounded-sm"
                     >
                       <option value="" disabled>
                         Select an option
                       </option>
                       {userTypeOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
+                        <option className=" text-md" key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { getUserDetails } from "@/lib/api/api";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface UserDetails {
   id: number;
@@ -16,7 +17,6 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-
   return (
     <UserContext.Provider value={{ userDetails, setUserDetails }}>
       {children}
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
-    return context;
+  return context;
 };

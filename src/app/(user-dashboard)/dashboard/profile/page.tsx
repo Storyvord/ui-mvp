@@ -1,15 +1,11 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/ProjectComponent";
-import { useUser } from "@/context/UserContext";
-
-
-
+import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
 
 const Page: React.FC = () => {
-  console.log(useUser())
   const defaultProfileData = {
     name: "Scott P.",
     role: "As an animator",
@@ -61,8 +57,8 @@ const Page: React.FC = () => {
   const profile = defaultProfileData;
   const projects = projectDataFallback;
 
-  const { userDetails } = useUser();
-  console.log(userDetails)
+  const { data: userDetails } = useGetUserDetails();
+  console.log(userDetails);
 
   return (
     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
@@ -95,7 +91,7 @@ const Page: React.FC = () => {
                     </div>
                   </div>
                   <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-bold text-center mt-4">
-                    {profile.name}
+                    {userDetails?.email}
                   </h6>
                   <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 text-center mt-2">
                     {profile.role}
