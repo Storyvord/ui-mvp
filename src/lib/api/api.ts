@@ -1,11 +1,14 @@
 import { projectFormInputType } from "@/types";
 import { API_URL, NEW_API_URL, USER_API } from "@/utils/constant";
+import Cookies from 'js-cookie';
 
-export const createProject = async (formData: projectFormInputType) => {
-  const res = await fetch(`${API_URL}/api/project/create-project/`, {
+export const createProject = async (formData: any) => {
+  const token = Cookies.get("accessToken")
+  const res = await fetch(`${USER_API}/api/project/projects/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(formData),
   });

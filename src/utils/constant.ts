@@ -313,15 +313,17 @@ export const defaultFormValues = {
   contentType: "",
   budget: 5000,
   description: "",
-  additional_details: "",
+  additionalDetails: "",
   locationDetails: [
     {
       location: "",
       start_date: "",
       end_date: "",
-      filming_permits: false,
+      permits: false,
+      mode_of_shooting: undefined
     },
   ],
+  uploadedDocument: "",
   ai_suggestions: true,
   crew: {},
   equipment: {},

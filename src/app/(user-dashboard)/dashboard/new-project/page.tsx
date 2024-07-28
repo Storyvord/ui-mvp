@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import { Slider } from "@/components/ui/slider";
-import {  projectFormInputType } from "@/types";
+import { projectFormInputType } from "@/types";
 import { projectFormSchema } from "@/lib/validation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -29,7 +29,10 @@ import {
   equipment_data,
 } from "@/utils/constant";
 import { Badge } from "@/components/ui/badge";
-import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
+import {
+  useCreateProject,
+  useLocationList,
+} from "@/lib/react-query/queriesAndMutations";
 
 interface OptionType {
   label: string;
@@ -42,60 +45,92 @@ const ForwardedAsyncPaginate = React.forwardRef<any, any>((props, ref) => (
 
 ForwardedAsyncPaginate.displayName = "ForwardedAsyncPaginate";
 
-
 const CreateProjectPage = () => {
   const form = useForm<projectFormInputType>({
     resolver: zodResolver(projectFormSchema),
     defaultValues: defaultFormValues,
   });
 
-  const { mutateAsync: createProjectMutation } = useCreateProject()
+  const { mutateAsync: createProjectMutation } = useCreateProject();
 
   const locationArray = useFieldArray({
     control: form.control,
     name: "locationDetails",
   });
 
-  const {mutateAsync: LocationMutation} = useLocationList();
+  const { mutateAsync: LocationMutation } = useLocationList();
 
   const loadOptions: LoadOptions<OptionType, never, { page: number }> = async (
     search,
     loadedOptions,
     additional
   ) => {
-    const { page } = additional ? additional : {page: 1}
+    const { page } = additional ? additional : { page: 1 };
     try {
-      const data = await LocationMutation({search, page});
+      const data = await LocationMutation({ search, page });
       return {
         options: data.data.map((location: any) => ({
-            value: location.name,
-            label: location.name,
+          value: location.name,
+          label: location.name,
         })),
-        hasMore: Boolean(data.links?.next),  
-      }
-    }
-    catch(error){
-      console.error(error)
+        hasMore: Boolean(data.links?.next),
+      };
+    } catch (error) {
+      console.error(error);
       return {
         options: [],
         hasMore: false,
       };
     }
   };
-  const router = useRouter()
+  const router = useRouter();
   // 2. Define a submit handler.
   async function onSubmit(formData: projectFormInputType) {
-    console.log(formData)
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // try {
-    //   const project = await createProjectMutation(formData);
-    //   console.log(project)
-    //   router.push(`/project-details/${project.project_id}`)
-    // } catch (e) {
-    //   form.setError("root", {type: 'manual', message:"Form submission failed"});
-    //   console.error(e);
-    // }
+    const {
+      locationDetails,
+      crew,
+      equipment,
+      projectName,
+      description,
+      additionalDetails,
+      budget,
+      contentType,
+    } = formData;
+
+    const selectedCrew = Object.keys(crew).map((key) => ({
+      title: key,
+      quantity: crew[key],
+    }));
+
+    const selectedEquipment = Object.keys(equipment).map((key) => ({
+      title: key,
+      quantity: equipment[key],
+    }));
+
+    const transformedFormData = {
+      location_details: locationDetails,
+      selected_crew: selectedCrew,
+      equipment: selectedEquipment,
+      name: projectName,
+      brief: description,
+      additional_details: additionalDetails,
+      budget_currency: "$",
+      budget_amount: budget,
+      content_type: contentType,
+    };
+    console.log(transformedFormData);
+
+    try {
+      const project = await createProjectMutation(transformedFormData);
+      console.log(project);
+      router.push(`/project-details/${project.project_id}`);
+    } catch (e) {
+      form.setError("root", {
+        type: "manual",
+        message: "Form submission failed",
+      });
+      console.error(e);
+    }
   }
 
   const handleCrewRemove = (key: string) => {
@@ -120,6 +155,7 @@ const CreateProjectPage = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-5 justify-center flex flex-col"
+            encType="multipart/form-data"
           >
             <FormField
               control={form.control}
@@ -201,13 +237,13 @@ const CreateProjectPage = () => {
                       {...field}
                       options={crew_data}
                       placeholder="Select required crew members..."
-                      onChange={(selected) =>
+                      onChange={(selected) => {
                         field.onChange(
                           selected
                             ? { ...field.value, [selected.value]: 1 }
                             : { ...field.value }
-                        )
-                      }
+                        );
+                      }}
                       onBlur={field.onBlur}
                       value={crew_data.find((option) =>
                         Object.keys(field.value).includes(option.value)
@@ -349,9 +385,10 @@ const CreateProjectPage = () => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="additional_details"
+              name="additionalDetails"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">
@@ -363,6 +400,27 @@ const CreateProjectPage = () => {
                       placeholder="More details about the project..."
                       className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)] resize-none"
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="uploadedDocument"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">
+                  Upload Document
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    type="file"
+                      placeholder="Enter Your Project Location"
+                      {...field}
+                      className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -394,8 +452,7 @@ const CreateProjectPage = () => {
                             Shoot Location
                           </FormLabel>
                           <FormControl>
-
-{/* The location API limit has been reached for today, hence it has been changed to an input field */}
+                            {/* The location API limit has been reached for today, hence it has been changed to an input field */}
 
                             {/* <ForwardedAsyncPaginate
                               {...field}
@@ -463,7 +520,9 @@ const CreateProjectPage = () => {
                     <div className="flex flex-wrap justify-between items-center gap-5">
                       <FormField
                         control={form.control}
-                        name={`locationDetails.${index}.mode` as const}
+                        name={
+                          `locationDetails.${index}.mode_of_shooting` as const
+                        }
                         render={({ field }) => (
                           <FormItem className="">
                             <div className="flex flex-wrap items-center gap-1">
@@ -519,9 +578,7 @@ const CreateProjectPage = () => {
                       />
                       <FormField
                         control={form.control}
-                        name={
-                          `locationDetails.${index}.filming_permits` as const
-                        }
+                        name={`locationDetails.${index}.permits` as const}
                         render={({ field }) => (
                           <FormItem className="flex flex-row items-start space-x-1 space-y-0">
                             <FormControl>
@@ -552,8 +609,8 @@ const CreateProjectPage = () => {
                     location: "",
                     start_date: "",
                     end_date: "",
-                    filming_permits: false,
-                    mode: "indoor",
+                    permits: false,
+                    mode_of_shooting: "indoor",
                   })
                 }
               >
@@ -580,13 +637,9 @@ const CreateProjectPage = () => {
                 </FormItem>
               )}
             />
-            {
-              form.formState.errors.root && (
-                <FormMessage>
-                  {form.formState.errors.root.message}
-                </FormMessage>
-              )
-            }
+            {form.formState.errors.root && (
+              <FormMessage>{form.formState.errors.root.message}</FormMessage>
+            )}
             <Button
               type="submit"
               className="w-[300px] font-bold text-[16px] mx-auto"
@@ -602,7 +655,6 @@ const CreateProjectPage = () => {
               )}
             </Button>
           </form>
-          
         </Form>
       </div>
     </div>
