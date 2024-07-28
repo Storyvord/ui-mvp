@@ -32,7 +32,7 @@ const SignIn: React.FC = () => {
     formState: { errors },
   } = useForm<SignInFormData>({
     defaultValues: {
-      email: "souvik@storyvord.com",
+      email: "souvik2@storyvord.com",
       password: "string@123",
     },
   });

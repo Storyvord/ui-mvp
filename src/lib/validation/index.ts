@@ -34,3 +34,15 @@ export const projectFormSchema = z.object({
     desc: z.string().optional(),
     deadline: z.string().date(),
   })
+
+  export const ClientProfileUpdateSchema =  z.object({
+    address: z.string().min(1, "Address is required"),
+    countryName: z.string().min(1, "Country name is required"),
+    description: z.string().min(1, "Description is required"),
+    firstName: z.string().min(1, "First name is required"),
+    formalName: z.string().optional(),
+    lastName: z.string().min(1, "Last name is required"),
+    locality: z.string().min(1, "Locality is required"),
+    personalWebsite: z.string().url("Invalid URL").optional(),
+    role: z.string().min(1, "Role is required"),
+  });

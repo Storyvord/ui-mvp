@@ -116,20 +116,16 @@ export type Project = {
 }
 
 // Define the FormData interface
-export type FormData = {
-  firstName: string;
-  lastName: string;
-  formalName: string;
-  role: string;
+export type ClientProfileUpdateFormType = {
+  address: string;
   description: string;
-  location: string;
   countryName: string;
+  firstName: string;
+  formalName: string;
+  lastName: string;
   locality: string;
-  rating: string;
   personalWebsite: string;
-  minRate: string;
-  maxRate: string;
-  projects: Project[];
+  role: string;
 }
 
 export type ProjectData = {

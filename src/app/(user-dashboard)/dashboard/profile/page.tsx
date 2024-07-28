@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/ProjectComponent";
-import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
+import { useGetClientProfile, useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
 
 const Page: React.FC = () => {
   const defaultProfileData = {
@@ -58,7 +58,9 @@ const Page: React.FC = () => {
   const projects = projectDataFallback;
 
   const { data: userDetails } = useGetUserDetails();
-  console.log(userDetails);
+
+  const {data: clientDetails} = useGetClientProfile()
+
 
   return (
     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
@@ -91,30 +93,30 @@ const Page: React.FC = () => {
                     </div>
                   </div>
                   <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-bold text-center mt-4">
-                    {userDetails?.email}
+                    {clientDetails?.formalName}
                   </h6>
                   <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 text-center mt-2">
-                    {profile.role}
+                    {clientDetails?.role}
                   </p>
                 </div>
                 <div className="w-full lg:w-3/4 p-4">
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 text-center lg:text-left">
-                      {profile.location}
+                      {clientDetails?.location}
                     </p>
-                    <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 mt-2 lg:mt-0">
+                    {/* <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 mt-2 lg:mt-0">
                       {profile.rate}
-                    </p>
+                    </p> */}
                   </div>
                   <div className="flex flex-col lg:flex-row items-center justify-between mt-4">
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                       <p className="block antialiased font-sans text-base font-light leading-relaxed text-blue-gray-500 mr-2">
                         {profile.rating}
                       </p>
                       <p className="block antialiased font-sans text-base font-light leading-relaxed text-yellow-400">
                         {profile.reviewScore}
                       </p>
-                    </div>
+                    </div> */}
                     <div className="flex mt-4 lg:mt-0">
                       <button
                         className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-2 px-4 rounded-lg border border-blue-500 text-blue-500 hover:opacity-75 focus:ring focus:ring-blue-200 active:opacity-[0.85] mr-2"
@@ -137,39 +139,39 @@ const Page: React.FC = () => {
                   Bio
                 </h6>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
-                  {profile.bio}
+                  {clientDetails?.description}
                 </p>
-                <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
+                {/* <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                   Reviews
                 </h6>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
                   {profile.topReview}
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="md:w-1/3 p-4">
-              <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold">
+              {/* <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold">
                 Top Review
               </h6>
               <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-gray-500 mt-2">
                 {profile.topReview}
-              </p>
+              </p> */}
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Website
               </h6>
-              <Link href={profile.website}>
+              <a href={clientDetails?.personalWebsite}>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
-                  {profile.website}
+                  {clientDetails?.personalWebsite}
                 </p>
-              </Link>
+              </a>
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Profile Link
               </h6>
-              <Link href={profile.profileLink}>
+              <a href={clientDetails?.personalWebsite}>
                 <p className="block antialiased font-sans text-sm font-light leading-normal text-blue-500">
                   View Profile
                 </p>
-              </Link>
+              </a>
               <h6 className="block antialiased tracking-normal font-sans text-base leading-relaxed text-blue-gray-900 font-semibold mt-4">
                 Social Media
               </h6>
@@ -186,7 +188,7 @@ const Page: React.FC = () => {
           </div>
         </div>
 
-        <div className="px-4 pb-4 pt-6">
+        {/* <div className="px-4 pb-4 pt-6">
           <h6 className="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-2">
             Projects
           </h6>
@@ -199,7 +201,7 @@ const Page: React.FC = () => {
               <ProjectComponent key={index} {...project} />
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

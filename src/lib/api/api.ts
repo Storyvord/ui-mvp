@@ -1,8 +1,93 @@
-import { projectFormInputType } from "@/types";
+import { ClientProfileUpdateFormType, projectFormInputType } from "@/types";
 import { API_URL, USER_API } from "@/utils/constant";
 import Cookies from "js-cookie";
 
 const token = Cookies.get("accessToken");
+
+export const registerUser = async (data: {
+  email: string;
+  userType: string;
+  password: string;
+  confirmPassword: string;
+}) => {
+  const signUpUserData = {
+    user_type: data.userType,
+    email: data.email,
+    password: data.password,
+    re_password: data.password,
+  };
+  const res = await fetch(`${USER_API}/auth/users/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(signUpUserData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to register user");
+  }
+  return res.json();
+};
+
+export const userSignIn = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to login user");
+  }
+  return res.json();
+};
+
+export const getUserDetails = async (token: string) => {
+  const res = await fetch(`${USER_API}/auth/users/me/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+};
+
+export const getClientProfile = async (token: string) => {
+  const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+};
+
+export const updateClientProfile = async (data: ClientProfileUpdateFormType) => {
+  const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+};
+
 
 export const createProject = async (formData: any) => {
   const res = await fetch(`${USER_API}/api/project/projects/`, {
@@ -176,59 +261,3 @@ export const getSuggestedCrew = async (project_id: string) => {
   }
 };
 
-export const registerUser = async (data: {
-  email: string;
-  userType: string;
-  password: string;
-  confirmPassword: string;
-}) => {
-  const signUpUserData = {
-    user_type: data.userType,
-    email: data.email,
-    password: data.password,
-    re_password: data.password,
-  };
-  const res = await fetch(`${USER_API}/auth/users/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(signUpUserData),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to register user");
-  }
-  return res.json();
-};
-
-export const userSignIn = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to login user");
-  }
-  return res.json();
-};
-
-export const getUserDetails = async (token: string) => {
-  const res = await fetch(`${USER_API}/auth/users/me/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch user details");
-  }
-  return res.json();
-};

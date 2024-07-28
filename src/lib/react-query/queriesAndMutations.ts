@@ -12,6 +12,8 @@ import {
   getUserDetails,
   registerUser,
   userSignIn,
+  getClientProfile,
+  updateClientProfile,
 } from "../api/api";
 import Cookies from 'js-cookie';
 
@@ -44,7 +46,6 @@ export const useUserSignIn = () => {
 }
 
 export const useGetUserDetails = () => {
-
   return useQuery({
     queryKey: ["userDetails"],
     queryFn: async () => {
@@ -57,6 +58,38 @@ export const useGetUserDetails = () => {
     enabled: !!Cookies.get('accessToken'), // Only fetch if token exists
   })
 }
+
+export const useGetClientProfile = () => {
+  return useQuery({
+    queryKey: ["getClientProfile"],
+    queryFn: async () => {
+      const token = Cookies.get("accessToken");
+      if (!token) {
+        throw new Error('No auth token found');
+      }
+      return await getClientProfile(token);
+    },
+    enabled: !!Cookies.get('accessToken'), // Only fetch if token exists
+    refetchOnWindowFocus: true,
+  })
+}
+export const useUpdateClientProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateClientProfile,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getClientProfile"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error(error);
+    }
+  })
+}
+
+
 
 export const useCreateProject = () => {
   return useMutation({
