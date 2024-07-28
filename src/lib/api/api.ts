@@ -1,9 +1,10 @@
 import { projectFormInputType } from "@/types";
-import { API_URL, NEW_API_URL, USER_API } from "@/utils/constant";
-import Cookies from 'js-cookie';
+import { API_URL, USER_API } from "@/utils/constant";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("accessToken");
 
 export const createProject = async (formData: any) => {
-  const token = Cookies.get("accessToken")
   const res = await fetch(`${USER_API}/api/project/projects/`, {
     method: "POST",
     headers: {
@@ -20,15 +21,17 @@ export const createProject = async (formData: any) => {
   return res.json();
 };
 
-export const fetchProjectDetails = async ({
+export const getProjectDetails = async ({
   project_id,
 }: {
   project_id: string;
 }) => {
   try {
-    const res = await fetch(
-      `${API_URL}/api/project/complete-project-details/?project_id=${project_id}`
-    );
+    const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!res.ok) {
       throw new Error("Failed to fetch project details");
     }
@@ -41,9 +44,12 @@ export const fetchProjectDetails = async ({
 
 export const deleteProject = async ({ project_id }: { project_id: string }) => {
   const res = await fetch(
-    `${API_URL}/api/project/delete-project/?project_id=${project_id}`,
+    `${USER_API}/api/project/projects/${project_id}/`,
     {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     }
   );
   if (!res.ok) {

@@ -11,7 +11,7 @@ import {
 import {
   useCompleteProject,
   useDeleteProject,
-  useProjectDetails,
+  useGetProjectDetails,
 } from "@/lib/react-query/queriesAndMutations";
 import SelectedCrew from "@/components/projectdetails/SelectedCrew";
 import LoadingPage from "@/components/projectdetails/LoadingPage";
@@ -42,9 +42,13 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
     data: projectDetails,
     isLoading: projectDetailsLoading,
     error,
-  } = useProjectDetails(params.id);
+  } = useGetProjectDetails(params.id);
+
+  console.log(projectDetails)
+
   const { mutateAsync: deleteProject, isLoading: deletingProject } =
     useDeleteProject();
+
   const { mutateAsync: completeProject, isLoading: completingProject } =
     useCompleteProject(params.id);
 
@@ -153,7 +157,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <CardTitle className="sm:text-3xl font-bold text-gray-900 dark:text-white float-left">
-            {projectDetails?.project_name}
+            {projectDetails?.name}
           </CardTitle>
         </CardHeader>
         <CardContent className="font-sans p-0 flex flex-col gap-2 mt-4">
@@ -170,7 +174,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
               Description
             </h2>
             <CardDescription className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.description}
+              {projectDetails?.brief}
             </CardDescription>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -178,7 +182,7 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
               Budget:
             </h2>
             <p className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.budget}
+              {projectDetails?.budget_amount}
             </p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -204,7 +208,10 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
         </CardContent>
       </Card>
       <div className="w-full h-auto mt-5">
-        <SelectedCrew project_id={projectDetails?.project_id} status={projectDetails?.status} />
+        {/* <SelectedCrew
+          project_id={projectDetails?.project_id}
+          status={projectDetails?.status}
+        /> */}
       </div>
     </div>
   );

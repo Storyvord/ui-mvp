@@ -6,7 +6,7 @@ import {
   fetchLocation,
   fetchProjectComplience,
   fetchProjectCulture,
-  fetchProjectDetails,
+  getProjectDetails,
   fetchProjectLogistics,
   getSuggestedCrew,
   getUserDetails,
@@ -97,12 +97,12 @@ export const useCompleteProject = (projectId: string) => {
   });
 };
 
-export const useProjectDetails = (project_id: string) => {
+export const useGetProjectDetails = (project_id: string) => {
   return useQuery({
     queryKey: ["projectDetails", project_id],
     queryFn: ({ queryKey }) => {
       const [_key, project_id] = queryKey;
-      return fetchProjectDetails({ project_id });
+      return getProjectDetails({ project_id });
     },
     retry: false,
   });
