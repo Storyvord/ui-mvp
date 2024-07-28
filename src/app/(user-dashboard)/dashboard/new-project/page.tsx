@@ -122,8 +122,9 @@ const CreateProjectPage = () => {
 
     try {
       const project = await createProjectMutation(transformedFormData);
-      console.log(project);
-      router.push(`/project-details/${project.project_id}`);
+      
+      if(project) router.push(`/project-details/${project.project_id}`);
+      
     } catch (e) {
       form.setError("root", {
         type: "manual",

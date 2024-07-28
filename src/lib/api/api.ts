@@ -2,8 +2,6 @@ import { ClientProfileUpdateFormType, projectFormInputType } from "@/types";
 import { API_URL, USER_API } from "@/utils/constant";
 import Cookies from "js-cookie";
 
-const token = Cookies.get("accessToken");
-
 export const registerUser = async (data: {
   email: string;
   userType: string;
@@ -49,6 +47,13 @@ export const userSignIn = async ({
   return res.json();
 };
 
+export const userLogout = () => {
+  Cookies.remove("accessToken");
+  Cookies.remove("refreshToken");
+
+  return null
+};
+
 export const getUserDetails = async (token: string) => {
   const res = await fetch(`${USER_API}/auth/users/me/`, {
     headers: {
@@ -73,7 +78,10 @@ export const getClientProfile = async (token: string) => {
   return res.json();
 };
 
-export const updateClientProfile = async (data: ClientProfileUpdateFormType) => {
+export const updateClientProfile = async (
+  data: ClientProfileUpdateFormType
+) => {
+  const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     method: "PUT",
     headers: {
@@ -89,6 +97,7 @@ export const updateClientProfile = async (data: ClientProfileUpdateFormType) => 
 };
 
 export const createProject = async (formData: any) => {
+  const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/project/projects/`, {
     method: "POST",
     headers: {
@@ -106,6 +115,7 @@ export const createProject = async (formData: any) => {
 };
 
 export const getOngoingProjects = async () => {
+  const token = Cookies.get("accessToken");
   try {
     const res = await fetch(`${USER_API}/api/project/projects/`, {
       headers: {
@@ -120,7 +130,7 @@ export const getOngoingProjects = async () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 export const getProjectDetails = async ({
   project_id,
@@ -128,6 +138,7 @@ export const getProjectDetails = async ({
   project_id: string;
 }) => {
   try {
+    const token = Cookies.get("accessToken");
     const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -144,15 +155,13 @@ export const getProjectDetails = async ({
 };
 
 export const deleteProject = async ({ project_id }: { project_id: string }) => {
-  const res = await fetch(
-    `${USER_API}/api/project/projects/${project_id}/`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    }
-  );
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (!res.ok) {
     throw new Error("Failed to delete project");
   }
@@ -275,4 +284,3 @@ export const getSuggestedCrew = async (project_id: string) => {
     console.log(err);
   }
 };
-

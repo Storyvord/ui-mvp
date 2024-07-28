@@ -63,6 +63,8 @@ export const useGetUserDetails = () => {
       return await getUserDetails(token);
     },
     enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
+    cacheTime: 0,  // Disable caching
+    staleTime: 0,  // Data is always considered stale
   });
 };
 

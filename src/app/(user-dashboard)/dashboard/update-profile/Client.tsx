@@ -31,12 +31,11 @@ const ProfileUpdateForm = () => {
     defaultValues: clientProfileData
   });
 
-  const onSubmit =async (formData: ClientProfileUpdateFormType) => {
-    console.log(formData, "form data");
+  const onSubmit = async (formData: ClientProfileUpdateFormType) => {
 
     try {
-      await updateClientProfileData(formData)
-      router.push("/dashboard/profile")
+     const res =  await updateClientProfileData(formData)
+     if(res) router.push("/dashboard/profile")
     } catch (error) {
       console.log(error)
     }

@@ -43,6 +43,6 @@ export const projectFormSchema = z.object({
     formalName: z.string().optional(),
     lastName: z.string().min(1, "Last name is required"),
     locality: z.string().min(1, "Locality is required"),
-    personalWebsite: z.string().url("Invalid URL").optional(),
+    personalWebsite: z.string().max(100, "Value must be under 100 characters").url("Invalid URL").optional(),
     role: z.string().min(1, "Role is required"),
   });

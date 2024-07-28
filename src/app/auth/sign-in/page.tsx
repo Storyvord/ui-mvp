@@ -13,8 +13,7 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import { useUser } from "@/context/UserContext";
 import { getUserDetails } from "@/lib/api/api";
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
 
 interface SignInFormData {
   email: string;
@@ -32,7 +31,7 @@ const SignIn: React.FC = () => {
     formState: { errors },
   } = useForm<SignInFormData>({
     defaultValues: {
-      email: "souvik@storyvord.com",
+      email: "souvik@gmail.com",
       password: "string@123",
     },
   });
@@ -49,8 +48,8 @@ const SignIn: React.FC = () => {
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      await loginUser(data);
-      router.push("/dashboard/home");
+      const res = await loginUser(data);
+      if (res) router.push("/dashboard/home");
     } catch (err) {
       console.error(err);
       setError("root", { type: "manual", message: "Failed to sign in" });
@@ -69,7 +68,7 @@ const SignIn: React.FC = () => {
 
   return (
     <div className="flex min-h-screen  justify-center bg-white -m-4">
-      <div className="w-full max-w-sm md:mt-10">
+      <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
         <div
           className="flex justify-center m-2 cursor-pointer"
           onClick={handleLogoClick}
