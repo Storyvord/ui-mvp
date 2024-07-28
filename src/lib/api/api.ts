@@ -88,7 +88,6 @@ export const updateClientProfile = async (data: ClientProfileUpdateFormType) => 
   return res.json();
 };
 
-
 export const createProject = async (formData: any) => {
   const res = await fetch(`${USER_API}/api/project/projects/`, {
     method: "POST",
@@ -105,6 +104,23 @@ export const createProject = async (formData: any) => {
 
   return res.json();
 };
+
+export const getOngoingProjects = async () => {
+  try {
+    const res = await fetch(`${USER_API}/api/project/projects/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to fetch project details");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export const getProjectDetails = async ({
   project_id,

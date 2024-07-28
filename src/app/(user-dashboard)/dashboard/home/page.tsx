@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/table";
 
 import Link from "next/link";
-import OngoingProjectCard from "@/components/dashboardHome/OngoingProjectCard";
-import { projects } from "@/utils/constant";
+import OngoingProjects from "@/components/dashboardHome/OngoingProjectCard";
+import { projects, USER_API } from "@/utils/constant";
 
 interface project {
   id: number;
@@ -34,23 +34,6 @@ interface project {
 type projectArray = project[];
 
 const page = async () => {
-  const res = await fetch(
-    "https://sv-aibackend.azurewebsites.net/api/project/list-projects", {
-      next: { revalidate: 10 },
-    },
-  );
-  const projectsData = await res.json()
-
-  const OngoingProjecs = 
-    projectsData.map((project: any) => {
-      return (
-        <Link key={project.id} href={`/project-details/${project.project_id
-        }`}>
-          <OngoingProjectCard id={project.project_id.toString()} name={project.project_name} />
-        </Link>
-      );
-    });
-
   const PastProjects = projects
     .filter((project) => project.status === true)
     .map((project) => (
@@ -125,7 +108,9 @@ const page = async () => {
           <CardHeader>
             <CardTitle className="text-xl">Your Ongoing Projects</CardTitle>
           </CardHeader>
-          <div>{OngoingProjecs}</div>
+          <>
+            <OngoingProjects />
+          </>
         </Card>
       </div>
       <Card className="relative mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 overflow-hidden shadow-sm border-blue-gray-100">
