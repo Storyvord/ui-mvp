@@ -58,7 +58,7 @@ export const getUserDetails = async (token: string) => {
   if (!res.ok) {
     throw new Error("Failed to fetch user details");
   }
-  return res.json();
+  return await res.json();
 };
 
 export const getClientProfile = async (token: string) => {
