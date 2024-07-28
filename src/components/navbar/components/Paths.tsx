@@ -22,7 +22,7 @@ const Paths = () => {
         <BreadcrumbItem>
           {
             pathname.startsWith('/project-details')? 
-                <Link href="/project-details">Project-Details</Link>:
+                <span >Project-Details</span>:
                 <Link href="/dashboard/home">Dashboard</Link>      
           }
         </BreadcrumbItem>

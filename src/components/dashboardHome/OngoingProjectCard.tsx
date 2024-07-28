@@ -23,7 +23,7 @@ const OngoingProjects = () => {
   return (
     <>
     {data?.length === 0 && <h1 className=" mt-8 text-center">You don&apos;t have any ongoing project</h1>}
-      {data.map((item: any) => (
+      {data?.map((item: any) => (
         <Link key={item.project_id} href={`/project-details/${item.project_id}`}>
           <Card className="px-4 mt-4 flex justify-between cursor-pointer font-semibold shadow">
             <h2 className="w-[70%]">{item.name}</h2>

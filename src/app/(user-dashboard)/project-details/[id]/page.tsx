@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { useProjectControl } from "@/context/ProjectContext";
 
 const ProjectPage = ({ params }: { params: { id: string } }) => {
   const {
@@ -44,7 +45,13 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
     error,
   } = useGetProjectDetails(params.id);
 
-  console.log(projectDetails)
+  
+  const {setProject} =useProjectControl()
+
+  useEffect(() => {
+    setProject({id: projectDetails?.project_id, name:projectDetails?.name })
+  }, [projectDetails, setProject])
+  
 
   const { mutateAsync: deleteProject, isLoading: deletingProject } =
     useDeleteProject();

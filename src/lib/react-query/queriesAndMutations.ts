@@ -38,7 +38,7 @@ export const useUserSignIn = () => {
     onSuccess: (data) => {
       Cookies.set("accessToken", data.access);
       Cookies.set("refreshToken", data.refresh);
-      
+
       queryClient.invalidateQueries({
         queryKey: ["ongoingProjects"],
       });
@@ -133,10 +133,13 @@ export const useGetProjectDetails = (project_id: string) => {
 };
 
 export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteProject,
-    onSuccess: (data) => {
-      console.log("Deleted project:", data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["ongoingProjects"],
+      });
     },
     onError: (error) => {
       console.error("Error in deleting project:", error);

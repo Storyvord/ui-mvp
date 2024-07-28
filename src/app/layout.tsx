@@ -1,18 +1,17 @@
-"use client"
 import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import { ReactQueryClientProvider } from "@/lib/react-query/ReactQueryClientProvider";
-import { UserProvider } from "@/context/UserContext";
+import UserContextProvider from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ weight: '400',
 subsets: ['latin'] });
 
-// export const metadata: Metadata = {
-//   title: "Storyvord",
-//   description: "",
-// };
+export const metadata: Metadata = {
+  title: "Storyvord",
+  description: "",
+};
 
 export default function RootLayout({
   children,
@@ -20,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserProvider>
+    <UserContextProvider>
     <ReactQueryClientProvider>
         <html lang="en">
           <body className={roboto.className}>
@@ -28,7 +27,7 @@ export default function RootLayout({
           </body>
         </html>
     </ReactQueryClientProvider>
-    </UserProvider>
+    </UserContextProvider>
     
   );
 }

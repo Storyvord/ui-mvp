@@ -156,7 +156,6 @@ export const deleteProject = async ({ project_id }: { project_id: string }) => {
   if (!res.ok) {
     throw new Error("Failed to delete project");
   }
-  return res.json();
 };
 
 export const completeProject = async ({

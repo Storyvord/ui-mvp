@@ -1,3 +1,5 @@
+'use client'
+
 import { getUserDetails } from "@/lib/api/api";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
@@ -15,7 +17,7 @@ interface UserContextProps {
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+ const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   return (
     <UserContext.Provider value={{ userDetails, setUserDetails }}>
@@ -31,3 +33,5 @@ export const useUser = () => {
   }
   return context;
 };
+
+export default UserContextProvider
