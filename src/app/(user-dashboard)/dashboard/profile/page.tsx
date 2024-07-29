@@ -117,7 +117,7 @@ const Page: React.FC = () => {
                         {profile.reviewScore}
                       </p>
                     </div> */}
-                    <div className="flex mt-4 lg:mt-0">
+                    {/* <div className="flex mt-4 lg:mt-0">
                       <button
                         className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-2 px-4 rounded-lg border border-blue-500 text-blue-500 hover:opacity-75 focus:ring focus:ring-blue-200 active:opacity-[0.85] mr-2"
                         type="button"
@@ -130,7 +130,7 @@ const Page: React.FC = () => {
                       >
                         Message
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
