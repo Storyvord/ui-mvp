@@ -1,6 +1,8 @@
-'use client'
+"use client";
 
+import { getUserDetails } from "@/lib/api/api";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import Cookies from "js-cookie";
 
 interface UserDetails {
   id: number;
@@ -14,12 +16,11 @@ interface UserContextProps {
   setUserDetails: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }
 
-
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
- const UserContextProvider = ({ children }: { children: ReactNode }) => {
+const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  
+
   return (
     <UserContext.Provider value={{ userDetails, setUserDetails }}>
       {children}
@@ -35,4 +36,4 @@ export const useUser = () => {
   return context;
 };
 
-export default UserContextProvider
+export default UserContextProvider;

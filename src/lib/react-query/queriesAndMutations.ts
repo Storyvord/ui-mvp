@@ -15,6 +15,10 @@ import {
   getClientProfile,
   updateClientProfile,
   getOngoingProjects,
+  getTasks,
+  createNewTask,
+  deleteTask,
+  completeTask,
 } from "../api/api";
 import Cookies from "js-cookie";
 
@@ -63,8 +67,8 @@ export const useGetUserDetails = () => {
       return await getUserDetails(token);
     },
     enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
-    cacheTime: 0,  // Disable caching
-    staleTime: 0,  // Data is always considered stale
+    cacheTime: 0, // Disable caching
+    staleTime: 0, // Data is always considered stale
   });
 };
 
@@ -162,6 +166,79 @@ export const useCompleteProject = (projectId: string) => {
     },
   });
 };
+
+//----------------------------tasks----------------------------
+export const useGetTasks = (projectId: string) => {
+  return useQuery({
+    queryKey: ["getTasks", projectId],
+    queryFn: ({ queryKey }) => {
+      const [_key, projectId] = queryKey;
+      return getTasks(projectId);
+    },
+  });
+};
+
+export const useCreateNewTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createNewTask,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getTasks"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error from getTasks ::", error);
+    },
+  });
+};
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getTasks"],
+      });
+    },
+    onError: (error) => {
+      console.error("Error in deleting project:", error);
+    },
+  });
+};
+
+export const useCompleteTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: completeTask,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getTasks"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const useLocationList = () => {
   return useMutation(

@@ -11,9 +11,9 @@ import CreateTask from './CreateTask'
 
 interface TaskCardProps {
   task: taskType,
-  completeTask: (id:number) => void,
+  completeTask: (task:taskType) => void,
   deleteTask: (id:number) => void,
-  editTask: (id:number, task: taskFormType) => void
+  editTask: (id:number, task:any) => void
 }
 
 const TaskCard: FC<TaskCardProps> = ({task, completeTask, deleteTask, editTask}) => {
@@ -24,16 +24,16 @@ const TaskCard: FC<TaskCardProps> = ({task, completeTask, deleteTask, editTask})
         <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
                 <div className='flex py-2 relative pl-6 gap-2 items-center'>
-                    <div className={`absolute top-2 left-2 h-[47px] w-[6px] ${task.status ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                    <div className={`absolute top-2 left-2 h-[47px] w-[6px] ${task.completed ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
                     <div className='flex w-full h-full items-center gap-2 justify-between'>
                         <div className='flex items-center gap-3'>
-                            <Checkbox checked={task.status} onClick={() => completeTask(task.id)}/>
+                            <Checkbox checked={task.completed} onClick={() => completeTask(task)}/>
                             <h1 className='font-sans text-gray-700 font-bold text-[14px] sm:text-[16px]'>{task.title}</h1>
                         </div>
                         <div className='flex gap-2 items-center'>
                             <div className='hidden sm:block font-sans mr-10 text-center'>
                                 <p className="text-black text-[10px]">Task Deadline</p>
-                                <p className="text-gray-500 text-[14px]">{task.deadline}</p>
+                                <p className="text-gray-500 text-[14px]">{task.due_date}</p>
                             </div>
                             <Button variant="outline" size="icon" onClick={() => setFormOpen(!formOpen)}>
                                 <PencilIcon className='w-5 h-5'/>
@@ -49,11 +49,11 @@ const TaskCard: FC<TaskCardProps> = ({task, completeTask, deleteTask, editTask})
                 <AccordionContent>
                     <p className='text-gray-500'>
                         <span className='font-sans text-gray-700 font-bold text-[14px] mr-1'>Task Description: </span>
-                        {task.desc}
+                        {task.description}
                     </p>
                     <p className='text-gray-500 sm:hidden'>
                         <span className='font-sans text-gray-700 font-bold text-[14px] mr-1'>Task DeadLine: </span>
-                        {task.deadline}
+                        {task.due_date}
                     </p>
                 </AccordionContent>
             </AccordionItem>

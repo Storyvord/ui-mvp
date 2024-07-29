@@ -6,8 +6,8 @@ import { ArrowDownAZIcon, SearchIcon} from 'lucide-react'
 import { FC, useState} from 'react'
 
 interface ToolBarProps {
-  sortBy: "id" | "deadline" | "title" | "status",
-  handleSort: (property:"id" |"deadline" | "title" | "status") => void,
+  sortBy:  "id" | "due_date" | "title" | "completed",
+  handleSort: (property: "id" | "due_date" | "title" | "completed") => void,
   setFormOpen: (value: boolean) => void,
   formOpen: boolean,
   searchFilter: string,
@@ -49,7 +49,7 @@ const ToolBar: FC<ToolBarProps> = ({sortBy, handleSort, setFormOpen, formOpen, s
                 <DropdownMenuContent className="w-30">
                     <DropdownMenuLabel>Sort by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuRadioGroup value={sortBy} onValueChange={(value)=>(handleSort(value as "deadline" | "title" | "status"))}>
+                    <DropdownMenuRadioGroup value={sortBy} onValueChange={(value)=>(handleSort(value as  "due_date" | "title" | "completed"))}>
                         <DropdownMenuRadioItem value="id">date added</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="deadline">deadline</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="title">title</DropdownMenuRadioItem>

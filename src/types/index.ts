@@ -53,12 +53,17 @@ export type calenderEventType = {
 export type projectFormInputType = z.infer<typeof projectFormSchema>;
 
 export type taskType = {
-  id: number;
+  id: number
   title: string;
-  desc?: string;
-  deadline: string;
-  status: boolean;
-};
+  description: string;
+  due_date: string;
+  completed: boolean;
+  completion_requested: boolean;
+  project: string;
+  assigned_to: number | null;
+  requester: number | null;
+  created_by: number;
+}
 
 export type taskFormType = z.infer<typeof taskFormSchema>;
 
