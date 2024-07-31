@@ -3,7 +3,7 @@ import Client from './Client'
 
 const page = () => {
   return (
-    <div>
+    <div className='px-4'>
       <Client/>
     </div>
   )

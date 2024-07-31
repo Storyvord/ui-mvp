@@ -8,15 +8,15 @@ const Announcements = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const CreateButton = (
-    <Button onClick={() => setOpenDialog(!openDialog)} className=" text-md mt-8">
+    <Button onClick={() => setOpenDialog(!openDialog)} className=" text-md mt-4">
       + Create a new announcement
     </Button>
   );
   return (
-    <div className=" w-full">
-      <h1 className=" text-3xl">Announcements</h1>
+    <div className=" w-full px-4">
+      <h1 className=" text-3xl mt-4">Announcements</h1>
       {CreateButton}
-      {/* <div className="space-y-2 mt-8 text-center">
+      {/* <div className="space-y-2 mt-8 text-center px-4">
         <h1 className=" text-2xl text-gray-400 w-[80%] mx-auto">
           Communicate important information to departments or the entire crew in
           one go and avoid time-draining email follow-ups.

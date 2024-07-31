@@ -17,7 +17,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <SideBarContextProvider>
           <ProjectContextProvider>
             <SideBar />
-            <div className="p-4 lg:ml-80">
+            <div className="lg:ml-72">
               <NavBar />
               {children}
             </div>

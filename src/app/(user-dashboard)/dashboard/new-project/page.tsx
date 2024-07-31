@@ -147,7 +147,7 @@ const CreateProjectPage = () => {
   };
 
   return (
-    <div className="MuiBox-root css-8atqhb">
+    <div className="MuiBox-root css-8atqhb px-4">
       <h1 className=" text-center md:mt-1 md:mb-6 sm:text-3xl text-xl font-semibold underline">
         Create a new Project
       </h1>

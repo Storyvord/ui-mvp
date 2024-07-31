@@ -71,7 +71,7 @@ const page = async () => {
       </TableRow>
     ));
   return (
-    <div className="mt-12 lg:gap-16 gap-9">
+    <div className="mt-12 lg:gap-16 gap-9 px-4">
       <div className="md:flex justify-between gap-4">
         <div className="md:w-96 mt-4 w-full">
           <Card className="flex justify-between cursor-pointer">

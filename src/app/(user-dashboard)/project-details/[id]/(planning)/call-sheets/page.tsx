@@ -94,7 +94,7 @@ const Page: FC = () => {
   };
 
   return (
-    <div className='py-4'>
+    <div className='py-4 px-4'>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="p-2 flex flex-col items-start">
         {activeTab === "Call Sheets" && (

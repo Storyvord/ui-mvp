@@ -108,7 +108,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <div>
+    <div className="px-4">
       <TaskNavbar taskFilter={taskFilter} setTaskFilter={setTaskFilter} />
       <hr></hr>
       <ToolBar
