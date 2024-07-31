@@ -1,17 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## USE YARN ONLY. DO NOT USE NPM
 
-## Getting Started
-
-First, run the development server:
+We will be required to enable corepack. Use this command
 
 ```bash
-npm run dev
-# or
+corepack enable
+```
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Installing Dependencies
+
+```bash
+yarn install
+```
+
+## Run the app
+
+```bash
+
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

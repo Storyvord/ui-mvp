@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-   reactStrictMode: false,
+  reactStrictMode: false,
   images: {
-    domains: ['images.unsplash.com','res.cloudinary.com', 'storyvord.com', 'content.skyscnr.com', 'logos.skyscnr.com'], // Allow images from any domain
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "**" },
+      { protocol: "https", hostname: "res.cloudinary.com", pathname: "**" },
+      { protocol: "https", hostname: "storyvord.com", pathname: "**" },
+      { protocol: "https", hostname: "content.skyscnr.com", pathname: "**" },
+      { protocol: "https", hostname: "logos.skyscnr.com", pathname: "**" },
+    ],
   },
 };
 
