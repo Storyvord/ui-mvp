@@ -11,11 +11,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Loader from "@/components/Loader";
-import { announcementFormFields } from "@/constant/constant";
+import { AnnouncementFormFieldConfig, announcementFormInputType } from "@/types";
 
+const announcementFormFields: AnnouncementFormFieldConfig[] = [
+  {
+    name: "title",
+    label: "Title",
+    type: "text",
+    placeholder: "enter title",
+  },
+  {
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "message",
+  },
+  {
+    name: "expirationDate",
+    label: "Expiration Date",
+    type: "date",
+  },
+  {
+    name: "file",
+    label: "File",
+    type: "file",
+  },
+];
 type AnnouncementFormProps = {
-  form: any; // Replace 'any' with the correct type for form
-  onSubmit: (data: any) => void; // Replace 'any' with the correct type for form data
+  form: any;
+  onSubmit: (data: announcementFormInputType) => void; 
   isLoading: boolean;
 };
 

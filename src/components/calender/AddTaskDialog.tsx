@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import DialogForm from './DialogForm';
 import { calenderFormType } from '@/types';
 
-interface CalendarDialogProps {
+type CalendarDialogProps = {
   open: boolean;
   handleChange: ({name, value}:{name:string, value:string | string[]})=>void,
   data: calenderFormType,

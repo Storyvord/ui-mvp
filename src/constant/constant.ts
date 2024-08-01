@@ -456,29 +456,3 @@ export const destn = [
 ];
 
 
-
-export const announcementFormFields: AnnouncementFormFieldConfig[] = [
-  {
-    name: "title",
-    label: "Title",
-    type: "text",
-    placeholder: "enter title",
-  },
-  {
-    name: "message",
-    label: "Message",
-    type: "textarea",
-    placeholder: "message",
-  },
-  {
-    name: "expirationDate",
-    label: "Expiration Date",
-    type: "date",
-  },
-  {
-    name: "file",
-    label: "File",
-    type: "file",
-  },
-];
-
