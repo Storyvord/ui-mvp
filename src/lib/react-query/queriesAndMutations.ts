@@ -168,6 +168,7 @@ export const useCompleteProject = (projectId: string) => {
 };
 
 //----------------------------tasks----------------------------
+
 export const useGetTasks = (projectId: string) => {
   return useQuery({
     queryKey: ["getTasks", projectId],
@@ -209,6 +210,7 @@ export const useDeleteTask = () => {
   });
 };
 
+
 export const useCompleteTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -223,8 +225,6 @@ export const useCompleteTask = () => {
       console.error(error);
     },
   });
-
-
 }
 
 

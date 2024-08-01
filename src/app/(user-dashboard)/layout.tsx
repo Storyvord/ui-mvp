@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import SideBar from "@/components/sidebar/SideBar";
 import NavBar from "@/components/navbar/NavBar";
+import { Toaster } from "@/components/ui/toaster"
 
 import SideBarContextProvider from "@/context/SideBarContext";
 import UserContextProvider from "@/context/UserContext";
@@ -21,6 +22,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               <NavBar />
               {children}
             </div>
+              <Toaster />
           </ProjectContextProvider>
         </SideBarContextProvider>
       </div>

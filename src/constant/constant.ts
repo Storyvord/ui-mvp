@@ -1,4 +1,4 @@
-import { calenderEventType, projectArray } from "../types";
+import { AnnouncementFormFieldConfig, calenderEventType, projectArray } from "../types";
 import { projectDetailItem } from "../types";
 import moment from "moment";
 import { RiRobot2Line } from "react-icons/ri";
@@ -454,3 +454,31 @@ export const destn = [
     image: "https://storyvord.com/img/video-world-img12.png",
   },
 ];
+
+
+
+export const announcementFormFields: AnnouncementFormFieldConfig[] = [
+  {
+    name: "title",
+    label: "Title",
+    type: "text",
+    placeholder: "enter title",
+  },
+  {
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "message",
+  },
+  {
+    name: "expirationDate",
+    label: "Expiration Date",
+    type: "date",
+  },
+  {
+    name: "file",
+    label: "File",
+    type: "file",
+  },
+];
+

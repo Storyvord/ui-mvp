@@ -1,5 +1,5 @@
 import { ClientProfileUpdateFormType, projectFormInputType, taskFormType, taskType } from "@/types";
-import { API_URL, USER_API } from "@/utils/constant";
+import { API_URL, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
 
 export const registerUser = async (data: {
@@ -27,13 +27,7 @@ export const registerUser = async (data: {
   return res.json();
 };
 
-export const userSignIn = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
+export const userSignIn = async ({ email, password }: { email: string; password: string }) => {
   const res = await fetch(`${USER_API}/auth/jwt/create/`, {
     method: "POST",
     headers: {
@@ -51,7 +45,7 @@ export const userLogout = () => {
   Cookies.remove("accessToken");
   Cookies.remove("refreshToken");
 
-  return null
+  return null;
 };
 
 export const getUserDetails = async (token: string) => {
@@ -78,9 +72,7 @@ export const getClientProfile = async (token: string) => {
   return res.json();
 };
 
-export const updateClientProfile = async (
-  data: ClientProfileUpdateFormType
-) => {
+export const updateClientProfile = async (data: ClientProfileUpdateFormType) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     method: "PUT",
@@ -134,11 +126,7 @@ export const getOngoingProjects = async () => {
   }
 };
 
-export const getProjectDetails = async ({
-  project_id,
-}: {
-  project_id: string;
-}) => {
+export const getProjectDetails = async ({ project_id }: { project_id: string }) => {
   try {
     const token = Cookies.get("accessToken");
     const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
@@ -169,11 +157,7 @@ export const deleteProject = async ({ project_id }: { project_id: string }) => {
   }
 };
 
-export const completeProject = async ({
-  project_id,
-}: {
-  project_id: string;
-}) => {
+export const completeProject = async ({ project_id }: { project_id: string }) => {
   const res = await fetch(
     `${API_URL}/api/project/mark-project-as-completed/?project_id=${project_id}`,
     {
@@ -192,7 +176,7 @@ export const completeProject = async ({
 
 //------------------------------tasks------------------------//
 
-export const getTasks = async (project_id: string ) => {
+export const getTasks = async (project_id: string) => {
   const token = Cookies.get("accessToken");
   try {
     const res = await fetch(`${USER_API}/api/tasks/projects/${project_id}/tasks/`, {
@@ -206,11 +190,17 @@ export const getTasks = async (project_id: string ) => {
 
     return res.json();
   } catch (err) {
-    console.log("API error from :: getTasks ::",err);
+    console.log("API error from :: getTasks ::", err);
   }
-}
+};
 
-export const createNewTask = async ({taskData, projectId}: {taskData:taskFormType, projectId:string}) => {
+export const createNewTask = async ({
+  taskData,
+  projectId,
+}: {
+  taskData: taskFormType;
+  projectId: string;
+}) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/tasks/projects/${projectId}/tasks/`, {
     method: "POST",
@@ -226,7 +216,7 @@ export const createNewTask = async ({taskData, projectId}: {taskData:taskFormTyp
   }
 
   return res.json();
-}
+};
 
 export const deleteTask = async (taskId: number) => {
   const token = Cookies.get("accessToken");
@@ -239,9 +229,15 @@ export const deleteTask = async (taskId: number) => {
   if (!res.ok) {
     throw new Error("Failed to delete project");
   }
-}
+};
 
-export const completeTask = async ({taskId, taskData}: {taskId: number, taskData:taskType}) => {
+export const completeTask = async ({
+  taskId,
+  taskData,
+}: {
+  taskId: number;
+  taskData: taskType;
+}) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/`, {
     method: "PUT",
@@ -255,19 +251,9 @@ export const completeTask = async ({taskId, taskData}: {taskId: number, taskData
     throw new Error("Failed to fetch user details");
   }
   return res.json();
+};
 
-}
-
-
-
-
-
-
-
-export const fetchLocation = async (params: {
-  search: string;
-  page: number;
-}) => {
+export const fetchLocation = async (params: { search: string; page: number }) => {
   const { search, page } = params;
   const apiKey = process.env.NEXT_PUBLIC_LOCATION_API_KEY;
   const res = await fetch(
@@ -287,15 +273,9 @@ export const fetchLocation = async (params: {
   return res.json();
 };
 
-export const fetchProjectLogistics = async ({
-  project_id,
-}: {
-  project_id: string;
-}) => {
+export const fetchProjectLogistics = async ({ project_id }: { project_id: string }) => {
   try {
-    const res = await fetch(
-      `${API_URL}/api/logistics/list-project-logistics/${project_id}`
-    );
+    const res = await fetch(`${API_URL}/api/logistics/list-project-logistics/${project_id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch project logistics");
     }
@@ -307,15 +287,9 @@ export const fetchProjectLogistics = async ({
   }
 };
 
-export const fetchProjectCulture = async ({
-  project_id,
-}: {
-  project_id: string;
-}) => {
+export const fetchProjectCulture = async ({ project_id }: { project_id: string }) => {
   try {
-    const res = await fetch(
-      `${API_URL}/api/culture/project-cultures/${project_id}`
-    );
+    const res = await fetch(`${API_URL}/api/culture/project-cultures/${project_id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch project Cultures");
     }
@@ -327,11 +301,7 @@ export const fetchProjectCulture = async ({
   }
 };
 
-export const fetchProjectComplience = async ({
-  project_id,
-}: {
-  project_id: string;
-}) => {
+export const fetchProjectComplience = async ({ project_id }: { project_id: string }) => {
   try {
     const res = await fetch(
       `${API_URL}/api/compliance/project-compliance/?project_id=${project_id}`
@@ -348,9 +318,7 @@ export const fetchProjectComplience = async ({
 };
 export const getSuggestedCrew = async (project_id: string) => {
   try {
-    const res = await fetch(
-      `${API_URL}/api/crew/view-suggested-crew/?project_id=${project_id}`
-    );
+    const res = await fetch(`${API_URL}/api/crew/view-suggested-crew/?project_id=${project_id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch suggested crew");
     }
