@@ -4,11 +4,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCreateAnnouncement } from "@/lib/react-query/queriesAndMutations/announcements";
-import { announcementFormDefaultValues } from "@/constant/defaultValue";
 import { announcementFormSchema } from "@/lib/validation";
 import { announcementFormInputType } from "@/types";
 import AnnouncementForm from "./AnnouncementForm";
 
+export const announcementFormDefaultValues = {
+  title: "",
+  message: "",
+  expirationDate: "",
+  file: null,
+}
 type Props = {
   openDialog: boolean;
   setOpenDialog: (value: boolean) => void;
