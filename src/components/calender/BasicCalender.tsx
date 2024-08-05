@@ -2,76 +2,40 @@
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { calenderEventType, calenderFormType } from "@/types";
 import { eventList } from "@/constant/constant";
-import AddTaskDialog from "./AddTaskDialog";
 import EventDialog from "./EventDialog";
+import AddEvent from "./AddEvent";
 
 const localizer = momentLocalizer(moment);
 
 const BasicCalender = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
-  const [events, setEvents] = useState<calenderEventType[]>(eventList);
+  const [events, setEvents] = useState(eventList);
   const handleCloseDialog = () => setIsDialogOpen(false);
   const handleCloseEventDialog = () => {
     setEventToDisplay(null);
     setIsEventDialogOpen(false);
   };
-  const [eventToDisplay, setEventToDisplay] = useState<calenderEventType | null>(null);
-  const [formData, setFormData] = useState({
+  const [eventToDisplay, setEventToDisplay] = useState(null);
+  const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
     end: "",
-    title: "",
-    desc: "",
+    title: "test",
+    description: "",
     location: "",
-    participants: [],
+
   });
 
-  const handleChange = ({ name, value }: { name: string; value: string | string[] }) => {
-    setFormData((values) => ({ ...values, [name]: value }));
-  };
 
-  const addEvent = (event: calenderFormType) => {
-    const newEvent = {
-      ...event,
-      id: events.length > 0 ? events[events.length - 1].id + 1 : 0, // Generate new ID
-      start: moment(event.start).toDate(),
-      end: moment(event.end).toDate(),
-    };
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
-  };
 
-  const deleteEvent = (id: number) => {
-    const newEvents = events.filter((event) => event.id !== id);
-    setEvents(newEvents);
-    handleCloseEventDialog();
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addEvent(formData);
-    handleCloseDialog();
-    setFormData({
-      start: "",
-      end: "",
-      title: "",
-      desc: "",
-      location: "",
-      participants: [],
-    });
-  };
-
-  const handleSelectSlot = ({ start, end }: { start: Date; end: Date }) => {
-    const startString = format(start, "yyyy-MM-dd'T'HH:mm");
-    const endString = format(end, "yyyy-MM-dd'T'HH:mm");
-    setFormData((prevData) => ({ ...prevData, start: startString, end: endString }));
+  const handleSelectSlot = () => {
     setIsDialogOpen(true);
   };
 
-  const handleSelectEvent = (event: calenderEventType) => {
+  const handleSelectEvent = (event) => {
     setEventToDisplay(event);
     setIsEventDialogOpen(true);
   };
@@ -95,15 +59,12 @@ const BasicCalender = () => {
           selectable
         />
       </div>
-      <AddTaskDialog
-        open={isDialogOpen}
-        onClose={handleCloseDialog}
-        data={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+      <AddEvent
+        openDialog={isDialogOpen}
+        setOpenDialog={handleCloseDialog}
+        formDefaultValue={formDefaultValue}
       />
       <EventDialog
-        deleteEvent={deleteEvent}
         event={eventToDisplay}
         open={isEventDialogOpen}
         onClose={handleCloseEventDialog}

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { announcementFormSchema, projectFormSchema, taskFormSchema } from "../lib/validation";
+import { announcementFormSchema, calenderFormSchema, projectFormSchema, taskFormSchema } from "../lib/validation";
 
 interface project {
   id: number;
@@ -31,24 +31,23 @@ export type projectDetailItem = {
   items: itemType[];
 };
 
-export type calenderFormType = {
+export type CalenderFormType = {
   title: string;
   start: string;
   end: string;
   desc?: string;
   location?: string;
+};
+
+export type CalenderEventType = CalenderFormType & {
   participants?: string[];
 };
 
-export type calenderEventType = {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
-  desc?: string;
-  location?: string;
+export type CalenderEventTypeWithId = CalenderFormType & {
+  id: string
   participants?: string[];
 };
+
 
 export type projectFormInputType = z.infer<typeof projectFormSchema>;
 
@@ -66,6 +65,25 @@ export type Announcements = {
   project:  string | string[]
   recipients: number[];
 };
+
+export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>
+export type CalenderFormFieldConfig = {
+  name: keyof CalenderFormFieldType;
+  label: string;
+  type: "text" | "datetime-local" | "textarea";
+  required: boolean;
+};
+
+
+
+
+
+
+
+
+
+
+
 
 export type ReturnAnnouncements = Announcements & {
   id: number;
