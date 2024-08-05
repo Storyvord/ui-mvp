@@ -63,7 +63,7 @@ const Page: React.FC = () => {
 
 
   return (
-    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
+    <div className="relative px-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
       <div className="p-4">
         <div className="px-4 pb-4">
           <div className="mb-2 flex justify-between items-center">

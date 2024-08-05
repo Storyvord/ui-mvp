@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { projectFormSchema, taskFormSchema } from "../lib/validation";
+import { announcementFormSchema, projectFormSchema, taskFormSchema } from "../lib/validation";
 
 interface project {
   id: number;
@@ -16,7 +16,7 @@ export type SignUpFormData = {
   userType: string;
   password: string;
   confirmPassword: string;
-}
+};
 
 export type projectArray = project[];
 
@@ -52,8 +52,29 @@ export type calenderEventType = {
 
 export type projectFormInputType = z.infer<typeof projectFormSchema>;
 
+export type announcementFormInputType = z.infer<typeof announcementFormSchema>;
+export type AnnouncementFormFieldConfig = {
+  name: keyof announcementFormInputType; // Ensures the name matches a key in the form type
+  label: string;
+  type: "text" | "textarea" | "date" | "file" | "checkbox";
+  placeholder?: string;
+};
+
+export type Announcements = {
+  title: string;
+  message: string;
+  project:  string | string[]
+  recipients: number[];
+};
+
+export type ReturnAnnouncements = Announcements & {
+  id: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type taskType = {
-  id: number
+  id: number;
   title: string;
   description: string;
   due_date: string;
@@ -63,7 +84,7 @@ export type taskType = {
   assigned_to: number | null;
   requester: number | null;
   created_by: number;
-}
+};
 
 export type taskFormType = z.infer<typeof taskFormSchema>;
 
@@ -106,7 +127,6 @@ export type SelectedCrewMember = {
   location: string;
 };
 
-
 export type PreferredCrewMember = {
   crew_member: SelectedCrewMember;
   preferred_because: string;
@@ -118,7 +138,7 @@ export type Project = {
   link: string;
   thumbnailUrl: string;
   createTime: string;
-}
+};
 
 // Define the FormData interface
 export type ClientProfileUpdateFormType = {
@@ -131,14 +151,14 @@ export type ClientProfileUpdateFormType = {
   locality: string;
   personalWebsite: string;
   role: string;
-}
+};
 
 export type ProjectData = {
   imageUrl: string;
   projectTitle: string;
   projectDescription: string;
   projectLink: string;
-}
+};
 
 export type PageProps = {
   profileData?: {
@@ -156,4 +176,12 @@ export type PageProps = {
     socialMedia: { name: string; link: string }[];
   };
   projectsData?: ProjectData[];
-}
+};
+
+
+
+
+
+
+
+

@@ -213,7 +213,7 @@ const File: FC = () => {
   );
 
   return (
-    <section className="relative py-5">
+    <section className="relative py-5 px-4">
       <Tabs
         activeTab={activeTab}
         setActiveTab={(tab) => {

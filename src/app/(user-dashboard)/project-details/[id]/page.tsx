@@ -76,14 +76,14 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
 
   if (error) {
     return (
-      <div className="w-full text-center text-red-700">
+      <div className="w-full text-center text-red-700 ">
         Failed to fetch project details
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center gap-2 py-2 w-full h-auto">
+    <div className="flex flex-col items-center gap-2 py-2 w-full h-auto px-4">
       <Card className="relative w-full h-full bg-white shadow-lg rounded-xl overflow-auto pt-2">
         <CardHeader className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between sm:space-y-0">
           <div className="flex gap-2 items-end justify-between sm:justify-end">

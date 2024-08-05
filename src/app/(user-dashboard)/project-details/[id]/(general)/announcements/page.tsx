@@ -1,98 +1,45 @@
-"use client"
-import React, { useState, ChangeEvent } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { FiTrash2 } from "react-icons/fi";
+"use client";
+import React, { useState } from "react";
+import { useGetAllAnnouncements } from "@/lib/react-query/queriesAndMutations/announcements";
+import { ReturnAnnouncements } from "@/types";
+import Announcement from "@/components/user-dashboard/project-details/general/announcements/Announcement";
+import CreateAnnouncementDialog from "@/components/user-dashboard/project-details/general/announcements/CreateAnnouncementDialog";
+import CreateButton from "@/components/user-dashboard/project-details/general/announcements/CreateButton";
+import AnnouncementSkeleton from "@/components/user-dashboard/project-details/general/announcements/AnnouncementSkeleton";
 
-interface Announcement {
-  id: number;
-  content: string;
-}
-
-const Announcements: React.FC = () => {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([
-    { id: 1, content: "Welcome to our project! Stay tuned for updates." },
-    { id: 2, content: "Casting call for lead roles happening next week." },
-    { id: 3, content: "Location scouting is in progress, exciting locations to be revealed soon." },
-  ]);
-  const [previousAnnouncements, setPreviousAnnouncements] = useState<Announcement[]>([
-    { id: 1, content: "Script finalization completed." },
-    { id: 2, content: "Initial casting round completed." },
-    { id: 3, content: "Budget for the next phase approved." },
-  ]);
-  const [newAnnouncementContent, setNewAnnouncementContent] = useState<string>("");
-
-  const handleCreateAnnouncement = () => {
-    if (!newAnnouncementContent.trim()) return; // Prevent adding empty announcements
-    const newAnnouncement: Announcement = {
-      id: announcements.length + 1,
-      content: newAnnouncementContent,
-    };
-    setAnnouncements([...announcements, newAnnouncement]);
-    setNewAnnouncementContent(""); // Clear input after adding
-  };
-
-  const handleDeleteAnnouncement = (announcementId: number) => {
-    const announcementToDelete = announcements.find((announcement) => announcement.id === announcementId);
-    if (announcementToDelete) {
-      setPreviousAnnouncements([...previousAnnouncements, announcementToDelete]);
-      setAnnouncements(announcements.filter((announcement) => announcement.id !== announcementId));
-    }
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewAnnouncementContent(e.target.value);
-  };
+const Announcements = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const { data, isLoading } = useGetAllAnnouncements();
 
   return (
-    <div className="mt-12 px-4 md:px-0">
-      <Tabs>
-        <TabList className="flex gap-6 underline mb-8 cursor-pointer">
-          <Tab>Current Announcements</Tab>
-          <Tab>Previous Announcements</Tab>
-        </TabList>
+    <div className=" w-full px-4">
+      <h1 className=" text-3xl my-4 underline">Announcements</h1>
 
-        <TabPanel>
-          <h2 className="text-2xl font-bold mb-4">Current Announcements</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {announcements.map((announcement) => (
-              <div key={announcement.id} className="bg-white shadow-md rounded-lg p-4 relative">
-                <p>{announcement.content}</p>
-                <button
-                  className="absolute top-0 right-0 m-2 text-red-700"
-                  onClick={() => handleDeleteAnnouncement(announcement.id)}
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8">
-            <Input
-              type="text"
-              placeholder="Type your announcement here..."
-              value={newAnnouncementContent}
-              onChange={handleInputChange}
-              className="mb-4 w-full max-w-xs"
-            />
-            <Button onClick={handleCreateAnnouncement} className="mt-4">
-              Add Announcement
-            </Button>
-          </div>
-        </TabPanel>
+      {isLoading && <AnnouncementSkeleton />}
 
-        <TabPanel>
-          <h2 className="text-2xl font-bold mb-4">Previous Announcements</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {previousAnnouncements.map((announcement) => (
-              <div key={announcement.id} className="bg-white shadow-md rounded-lg p-4">
-                <p>{announcement.content}</p>
-              </div>
+      {data?.length === 0 ? (
+        <div className="space-y-2 mt-8 text-center px-4">
+          <h1 className=" text-2xl text-gray-400 w-[80%] mx-auto">
+            Communicate important information to departments or the entire crew in one go and avoid
+            time-draining email follow-ups.
+          </h1>
+          <CreateButton openDialog={openDialog} setOpenDialog={setOpenDialog} />
+        </div>
+      ) : (
+        <>
+          <CreateButton openDialog={openDialog} setOpenDialog={setOpenDialog} />
+          <section
+            className="my-4 grid gap-4"
+            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(24rem, 1fr))" }}
+          >
+            {data?.map((item: ReturnAnnouncements) => (
+              <Announcement key={item.id} title={item.title} message={item.message} id={item.id} />
             ))}
-          </div>
-        </TabPanel>
-      </Tabs>
+          </section>
+        </>
+      )}
+
+      <CreateAnnouncementDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </div>
   );
 };

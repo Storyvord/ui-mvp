@@ -22,17 +22,9 @@ import { projectFormInputType } from "@/types";
 import { projectFormSchema } from "@/lib/validation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  content_type,
-  crew_data,
-  defaultFormValues,
-  equipment_data,
-} from "@/utils/constant";
+import { content_type, crew_data, defaultFormValues, equipment_data } from "@/constant/constant";
 import { Badge } from "@/components/ui/badge";
-import {
-  useCreateProject,
-  useLocationList,
-} from "@/lib/react-query/queriesAndMutations";
+import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
 
 interface OptionType {
   label: string;
@@ -122,9 +114,8 @@ const CreateProjectPage = () => {
 
     try {
       const project = await createProjectMutation(transformedFormData);
-      
-      if(project) router.push(`/project-details/${project.project_id}`);
-      
+
+      if (project) router.push(`/project-details/${project.project_id}`);
     } catch (e) {
       form.setError("root", {
         type: "manual",
@@ -147,7 +138,7 @@ const CreateProjectPage = () => {
   };
 
   return (
-    <div className="MuiBox-root css-8atqhb">
+    <div className="MuiBox-root css-8atqhb px-4">
       <h1 className=" text-center md:mt-1 md:mb-6 sm:text-3xl text-xl font-semibold underline">
         Create a new Project
       </h1>
@@ -188,13 +179,9 @@ const CreateProjectPage = () => {
                   <Select
                     {...field}
                     options={content_type}
-                    onChange={(selected) =>
-                      field.onChange(selected ? selected.value : "")
-                    }
+                    onChange={(selected) => field.onChange(selected ? selected.value : "")}
                     onBlur={field.onBlur}
-                    value={content_type.find(
-                      (option) => option.value === field.value
-                    )}
+                    value={content_type.find((option) => option.value === field.value)}
                   />
                   <FormMessage />
                 </FormItem>
@@ -207,9 +194,7 @@ const CreateProjectPage = () => {
                 <FormItem>
                   <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">
                     Budget:
-                    <span className="text-black pl-[10px]">
-                      ${form.getValues().budget / 1000}k
-                    </span>
+                    <span className="text-black pl-[10px]">${form.getValues().budget / 1000}k</span>
                   </FormLabel>
                   <FormControl>
                     <Slider
@@ -240,9 +225,7 @@ const CreateProjectPage = () => {
                       placeholder="Select required crew members..."
                       onChange={(selected) => {
                         field.onChange(
-                          selected
-                            ? { ...field.value, [selected.value]: 1 }
-                            : { ...field.value }
+                          selected ? { ...field.value, [selected.value]: 1 } : { ...field.value }
                         );
                       }}
                       onBlur={field.onBlur}
@@ -255,10 +238,7 @@ const CreateProjectPage = () => {
                   {Object.keys(field.value).length > 0 && (
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {Object.keys(field.value).map((key) => (
-                        <Badge
-                          key={key}
-                          className="rounded-md py-1 min-w-[200px] hover:bg-black"
-                        >
+                        <Badge key={key} className="rounded-md py-1 min-w-[200px] hover:bg-black">
                           <FormField
                             control={form.control}
                             name={`crew.${key}`}
@@ -273,9 +253,7 @@ const CreateProjectPage = () => {
                                       type="number"
                                       className="w-8 h-full p-1 text-black text-right"
                                       {...field}
-                                      onChange={(e) =>
-                                        field.onChange(Number(e.target.value))
-                                      }
+                                      onChange={(e) => field.onChange(Number(e.target.value))}
                                     />
                                     <TrashIcon
                                       className="h-5 w-5 text-white cursor-pointer hover:text-red-500"
@@ -310,9 +288,7 @@ const CreateProjectPage = () => {
                       placeholder="Select required equipments..."
                       onChange={(selected) =>
                         field.onChange(
-                          selected
-                            ? { ...field.value, [selected.value]: 1 }
-                            : { ...field.value }
+                          selected ? { ...field.value, [selected.value]: 1 } : { ...field.value }
                         )
                       }
                       onBlur={field.onBlur}
@@ -326,10 +302,7 @@ const CreateProjectPage = () => {
                   {Object.keys(field.value).length > 0 && (
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {Object.keys(field.value).map((key) => (
-                        <Badge
-                          key={key}
-                          className="rounded-md py-1 min-w-[200px] hover:bg-black"
-                        >
+                        <Badge key={key} className="rounded-md py-1 min-w-[200px] hover:bg-black">
                           <FormField
                             control={form.control}
                             name={`equipment.${key}`}
@@ -344,9 +317,7 @@ const CreateProjectPage = () => {
                                       type="number"
                                       className="w-8 h-full p-1 text-black text-right"
                                       {...field}
-                                      onChange={(e) =>
-                                        field.onChange(Number(e.target.value))
-                                      }
+                                      onChange={(e) => field.onChange(Number(e.target.value))}
                                     />
                                     <TrashIcon
                                       className="h-5 w-5 text-white cursor-pointer hover:text-red-500"
@@ -414,11 +385,11 @@ const CreateProjectPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="sm:text-[18px] font-sans font-bold text-gray-600">
-                  Upload Document
+                    Upload Document
                   </FormLabel>
                   <FormControl>
                     <Input
-                    type="file"
+                      type="file"
                       placeholder="Enter Your Project Location"
                       {...field}
                       className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
@@ -521,9 +492,7 @@ const CreateProjectPage = () => {
                     <div className="flex flex-wrap justify-between items-center gap-5">
                       <FormField
                         control={form.control}
-                        name={
-                          `locationDetails.${index}.mode_of_shooting` as const
-                        }
+                        name={`locationDetails.${index}.mode_of_shooting` as const}
                         render={({ field }) => (
                           <FormItem className="">
                             <div className="flex flex-wrap items-center gap-1">
@@ -543,9 +512,7 @@ const CreateProjectPage = () => {
                                         className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                                       />
                                     </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Indoor
-                                    </FormLabel>
+                                    <FormLabel className="font-normal">Indoor</FormLabel>
                                   </FormItem>
                                   <FormItem className="flex items-center space-x-1 space-y-0">
                                     <FormControl>
@@ -554,9 +521,7 @@ const CreateProjectPage = () => {
                                         className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                                       />
                                     </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Outdoor
-                                    </FormLabel>
+                                    <FormLabel className="font-normal">Outdoor</FormLabel>
                                   </FormItem>
                                   <FormItem className="flex items-center space-x-1 space-y-0">
                                     <FormControl>
@@ -565,9 +530,7 @@ const CreateProjectPage = () => {
                                         className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
                                       />
                                     </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Both
-                                    </FormLabel>
+                                    <FormLabel className="font-normal">Both</FormLabel>
                                   </FormItem>
                                 </RadioGroup>
                               </FormControl>

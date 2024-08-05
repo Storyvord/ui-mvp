@@ -19,7 +19,7 @@ import {
 
 import Link from "next/link";
 import OngoingProjects from "@/components/dashboardHome/OngoingProjectCard";
-import { projects, USER_API } from "@/utils/constant";
+import { projects, USER_API } from "@/constant/constant";
 
 interface project {
   id: number;
@@ -71,19 +71,15 @@ const page = async () => {
       </TableRow>
     ));
   return (
-    <div className="mt-12 lg:gap-16 gap-9">
+    <div className="mt-12 lg:gap-16 gap-9 px-4">
       <div className="md:flex justify-between gap-4">
         <div className="md:w-96 mt-4 w-full">
           <Card className="flex justify-between cursor-pointer">
-            <Link
-              href="new-project"
-              className="space-y-4 max-w-[70%] md:max-w-[85%]"
-            >
+            <Link href="new-project" className="space-y-4 max-w-[70%] md:max-w-[85%]">
               <CardTitle>Create New Project</CardTitle>
               <CardDescription className="font-normal text-blue-gray-600 leading-5">
-                Start a new project A preect is a work order between you and a
-                creator. Start a project directly with a creator, or put up a
-                posting to hire from the marketplace.
+                Start a new project A preect is a work order between you and a creator. Start a
+                project directly with a creator, or put up a posting to hire from the marketplace.
               </CardDescription>
             </Link>
             <span className="w-12">
