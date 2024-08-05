@@ -78,3 +78,20 @@ export const calenderFormSchema = z.object({
   location: z.string().optional(),
   description: z.string().optional(),
 });
+
+
+export const ExternalContactFormSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  position: z.string().min(1, { message: "Position is required" }),
+  departments: z.string().min(1, { message: "Departments is required" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  phone: z.string().min(10, { message: "Phone number should be at least 10 digits" }).regex(/^\d+$/, { message: "Phone number must be numeric" }),
+  note: z.string().optional(),
+});
+
+export const openPositionFormSchema = z.object({
+  position: z.string().min(1, { message: "Position is required" }),
+  name: z.string().min(1, { message: "Name is required" }),
+  departments: z.string().min(1, { message: "Departments are required" }),
+  note: z.string().optional(),
+});
