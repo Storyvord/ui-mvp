@@ -1,11 +1,24 @@
-import React from 'react'
+"use client";
+import Tabs from "@/components/Tabs";
+import CrewHire from "@/components/user-dashboard/project-details/planning/crew/CrewHire";
+import CrewSearch from "@/components/user-dashboard/project-details/planning/crew/CrewSearch";
+import OpenPosition from "@/components/user-dashboard/project-details/planning/crew/OpenPosition";
+import React, { useState } from "react";
 
-const page = () => {
+const tabs = ["Crew Hire", "Open Position", "Crew Search"];
+
+const Crew = () => {
+  const [activeTab, setActiveTab] = useState(tabs[0]);
   return (
     <div>
-      Crew
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs}></Tabs>
+      <section className=" w-full p-4">
+        {activeTab === tabs[0] && <CrewHire />}
+        {activeTab === tabs[1] && <OpenPosition />}
+        {activeTab === tabs[2] && <CrewSearch />}
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Crew;

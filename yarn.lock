@@ -1482,6 +1482,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-roving-focus@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-roving-focus@npm:1.1.0"
+  dependencies:
+    "@radix-ui/primitive": "npm:1.1.0"
+    "@radix-ui/react-collection": "npm:1.1.0"
+    "@radix-ui/react-compose-refs": "npm:1.1.0"
+    "@radix-ui/react-context": "npm:1.1.0"
+    "@radix-ui/react-direction": "npm:1.1.0"
+    "@radix-ui/react-id": "npm:1.1.0"
+    "@radix-ui/react-primitive": "npm:2.0.0"
+    "@radix-ui/react-use-callback-ref": "npm:1.1.0"
+    "@radix-ui/react-use-controllable-state": "npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/ce367d3033a12d639a8d445d2efa090aa4bc5a78125be568f8c8e4e59f30afd51b585a90031ec18cdba19afbaf1974633dbc0c2c3d2a14d9eb1bfea2ddbe5369
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-select@npm:2.0.0":
   version: 2.0.0
   resolution: "@radix-ui/react-select@npm:2.0.0"
@@ -1580,6 +1607,32 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/a2e8bfb70c440506dd84a1a274f9a8bc433cca37ceae275e53552c9122612e3837744d7fc6f113d6ef1a11491aa914f4add71d76de41cb6d4db72547a8e261ae
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-tabs@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-tabs@npm:1.1.0"
+  dependencies:
+    "@radix-ui/primitive": "npm:1.1.0"
+    "@radix-ui/react-context": "npm:1.1.0"
+    "@radix-ui/react-direction": "npm:1.1.0"
+    "@radix-ui/react-id": "npm:1.1.0"
+    "@radix-ui/react-presence": "npm:1.1.0"
+    "@radix-ui/react-primitive": "npm:2.0.0"
+    "@radix-ui/react-roving-focus": "npm:1.1.0"
+    "@radix-ui/react-use-controllable-state": "npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/d6cb742c36a6918dd37c6a3c531b1f6832916dde26855f6c94baf4a17d20bbb17ffd8ba9844539c568a4484a39bbdf5fc528d44534d1d46d094840836c9ff47d
   languageName: node
   linkType: hard
 
@@ -2866,7 +2919,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:2.1.1, clsx@npm:^2.0.0, clsx@npm:^2.1.0":
+"clsx@npm:2.1.1, clsx@npm:^2.1.0":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
@@ -6611,7 +6664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.0, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -6917,18 +6970,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/6d66f3bdb65e1ec79089f80314da97c9a005087a04ee034255a5de129a4c0d9fd0bf99fa7bf642781ac2dc745ca687aae3de082bd8afdd0d117bc953241e15ad
-  languageName: node
-  linkType: hard
-
-"react-tabs@npm:6.0.2":
-  version: 6.0.2
-  resolution: "react-tabs@npm:6.0.2"
-  dependencies:
-    clsx: "npm:^2.0.0"
-    prop-types: "npm:^15.5.0"
-  peerDependencies:
-    react: ^18.0.0
-  checksum: 10c0/caa17465d1482b07dd9c59d27caf7f4b8e4025f17a22ba49dee373faee6f05955de9400e02053cf8295e6ac05351633641e49cbc988d5a56e6e91f1930f8d94a
   languageName: node
   linkType: hard
 
@@ -7494,6 +7535,7 @@ __metadata:
     "@radix-ui/react-select": "npm:2.0.0"
     "@radix-ui/react-slider": "npm:1.1.2"
     "@radix-ui/react-slot": "npm:1.0.2"
+    "@radix-ui/react-tabs": "npm:^1.1.0"
     "@radix-ui/react-toast": "npm:^1.2.1"
     "@radix-ui/react-toggle": "npm:1.0.3"
     "@radix-ui/react-tooltip": "npm:1.1.1"
@@ -7527,7 +7569,6 @@ __metadata:
     react-select: "npm:5.8.0"
     react-select-async-paginate: "npm:0.7.4"
     react-slick: "npm:0.30.2"
-    react-tabs: "npm:6.0.2"
     react-to-print: "npm:2.15.1"
     react-toastify: "npm:10.0.5"
     remark-gfm: "npm:4.0.0"
@@ -7536,7 +7577,7 @@ __metadata:
     tailwindcss: "npm:3.4.1"
     tailwindcss-animate: "npm:1.0.7"
     typescript: "npm:5.3.3"
-    zod: "npm:3.23.8"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -8469,7 +8510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:3.23.8, zod@npm:^3.20.2":
+"zod@npm:^3.20.2, zod@npm:^3.23.8":
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
