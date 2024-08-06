@@ -1,6 +1,5 @@
-import { AnnouncementFormFieldConfig, calenderEventType, projectArray } from "../types";
+import { AnnouncementFormFieldConfig, projectArray } from "../types";
 import { projectDetailItem } from "../types";
-import moment from "moment";
 import { RiRobot2Line } from "react-icons/ri";
 import {
   IoDocumentsSharp,
@@ -231,14 +230,6 @@ export const projectdetailsItems: projectDetailItem[] = [
   },
 ];
 
-export const eventList: calenderEventType[] = [
-  {
-    id: 0,
-    start: moment("2024-06-06T08:00:00").toDate(),
-    end: moment("2024-06-06T11:00:00").toDate(),
-    title: "Shooting",
-  },
-];
 
 export const content_type = [
   {

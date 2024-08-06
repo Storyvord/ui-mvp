@@ -1,39 +1,53 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { CalenderFormFieldType } from "@/types";
 import { calenderFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { useCreateCalenderEvents } from "@/lib/react-query/queriesAndMutations/calender";
-import EventDialogForm from "./EventDialogForm";
-
+import { z } from "zod";
+import AddEventDialogForm from "./AddEventDialogForm";
 
 type Props = {
   openDialog: boolean;
   setOpenDialog: (value: boolean) => void;
-  formDefaultValue: CalenderFormFieldType
+  formDefaultValue: CalenderFormFieldType;
 };
+export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;
 
 const AddEvent: React.FC<Props> = ({ openDialog, setOpenDialog, formDefaultValue }) => {
   const form = useForm<CalenderFormFieldType>({
     resolver: zodResolver(calenderFormSchema),
-    defaultValues:formDefaultValue,
+    defaultValues: formDefaultValue,
   });
 
   const { id: projectId }: { id: string } = useParams();
 
-  const { mutateAsync } = useCreateCalenderEvents();
+  const { mutateAsync, isLoading, isError } = useCreateCalenderEvents();
 
-  const onSubmit = (formData: CalenderFormFieldType) => {
+  const onSubmit = async (formData: CalenderFormFieldType) => {
     const transformData = {
       ...formData,
       participants: [],
     };
-    console.log(transformData);
-    mutateAsync({ eventData: transformData, projectId });
+
+    try {
+      const res = await mutateAsync({ eventData: transformData, projectId });
+      if (res) setOpenDialog(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  return <EventDialogForm openDialog={openDialog} setOpenDialog={setOpenDialog} form={form} onSubmit={onSubmit} />;
+  return (
+    <AddEventDialogForm
+      openDialog={openDialog}
+      setOpenDialog={setOpenDialog}
+      form={form}
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+      isError={isError}
+    />
+  );
 };
 
 export default AddEvent;

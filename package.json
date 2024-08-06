@@ -54,7 +54,7 @@
     "shadcn-ui": "0.2.3",
     "tailwind-merge": "2.3.0",
     "tailwindcss-animate": "1.0.7",
-    "zod": "3.23.8"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/google-map-react": "2.1.10",

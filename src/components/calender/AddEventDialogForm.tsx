@@ -10,15 +10,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalenderFormFieldConfig, CalenderFormFieldType } from "@/types";
+import { CalenderFormFieldType } from "@/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import Loader from "../Loader";
+import moment from "moment";
 
-const formFields: CalenderFormFieldConfig[] = [
-  { name: "title", label: "Title", type: "text", required: true },
-  { name: "start", label: "Start", type: "datetime-local", required: true },
-  { name: "end", label: "End", type: "datetime-local", required: true },
-  { name: "location", label: "Location", type: "text", required: false },
-  { name: "description", label: "Description", type: "textarea", required: false },
+const formFields = [
+  { name: "title", label: "Title", type: "text" },
+  { name: "start", label: "Start", type: "datetime-local",},
+  { name: "end", label: "End", type: "datetime-local" },
+  { name: "location", label: "Location", type: "text" },
+  { name: "description", label: "Description", type: "textarea" },
 ];
 
 type Props = {
@@ -26,15 +28,23 @@ type Props = {
   setOpenDialog: (value: boolean) => void;
   form: any;
   onSubmit: (formData: CalenderFormFieldType) => void;
+  isLoading: boolean;
+  isError: boolean;
 };
 
-const EventDialogForm = ({ openDialog, setOpenDialog, form, onSubmit }: Props) => {
+const AddEventDialogForm = ({
+  openDialog,
+  setOpenDialog,
+  form,
+  onSubmit,
+  isLoading,
+  isError,
+}: Props) => {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogContent className="p-4 max-h-[85vh] overflow-auto font-sans">
-        <DialogTitle>Add New Event</DialogTitle>
+      <DialogContent className="p-4 font-sans">
+        <DialogTitle className=" text-lg">Add New Event</DialogTitle>
         <DialogDescription>Please fill out the details for your new event.</DialogDescription>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {formFields.map((field) => (
@@ -44,27 +54,28 @@ const EventDialogForm = ({ openDialog, setOpenDialog, form, onSubmit }: Props) =
                 name={field.name}
                 render={({ field: formField }) => (
                   <FormItem>
-                    <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
+                    <FormLabel className=" font-semibold text-md" >
+                      {field.label}
+                    </FormLabel>
                     <FormControl>
                       {field.type === "textarea" ? (
                         <Textarea {...formField} id={field.name} />
                       ) : (
-                        <Input
-                          {...formField}
-                          id={field.name}
-                          type={field.type}
-                          required={field.required}
-                        />
+                        <Input {...formField} id={field.name} type={field.type}  />
                       )}
                     </FormControl>
-                    <FormMessage>{form.formState.errors[field.name]?.message}</FormMessage>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             ))}
 
-            <Button type="submit" className="bg-green-500 hover:bg-green-700 font-bold">
-              Add Event
+            {isError && (
+              <p className=" text-red-600 mt-2 text-sm text-center">Failed to create event</p>
+            )}
+
+            <Button type="submit" className=" mt-4">
+              {isLoading ? <Loader /> : "Add Event"}
             </Button>
           </form>
         </Form>
@@ -73,4 +84,4 @@ const EventDialogForm = ({ openDialog, setOpenDialog, form, onSubmit }: Props) =
   );
 };
 
-export default EventDialogForm;
+export default AddEventDialogForm;

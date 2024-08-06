@@ -31,22 +31,7 @@ export type projectDetailItem = {
   items: itemType[];
 };
 
-export type CalenderFormType = {
-  title: string;
-  start: string;
-  end: string;
-  desc?: string;
-  location?: string;
-};
 
-export type CalenderEventType = CalenderFormType & {
-  participants?: string[];
-};
-
-export type CalenderEventTypeWithId = CalenderFormType & {
-  id: string
-  participants?: string[];
-};
 
 
 export type projectFormInputType = z.infer<typeof projectFormSchema>;
@@ -75,7 +60,17 @@ export type CalenderFormFieldConfig = {
 };
 
 
-
+export type CalenderEventType = {
+  id: number;
+  title: string;
+  description: string | null;
+  document: string | null;
+  location: string | null;
+  start: string;
+  end: string;
+  calender: number;
+  participants: number[];
+};
 
 
 
