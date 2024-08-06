@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import Tabs from "@/components/report/TabComponent";
+import Tabs from "@/components/Tabs";
 import CrewPageClient from "./CrewPageClient";
 import EquipmentPage from "./EquipmentPage";
 import LogisticsPage from "./logistics/LogisticsPage";
@@ -15,6 +15,7 @@ interface ClientComponentProps {
   project_id: string;
   crewRequirements: CrewRequirement[];
 }
+const tabs = ["Crew", "Equipment", "Logistics", "Compliance", "Culture", "Budget"];
 
 const ClientComponent: React.FC<ClientComponentProps> = ({
   project_id,
@@ -24,7 +25,7 @@ const ClientComponent: React.FC<ClientComponentProps> = ({
 
   return (
     <div className="container mx-auto p-4">
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
       {activeTab === "Crew" && <CrewPageClient crewRequirements={crewRequirements} />}
       {activeTab === "Equipment" && <EquipmentPage />}
       {activeTab === "Logistics" && <LogisticsPage project_id={project_id} />}
