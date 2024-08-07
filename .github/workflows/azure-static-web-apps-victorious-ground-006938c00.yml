@@ -18,6 +18,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20' # Specify Node.js 20
+
+      # Adding build command
+      - name: Install and Build
+        run: |
+          corepack enable
+          yarn install
+          yarn build
           
       - name: Build And Deploy
         id: builddeploy
