@@ -30,7 +30,7 @@ const Announcements = () => {
           <CreateButton openDialog={openDialog} setOpenDialog={setOpenDialog} />
           <section
             className="my-4 grid gap-4"
-            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(24rem, 1fr))" }}
+            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
           >
             {data?.map((item: ReturnAnnouncements) => (
               <Announcement key={item.id} title={item.title} message={item.message} id={item.id} />
