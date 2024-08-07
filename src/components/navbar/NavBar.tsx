@@ -30,13 +30,13 @@ const NavBar = () => {
         )}
         <div className="flex items-center gap-4">
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1">
+            <DropdownMenuTrigger className="flex items-center gap-1 font-semibold">
               Storyvord <IoIosArrowDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent className=" px-4">
               {companySettingsMenuItems.map((item, index) => (
                 <Link key={index} href={`/dashboard/${item.link}`}>
-                 <DropdownMenuItem  className="text-md my-2 flex gap-2 cursor-pointer hover:bg-slate-300">
+                 <DropdownMenuItem  className="text-md my-2 flex gap-4 text-gray-800 cursor-pointer hover:bg-slate-300">
                   <item.icon className=" w-5 h-5" /> {item.text}
                 </DropdownMenuItem>
                 </Link>
