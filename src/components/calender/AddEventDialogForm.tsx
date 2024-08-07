@@ -17,7 +17,7 @@ import moment from "moment";
 
 const formFields = [
   { name: "title", label: "Title", type: "text" },
-  { name: "start", label: "Start", type: "datetime-local",},
+  { name: "start", label: "Start", type: "datetime-local" },
   { name: "end", label: "End", type: "datetime-local" },
   { name: "location", label: "Location", type: "text" },
   { name: "description", label: "Description", type: "textarea" },
@@ -54,14 +54,12 @@ const AddEventDialogForm = ({
                 name={field.name}
                 render={({ field: formField }) => (
                   <FormItem>
-                    <FormLabel className=" font-semibold text-md" >
-                      {field.label}
-                    </FormLabel>
+                    <FormLabel className=" font-semibold text-md">{field.label}</FormLabel>
                     <FormControl>
                       {field.type === "textarea" ? (
                         <Textarea {...formField} id={field.name} />
                       ) : (
-                        <Input {...formField} id={field.name} type={field.type}  />
+                        <Input {...formField} id={field.name} type={field.type} />
                       )}
                     </FormControl>
                     <FormMessage />
@@ -74,7 +72,7 @@ const AddEventDialogForm = ({
               <p className=" text-red-600 mt-2 text-sm text-center">Failed to create event</p>
             )}
 
-            <Button type="submit" className=" mt-4">
+            <Button disabled={isLoading} type="submit" className=" mt-4">
               {isLoading ? <Loader /> : "Add Event"}
             </Button>
           </form>
