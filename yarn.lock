@@ -6008,7 +6008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:^0.5.40":
+"moment-timezone@npm:^0.5.40, moment-timezone@npm:^0.5.45":
   version: 0.5.45
   resolution: "moment-timezone@npm:0.5.45"
   dependencies:
@@ -7554,6 +7554,7 @@ __metadata:
     js-cookie: "npm:3.0.5"
     lucide-react: "npm:0.378.0"
     moment: "npm:2.30.1"
+    moment-timezone: "npm:^0.5.45"
     next: "npm:14.2.5"
     postcss: "npm:8"
     prettier: "npm:3.3.3"

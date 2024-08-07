@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from "moment";
+import 'moment-timezone';
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useGetAllCalenderEvents } from "@/lib/react-query/queriesAndMutations/calender";
@@ -10,6 +11,7 @@ import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { CalenderEventType } from "@/types";
 
+moment.tz.setDefault('UTC');
 const localizer = momentLocalizer(moment);
 
 const MyCalendarPage = () => {
@@ -20,17 +22,6 @@ const MyCalendarPage = () => {
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
 
-  const [transFormEvents, setTransFormEvents] = useState();
-
-  useEffect(() => {
-    setTransFormEvents(
-      events?.map((event: CalenderEventType) => ({
-        ...event,
-        start: moment(event.start).toDate(),
-        end: moment(events.end).toDate(),
-      }))
-    );
-  }, [events]);
 
   const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
@@ -41,6 +32,7 @@ const MyCalendarPage = () => {
   });
 
   const handleSelectSlot = ({start}: any) => {
+    console.log(start)
    
     setOpenFormDialog(true);
   };
@@ -61,7 +53,7 @@ const MyCalendarPage = () => {
       <div className="h-[90vh]">
         <Calendar
           localizer={localizer}
-          events={transFormEvents}
+          events={events}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
           selectable
