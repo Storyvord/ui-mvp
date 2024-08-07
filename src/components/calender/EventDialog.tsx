@@ -6,6 +6,7 @@ import { useDeleteEvent } from "@/lib/react-query/queriesAndMutations/calender";
 import { useParams } from "next/navigation";
 import Loader from "../Loader";
 import { CalenderEventType } from "@/types";
+import moment from "moment";
 
 
 const EventDialog = ({
@@ -33,16 +34,17 @@ const EventDialog = ({
     }
   };
 
+
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="font-sans max-h-[85vh] overflow-auto">
         <DialogTitle className="text-[30px]">{event.title}</DialogTitle>
         <div className="text-gray-700 text-[18px]">
           <h5>
-            <strong>Start:</strong> {event.start.toLocaleString()}
+            <strong>Start:</strong> {moment(event.start).format('DD-MM-YYYY')}, {moment(event.start).format('HH:mm')}
           </h5>
           <h5>
-            <strong>End:</strong> {event.end.toLocaleString()}
+            <strong>End:</strong> {moment(event.end).format('DD-MM-YYYY')}, {moment(event.end).format('HH:mm')}
           </h5>
 
           <h5>
@@ -65,7 +67,7 @@ const EventDialog = ({
           <Button onClick={() => setOpenDialog(false)} className="w-[150px] font-bold">
             Close
           </Button>
-          <Button onClick={deleteEvent} className="w-[150px] font-bold" variant="destructive">
+          <Button disabled={isLoading} onClick={deleteEvent} className="w-[150px] font-bold" variant="destructive">
             {isLoading ? <Loader /> : "Delete"}
           </Button>
         </div>
