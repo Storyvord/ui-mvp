@@ -68,7 +68,11 @@ export const announcementFormSchema = z.object({
   expirationDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Invalid date format",
   }),
-  file: z.instanceof(FileList).nullable(),
+  file: z
+    .custom<FileList | null>((val) => val === null || val instanceof FileList, {
+      message: "Invalid file type",
+    })
+    .nullable(),
 });
 
 export const calenderFormSchema = z.object({
@@ -79,13 +83,15 @@ export const calenderFormSchema = z.object({
   description: z.string().optional(),
 });
 
-
 export const ExternalContactFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   position: z.string().min(1, { message: "Position is required" }),
   departments: z.string().min(1, { message: "Departments is required" }),
   email: z.string().email({ message: "Invalid email address" }),
-  phone: z.string().min(10, { message: "Phone number should be at least 10 digits" }).regex(/^\d+$/, { message: "Phone number must be numeric" }),
+  phone: z
+    .string()
+    .min(10, { message: "Phone number should be at least 10 digits" })
+    .regex(/^\d+$/, { message: "Phone number must be numeric" }),
   note: z.string().optional(),
 });
 
