@@ -17,14 +17,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20" # Specify Node.js 20
+          node-version: "20"
+          cache: "yarn"
 
-      # Adding build command
-      - name: Install and Build
-        run: |
-          corepack enable
-          yarn install
-          yarn build
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -37,4 +32,5 @@ jobs:
           app_location: "/" # App source code path
           api_location: "" # Api source code path - optional
           output_location: "" # Built app content directory - optional
+          app_build_command: "yarn build"
           ###### End of Repository/Build Configurations ######
