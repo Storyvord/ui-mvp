@@ -1,13 +1,15 @@
 "use client";
-import { Button } from '@/components/ui/button';
-import { ArrowDownToLine, Clapperboard, Edit2, MoreVertical, Trash2 } from 'lucide-react';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { useReactToPrint } from 'react-to-print';
-import CreateCallSheetFormModal from './createCallSheet';
-import Tabs from './tabs';
-import CallSheetTemplate from './Template/CallSheetTemplate';
-import { initialFormData } from './Template/formData';
-import { CallSheet } from './types';
+import { Button } from "@/components/ui/button";
+import { ArrowDownToLine, Clapperboard, Edit2, MoreVertical, Trash2 } from "lucide-react";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import CreateCallSheetFormModal from "./createCallSheet";
+import Tabs from "./tabs";
+import CallSheetTemplate from "./Template/CallSheetTemplate";
+import { initialFormData } from "./Template/formData";
+import { CallSheet } from "./types";
+import Image from "next/image";
+import callSheetImg from "@/assets/callsheets.png"
 
 const Page: FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Call Sheets");
@@ -18,14 +20,14 @@ const Page: FC = () => {
   const templateRef = useRef(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedCallSheets = localStorage.getItem('callSheets');
-      const storedSelectedCallSheet = localStorage.getItem('selectedCallSheet');
+    if (typeof window !== "undefined") {
+      const storedCallSheets = localStorage.getItem("callSheets");
+      const storedSelectedCallSheet = localStorage.getItem("selectedCallSheet");
       try {
         setCallSheets(storedCallSheets ? JSON.parse(storedCallSheets) : []);
         setSelectedCallSheet(storedSelectedCallSheet ? JSON.parse(storedSelectedCallSheet) : null);
       } catch (error) {
-        console.error('Error parsing stored call sheets:', error);
+        console.error("Error parsing stored call sheets:", error);
         setCallSheets([]);
         setSelectedCallSheet(null);
       }
@@ -33,12 +35,12 @@ const Page: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('callSheets', JSON.stringify(callSheets));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("callSheets", JSON.stringify(callSheets));
       if (selectedCallSheet) {
-        localStorage.setItem('selectedCallSheet', JSON.stringify(selectedCallSheet));
+        localStorage.setItem("selectedCallSheet", JSON.stringify(selectedCallSheet));
       } else {
-        localStorage.removeItem('selectedCallSheet');
+        localStorage.removeItem("selectedCallSheet");
       }
     }
   }, [callSheets, selectedCallSheet]);
@@ -49,7 +51,9 @@ const Page: FC = () => {
   const handleFormSubmit = (formData: CallSheet) => {
     const pdfData = generatePdfFromFormData(formData);
     const updatedCallSheets = selectedCallSheet
-      ? callSheets.map(sheet => sheet === selectedCallSheet ? { ...formData, pdf: pdfData } as CallSheet : sheet)
+      ? callSheets.map((sheet) =>
+          sheet === selectedCallSheet ? ({ ...formData, pdf: pdfData } as CallSheet) : sheet
+        )
       : [...callSheets, { ...formData, pdf: pdfData } as CallSheet];
     setCallSheets(updatedCallSheets);
     setSelectedCallSheet({ ...formData, pdf: pdfData } as CallSheet);
@@ -58,15 +62,15 @@ const Page: FC = () => {
 
   const generatePdfFromFormData = (formData: CallSheet): any => {
     const pdfData = {
-      title: formData.title || '',
-      date: formData.date || '',
+      title: formData.title || "",
+      date: formData.date || "",
     };
     return pdfData;
   };
 
   const handlePrint = useReactToPrint({
     content: () => templateRef.current,
-    documentTitle: 'CallSheet',
+    documentTitle: "CallSheet",
   });
 
   const handleEdit = () => {
@@ -76,7 +80,7 @@ const Page: FC = () => {
 
   const handleDelete = () => {
     if (!selectedCallSheet) return;
-    const updatedCallSheets = callSheets.filter(sheet => sheet !== selectedCallSheet);
+    const updatedCallSheets = callSheets.filter((sheet) => sheet !== selectedCallSheet);
     setCallSheets(updatedCallSheets);
     setSelectedCallSheet(null);
     setMenuOpen(false);
@@ -94,15 +98,16 @@ const Page: FC = () => {
   };
 
   return (
-    <div className='py-4 px-4'>
+    <div className="py-4 px-4">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="p-2 flex flex-col items-start">
         {activeTab === "Call Sheets" && (
           <>
             {!selectedCallSheet && (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center w-full">
                 <div className="text-slate-500 text-lg lg:text-xl text-center mb-1 py-2">
-                  Generate ready to go, pre-populated call sheets in minutes with breakdown, schedule, and department information attached.
+                  Generate ready to go, pre-populated call sheets in minutes with breakdown,
+                  schedule, and department information attached.
                 </div>
 
                 <Button
@@ -122,10 +127,20 @@ const Page: FC = () => {
                   </svg>
                   <span>Create Call Sheet</span>
                 </Button>
-                <img src='https://face.storyvord.com/assets/callsheetss-6c088084.png' alt="Call Sheet Example" className="mt-5 w-5/6 max-w-full h-auto" />
+                <Image
+                  src={callSheetImg}
+                  alt="Call Sheet Example"
+                  layout="responsive"
+                  className="mt-5 w-5/6 max-w-[80%] h-auto mx-auto"
+                />
               </div>
             )}
-            <CreateCallSheetFormModal isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} initialFormData={selectedCallSheet || initialFormData} />
+            <CreateCallSheetFormModal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              onSubmit={handleFormSubmit}
+              initialFormData={selectedCallSheet || initialFormData}
+            />
             {selectedCallSheet && (
               <div className="mt-3 shadow-lg rounded-md w-full lg:w-1/3 md:w-3/5 p-2 relative bg-white">
                 <div className="absolute top-4 right-2">
@@ -159,10 +174,18 @@ const Page: FC = () => {
                 <div className="flex items-center p-4 rounded-md">
                   <Clapperboard className="text-gray-900 w-8 h-8 mr-4" />
                   <div>
-                    <h4 className="text-sm font-semibold py-2 text-slate-700">{selectedCallSheet.title}</h4>
-                    <p className='text-xs text-slate-600'>Date: {new Date(selectedCallSheet.date).toDateString()}</p>
-                    <p className='text-xs text-slate-600'>Shooting day: {getShootingDay(selectedCallSheet.date)}</p>
-                    <p className='text-xs text-slate-600'>Last updated: {new Date().toDateString()}</p>
+                    <h4 className="text-sm font-semibold py-2 text-slate-700">
+                      {selectedCallSheet.title}
+                    </h4>
+                    <p className="text-xs text-slate-600">
+                      Date: {new Date(selectedCallSheet.date).toDateString()}
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      Shooting day: {getShootingDay(selectedCallSheet.date)}
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      Last updated: {new Date().toDateString()}
+                    </p>
                   </div>
                 </div>
                 <div className="hidden">
