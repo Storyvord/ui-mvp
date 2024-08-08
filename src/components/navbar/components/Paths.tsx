@@ -33,6 +33,8 @@ const Paths = () => {
             <BreadcrumbPage className="Capitalize">{project.name}</BreadcrumbPage>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbPage className="Capitalize">{pathArray[3]}</BreadcrumbPage>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+            <BreadcrumbPage className="Capitalize">{pathArray[4]}</BreadcrumbPage>
           </>
         ) : (
           <BreadcrumbPage className="Capitalize">{pathArray[2]}</BreadcrumbPage>
