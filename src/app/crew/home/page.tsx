@@ -1,15 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { userLogout } from "@/lib/api/api";
+import Dashboard from "@/components/crew/Dashboard";
+import Navbar from "@/components/crew/Navbar";
 import React from "react";
 
 const CrewSection = () => {
 
   return (
-    <div className=" text-center">
-      CrewSection
-      <Button onClick={() => userLogout()}>Logo Out</Button>
+    <div className="">
+      <Dashboard/>
     </div>
   );
 };
