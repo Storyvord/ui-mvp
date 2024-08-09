@@ -22,6 +22,13 @@ import { CiShoppingTag } from "react-icons/ci";
 import { GoLaw } from "react-icons/go";
 import { CgFilm } from "react-icons/cg";
 
+
+import { IoIosPeople, IoMdFolder, IoMdStopwatch} from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
+import { ImAddressBook } from "react-icons/im";
+import { MdNaturePeople, MdLocationPin } from "react-icons/md";
+import { RxActivityLog } from "react-icons/rx";
+
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
 export const USER_API = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
 export const NEW_API_URL = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
@@ -443,6 +450,69 @@ export const destn = [
   {
     name: "LONDON",
     image: "https://storyvord.com/img/video-world-img12.png",
+  },
+];
+
+export const companySettingsMenuItems = [
+  {
+    link: '/employees',
+    icon: IoIosPeople ,
+    text: 'Employees & Staff',
+  },
+  {
+    link: '/address-book',
+    icon: ImAddressBook,
+    text: 'Address Book',
+  },
+  {
+    link: '/company-files',
+    icon: IoMdFolder,
+    text: 'Company Files',
+  },
+  {
+    link: '/company-tasks',
+    icon: FaTasks,
+    text: 'Company Tasks',
+  },
+  {
+    link: '/company-calendar',
+    icon: SlCalender,
+    text: 'Company Calendar',
+  },
+  {
+    link: '/timesheets',
+    icon: IoMdStopwatch,
+    text: 'TimeSheets',
+  },
+  {
+    link: '/resource-planning',
+    icon: GrResources,
+    text: 'Resource Planning',
+  },
+  {
+    link: '/actor-database',
+    icon: MdNaturePeople,
+    text: 'Actor Database',
+  },
+  {
+    link: '/location-database',
+    icon: MdLocationPin,
+    text: 'Location Database',
+  },
+  {
+    link: '/costume-database',
+    icon: PiCoatHanger,
+    text: 'Costume Database',
+  },
+  {
+    link: '/prop-database',
+    icon: CiShoppingTag,
+    text: 'Prop Database',
+  },
+  {
+    link: '/activity-logs',
+    icon: RxActivityLog,
+    text: 'Activity Logs',
   },
 ];
 

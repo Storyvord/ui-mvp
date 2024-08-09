@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/assets/logo.png";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  useGetUserDetails,
-  useUserSignIn,
-} from "@/lib/react-query/queriesAndMutations";
+import { useUserSignIn } from "@/lib/react-query/queriesAndMutations";
 import { useUser } from "@/context/UserContext";
 import { getUserDetails } from "@/lib/api/api";
 import Cookies from "js-cookie";
@@ -37,21 +34,30 @@ const SignIn: React.FC = () => {
   });
   const { mutateAsync: loginUser } = useUserSignIn();
 
-  const { data: userDetails } = useGetUserDetails();
   const { setUserDetails } = useUser();
-  useEffect(() => {
-    if (userDetails) {
-      setUserDetails(userDetails);
-    }
-  }, [userDetails, setUserDetails]);
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     setIsSubmitting(true);
     try {
       const res = await loginUser(data);
-      if (res) router.push("/dashboard/home");
+      if (res) {
+        const token: any = Cookies.get("accessToken");
+        const userDetails = await getUserDetails(token);
+
+        if (userDetails) {
+          setUserDetails(userDetails);
+          localStorage.setItem("user-details", JSON.stringify(userDetails));
+          if (userDetails.user_type === "client") {
+            router.push("/dashboard/home");
+          } else if (userDetails.user_type === "crew") {
+            router.push("/crew/home");
+          }
+        }
+      }
     } catch (err) {
       console.error(err);
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
       setError("root", { type: "manual", message: "Failed to sign in" });
     } finally {
       setIsSubmitting(false);
@@ -69,20 +75,14 @@ const SignIn: React.FC = () => {
   return (
     <div className="flex min-h-screen  justify-center bg-white -m-4">
       <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
-        <div
-          className="flex justify-center m-2 cursor-pointer"
-          onClick={handleLogoClick}
-        >
+        <div className="flex justify-center m-2 cursor-pointer" onClick={handleLogoClick}>
           <Image src={Logo} className=" w-44" alt="Logo" />
         </div>
         <div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
             <div className="rounded-md shadow-sm space-y-4">
               <div className="mb-4">
-                <Label
-                  htmlFor="email"
-                  className="block  text-[17px] font-bold text-gray-600"
-                >
+                <Label htmlFor="email" className="block  text-[17px] font-bold text-gray-600">
                   Email
                 </Label>
                 <Input
@@ -98,16 +98,11 @@ const SignIn: React.FC = () => {
                   })}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.email.message}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
                 )}
               </div>
               <div className="mb-4">
-                <Label
-                  htmlFor="password"
-                  className="block  text-[17px] font-bold text-gray-600"
-                >
+                <Label htmlFor="password" className="block  text-[17px] font-bold text-gray-600">
                   Password
                 </Label>
                 <Input
@@ -123,23 +118,15 @@ const SignIn: React.FC = () => {
                   })}
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.password.message}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
                 )}
               </div>
             </div>
-            {errors.root && (
-              <p className="text-red-500 text-center mt-1">
-                {errors.root.message}
-              </p>
-            )}
+            {errors.root && <p className="text-red-500 text-center mt-1">{errors.root.message}</p>}
             <Button
               variant="outline"
               className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm  font-medium text-white ${
-                isSubmitting
-                  ? "bg-gray-400"
-                  : "bg-black hover:bg-slate-800 hover:text-white"
+                isSubmitting ? "bg-gray-400" : "bg-black hover:bg-slate-800 hover:text-white"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               disabled={isSubmitting}
             >

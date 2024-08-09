@@ -52,7 +52,7 @@ const EventDialog = ({
           </h5>
 
           <h5>
-            <strong>Description:</strong>
+            <strong>Description:</strong>{event?.description} 
             <br />
           </h5>
           {event.participants && event.participants.length > 0 && (
