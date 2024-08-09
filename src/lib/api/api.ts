@@ -44,6 +44,8 @@ export const userSignIn = async ({ email, password }: { email: string; password:
 export const userLogout = () => {
   Cookies.remove("accessToken");
   Cookies.remove("refreshToken");
+  location.reload();
+  localStorage.clear()
 
   return null;
 };
