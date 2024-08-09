@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   return (
@@ -34,6 +35,7 @@ const Navbar = () => {
           </Button>
           <span className="">Profile</span>
           <MdNotificationsActive className="w-6 h-6" />
+          <LogoutButton/>
         </div>
       </div>
       {/* Mobile Menu */}

@@ -48,8 +48,10 @@ const SignIn: React.FC = () => {
           setUserDetails(userDetails);
           localStorage.setItem("user-details", JSON.stringify(userDetails));
           if (userDetails.user_type === "client") {
+            Cookies.set("isClient", "true")
             router.push("/dashboard/home");
           } else if (userDetails.user_type === "crew") {
+            Cookies.set("isClient", "false")
             router.push("/crew/home");
           }
         }
