@@ -1,11 +1,7 @@
 import { AnnouncementFormFieldConfig, projectArray } from "../types";
 import { projectDetailItem } from "../types";
 import { RiRobot2Line } from "react-icons/ri";
-import {
-  IoDocumentsSharp,
-  IoLocationOutline,
-  IoPeopleOutline,
-} from "react-icons/io5";
+import { IoDocumentsSharp, IoLocationOutline, IoPeopleOutline } from "react-icons/io5";
 import { FaTasks } from "react-icons/fa";
 import { GrAnnounce, GrResources, GrMoney } from "react-icons/gr";
 import { LuFileSpreadsheet, LuMonitorPlay } from "react-icons/lu";
@@ -15,6 +11,7 @@ import {
   MdCamera,
   MdGroups,
   MdGridView,
+  MdSubscriptions,
 } from "react-icons/md";
 import { PiCoatHanger } from "react-icons/pi";
 import { GiLipstick } from "react-icons/gi";
@@ -22,8 +19,7 @@ import { CiShoppingTag } from "react-icons/ci";
 import { GoLaw } from "react-icons/go";
 import { CgFilm } from "react-icons/cg";
 
-
-import { IoIosPeople, IoMdFolder, IoMdStopwatch} from "react-icons/io";
+import { IoIosPeople, IoMdFolder, IoMdSettings, IoMdStopwatch } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { ImAddressBook } from "react-icons/im";
 import { MdNaturePeople, MdLocationPin } from "react-icons/md";
@@ -236,7 +232,6 @@ export const projectdetailsItems: projectDetailItem[] = [
     ],
   },
 ];
-
 
 export const content_type = [
   {
@@ -455,65 +450,95 @@ export const destn = [
 
 export const companySettingsMenuItems = [
   {
-    link: '/employees',
-    icon: IoIosPeople ,
-    text: 'Employees & Staff',
+    title: "General",
+    items: [
+      {
+        link: "/employees",
+        icon: IoIosPeople,
+        text: "Employees & Staff",
+      },
+      {
+        link: "/address-book",
+        icon: ImAddressBook,
+        text: "Address Book",
+      },
+      {
+        link: "/company-files",
+        icon: IoMdFolder,
+        text: "Company Files",
+      },
+      {
+        link: "/company-tasks",
+        icon: FaTasks,
+        text: "Company Tasks",
+      },
+      {
+        link: "/activity-logs",
+        icon: RxActivityLog,
+        text: "Activity Logs",
+      },
+    ],
   },
   {
-    link: '/address-book',
-    icon: ImAddressBook,
-    text: 'Address Book',
+    title: "planning",
+    items: [
+      {
+        link: "/company-calendar",
+        icon: SlCalender,
+        text: "Company Calendar",
+      },
+      {
+        link: "/timesheets",
+        icon: IoMdStopwatch,
+        text: "TimeSheets",
+      },
+      {
+        link: "/resource-planning",
+        icon: GrResources,
+        text: "Resource Planning",
+      },
+    ],
   },
   {
-    link: '/company-files',
-    icon: IoMdFolder,
-    text: 'Company Files',
+    title: "database",
+    items: [
+      {
+        link: "/actor-database",
+        icon: MdNaturePeople,
+        text: "Actor Database",
+      },
+      {
+        link: "/location-database",
+        icon: MdLocationPin,
+        text: "Location Database",
+      },
+      {
+        link: "/costume-database",
+        icon: PiCoatHanger,
+        text: "Costume Database",
+      },
+      {
+        link: "/prop-database",
+        icon: CiShoppingTag,
+        text: "Prop Database",
+      },
+    ],
   },
   {
-    link: '/company-tasks',
-    icon: FaTasks,
-    text: 'Company Tasks',
+    title:"administrative",
+    items:[
+      {
+        link: "/settings",
+        icon: IoMdSettings,
+        text: "Settings",
+      },
+      {
+        link: "/subscriptions",
+        icon: MdSubscriptions,
+        text: "Subscriptions",
+      },
+    ]
   },
-  {
-    link: '/company-calendar',
-    icon: SlCalender,
-    text: 'Company Calendar',
-  },
-  {
-    link: '/timesheets',
-    icon: IoMdStopwatch,
-    text: 'TimeSheets',
-  },
-  {
-    link: '/resource-planning',
-    icon: GrResources,
-    text: 'Resource Planning',
-  },
-  {
-    link: '/actor-database',
-    icon: MdNaturePeople,
-    text: 'Actor Database',
-  },
-  {
-    link: '/location-database',
-    icon: MdLocationPin,
-    text: 'Location Database',
-  },
-  {
-    link: '/costume-database',
-    icon: PiCoatHanger,
-    text: 'Costume Database',
-  },
-  {
-    link: '/prop-database',
-    icon: CiShoppingTag,
-    text: 'Prop Database',
-  },
-  {
-    link: '/activity-logs',
-    icon: RxActivityLog,
-    text: 'Activity Logs',
-  },
+
+
 ];
-
-
