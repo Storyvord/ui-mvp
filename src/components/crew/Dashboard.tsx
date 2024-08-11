@@ -8,18 +8,21 @@ const items = [
   {
     id: 1,
     title: "Postings",
+    link: "/crew/postings",
     heading: "Awaiting work sample verification",
     description:
       " You still have work samples awaiting verification. You can change your verification methods by clicking here.",
   },
   {
     id: 2,
+    link: "/crew/applications",
     title: "Application",
     heading: "Apply to a position",
     description: "Once you've applied, you can track the status of your open applications here.",
   },
   {
     id: 3,
+    link: "/crew/projects",
     title: "Projects",
     heading: "Start a new project",
     description:
@@ -27,13 +30,14 @@ const items = [
   },
   {
     id: 4,
+    link: "/crew/home",
     title: "Actions",
     heading: "",
     description: "",
   },
-  { id: 5, title: "My network", description: "This is item 5" },
-  { id: 6, title: "Reports ", heading: "", description: "" },
-  { id: 7, title: "Learn", heading: "", description: "" },
+  { id: 5, link: "/crew/home", title: "My network", description: "" },
+  { id: 6, link: "/crew/home", title: "Reports ", heading: "", description: "" },
+  { id: 7, link: "/crew/home", title: "Learn", heading: "", description: "" },
 ];
 
 const Dashboard = () => {
@@ -52,7 +56,8 @@ const Dashboard = () => {
       </nav>
       <main className="grid grid-cols-4 grid-rows-2 gap-6 md:grid-cols-8 p-8">
         {items.map((item, index) => (
-          <div
+          <Link
+            href={item.link}
             key={item.id}
             className={clsx(`col-span-4 md:col-span-2 row-span-1 text-gray-900 cursor-pointer`, {
               "row-span-2": item.id === 4,
@@ -69,7 +74,7 @@ const Dashboard = () => {
               <p className="mb-3">{item.heading}</p>
               <CardDescription>{item.description}</CardDescription>
             </Card>
-          </div>
+          </Link>
         ))}
       </main>
     </div>
