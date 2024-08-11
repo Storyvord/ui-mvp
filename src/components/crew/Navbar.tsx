@@ -12,6 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import LogoutButton from "./LogoutButton";
+import { FaRegUser } from "react-icons/fa";
+
+
 
 const Navbar = () => {
   return (
@@ -29,13 +32,30 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="md:flex items-center gap-4 hidden">
-          <Button variant="outline">
-            Find Work
-          </Button>
-          <span className="">Profile</span>
+        <div className="md:flex items-center gap-6 hidden mr-4">
+          <Button variant="outline">Find Work</Button>
           <MdNotificationsActive className="w-6 h-6" />
-          <LogoutButton/>
+
+          <DropdownMenu >
+            <DropdownMenuTrigger>
+             <FaRegUser className=" w-8 h-8"/>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mr-4">
+              <DropdownMenuItem>
+                <Link href={"/crew/profile"} className="py-2 w-full text-center">
+                  Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={"/crew/settings"} className="py-2 w-full text-center">
+                  Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <LogoutButton />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       {/* Mobile Menu */}

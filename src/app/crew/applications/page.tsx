@@ -11,7 +11,7 @@ const Applications = () => {
       <h1 className=" text-2xl font-semibold text-gray-800">Applications</h1>
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className=" mt-4" />
       {activeTab === tabs[0] && (
-        <div className="flex flex-col items-center mt-8 bg-white rounded-md py-4 gap-2 font-mono">
+        <div className="flex flex-col items-center mt-8 bg-white rounded-md p-4 gap-2 font-mono">
           <h1 className=" text-lg">No submitted applications</h1>
           <h3 className=" text-md text-gray-700">
             Apply to postings and follow up on your applications here.
@@ -22,7 +22,7 @@ const Applications = () => {
         </div>
       )}
       {activeTab === tabs[1] && (
-        <div className="flex flex-col items-center mt-8 bg-white rounded-md py-4 gap-2 font-mono">
+        <div className="flex flex-col items-center mt-8 bg-white rounded-md p-4 gap-2 font-mono">
           <h1 className=" text-lg"> Not hired from an application yet</h1>
           <h3 className=" text-md text-gray-700">
             Keep track of all your accepted applications and view project details here.
