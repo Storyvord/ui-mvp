@@ -14,7 +14,28 @@ import {
 import LogoutButton from "./LogoutButton";
 import { FaRegUser } from "react-icons/fa";
 
-
+const navLinks = [
+  {
+    name: "Postings",
+    link: "/crew/postings",
+  },
+  {
+    name: "Projects",
+    link: "/crew/projects",
+  },
+  {
+    name: "Message",
+    link: "/crew/message",
+  },
+  {
+    name: "Tasks",
+    link: "/crew/tasks",
+  },
+  {
+    name: "Calender",
+    link: "/crew/calender",
+  },
+];
 
 const Navbar = () => {
   return (
@@ -25,20 +46,20 @@ const Navbar = () => {
             <Image src={logo} alt="logo" className="sm:h-10 h-8 w-auto cursor-pointer" />
           </Link>
           <div className="hidden md:flex gap-8">
-            <Link href={"/crew/postings"}>Postings</Link>
-            <Link href={"/crew/projects"}>Projects</Link>
-            <Link href={"/crew/message"}>Message</Link>
-            <Link href={"/crew/tasks"}>Tasks</Link>
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.link}>
+                {link.name}
+              </Link>
+            ))}
           </div>
         </div>
-
         <div className="md:flex items-center gap-6 hidden mr-4">
           <Button variant="outline">Find Work</Button>
           <MdNotificationsActive className="w-6 h-6" />
 
-          <DropdownMenu >
+          <DropdownMenu>
             <DropdownMenuTrigger>
-             <FaRegUser className=" w-8 h-8"/>
+              <FaRegUser className=" w-8 h-8" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-4">
               <DropdownMenuItem>
@@ -64,26 +85,14 @@ const Navbar = () => {
           <GiHamburgerMenu className=" w-6 h-6 cursor-pointer sm:hidden block" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className=" mr-4">
-          <DropdownMenuItem>
-            <Link href={"/crew/postings"} className="py-2 w-full text-center">
-              Postings
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={"/crew/projects"} className="py-2 w-full text-center">
-              Projects
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={"/crew/message"} className="py-2 w-full text-center">
-              Message
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={"/crew/reports"} className="py-2 w-full text-center">
-              Reports
-            </Link>
-          </DropdownMenuItem>
+          {navLinks.map((link) => (
+            <DropdownMenuItem key={link.name}>
+              <Link href={link.link} className="w-full py-2 mt-2">
+                {link.name}
+              </Link>
+            </DropdownMenuItem>
+          ))}
+
           <DropdownMenuItem>
             <Link href={"/crew/find-work"} className="w-full py-2 mt-2">
               Find Work
