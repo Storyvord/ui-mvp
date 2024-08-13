@@ -1,16 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -19,7 +11,7 @@ import {
 
 import Link from "next/link";
 import OngoingProjects from "@/components/dashboardHome/OngoingProjectCard";
-import { projects, USER_API } from "@/constant/constant";
+import { projects } from "@/constant/constant";
 
 interface project {
   id: number;

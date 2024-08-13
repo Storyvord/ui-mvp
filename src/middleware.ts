@@ -2,45 +2,47 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { verifyToken } from "./lib/api/api";
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const publicPaths = ["/", "/auth/sign-in", "/auth/sign-up"];
-  const restrictedCrewPaths = ["/crew", "/crew/home", "/crew/:path*"]; // Add all restricted paths for crew here
-  const restrictedClientPaths = ["/dashboard", "/dashboard/home", "/dashboard/:path*"]; // Add all restricted paths for clients here
+  const restrictedCrewPaths = ["/crew", "/crew/home"];
+  const restrictedClientPaths = ["/dashboard", "/dashboard/home", "/project-details"];
 
   const isPublicPath = publicPaths.includes(path);
 
   const token = request.cookies.get("accessToken");
-  const isClient = request.cookies.get("isClient")?.value;
-  
-  console.log(isClient);
+  const verifiedToken = await verifyToken(token);
 
-  if (isPublicPath && token && isClient === "true") {
+  const isClient = request.cookies.get("isClient")?.value;
+
+  if (isPublicPath && verifiedToken && isClient === "true") {
     return NextResponse.redirect(new URL("/dashboard/home", request.url));
   }
 
-  if (isPublicPath && token && isClient === "false") {
+  if (isPublicPath && verifiedToken && isClient === "false") {
     return NextResponse.redirect(new URL("/crew/home", request.url));
   }
 
-  if (!isPublicPath && !token) {
+  if (!isPublicPath && !verifiedToken) {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 
   // Prevent clients from accessing crew sections
-  const isRestrictedCrewPath = restrictedCrewPaths.some((crewPath) =>
-    path.startsWith(crewPath)
-  );
+  const isRestrictedCrewPath = restrictedCrewPaths.some((crewPath) => path.startsWith(crewPath));
 
   if (isRestrictedCrewPath && isClient === "true") {
     return NextResponse.redirect(new URL("/dashboard/home", request.url));
   }
 
-  // Prevent crew from accessing client sections
-  const isRestrictedClientPath = restrictedClientPaths.some((clientPath) =>
-    path.startsWith(clientPath)
-  );
+  // Prevent crew from accessing client sections including project-details
+  const isRestrictedClientPath = restrictedClientPaths.some((clientPath) => {
+    if (clientPath === "/project-details") {
+      return path.startsWith(clientPath); // Handles dynamic segments
+    }
+    return path.startsWith(clientPath);
+  });
 
   if (isRestrictedClientPath && isClient === "false") {
     return NextResponse.redirect(new URL("/crew/home", request.url));
