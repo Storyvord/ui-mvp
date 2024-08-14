@@ -20,3 +20,15 @@ export const profileFormValidationSchema = z.object({
   drive: z.boolean(),
   active: z.boolean(),
 });
+
+export const portfolioFormValidationSchema = z.array(
+  z.object({
+    title: z.string().min(2, "Title is required"),
+    link: z.string().url("Link must be a valid URL"),
+    image: z.instanceof(File).refine((file) => file.size > 0, "Image is required"),
+    contentTag: z.string().min(2, "Content Tag is required"),
+    description: z.string().min(2, "Description is required"),
+    providedService: z.string().min(2, "Provided Service is required"),
+    // verification_type: z.literal("client_reference"),
+  })
+);

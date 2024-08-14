@@ -32,6 +32,6 @@ export type ProfileFormData = {
     contentTag: string;
     description: string;
     providedService: string;
-    verification_type: "client_reference";
+    // verification_type: "client_reference";
   };
   
