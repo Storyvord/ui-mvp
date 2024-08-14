@@ -27,6 +27,7 @@ type Props<TFormValues extends FieldValues> = {
   formFields: FormFieldConfig<TFormValues>[];
   onSubmit: (data: TFormValues) => void;
   isLoading: boolean;
+  isError: boolean;
 };
 
 const CustomForm = <TFormValues extends FieldValues>({
@@ -34,6 +35,7 @@ const CustomForm = <TFormValues extends FieldValues>({
   formFields,
   onSubmit,
   isLoading,
+  isError,
 }: Props<TFormValues>) => {
   return (
     <Form {...form}>
@@ -73,6 +75,15 @@ const CustomForm = <TFormValues extends FieldValues>({
                         checked={field.value as boolean}
                         onCheckedChange={field.onChange}
                       />
+                    ) : type === "file" ? (
+                      <Input
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
+                          }
+                        }}
+                      />
                     ) : null}
                   </FormControl>
                   <FormMessage />
@@ -81,6 +92,11 @@ const CustomForm = <TFormValues extends FieldValues>({
             />
           );
         })}
+        {isError && (
+          <p className=" text-center text-sm text-red-600 font-semibold">
+            Filed to submit your form
+          </p>
+        )}
         <Button type="submit" disabled={isLoading}>
           {isLoading ? <Loader /> : "Submit"}
         </Button>
