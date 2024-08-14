@@ -39,3 +39,7 @@ export type EducationFormType = {
   professionalCourses: string;
   workshopsAttended: string;
 };
+
+export type SocialLinkFormType = {
+  link: string;
+};

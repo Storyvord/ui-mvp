@@ -1,5 +1,4 @@
 "use client";
-import CustomForm from "@/components/crew/CustomForm";
 import { DynamicForm } from "@/components/crew/DynamicForm";
 import { educationFormValidationSchema } from "@/lib/validation/crew";
 import { EducationFormType, FormFieldConfig } from "@/types/crew";
@@ -51,7 +50,7 @@ const Educations = () => {
   };
   return (
     <>
-      <h1 className=" text-lg sm:text-xl text-center text-gray-800 font-semibold">
+      <h1 className=" text-lg sm:text-xl text-center text-gray-800 font-semibold mt-4">
         Educational Details
       </h1>
       <DynamicForm

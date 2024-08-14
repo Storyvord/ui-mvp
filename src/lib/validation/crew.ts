@@ -45,3 +45,11 @@ export const educationFormValidationSchema = z.object({
     })
   ),
 });
+
+export const socialLinksFormValidationSchema = z.object({
+  socialLinks: z.array(
+    z.object({
+      link: z.string().url("Link must be a valid URL"),
+    })
+  ),
+});
