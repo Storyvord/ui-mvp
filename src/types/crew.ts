@@ -48,3 +48,11 @@ export type EndorsementFormType = {
   text: string;
   givenBy: string;
 };
+export type CreditsFormFields = {
+  title: string;
+  year: string;
+  role: string;
+  production: string;
+  type_of_content: string;
+  tags: string;
+};

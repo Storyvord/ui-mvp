@@ -39,9 +39,9 @@ export const portfolioFormValidationSchema = z.object({
 export const educationFormValidationSchema = z.object({
   educations: z.array(
     z.object({
-      academicQualifications: z.string().min(2, "academic qualifications required"),
-      professionalCourses: z.string().min(2, "professional course required"),
-      workshopsAttended: z.string().min(2, "workshops attended required"),
+      academicQualifications: z.string().min(2, "Academic qualifications required"),
+      professionalCourses: z.string().min(2, "Professional course required"),
+      workshopsAttended: z.string().min(2, "Workshops attended required"),
     })
   ),
 });
@@ -57,8 +57,21 @@ export const socialLinksFormValidationSchema = z.object({
 export const endorsementFormValidationSchema = z.object({
   endorsement: z.array(
     z.object({
-      text: z.string().min(2, "Link must be a valid URL"),
-      givenBy: z.string().min(2, "Link must be a valid URL"),
+      text: z.string().min(2, "Text is required"),
+      givenBy: z.string().min(2, "Given by is required"),
+    })
+  ),
+});
+
+export const creditsFormValidationSchema = z.object({
+  credits: z.array(
+    z.object({
+      title: z.string().min(2, "Title is required"),
+      year: z.string().min(2, "Year is required"),
+      role: z.string().min(2, "Role is required"),
+      production: z.string().min(2, "production is required"),
+      type_of_content: z.string().min(2, "Type of content is required"),
+      tags: z.string().min(2, "tags is required"),
     })
   ),
 });
