@@ -43,3 +43,8 @@ export type EducationFormType = {
 export type SocialLinkFormType = {
   link: string;
 };
+
+export type EndorsementFormType = {
+  text: string;
+  givenBy: string;
+};

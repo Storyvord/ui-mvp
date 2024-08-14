@@ -53,3 +53,12 @@ export const socialLinksFormValidationSchema = z.object({
     })
   ),
 });
+
+export const endorsementFormValidationSchema = z.object({
+  endorsement: z.array(
+    z.object({
+      text: z.string().min(2, "Link must be a valid URL"),
+      givenBy: z.string().min(2, "Link must be a valid URL"),
+    })
+  ),
+});
