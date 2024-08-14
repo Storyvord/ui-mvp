@@ -126,7 +126,7 @@ const CreateProfile = () => {
 
   return (
     <>
-      <h1 className=" text-center text-xl font-semibold text-gray-800">Create Your Profile</h1>
+      <h1 className=" text-center sm:text-xl text-lg font-semibold text-gray-800 mt-4">Profile Details</h1>
       <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5 bg-white p-4">
         <CustomForm
           form={form}

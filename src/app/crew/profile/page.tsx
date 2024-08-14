@@ -3,9 +3,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/ProjectComponent";
+import { useRouter } from "next/navigation";
 
 const Page: React.FC = () => {
-  
   const profile = {
     name: "Souvik Sarkar",
     role: "As an animator",
@@ -53,7 +53,7 @@ const Page: React.FC = () => {
     },
   ];
 
-
+  const router = useRouter();
 
   return (
     <div className="relative px-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">
@@ -61,14 +61,13 @@ const Page: React.FC = () => {
         <div className="px-4 pb-4">
           <div className="mb-2 flex justify-between items-center">
             <h1 className="font-semibold text-lg">Profile</h1>
-            <Link href="/dashboard/update-profile">
-              <button
-                className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-2 px-4 rounded-lg border border-gray-900 text-gray-900 hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85]"
-                type="button"
-              >
-                Update Profile
-              </button>
-            </Link>
+            <button
+              className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-2 px-4 rounded-lg border border-gray-900 text-gray-900 hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85]"
+              type="button"
+              onClick={() => router.push("/crew/update-profile")}
+            >
+              Update Profile
+            </button>
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="md:w-2/3">

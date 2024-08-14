@@ -80,7 +80,9 @@ const Portfolio = () => {
 
   return (
     <>
-      <h1 className=" text-lg sm:text-xl text-center text-gray-800 font-semibold">Create your Portfolio</h1>
+      <h1 className="sm:text-xl text-lg text-center text-gray-800 font-semibold mt-4">
+        Portfolio Details
+      </h1>
       <DynamicForm
         form={form}
         formFields={portfolioFormFields}
