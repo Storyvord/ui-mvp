@@ -40,11 +40,11 @@ export const DynamicForm = <TFormValues extends FieldValues>({
   formName,
 }: DynamicFormProps<TFormValues>) => {
   return (
-    <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5 bg-white p-4">
+    <div className="w-full space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {fields.map((field, index) => (
-            <div key={field.id} className="space-y-4 pb-4">
+            <div key={field.id} className="space-y-4 pb-4 bg-white shadow-md p-4 mt-4">
               {formFields.map((fieldConfig) => (
                 <FormField
                   key={fieldConfig.name as string}

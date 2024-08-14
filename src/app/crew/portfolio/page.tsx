@@ -79,16 +79,19 @@ const Portfolio = () => {
   };
 
   return (
-    <DynamicForm
-      form={form}
-      formFields={portfolioFormFields}
-      onSubmit={onSubmit}
-      append={() => append(portfolioDefaultValue)}
-      remove={remove}
-      fields={fields}
-      isLoading={isLoading}
-      formName="portfolio"
-    />
+    <>
+      <h1 className=" text-lg sm:text-xl text-center text-gray-800 font-semibold">Create your Portfolio</h1>
+      <DynamicForm
+        form={form}
+        formFields={portfolioFormFields}
+        onSubmit={onSubmit}
+        append={() => append(portfolioDefaultValue)}
+        remove={remove}
+        fields={fields}
+        isLoading={isLoading}
+        formName="portfolios"
+      />
+    </>
   );
 };
 
