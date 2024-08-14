@@ -83,7 +83,7 @@ export const DynamicForm = <TFormValues extends FieldValues>({
                     className="border-2 border-red-600 w-full mt-2"
                     onClick={() => remove(index)}
                   >
-                    Remove Portfolio
+                    Remove
                   </Button>
                   <hr />
                 </>
@@ -95,7 +95,7 @@ export const DynamicForm = <TFormValues extends FieldValues>({
             variant="outline"
             onClick={append}
           >
-            Add Portfolio
+            Add
           </Button>
           <Button className="w-full mt-2" type="submit" disabled={isLoading}>
             Submit

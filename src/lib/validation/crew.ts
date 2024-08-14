@@ -21,14 +21,27 @@ export const profileFormValidationSchema = z.object({
   active: z.boolean(),
 });
 
-export const portfolioFormValidationSchema = z.array(
-  z.object({
-    title: z.string().min(2, "Title is required"),
-    link: z.string().url("Link must be a valid URL"),
-    image: z.instanceof(File).refine((file) => file.size > 0, "Image is required"),
-    contentTag: z.string().min(2, "Content Tag is required"),
-    description: z.string().min(2, "Description is required"),
-    providedService: z.string().min(2, "Provided Service is required"),
-    // verification_type: z.literal("client_reference"),
-  })
-);
+export const portfolioFormValidationSchema = z.object({
+  portfolios: z.array(
+    z.object({
+      title: z.string().min(2, "Title is required"),
+      link: z.string().url("Link must be a valid URL"),
+      image: z.custom<File>((file) => file instanceof File && file.size > 0, {
+        message: "Image is required",
+      }),
+      contentTag: z.string().min(2, "Content Tag is required"),
+      description: z.string().min(2, "Description is required"),
+      providedService: z.string().min(2, "Provided Service is required"),
+    })
+  ),
+});
+
+export const educationFormValidationSchema = z.object({
+  educations: z.array(
+    z.object({
+      academicQualifications: z.string().min(2, "academic qualifications required"),
+      professionalCourses: z.string().min(2, "professional course required"),
+      workshopsAttended: z.string().min(2, "workshops attended required"),
+    })
+  ),
+});
