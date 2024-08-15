@@ -240,7 +240,7 @@ export const getEndorsement = async () => {
 
 export const getCredit = async () => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/crew/rew-credits/`, {
+  const res = await fetch(`${USER_API}/api/crew/crew-credits/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

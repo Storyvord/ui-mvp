@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
-import Profile from "../../../components/crew/profile/Profile";
-import Endorsements from "../../../components/crew/profile/Endorsements";
-import Portfolio from "../../../components/crew/profile/Portfolio";
-import SocialLinks from "../../../components/crew/profile/SocialLinks";
+import Profile from "@/components/crew/profile/Profile";
+import Endorsements from "@/components/crew/profile/Endorsements";
+import Portfolio from "@/components/crew/profile/Portfolio";
+import SocialLinks from "@/components/crew/profile/SocialLinks";
+import Credit from "@/components/crew/profile/Credit";
 import {
+  useGetCredit,
   useGetEducation,
   useGetEndorsement,
   useGetPortfolio,
@@ -12,7 +14,6 @@ import {
   useGetSocialLink,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import Education from "../../../components/crew/profile/Education";
-import { Button } from "@/components/ui/button";
 
 const ProfilePage = () => {
   const { data: profileData } = useGetProfile();
@@ -21,12 +22,14 @@ const ProfilePage = () => {
   const { data: educationData } = useGetEducation();
   const { data: socialLinks } = useGetSocialLink();
   const { data: endorsementData } = useGetEndorsement();
+  const { data: creditsData } = useGetCredit();
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <Profile profile={profileData} />
       <Endorsements endorsements={endorsementData} />
       <Portfolio portfolio={portfolioData} />
+      <Credit credits={creditsData} />
       <SocialLinks socialLinks={socialLinks} />
       <Education education={educationData} />
     </div>
