@@ -868,7 +868,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-avatar@npm:^1.1.0":
+"@radix-ui/react-avatar@npm:1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-avatar@npm:1.1.0"
   dependencies:
@@ -1794,7 +1794,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-tabs@npm:^1.1.0":
+"@radix-ui/react-tabs@npm:1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-tabs@npm:1.1.0"
   dependencies:
@@ -1820,7 +1820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-toast@npm:^1.2.1":
+"@radix-ui/react-toast@npm:1.2.1":
   version: 1.2.1
   resolution: "@radix-ui/react-toast@npm:1.2.1"
   dependencies:
@@ -3155,15 +3155,6 @@ __metadata:
     color-convert: "npm:^2.0.1"
     color-string: "npm:^1.9.0"
   checksum: 10c0/7fbe7cfb811054c808349de19fb380252e5e34e61d7d168ec3353e9e9aacb1802674bddc657682e4e9730c2786592a4de6f8283e7e0d3870b829bb0b7b2f6118
-  languageName: node
-  linkType: hard
-
-"combined-stream@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "combined-stream@npm:1.0.8"
-  dependencies:
-    delayed-stream: "npm:~1.0.0"
-  checksum: 10c0/0dbb829577e1b1e839fa82b40c07ffaf7de8a09b935cadd355a73652ae70a88b4320db322f6634a4ad93424292fa80973ac6480986247f1734a1137debf271d5
   languageName: node
   linkType: hard
 
@@ -7519,7 +7510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:^0.33.4":
+"sharp@npm:0.33.4":
   version: 0.33.4
   resolution: "sharp@npm:0.33.4"
   dependencies:
@@ -7750,7 +7741,7 @@ __metadata:
     "@hookform/resolvers": "npm:3.6.0"
     "@radix-ui/react-accordion": "npm:1.2.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.1"
-    "@radix-ui/react-avatar": "npm:^1.1.0"
+    "@radix-ui/react-avatar": "npm:1.1.0"
     "@radix-ui/react-checkbox": "npm:1.0.4"
     "@radix-ui/react-dialog": "npm:1.0.5"
     "@radix-ui/react-dropdown-menu": "npm:2.0.6"
@@ -7762,8 +7753,8 @@ __metadata:
     "@radix-ui/react-select": "npm:2.0.0"
     "@radix-ui/react-slider": "npm:1.1.2"
     "@radix-ui/react-slot": "npm:1.0.2"
-    "@radix-ui/react-tabs": "npm:^1.1.0"
-    "@radix-ui/react-toast": "npm:^1.2.1"
+    "@radix-ui/react-tabs": "npm:1.1.0"
+    "@radix-ui/react-toast": "npm:1.2.1"
     "@radix-ui/react-toggle": "npm:1.0.3"
     "@radix-ui/react-tooltip": "npm:1.1.1"
     "@types/google-map-react": "npm:2.1.10"
@@ -7799,12 +7790,12 @@ __metadata:
     react-toastify: "npm:10.0.5"
     remark-gfm: "npm:4.0.0"
     shadcn-ui: "npm:0.2.3"
-    sharp: "npm:^0.33.4"
+    sharp: "npm:0.33.4"
     tailwind-merge: "npm:2.3.0"
     tailwindcss: "npm:3.4.1"
     tailwindcss-animate: "npm:1.0.7"
     typescript: "npm:5.3.3"
-    zod: "npm:^3.23.8"
+    zod: "npm:3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -8737,7 +8728,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.20.2, zod@npm:^3.23.8":
+"zod@npm:3.23.8, zod@npm:^3.20.2":
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69

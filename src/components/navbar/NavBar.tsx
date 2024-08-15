@@ -34,14 +34,15 @@ const NavBar = () => {
               Storyvord <IoIosArrowDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent className=" px-4">
-              {companySettingsMenuItems.map((item, index) => (
-                <Link key={index} href={`/dashboard/${item.link}`}>
-                 <DropdownMenuItem  className="text-md my-2 flex gap-4 text-gray-800 cursor-pointer hover:bg-slate-300">
-                  <item.icon className=" w-5 h-5" /> {item.text}
-                </DropdownMenuItem>
-                </Link>
-               
-              ))}
+              {companySettingsMenuItems.map((details, index) =>
+                details.items.map((item) => (
+                  <Link key={index} href={`/dashboard/${item.link}`}>
+                    <DropdownMenuItem className="text-md my-2 flex gap-4 text-gray-800 cursor-pointer hover:bg-slate-300">
+                      <item.icon className=" w-5 h-5" /> {item.text}
+                    </DropdownMenuItem>
+                  </Link>
+                ))
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
           <SideBarToggler />

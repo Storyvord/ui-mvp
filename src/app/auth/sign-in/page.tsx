@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -8,7 +8,6 @@ import Logo from "@/assets/logo.png";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations";
-import { useUser } from "@/context/UserContext";
 import { getUserDetails } from "@/lib/api/api";
 import Cookies from "js-cookie";
 
@@ -34,7 +33,6 @@ const SignIn: React.FC = () => {
   });
   const { mutateAsync: loginUser } = useUserSignIn();
 
-  const { setUserDetails } = useUser();
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     setIsSubmitting(true);
@@ -45,7 +43,6 @@ const SignIn: React.FC = () => {
         const userDetails = await getUserDetails(token);
 
         if (userDetails) {
-          setUserDetails(userDetails);
           localStorage.setItem("user-details", JSON.stringify(userDetails));
           if (userDetails.user_type === "client") {
             Cookies.set("isClient", "true")
