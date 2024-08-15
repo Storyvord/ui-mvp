@@ -11,6 +11,7 @@ type PortfolioProps = {
 };
 
 const Portfolio = ({ portfolio }: PortfolioProps) => {
+  if (portfolio?.length === 0) return null;
   return (
     <div className="bg-white p-6 shadow-md max-w-4xl mx-auto">
       <h2 className="text-xl font-semibold mb-4">Portfolio</h2>
