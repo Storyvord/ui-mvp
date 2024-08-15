@@ -82,7 +82,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <GiHamburgerMenu className=" w-6 h-6 cursor-pointer sm:hidden block" />
+          <GiHamburgerMenu className=" w-6 h-6 cursor-pointer md:hidden block" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className=" mr-4">
           {navLinks.map((link) => (
