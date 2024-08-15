@@ -18,10 +18,8 @@ const fields = [
   { key: "year", label: "Year" },
   { key: "role", label: "Role" },
   { key: "production", label: "Production" },
-  { key: "client", label: "Client" },
   { key: "type_of_content", label: "Type of Content" },
   { key: "tags", label: "Tags" },
-  { key: "crew", label: "Crew Count" },
 ];
 
 const Credit = ({ credits }: CreditProps) => {

@@ -92,6 +92,9 @@ export const useGetProfile = () => {
   return useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
+    onSuccess: (data) => {
+      JSON.stringify(localStorage.setItem("crew-profile-id", data?.id));
+    },
   });
 };
 export const useGetPortfolio = () => {
