@@ -1,10 +1,12 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useCreateEndorsement } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { endorsementFormValidationSchema } from "@/lib/validation/crew";
 import { EndorsementFormType, FormFieldConfig } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { isError } from "react-query";
 
 const endorsementFormFields: FormFieldConfig<{ endorsement: EndorsementFormType[] }>[] = [
   {
@@ -38,8 +40,14 @@ const Endorsement = () => {
     control: form.control,
     name: "endorsement",
   });
+
+  const { mutateAsync, isLoading, isError } = useCreateEndorsement();
+  const user = JSON.parse(localStorage.getItem("user-details") || "");
+
   const onSubmit = (data: { endorsement: EndorsementFormType[] }) => {
-    console.log(data);
+    data.endorsement.forEach(async (item) => {
+      await mutateAsync({ ...item, crew: user?.id });
+    });
   };
   return (
     <>
@@ -53,7 +61,8 @@ const Endorsement = () => {
         append={() => append(endorsementDefaultValue)}
         remove={remove}
         fields={fields}
-        isLoading={false}
+        isLoading={isLoading}
+        isError={isError}
         formName="endorsement"
       />
     </>

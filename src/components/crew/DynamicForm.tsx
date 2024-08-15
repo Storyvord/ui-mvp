@@ -26,6 +26,7 @@ type DynamicFormProps<TFormValues extends FieldValues> = {
   remove: (index: number) => void;
   fields: { id: string }[];
   isLoading: boolean;
+  isError: boolean;
   formName: string;
 };
 
@@ -37,6 +38,7 @@ export const DynamicForm = <TFormValues extends FieldValues>({
   remove,
   fields,
   isLoading,
+  isError,
   formName,
 }: DynamicFormProps<TFormValues>) => {
   return (
@@ -90,13 +92,16 @@ export const DynamicForm = <TFormValues extends FieldValues>({
               )}
             </div>
           ))}
-          <Button
-            className="w-full border-2 border-green-600 mt-2"
-            variant="outline"
-            onClick={append}
-          >
-            Add
-          </Button>
+          {fields.length < 3 && (
+            <Button
+              className="w-full border-2 border-green-600 mt-2"
+              variant="outline"
+              onClick={append}
+            >
+              Add
+            </Button>
+          )}
+          {isError && <p className=" my-2 text-center text-red-600 ">Something went wrong</p>}
           <Button className="w-full mt-2" type="submit" disabled={isLoading}>
             Submit
           </Button>

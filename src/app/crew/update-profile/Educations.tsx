@@ -1,5 +1,6 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useCreateEducation } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { educationFormValidationSchema } from "@/lib/validation/crew";
 import { EducationFormType, FormFieldConfig } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,8 +46,14 @@ const Educations = () => {
     control: form.control,
     name: "educations",
   });
+
+  const user = JSON.parse(localStorage.getItem("user-details") || "");
+  const { mutateAsync, isLoading, isError } = useCreateEducation();
+  
   const onSubmit = (data: { educations: EducationFormType[] }) => {
-    console.log(data);
+    data.educations.forEach(async (item) => {
+      await mutateAsync({ ...item, crew: user?.id });
+    });
   };
   return (
     <>
@@ -60,7 +67,8 @@ const Educations = () => {
         append={() => append(educationsDefaultValue)}
         remove={remove}
         fields={fields}
-        isLoading={false}
+        isLoading={isLoading}
+        isError={isError}
         formName="educations"
       />
     </>

@@ -1,5 +1,6 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useCreateSocialLink } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { socialLinksFormValidationSchema } from "@/lib/validation/crew";
 import { FormFieldConfig, SocialLinkFormType } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,8 +32,14 @@ const SocialLinks = () => {
     control: form.control,
     name: "socialLinks",
   });
+
+  const { mutateAsync, isLoading, isError } = useCreateSocialLink();
+  const user = JSON.parse(localStorage.getItem("user-details") || "");
+  
   const onSubmit = (data: { socialLinks: SocialLinkFormType[] }) => {
-    console.log(data);
+    data.socialLinks.forEach(async (item) => {
+      await mutateAsync({ ...item, crew: user?.id });
+    });
   };
   return (
     <>
@@ -46,7 +53,8 @@ const SocialLinks = () => {
         append={() => append(socialLinksDefaultValue)}
         remove={remove}
         fields={fields}
-        isLoading={false}
+        isLoading={isLoading}
+        isError={isError}
         formName="socialLinks"
       />
     </>
