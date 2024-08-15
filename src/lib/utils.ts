@@ -5,7 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const convertToBase64 = (file: File | null): Promise<string | ArrayBuffer | null> => {
+export const convertToBase64 = (
+  file: string | ArrayBuffer | File | null
+): Promise<string | ArrayBuffer | null> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       return reject(new Error("No file provided"));
@@ -17,7 +19,7 @@ export const convertToBase64 = (file: File | null): Promise<string | ArrayBuffer
       if (reader.result) {
         resolve(reader.result);
       } else {
-        reject(new Error("File could not be read"));
+        reject(new Error("File could not be read or is empty"));
       }
     };
 
@@ -25,6 +27,18 @@ export const convertToBase64 = (file: File | null): Promise<string | ArrayBuffer
       reject(new Error("File reading failed"));
     };
 
-    reader.readAsDataURL(file);
+    if (file instanceof File || file instanceof Blob) {
+      reader.readAsDataURL(file);
+    } else if (typeof file === "string") {
+      // Convert string to Blob and then read it
+      const blob = new Blob([file], { type: "text/plain" });
+      reader.readAsDataURL(blob);
+    } else if (file instanceof ArrayBuffer) {
+      // Convert ArrayBuffer to Blob and then read it
+      const blob = new Blob([file]);
+      reader.readAsDataURL(blob);
+    } else {
+      reject(new Error("Unsupported file type"));
+    }
   });
 };

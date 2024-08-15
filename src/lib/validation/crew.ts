@@ -3,11 +3,16 @@ import { z } from "zod";
 export const profileFormValidationSchema = z.object({
   name: z.string().min(2, "Name is required"),
   phone: z.string().min(2, "Phone is required"),
-  image: z
-    .instanceof(File)
-    .refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
-      message: "Only .jpg or .png files are accepted",
-    }),
+  image: z.union([
+    z.string(),
+    z.instanceof(ArrayBuffer),
+    z.instanceof(File).refine(
+      (file) => file.type === "image/jpeg" || file.type === "image/png",
+      {
+        message: "Only .jpg or .png files are accepted",
+      }
+    ),
+  ]),
   location: z.string().min(2, "Location is required"),
   languages: z.string().min(2, "Languages are required"),
   job_title: z.string().min(2, "Job title is required"),

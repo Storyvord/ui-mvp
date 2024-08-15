@@ -3,7 +3,7 @@ import { FieldValues, Path } from "react-hook-form";
 export type ProfileFormData = {
   name: string;
   phone: string;
-  image: File | null;
+  image: string | ArrayBuffer | File | null;
   location: string;
   languages: string;
   job_title: string;

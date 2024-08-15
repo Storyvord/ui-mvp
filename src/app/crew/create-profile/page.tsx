@@ -120,13 +120,15 @@ const CreateProfile = () => {
 
   const onSubmit = async (data: ProfileFormData) => {
     const base64 = await convertToBase64(data.image);
-    console.log(base64);
-    // await mutateAsync(data);
+    const transformData = { ...data, image: base64 };
+    await mutateAsync(transformData);
   };
 
   return (
     <>
-      <h1 className=" text-center sm:text-xl text-lg font-semibold text-gray-800 mt-4">Profile Details</h1>
+      <h1 className=" text-center sm:text-xl text-lg font-semibold text-gray-800 mt-4">
+        Profile Details
+      </h1>
       <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5 bg-white p-4">
         <CustomForm
           form={form}
