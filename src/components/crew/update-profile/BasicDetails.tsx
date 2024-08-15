@@ -1,5 +1,6 @@
 "use client";
 import CustomForm from "@/components/crew/CustomForm";
+import { useToast } from "@/components/ui/use-toast";
 import { useCreateProfile } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { convertToBase64 } from "@/lib/utils";
 import { profileFormValidationSchema } from "@/lib/validation/crew";
@@ -110,7 +111,9 @@ const profileFormDefaultValue: ProfileFormData = {
   active: true,
 };
 
-const CreateProfile = () => {
+const BasicDetails = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(profileFormValidationSchema),
     defaultValues: profileFormDefaultValue,
@@ -121,13 +124,19 @@ const CreateProfile = () => {
   const onSubmit = async (data: ProfileFormData) => {
     const base64 = await convertToBase64(data.image);
     const transformData = { ...data, image: base64 };
-    await mutateAsync(transformData);
+    const res = await mutateAsync(transformData);
+    if (res) {
+      form.reset();
+      toast({
+        title: "Your portfolio details successfully submitted",
+      });
+    }
   };
 
   return (
     <>
       <h1 className=" text-center sm:text-xl text-lg font-semibold text-gray-800 mt-4">
-        Profile Details
+        Basic Details
       </h1>
       <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5 bg-white p-4">
         <CustomForm
@@ -141,4 +150,4 @@ const CreateProfile = () => {
     </>
   );
 };
-export default CreateProfile;
+export default BasicDetails;
