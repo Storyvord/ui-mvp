@@ -165,3 +165,89 @@ export const createCredit = async (creditData: CreditsFormFields & { crew: numbe
 
   return res.json();
 };
+
+/////////////////////////////get details////////////////
+
+export const getProfile = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/crew-profile/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch profile");
+  }
+  return res.json();
+};
+
+export const getPortfolio = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/portfolios/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch Portfolio ");
+  }
+  return res.json();
+};
+
+export const getEducation = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/crew-education/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch Education");
+  }
+  return res.json();
+};
+
+export const getSocialLink = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/social-links/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch SocialLink ");
+  }
+  return res.json();
+};
+
+export const getEndorsement = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/endorsement-from-peers/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch Endorsement ");
+  }
+  return res.json();
+};
+
+export const getCredit = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/rew-credits/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch Credit ");
+  }
+  return res.json();
+};

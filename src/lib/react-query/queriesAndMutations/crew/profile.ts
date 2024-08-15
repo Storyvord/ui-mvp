@@ -5,6 +5,12 @@ import {
   createPortfolio,
   createProfile,
   createSocialLink,
+  getCredit,
+  getEducation,
+  getEndorsement,
+  getPortfolio,
+  getProfile,
+  getSocialLink,
 } from "@/lib/api/crew/profile";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -77,5 +83,44 @@ export const useCreateCredit = () => {
     onError: (error) => {
       return;
     },
+  });
+};
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+export const useGetProfile = () => {
+  return useQuery({
+    queryKey: ["getProfile"],
+    queryFn: getProfile,
+  });
+};
+export const useGetPortfolio = () => {
+  return useQuery({
+    queryKey: ["getPortfolio"],
+    queryFn: getPortfolio,
+  });
+};
+export const useGetEducation = () => {
+  return useQuery({
+    queryKey: ["getEducation"],
+    queryFn: getEducation,
+  });
+};
+export const useGetSocialLink = () => {
+  return useQuery({
+    queryKey: ["getSocialLink"],
+    queryFn: getSocialLink,
+  });
+};
+export const useGetEndorsement = () => {
+  return useQuery({
+    queryKey: ["getEndorsement"],
+    queryFn: getEndorsement,
+  });
+};
+export const useGetCredit = () => {
+  return useQuery({
+    queryKey: ["getCredit"],
+    queryFn: getCredit,
   });
 };
