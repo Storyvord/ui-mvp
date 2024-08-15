@@ -6,6 +6,7 @@ import { PortfolioFormData, FormFieldConfig } from "@/types/crew";
 import { portfolioFormValidationSchema } from "@/lib/validation/crew";
 import { useCreatePortfolio } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { convertToBase64 } from "@/lib/utils";
 
 const portfolioFormFields: FormFieldConfig<{ portfolios: PortfolioFormData[] }>[] = [
   {
@@ -70,12 +71,16 @@ const Portfolio = () => {
   const { mutateAsync, isLoading } = useCreatePortfolio();
 
   const onSubmit = async (data: { portfolios: PortfolioFormData[] }) => {
-    console.log("Form Submitted:", data);
-    //   try {
-    //     await mutateAsync(data);
-    //   } catch (error) {
-    //     console.error("Error submitting form:", error);
-    //   }
+    const transformData = await Promise.all(
+      data.portfolios.map(async (item) => {
+        const base64 = await convertToBase64(item.image);
+        return { ...item, image: base64, verification_type: "client_reference" };
+      })
+    );
+    console.log(transformData);
+    transformData.forEach(async (item) => {
+      await mutateAsync(item);
+    });
   };
 
   return (

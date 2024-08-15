@@ -22,7 +22,7 @@ export const createProfile = async (profileData: ProfileFormData) => {
 export const createPortfolio = async (portfolioData: PortfolioFormData) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/crew/portfolios/`, {
-    method: "PUT",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

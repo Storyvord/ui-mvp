@@ -31,9 +31,16 @@ export const portfolioFormValidationSchema = z.object({
     z.object({
       title: z.string().min(2, "Title is required"),
       link: z.string().url("Link must be a valid URL"),
-      image: z.custom<File>((file) => file instanceof File && file.size > 0, {
-        message: "Image is required",
-      }),
+      image: z.union([
+        z.string(),
+        z.instanceof(ArrayBuffer),
+        z.instanceof(File).refine(
+          (file) => file.type === "image/jpeg" || file.type === "image/png",
+          {
+            message: "Only .jpg or .png files are accepted",
+          }
+        ),
+      ]),
       contentTag: z.string().min(2, "Content Tag is required"),
       description: z.string().min(2, "Description is required"),
       providedService: z.string().min(2, "Provided Service is required"),

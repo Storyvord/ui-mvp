@@ -27,7 +27,7 @@ export type FormFieldConfig<T extends FieldValues> = {
 export type PortfolioFormData = {
   title: string;
   link: string;
-  image: File | null;
+  image: string | ArrayBuffer | File | null;
   contentTag: string;
   description: string;
   providedService: string;
