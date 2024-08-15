@@ -1,6 +1,7 @@
 import { ClientProfileUpdateFormType, projectFormInputType, taskFormType, taskType } from "@/types";
 import { API_URL, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const registerUser = async (data: {
   email: string;
@@ -44,8 +45,39 @@ export const userSignIn = async ({ email, password }: { email: string; password:
 export const userLogout = () => {
   Cookies.remove("accessToken");
   Cookies.remove("refreshToken");
+  localStorage.clear();
+  Cookies.remove("isClient");
+  location.reload();
 
   return null;
+};
+
+/**
+ * The function `verifyToken` sends a POST request to verify a JWT token with a user API endpoint and
+ * returns the response as JSON or false if there is an error.
+ * @param {string} token - The `token` parameter in the `verifyToken` function is a string that
+ * represents the JWT (JSON Web Token) that needs to be verified by sending a POST request to the
+ * `/auth/jwt/verify/` endpoint.
+ * @returns The `verifyToken` function is returning the result of calling `res.json()` if the fetch
+ * request is successful. If there is an error during the fetch request, it will return `false`.
+ */
+export const verifyToken = async (token: RequestCookie | undefined) => {
+  try {
+    const res = await fetch(`${USER_API}/auth/jwt/verify/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: token?.value }),
+    });
+    if (res.ok) {
+      return res.json;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
 };
 
 export const getUserDetails = async (token: string) => {
