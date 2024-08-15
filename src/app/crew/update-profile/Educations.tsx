@@ -1,5 +1,6 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useToast } from "@/components/ui/use-toast";
 import { useCreateEducation } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { educationFormValidationSchema } from "@/lib/validation/crew";
 import { EducationFormType, FormFieldConfig } from "@/types/crew";
@@ -35,6 +36,8 @@ const educationsDefaultValue: EducationFormType = {
 };
 
 const Educations = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(educationFormValidationSchema),
     defaultValues: {
@@ -47,12 +50,18 @@ const Educations = () => {
     name: "educations",
   });
 
-  const user = JSON.parse(localStorage.getItem("user-details") || "");
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
   const { mutateAsync, isLoading, isError } = useCreateEducation();
-  
+
   const onSubmit = (data: { educations: EducationFormType[] }) => {
     data.educations.forEach(async (item) => {
-      await mutateAsync({ ...item, crew: user?.id });
+     const res =  await mutateAsync({ ...item, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your education details successfully submitted",
+        });
+      }
     });
   };
   return (

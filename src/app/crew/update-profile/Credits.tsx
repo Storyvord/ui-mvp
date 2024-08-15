@@ -1,5 +1,6 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useToast } from "@/components/ui/use-toast";
 import { useCreateCredit } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { creditsFormValidationSchema } from "@/lib/validation/crew";
 import { CreditsFormFields, FormFieldConfig } from "@/types/crew";
@@ -56,6 +57,8 @@ const creditsDefaultValue: CreditsFormFields = {
 };
 
 const Credits = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(creditsFormValidationSchema),
     defaultValues: {
@@ -69,11 +72,17 @@ const Credits = () => {
   });
 
   const { mutateAsync, isLoading, isError } = useCreateCredit();
-  const user = JSON.parse(localStorage.getItem("user-details") || "");
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
 
   const onSubmit = (data: { credits: CreditsFormFields[] }) => {
     data.credits.forEach(async (item) => {
-      await mutateAsync({ ...item, crew: user.id });
+      const res = await mutateAsync({ ...item, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your credits details successfully submitted",
+        });
+      }
     });
   };
   return (

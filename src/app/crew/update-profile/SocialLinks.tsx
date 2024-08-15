@@ -1,5 +1,6 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useToast } from "@/components/ui/use-toast";
 import { useCreateSocialLink } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { socialLinksFormValidationSchema } from "@/lib/validation/crew";
 import { FormFieldConfig, SocialLinkFormType } from "@/types/crew";
@@ -21,6 +22,8 @@ const socialLinksDefaultValue: SocialLinkFormType = {
 };
 
 const SocialLinks = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(socialLinksFormValidationSchema),
     defaultValues: {
@@ -34,11 +37,17 @@ const SocialLinks = () => {
   });
 
   const { mutateAsync, isLoading, isError } = useCreateSocialLink();
-  const user = JSON.parse(localStorage.getItem("user-details") || "");
-  
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
+
   const onSubmit = (data: { socialLinks: SocialLinkFormType[] }) => {
     data.socialLinks.forEach(async (item) => {
-      await mutateAsync({ ...item, crew: user?.id });
+      const res = await mutateAsync({ ...item, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your social links successfully submitted",
+        });
+      }
     });
   };
   return (
