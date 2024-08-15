@@ -1,5 +1,7 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useToast } from "@/components/ui/use-toast";
+import { useCreateCredit } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { creditsFormValidationSchema } from "@/lib/validation/crew";
 import { CreditsFormFields, FormFieldConfig } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +19,7 @@ const creditsFormFields: FormFieldConfig<{ credits: CreditsFormFields[] }>[] = [
     name: "credits.0.year",
     label: "Year",
     type: "text",
-    placeholder: "Enter the link",
+    placeholder: "Enter the year",
   },
   {
     name: "credits.0.role",
@@ -55,6 +57,8 @@ const creditsDefaultValue: CreditsFormFields = {
 };
 
 const Credits = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(creditsFormValidationSchema),
     defaultValues: {
@@ -66,8 +70,20 @@ const Credits = () => {
     control: form.control,
     name: "credits",
   });
+
+  const { mutateAsync, isLoading, isError } = useCreateCredit();
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
+
   const onSubmit = (data: { credits: CreditsFormFields[] }) => {
-    console.log(data);
+    data.credits.forEach(async (item) => {
+      const res = await mutateAsync({ ...item, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your credits details successfully submitted",
+        });
+      }
+    });
   };
   return (
     <>
@@ -81,7 +97,8 @@ const Credits = () => {
         append={() => append(creditsDefaultValue)}
         remove={remove}
         fields={fields}
-        isLoading={false}
+        isLoading={isLoading}
+        isError={isError}
         formName="credits"
       />
     </>

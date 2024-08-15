@@ -7,6 +7,7 @@ import { portfolioFormValidationSchema } from "@/lib/validation/crew";
 import { useCreatePortfolio } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { DynamicForm } from "@/components/crew/DynamicForm";
 import { convertToBase64 } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
 
 const portfolioFormFields: FormFieldConfig<{ portfolios: PortfolioFormData[] }>[] = [
   {
@@ -56,6 +57,8 @@ const portfolioDefaultValue: PortfolioFormData = {
 };
 
 const Portfolio = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(portfolioFormValidationSchema),
     defaultValues: {
@@ -68,7 +71,7 @@ const Portfolio = () => {
     name: "portfolios",
   });
 
-  const { mutateAsync, isLoading } = useCreatePortfolio();
+  const { mutateAsync, isLoading, isError } = useCreatePortfolio();
 
   const onSubmit = async (data: { portfolios: PortfolioFormData[] }) => {
     const transformData = await Promise.all(
@@ -79,7 +82,13 @@ const Portfolio = () => {
     );
     console.log(transformData);
     transformData.forEach(async (item) => {
-      await mutateAsync(item);
+      const res = await mutateAsync(item);
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your portfolio details successfully submitted",
+        });
+      }
     });
   };
 
@@ -96,6 +105,7 @@ const Portfolio = () => {
         remove={remove}
         fields={fields}
         isLoading={isLoading}
+        isError={isError}
         formName="portfolios"
       />
     </>

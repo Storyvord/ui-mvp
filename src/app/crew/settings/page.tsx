@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 const tabs = ["Payout", "Taxes", "Change Email", "Change Password"];
 
-export const resetEmailFormField = [
+const resetEmailFormField = [
   {
     name: "new-email",
     label: "New Email",
@@ -25,8 +25,7 @@ export const resetEmailFormField = [
     type: "password",
   },
 ];
-
-export const resetPasswordFormField = [
+const resetPasswordFormField = [
   {
     name: "old-password",
     label: "Old Password",

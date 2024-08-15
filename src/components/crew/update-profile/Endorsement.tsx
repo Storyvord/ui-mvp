@@ -1,5 +1,7 @@
 "use client";
 import { DynamicForm } from "@/components/crew/DynamicForm";
+import { useToast } from "@/components/ui/use-toast";
+import { useCreateEndorsement } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { endorsementFormValidationSchema } from "@/lib/validation/crew";
 import { EndorsementFormType, FormFieldConfig } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +29,8 @@ const endorsementDefaultValue: EndorsementFormType = {
 };
 
 const Endorsement = () => {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(endorsementFormValidationSchema),
     defaultValues: {
@@ -38,8 +42,20 @@ const Endorsement = () => {
     control: form.control,
     name: "endorsement",
   });
+
+  const { mutateAsync, isLoading, isError } = useCreateEndorsement();
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
+
   const onSubmit = (data: { endorsement: EndorsementFormType[] }) => {
-    console.log(data);
+    data.endorsement.forEach(async (item) => {
+      const res = await mutateAsync({ ...item, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your endorsement successfully submitted",
+        });
+      }
+    });
   };
   return (
     <>
@@ -53,7 +69,8 @@ const Endorsement = () => {
         append={() => append(endorsementDefaultValue)}
         remove={remove}
         fields={fields}
-        isLoading={false}
+        isLoading={isLoading}
+        isError={isError}
         formName="endorsement"
       />
     </>
