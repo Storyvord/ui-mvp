@@ -1,9 +1,8 @@
 "use client";
 import Tabs from "@/components/Tabs";
-import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 
-const tabs = ["Submitted", "Hired"];
+const tabs = ["Pending", "Hired"];
 const Applications = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   return (
@@ -12,13 +11,7 @@ const Applications = () => {
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className=" mt-4" />
       {activeTab === tabs[0] && (
         <div className="flex flex-col items-center mt-8 bg-white rounded-md p-4 gap-2 font-mono">
-          <h1 className=" text-lg">No submitted applications</h1>
-          <h3 className=" text-md text-gray-700">
-            Apply to postings and follow up on your applications here.
-          </h3>
-          <Button variant="outline" className=" rounded-lg">
-            Find work
-          </Button>
+          <h1 className=" text-lg">No pending applications</h1>
         </div>
       )}
       {activeTab === tabs[1] && (
