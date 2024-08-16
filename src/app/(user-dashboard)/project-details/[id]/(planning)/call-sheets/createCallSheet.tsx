@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { initialFormData } from './Template/formData';
 import { CallSheet } from './types';
 import { FaEdit, FaDownload } from 'react-icons/fa';
+import { useCreateCallSheet } from '@/lib/react-query/queriesAndMutations/callsheet';
 
 interface CreateCallSheetFormModalProps {
     isOpen: boolean;
@@ -19,6 +20,9 @@ const CreateCallSheetFormModal: FC<CreateCallSheetFormModalProps> = ({ isOpen, o
     const [formData, setFormData] = useState<CallSheet>(initialFormData);
     const [isCallSheetCreated, setIsCallSheetCreated] = useState<boolean>(false);
     const templateRef = useRef(null);
+
+
+    const {mutateAsync : createCallSheet} = useCreateCallSheet()
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -45,13 +49,33 @@ const CreateCallSheetFormModal: FC<CreateCallSheetFormModalProps> = ({ isOpen, o
         onClose();
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const formatDate = (dateString : string) => {
+        const dateParts = dateString.split('-');
+        const newData = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+        console.log(newData)
+        return newData ;
+      };
+
+const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);
-        setIsCallSheetCreated(true);
-        setFormStep(1);
-        onClose();
+        try {
+            // Format the date to DD/MM/YYYY before sending the form data
+            const formattedData = {
+                ...formData,
+                date: formatDate(formData.date)
+            };
+            console.log('Formatted Data:', formattedData);
+            const response = await createCallSheet(formattedData);
+            console.log(response);
+    
+            setIsCallSheetCreated(true);
+            setFormStep(1);
+            onClose();
+        } catch (error) {
+            console.error('Error creating call sheet:', error);
+        }
     };
+
 
     const handlePrint = useReactToPrint({
         content: () => templateRef.current,
