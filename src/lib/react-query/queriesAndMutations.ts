@@ -41,7 +41,6 @@ export const useUserSignIn = () => {
     mutationFn: userSignIn,
     onSuccess: (data) => {
       Cookies.set("accessToken", data.access);
-      Cookies.set("refreshToken", data.refresh);
 
       queryClient.invalidateQueries({
         queryKey: ["ongoingProjects"],
