@@ -1,8 +1,16 @@
 import { USER_API } from "@/constant/constant";
-import { CalenderFormType } from "@/types";
+import { RoomFormData } from "@/types";
 import Cookies from "js-cookie";
 
-
+/**
+ * This function retrieves all file document rooms for a specific project using an access token for
+ * authorization.
+ * @param {string} projectId - The `projectId` parameter in the `getAllFileDocumentRooms` function is a
+ * string that represents the unique identifier of a project. This parameter is used to fetch all file
+ * document rooms associated with the specified project.
+ * @returns The function `getAllFileDocumentRooms` is returning the JSON response from the API call to
+ * fetch files and folders for a specific project ID.
+ */
 export const getAllFileDocumentRooms = async (projectId: string) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/files/folders/${projectId}/`, {
@@ -18,61 +26,35 @@ export const getAllFileDocumentRooms = async (projectId: string) => {
 };
 
 /**
- * The function `createCalenderEvent` sends a POST request to create a calendar event for a specific
- * project using the provided event data and project ID.
- * @param  - The `createCalenderEvent` function is an asynchronous function that takes an object as a
- * parameter with two properties:
- * @returns The `createCalenderEvent` function is returning the JSON response from the API after
- * creating a calendar event.
+ * The function `createFileDocumentRoom` sends a POST request to create a new room document in a
+ * specified project folder.
+ * @param  - The `createFileDocumentRoom` function is an asynchronous function that creates a file
+ * document room by sending a POST request to a specified API endpoint. Here are the parameters
+ * required for this function:
+ * @returns The function `createFileDocumentRoom` is returning the JSON response from the API call
+ * after creating a file document room.
  */
-export const createCalenderEvent = async ({
-  eventData,
+export const createFileDocumentRoom = async ({
+  roomFormData,
   projectId,
 }: {
-  eventData: CalenderFormType;
+  roomFormData: RoomFormData;
   projectId: string;
 }) => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/calendar/calendars/${projectId}/events/`, {
+  const res = await fetch(`${USER_API}/api/files/folders/${projectId}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(eventData),
+    body: JSON.stringify(roomFormData),
   });
 
   if (!res.ok) {
-    throw new Error("Failed to create calender event");
+    throw new Error("Failed to create Room");
   }
 
   return res.json();
 };
 
-/**
- * The function `deleteCalenderEvent` deletes a calendar event associated with a specific project and
- * event ID using an API call with authorization.
- * @param  - The `deleteCalenderEvent` function is an asynchronous function that sends a DELETE request
- * to a specific calendar event endpoint based on the provided `projectId` and `eventId`. It requires
- * an object as a parameter with the following properties:
- */
-
-export const deleteCalenderEvent = async ({
-  projectId,
-  eventId,
-}: {
-  projectId: string;
-  eventId: number | null;
-}) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/calendar/calendars/${projectId}/events/${eventId}/`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete calender event");
-  }
-};

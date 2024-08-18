@@ -86,6 +86,7 @@ const FileManagement = ({roomId}:{roomId: string}) => {
     if (previewFile) {
       URL.revokeObjectURL(previewFile.url);
     }
+    
     setPreviewFile(null);
   };
 

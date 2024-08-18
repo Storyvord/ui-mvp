@@ -101,3 +101,8 @@ export const openPositionFormSchema = z.object({
   departments: z.string().min(1, { message: "Departments are required" }),
   note: z.string().optional(),
 });
+
+export const createRoomFormSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  description: z.string().min(2, "Description is required"),
+});
