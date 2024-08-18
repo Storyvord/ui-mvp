@@ -92,6 +92,11 @@ export type RoomFormData = {
   description: string;
 };
 
+export type UploadFileFormData = {
+  name: string;
+  file: string | ArrayBuffer | File | null;
+};
+
 export type ReturnAnnouncements = Announcements & {
   id: number;
   created_at: string;

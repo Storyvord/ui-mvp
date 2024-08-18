@@ -1,64 +1,66 @@
-"use client"
-import React, { FC } from "react";
-import Image from "next/image";
-import { Trash2, FileAxis3D } from "lucide-react";
+"use client";
+import React, { FC, useState, useEffect } from "react";
+import { getFileTypeFromUrl } from "@/lib/utils";
+import { BsFiletypePdf } from "react-icons/bs";
+import { LuFileText } from "react-icons/lu";
+import { MdDelete } from "react-icons/md";
+import { FaRegFileImage } from "react-icons/fa";
+
+const renderFileIcons = (fileUrl: string, fileType: string | null) => {
+  if (!fileType) {
+    return <div>Loading...</div>;
+  }
+
+  if (fileType.startsWith("image/")) {
+    return <FaRegFileImage className="w-12 h-12" />;
+  } else if (fileType === "application/pdf") {
+    return <BsFiletypePdf className=" w-12 h-12" />;
+  } else return <LuFileText className=" w-12 h-12" />;
+};
 
 interface FileCardProps {
-  name: string;
-  fileName: string;
-  fileType: string;
-  fileData: string;
-  onPreview: (fileData: string, fileName: string, fileType: string) => void;
-  onDelete: () => void;
+  file: {
+    id: number;
+    file: string;
+    name: string;
+    folder: number;
+  };
+  onDeleteFile: (fileId: number) => void;
+  onPreview: (fileUrl: string, fileName: string, fileType: string) => void;
 }
 
-const FileCard: FC<FileCardProps> = ({
-  name,
-  fileName,
-  fileType,
-  fileData,
-  onPreview,
-  onDelete,
-}) => {
-  const renderFilePreview = (fileData: string, fileType: string) => {
-    const byteString = atob(fileData.split(",")[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ab], { type: fileType });
-    const url = URL.createObjectURL(blob);
+const FileCard: FC<FileCardProps> = ({ file, onDeleteFile, onPreview }) => {
+  const [fileType, setFileType] = useState<string | null>(null);
 
-    if (fileType && fileType.startsWith("image/")) {
-      return (
-        <Image
-          src={url}
-          alt={fileName}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-t-lg cursor-pointer"
-        />
-      );
-    } else {
-      return <FileAxis3D className="text-blue-500 w-20 h-20 stroke-1" />;
+  useEffect(() => {
+    async function fetchFileType() {
+      const type = await getFileTypeFromUrl(file.file);
+      setFileType(type);
     }
-  };
+
+    fetchFileType();
+  }, [file.file]);
 
   return (
-    <div className="relative w-full min-h-60 shadow-md rounded-lg bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-      <div
-        className="h-[80%] flex items-center justify-center"
-        onClick={() => onPreview(fileData, fileName, fileType)}
-      >
-        {renderFilePreview(fileData, fileType)}
+    <div
+      className="relative h-36 shadow-md rounded-lg bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      onClick={() => onPreview(file.file, file.name, fileType || "")}
+    >
+      <div className="h-[80%] flex items-center justify-center p-2">
+        {renderFileIcons(file.file, fileType)}
       </div>
       <div className="absolute bottom-0 left-0 w-full bg-white flex items-center justify-between py-2 px-4 border-t border-gray-200">
-        <div onClick={() => onPreview(fileData, fileName, fileType)} className="flex-grow">
-          <h3 className="text-black font-medium">{name}</h3>
+        <div className="flex-grow">
+          <h3 className="text-black font-medium">{file.name}</h3>
         </div>
-        <button className="text-red-500" onClick={onDelete}>
-          <Trash2 size={24} />
+        <button
+          className="text-red-500"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the preview from opening when clicking delete
+            onDeleteFile(file.id);
+          }}
+        >
+          <MdDelete />
         </button>
       </div>
     </div>

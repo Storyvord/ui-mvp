@@ -1,6 +1,11 @@
-import { createFileDocumentRoom, getAllFileDocumentRooms } from "@/lib/api/file";
+import {
+  createFileDocumentRoom,
+  deleteFile,
+  getAllFileDocumentRooms,
+  getAllFiles,
+  uploadFile,
+} from "@/lib/api/file";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-
 
 /**
  * The function `useGetAllFileDocumentRooms` returns a query for getting all file document rooms based
@@ -19,7 +24,6 @@ export const useGetAllFileDocumentRooms = (projectId: string) => {
     queryFn: () => getAllFileDocumentRooms(projectId),
   });
 };
-
 
 /**
  * The function `useCreateFileDocumentRoom` is a custom hook that uses mutation to create a file
@@ -45,3 +49,58 @@ export const useCreateFileDocumentRoom = () => {
   });
 };
 
+export const useGetAllFiles = (roomId: string) => {
+  return useQuery({
+    queryKey: ["getAllFiles", roomId],
+    queryFn: () => getAllFiles(roomId),
+    // cacheTime: 0,
+    // staleTime: 0,
+  });
+};
+
+/**
+ * The useUploadFile function is a custom hook in TypeScript that handles file uploads and invalidates
+ * a specific query key upon successful upload.
+ * @returns The `useUploadFile` custom hook is being returned. This hook uses `useMutation` from React
+ * Query to handle file uploads. It triggers a mutation to upload a file, and upon success, it
+ * invalidates the query for fetching all file document rooms. If there is an error during the upload
+ * process, it logs an error message to the console.
+ */
+export const useUploadFile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: uploadFile,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllFiles"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error uploading file:", error);
+    },
+  });
+};
+
+/**
+ * The useDeleteFile function is a custom hook in TypeScript that uses useMutation to delete a file and
+ * invalidates the "getAllFiles" query key on success.
+ * @returns The `useDeleteFile` custom hook is being returned. This hook uses `useMutation` from React
+ * Query to handle the deletion of a file. It invalidates the "getAllFiles" query in the `queryClient`
+ * on success and logs an error message to the console on failure.
+ */
+export const useDeleteFile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteFile,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllFiles"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error deleting file:", error);
+    },
+  });
+};

@@ -16,9 +16,9 @@ const RoomPage: FC = () => {
   return (
     <div className="p-4">
       <button onClick={handleBack} className="mb-4 flex items-center gap-4">
-        <IoMdArrowRoundBack /> Back to File Management
+        <IoMdArrowRoundBack /> Back
       </button>
-      <FileManagement roomId="" />
+      <FileManagement />
     </div>
   );
 };

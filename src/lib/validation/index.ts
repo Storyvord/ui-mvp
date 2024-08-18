@@ -106,3 +106,31 @@ export const createRoomFormSchema = z.object({
   name: z.string().min(2, "Name is required"),
   description: z.string().min(2, "Description is required"),
 });
+
+image: z.union([
+  z.string(),
+  z.instanceof(ArrayBuffer),
+  z.instanceof(File).refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
+    message: "Only .jpg or .png files are accepted",
+  }),
+]);
+
+export const uploadFileFormSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  file: z.union([
+    z.string(),
+    z.instanceof(ArrayBuffer),
+    z.instanceof(File).refine(
+      (file) =>
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "application/pdf" ||
+        file.type === "application/msword" || // For .doc files
+        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+        file.type === "text/plain", // For .txt files
+      {
+        message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted",
+      }
+    ),
+  ]),
+});
