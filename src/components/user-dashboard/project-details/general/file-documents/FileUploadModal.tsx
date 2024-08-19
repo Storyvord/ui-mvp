@@ -22,7 +22,6 @@ const formData: FormFieldConfig<UploadFileFormData>[] = [
     name: "file",
     label: "Select File",
     type: "file",
-    placeholder: "",
   },
 ];
 
@@ -55,7 +54,7 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Room</DialogTitle>
+          <DialogTitle>Select File</DialogTitle>
         </DialogHeader>
         <CustomForm
           form={form}

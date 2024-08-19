@@ -2,20 +2,23 @@
 import React, { FC, useState, useEffect } from "react";
 import { getFileTypeFromUrl } from "@/lib/utils";
 import { BsFiletypePdf } from "react-icons/bs";
-import { LuFileText } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import { FaRegFileImage } from "react-icons/fa";
+import { GrDocumentTxt } from "react-icons/gr";
+import { BsFiletypeDocx } from "react-icons/bs";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const renderFileIcons = (fileUrl: string, fileType: string | null) => {
+const renderFilePreview = (fileUrl: string, fileType: string | null) => {
   if (!fileType) {
-    return <div>Loading...</div>;
+    return <Skeleton className=" w-full h-full"/>
   }
 
-  if (fileType.startsWith("image/")) {
+  if (fileUrl.includes("png") || fileUrl.includes("jpg") || fileUrl.includes("jpeg"))
     return <FaRegFileImage className="w-12 h-12" />;
-  } else if (fileType === "application/pdf") {
-    return <BsFiletypePdf className=" w-12 h-12" />;
-  } else return <LuFileText className=" w-12 h-12" />;
+  else if (fileUrl.includes("pdf")) return <BsFiletypePdf className=" w-12 h-12" />;
+  else if (fileUrl.includes("plain")) return <GrDocumentTxt className=" w-12 h-12" />;
+  else if (fileUrl.includes("msword") || fileUrl.includes("vnd"))
+    return <BsFiletypeDocx className=" w-12 h-12" />;
 };
 
 interface FileCardProps {
@@ -47,7 +50,7 @@ const FileCard: FC<FileCardProps> = ({ file, onDeleteFile, onPreview }) => {
       onClick={() => onPreview(file.file, file.name, fileType || "")}
     >
       <div className="h-[80%] flex items-center justify-center p-2">
-        {renderFileIcons(file.file, fileType)}
+        {renderFilePreview(file.file, fileType)}
       </div>
       <div className="absolute bottom-0 left-0 w-full bg-white flex items-center justify-between py-2 px-4 border-t border-gray-200">
         <div className="flex-grow">

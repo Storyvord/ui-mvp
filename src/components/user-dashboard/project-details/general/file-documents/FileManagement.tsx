@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import FileUploadModal from "./FileUploadModal";
 import FilePreview from "./FilePreview";
@@ -20,26 +20,13 @@ const FileManagement = () => {
   const [previewFile, setPreviewFile] = useState<{
     fileUrl: string;
     fileName: string;
-    fileType: string;
   } | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handlePreview = (fileUrl: string, fileName: string, fileType: string) => {
-    setPreviewFile({ fileUrl, fileName, fileType });
+  const handlePreview = (fileUrl: string, fileName: string) => {
+    setPreviewFile({ fileUrl, fileName });
   };
 
   const handleClosePreview = () => {
@@ -87,10 +74,9 @@ const FileManagement = () => {
 
       <FileUploadModal isOpen={isModalOpen} onClose={handleCloseModal} />
 
-      {previewFile && !isMobile && (
+      {previewFile && (
         <FilePreview
           fileName={previewFile.fileName}
-          fileType={previewFile.fileType}
           fileUrl={previewFile.fileUrl}
           onClose={handleClosePreview}
         />

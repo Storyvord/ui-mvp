@@ -6,12 +6,11 @@ import { FiDownload } from "react-icons/fi";
 
 interface FilePreviewProps {
   fileName: string;
-  fileType: string;
   fileUrl: string;
   onClose: () => void;
 }
 
-const FilePreview: FC<FilePreviewProps> = ({ fileName, fileType, fileUrl, onClose }) => {
+const FilePreview: FC<FilePreviewProps> = ({ fileName, fileUrl, onClose }) => {
   const handleDownload = async () => {
     try {
       const response = await fetch(fileUrl);
@@ -29,8 +28,8 @@ const FilePreview: FC<FilePreviewProps> = ({ fileName, fileType, fileUrl, onClos
     }
   };
 
-  const renderPreviewContent = (fileType: string, url: string) => {
-    if (fileType && fileType.startsWith("image/")) {
+  const renderPreviewContent = (url: string) => {
+    if (url.includes("png") || url.includes("jpg") || url.includes("jpeg")) {
       return (
         <div className="relative w-full h-full">
           <Image
@@ -42,32 +41,8 @@ const FilePreview: FC<FilePreviewProps> = ({ fileName, fileType, fileUrl, onClos
           />
         </div>
       );
-    } else if (fileType === "application/pdf") {
+    } else if (url.includes("pdf")) {
       return <iframe src={url} className="w-full h-full border-0" title="PDF Preview"></iframe>;
-    } else if (fileType === "text/plain") {
-      return (
-        <iframe
-          src={url}
-          className="w-full h-full border-0"
-          title="Text File Preview"
-          style={{ whiteSpace: "pre-wrap" }}
-        ></iframe>
-      );
-    } else if (
-      fileType === "application/msword" ||
-      fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      return (
-        <div className="relative w-full h-full p-4 flex flex-col items-center justify-center">
-          <p>Preview not supported for this document type. Please download the file to view it.</p>
-          <button
-            onClick={handleDownload}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            Download {fileType === "application/msword" ? ".doc" : ".docx"} File
-          </button>
-        </div>
-      );
     } else {
       return (
         <p>File preview not supported for this file type. Please download the file to view it.</p>
@@ -93,7 +68,7 @@ const FilePreview: FC<FilePreviewProps> = ({ fileName, fileType, fileUrl, onClos
             </button>
           </div>
         </div>
-        <div className="flex-grow overflow-auto">{renderPreviewContent(fileType, fileUrl)}</div>
+        <div className="flex-grow overflow-auto">{renderPreviewContent(fileUrl)}</div>
       </div>
     </div>
   );
