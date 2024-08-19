@@ -2,38 +2,31 @@
 import React from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useDeleteEvent } from "@/lib/react-query/queriesAndMutations/calender";
-import { useParams } from "next/navigation";
 import Loader from "../Loader";
 import { CalenderEventType } from "@/types";
 import moment from "moment";
 
-
+type Props = {
+  openDialog: boolean;
+  setOpenDialog: (value: boolean) => void;
+  event: CalenderEventType | null;
+  deleteEvent: (eventId: number) => void;
+  isLoading: boolean;
+  isError: boolean;
+};
 const EventDialog = ({
   openDialog,
   setOpenDialog,
   event,
-}: {
-  openDialog: boolean;
-  setOpenDialog: (value: boolean) => void;
-  event: CalenderEventType | null;
-}) => {
-  const { id }: { id: string } = useParams();
-  const { mutateAsync, isLoading, isError } = useDeleteEvent();
-
+  deleteEvent,
+  isLoading,
+  isError,
+}: Props) => {
   if (!event) return null; // If no event is provided, do not render anything
 
-  const deleteEvent = async () => {
-    try {
-      await mutateAsync({ projectId: id, eventId: event?.id });
-      if (!isError) {
-        setOpenDialog(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleDeleteEvent = () => {
+    deleteEvent(event?.id);
   };
-
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -41,10 +34,12 @@ const EventDialog = ({
         <DialogTitle className="text-[30px]">{event.title}</DialogTitle>
         <div className="text-gray-700 text-[18px]">
           <h5>
-            <strong>Start:</strong> {moment(event.start).format('DD-MM-YYYY')}, {moment(event.start).format('HH:mm')}
+            <strong>Start:</strong> {moment(event.start).format("DD-MM-YYYY")},{" "}
+            {moment(event.start).format("HH:mm")}
           </h5>
           <h5>
-            <strong>End:</strong> {moment(event.end).format('DD-MM-YYYY')}, {moment(event.end).format('HH:mm')}
+            <strong>End:</strong> {moment(event.end).format("DD-MM-YYYY")},{" "}
+            {moment(event.end).format("HH:mm")}
           </h5>
 
           <h5>
@@ -52,7 +47,8 @@ const EventDialog = ({
           </h5>
 
           <h5>
-            <strong>Description:</strong>{event?.description} 
+            <strong>Description:</strong>
+            {event?.description}
             <br />
           </h5>
           {event.participants && event.participants.length > 0 && (
@@ -67,7 +63,12 @@ const EventDialog = ({
           <Button onClick={() => setOpenDialog(false)} className="w-[150px] font-bold">
             Close
           </Button>
-          <Button disabled={isLoading} onClick={deleteEvent} className="w-[150px] font-bold" variant="destructive">
+          <Button
+            disabled={isLoading}
+            onClick={handleDeleteEvent}
+            className="w-[150px] font-bold"
+            variant="destructive"
+          >
             {isLoading ? <Loader /> : "Delete"}
           </Button>
         </div>
