@@ -1,5 +1,5 @@
 "use client";
-import { DynamicForm } from "@/components/crew/DynamicForm";
+import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateEducation } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { educationFormValidationSchema } from "@/lib/validation/crew";
@@ -55,7 +55,7 @@ const Educations = () => {
 
   const onSubmit = (data: { educations: EducationFormType[] }) => {
     data.educations.forEach(async (item) => {
-     const res =  await mutateAsync({ ...item, crew: crewProfileId });
+      const res = await mutateAsync({ ...item, crew: crewProfileId });
       if (res) {
         form.reset();
         toast({

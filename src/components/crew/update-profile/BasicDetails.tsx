@@ -1,5 +1,5 @@
 "use client";
-import CustomForm from "@/components/crew/CustomForm";
+import CustomForm from "@/components/CustomForm";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateProfile } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { convertToBase64 } from "@/lib/utils";
