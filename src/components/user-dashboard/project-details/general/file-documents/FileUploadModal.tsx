@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadFileFormSchema } from "@/lib/validation";
 import { FormFieldConfig } from "@/types/crew";
-import CustomForm from "@/components/crew/CustomForm";
+import CustomForm from "@/components/CustomForm";
 import { convertToBase64 } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useParams } from "next/navigation";

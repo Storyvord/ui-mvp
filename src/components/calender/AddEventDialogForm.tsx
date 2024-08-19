@@ -13,7 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { CalenderFormFieldType } from "@/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import Loader from "../Loader";
-import moment from "moment";
 
 const formFields = [
   { name: "title", label: "Title", type: "text" },

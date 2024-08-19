@@ -1,5 +1,5 @@
 "use client";
-import { DynamicForm } from "@/components/crew/DynamicForm";
+import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateSocialLink } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { socialLinksFormValidationSchema } from "@/lib/validation/crew";

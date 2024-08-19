@@ -1,11 +1,6 @@
 import { useForm } from "react-hook-form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import CustomForm from "@/components/crew/CustomForm";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import CustomForm from "@/components/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRoomFormSchema } from "@/lib/validation";
 import { FormFieldConfig } from "@/types/crew";
