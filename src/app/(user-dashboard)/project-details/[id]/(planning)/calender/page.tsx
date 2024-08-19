@@ -5,21 +5,52 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useGetAllCalenderEvents } from "@/lib/react-query/queriesAndMutations/calender";
+import {
+  useCreateCalenderEvents,
+  useDeleteEvent,
+  useGetAllCalenderEvents,
+} from "@/lib/react-query/queriesAndMutations/calender";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
-import { CalenderEventType } from "@/types";
+import { CalenderEventType, CalenderFormFieldType } from "@/types";
 
 const localizer = momentLocalizer(moment);
 
 const MyCalendarPage = () => {
-  const { id }: { id: string } = useParams();
-  const { data: events } = useGetAllCalenderEvents(id);
+  const { id: projectId }: { id: string } = useParams();
 
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
   const [transformEvents, setTransformEvents] = useState();
+
+  const { data: events } = useGetAllCalenderEvents(projectId);
+  const {
+    mutateAsync: createCalenderEvent,
+    isLoading: createEventLoading,
+    isError: createEventError,
+  } = useCreateCalenderEvents();
+  const {
+    mutateAsync: deleteEvent,
+    isLoading: deleteEventLoading,
+    isError: deleteEventError,
+  } = useDeleteEvent();
+
+  const handleCreateEvent = async (formData: CalenderFormFieldType) => {
+    const transformData = {
+      ...formData,
+      participants: [],
+    };
+    const res = await createCalenderEvent({ eventData: transformData, projectId });
+    if (res) setOpenFormDialog(false);
+  };
+
+  const handleDeleteEvent = async (eventId: number) => {
+    await deleteEvent({ projectId, eventId });
+    if (!deleteEventError) {
+      setOpenFormDialog(false);
+    }
+  };
 
   useEffect(() => {
     const transformEvents = events?.map((event: any) => ({
@@ -27,9 +58,8 @@ const MyCalendarPage = () => {
       start: moment(event.start).toDate(),
       end: moment(event.end).toDate(),
     }));
-    setTransformEvents(transformEvents)
+    setTransformEvents(transformEvents);
   }, [events]);
-
 
   const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
@@ -71,11 +101,17 @@ const MyCalendarPage = () => {
         openDialog={openFormDialog}
         setOpenDialog={setOpenFormDialog}
         formDefaultValue={formDefaultValue}
+        createCalenderEvent={handleCreateEvent}
+        isLoading={createEventLoading}
+        isError={createEventError}
       />
       <EventDialog
         event={eventToDisplay}
         openDialog={openEventDialog}
         setOpenDialog={setOpenEventDialog}
+        deleteEvent={handleDeleteEvent}
+        isLoading={deleteEventLoading}
+        isError={deleteEventError}
       />
     </div>
   );

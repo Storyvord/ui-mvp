@@ -5,6 +5,15 @@ import {
   projectFormSchema,
   taskFormSchema,
 } from "../lib/validation";
+import { FieldValues, Path } from "react-hook-form";
+
+
+export type FormFieldConfig<T extends FieldValues> = {
+  name: Path<T>;
+  label: string;
+  type: "text" | "number" | "textarea" | "checkbox" | "date" | "file" | "datetime-local";
+  placeholder?: string;
+};
 
 interface project {
   id: number;

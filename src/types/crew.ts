@@ -20,7 +20,7 @@ export type ProfileFormData = {
 export type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
   label: string;
-  type: "text" | "number" | "textarea" | "checkbox" | "date" | "file";
+  type: "text" | "number" | "textarea" | "checkbox" | "date" | "file" | "datetime-local";
   placeholder?: string;
 };
 

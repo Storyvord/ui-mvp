@@ -56,7 +56,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                     {label}
                   </FormLabel>
                   <FormControl>
-                    {type === "text" || type === "number" || type === "date" ? (
+                    {type === "text" || type === "number" || type === "date" || "datetime-local" ? (
                       <Input
                         type={type}
                         placeholder={placeholder}
