@@ -1,3 +1,4 @@
+"use client";
 import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomForm from "@/components/CustomForm";
@@ -5,10 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createRoomFormSchema } from "@/lib/validation";
 import { FormFieldConfig } from "@/types/crew";
 import { RoomFormData } from "@/types";
-import { useCreateFileDocumentRoom } from "@/lib/react-query/queriesAndMutations/file";
-import { useParams } from "next/navigation";
 
 type RoomFormProps = {
+  createRoom: (data: RoomFormData) => void;
+  isLoading: boolean;
+  isError: boolean;
   open: boolean;
   onClose: () => void;
 };
@@ -26,18 +28,13 @@ const formData: FormFieldConfig<RoomFormData>[] = [
     placeholder: "Enter room description",
   },
 ];
-const RoomForm = ({ open, onClose }: RoomFormProps) => {
+const RoomForm = ({ createRoom, isLoading, isError, open, onClose }: RoomFormProps) => {
   const form = useForm({
     resolver: zodResolver(createRoomFormSchema),
     defaultValues: { name: "", description: "" },
   });
-  const { id: projectId }: { id: string } = useParams();
-
-  const { mutateAsync, isLoading, isError } = useCreateFileDocumentRoom();
-  const onSubmit = async (data: RoomFormData) => {
-    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: [] };
-    const res = await mutateAsync({ roomFormData: transformData, projectId });
-    if (res.ok) onClose();
+  const onSubmit = (data: RoomFormData) => {
+    createRoom(data);
   };
 
   return (

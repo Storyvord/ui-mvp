@@ -5,8 +5,14 @@ import FileUploadModal from "./FileUploadModal";
 import FilePreview from "./FilePreview";
 import { FaRegFolderOpen } from "react-icons/fa";
 import FileCard from "./FileCard";
-import { useDeleteFile, useGetAllFiles } from "@/lib/react-query/queriesAndMutations/file";
+import {
+  useDeleteFile,
+  useGetAllFiles,
+  useUploadFile,
+} from "@/lib/react-query/queriesAndMutations/file";
 import { useParams } from "next/navigation";
+import { convertToBase64 } from "@/lib/utils";
+import { UploadFileFormData } from "@/types";
 
 type FileType = {
   id: number;
@@ -21,6 +27,7 @@ const FileManagement = () => {
     fileUrl: string;
     fileName: string;
   } | null>(null);
+  const { id: projectId, roomId }: { id: string; roomId: string } = useParams();
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -39,6 +46,16 @@ const FileManagement = () => {
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
   };
+  const { mutateAsync, isError, isLoading } = useUploadFile();
+  const handleUploadFile = async (data: UploadFileFormData) => {
+    const base64 = await convertToBase64(data.file);
+    const transformData = { ...data, file: base64, allowed_users: [], project: projectId };
+    const res = await mutateAsync({ uploadedFileData: transformData, roomId });
+    if (res) {
+      handleCloseModal();
+    }
+  };
+
   return (
     <section>
       <div className="flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
@@ -72,7 +89,13 @@ const FileManagement = () => {
         </div>
       )}
 
-      <FileUploadModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <FileUploadModal
+        uploadFile={handleUploadFile}
+        isLoading={isLoading}
+        isError={isError}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
 
       {previewFile && (
         <FilePreview
