@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
 import { FiDownload } from "react-icons/fi";
@@ -10,7 +10,7 @@ interface FilePreviewProps {
   onClose: () => void;
 }
 
-const FilePreview: FC<FilePreviewProps> = ({ fileName, fileUrl, onClose }) => {
+const FilePreview = ({ fileName, fileUrl, onClose }: FilePreviewProps) => {
   const handleDownload = async () => {
     try {
       const response = await fetch(fileUrl);

@@ -67,6 +67,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                       />
                     ) : type === "text" ||
                       type === "number" ||
+                      type === "email" ||
                       type === "date" ||
                       "datetime-local" ? (
                       <Input
