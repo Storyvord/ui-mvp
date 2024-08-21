@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PortfolioFormData, FormFieldConfig } from "@/types/crew";
 import { portfolioFormValidationSchema } from "@/lib/validation/crew";
 import { useCreatePortfolio } from "@/lib/react-query/queriesAndMutations/crew/profile";
-import { DynamicForm } from "@/components/crew/DynamicForm";
+import { DynamicForm } from "@/components/DynamicForm";
 import { convertToBase64 } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 

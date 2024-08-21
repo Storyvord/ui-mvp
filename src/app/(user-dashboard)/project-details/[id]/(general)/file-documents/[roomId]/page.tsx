@@ -8,6 +8,7 @@ const RoomPage: FC = () => {
   const router = useRouter();
   const { id: projectId } = useParams();
 
+  
   const handleBack = () => {
     router.push(`/project-details/${projectId}/file-documents`);
   };
@@ -15,9 +16,9 @@ const RoomPage: FC = () => {
   return (
     <div className="p-4">
       <button onClick={handleBack} className="mb-4 flex items-center gap-4">
-        <IoMdArrowRoundBack /> Back to File Management
+        <IoMdArrowRoundBack /> Back
       </button>
-      <FileManagement roomId="" />
+      <FileManagement />
     </div>
   );
 };

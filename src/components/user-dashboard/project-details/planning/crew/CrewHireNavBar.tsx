@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -20,19 +21,19 @@ const CrewHireNavBar = ({
   return (
     <nav className="mx-auto flex gap-4 justify-end mr-8">
       <Popover>
-        <PopoverTrigger>
-          <Button className=" mr-4 font-semibold">Add Crew</Button>
+        <PopoverTrigger asChild>
+          <Button className="mr-4 font-semibold">Add Crew</Button>
         </PopoverTrigger>
         <PopoverContent>
           <h1
-            className=" p-1 pl-2 hover:bg-gray-200 rounded cursor-pointer"
+            className="p-1 pl-2 hover:bg-gray-200 rounded cursor-pointer"
             onClick={() => setOpenDialog(!openDialog)}
           >
             Invite Crew
           </h1>
           <h1
             onClick={() => setOpenDialogExternalContact(!openDialogExternalContact)}
-            className=" mt-2 p-1 pl-2 hover:bg-gray-200 rounded cursor-pointer"
+            className="mt-2 p-1 pl-2 hover:bg-gray-200 rounded cursor-pointer"
           >
             Add external contact
           </h1>
@@ -40,9 +41,11 @@ const CrewHireNavBar = ({
       </Popover>
 
       <Popover>
-        <PopoverTrigger className=" flex gap-2 p-1 border-none rounded-lg px-2 item-center font-semibold bg-white border text-lg">
-          <CiLock className=" w-6 h-6" />
-          Access Rights
+        <PopoverTrigger asChild>
+          <Button variant="outline">
+            <CiLock className="w-6 h-6" />
+            Access Rights
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <Input placeholder="enter email" />
