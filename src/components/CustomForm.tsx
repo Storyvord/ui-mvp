@@ -56,7 +56,20 @@ const CustomForm = <TFormValues extends FieldValues>({
                     {label}
                   </FormLabel>
                   <FormControl>
-                    {type === "text" || type === "number" || type === "date" ? (
+                    {type === "file" ? (
+                      <Input
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
+                          }
+                        }}
+                      />
+                    ) : type === "text" ||
+                      type === "number" ||
+                      type === "email" ||
+                      type === "date" ||
+                      "datetime-local" ? (
                       <Input
                         type={type}
                         placeholder={placeholder}
@@ -74,15 +87,6 @@ const CustomForm = <TFormValues extends FieldValues>({
                         className=" ml-3"
                         checked={field.value as boolean}
                         onCheckedChange={field.onChange}
-                      />
-                    ) : type === "file" ? (
-                      <Input
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files.length > 0) {
-                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
-                          }
-                        }}
                       />
                     ) : null}
                   </FormControl>

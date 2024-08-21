@@ -1,18 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import FileUploadModal from "./FileUploadModal";
-import FilePreview from "./FilePreview";
 import { FaRegFolderOpen } from "react-icons/fa";
-import FileCard from "./FileCard";
-import {
-  useDeleteFile,
-  useGetAllFiles,
-  useUploadFile,
-} from "@/lib/react-query/queriesAndMutations/file";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { convertToBase64 } from "@/lib/utils";
 import { UploadFileFormData } from "@/types";
+import FileCard from "@/components/user-dashboard/project-details/general/file-documents/FileCard";
+import FileUploadModal from "@/components/user-dashboard/project-details/general/file-documents/FileUploadModal";
+import FilePreview from "@/components/user-dashboard/project-details/general/file-documents/FilePreview";
+import {
+  useDeleteCompanyFile,
+  useGetAllCompanyFiles,
+  useUploadCompanyFile,
+} from "@/lib/react-query/queriesAndMutations/company/file-docs";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 type FileType = {
   id: number;
@@ -41,12 +42,12 @@ const FileManagement = () => {
   };
 
   const { roomId: roomID }: { roomId: string } = useParams();
-  const { data: fileList } = useGetAllFiles(roomID);
-  const { mutateAsync: deleteFile } = useDeleteFile();
+  const { data: fileList } = useGetAllCompanyFiles(roomID);
+  const { mutateAsync: deleteFile } = useDeleteCompanyFile();
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
   };
-  const { mutateAsync, isError, isLoading } = useUploadFile();
+  const { mutateAsync, isError, isLoading } = useUploadCompanyFile();
   const handleUploadFile = async (data: UploadFileFormData) => {
     const base64 = await convertToBase64(data.file);
     const transformData = { ...data, file: base64, allowed_users: [], project: projectId };
@@ -55,9 +56,16 @@ const FileManagement = () => {
       handleCloseModal();
     }
   };
+  const router = useRouter();
+  const handleBack = () => {
+    router.push(`/dashboard/company-files`);
+  };
 
   return (
-    <section>
+    <section className=" p-4">
+      <button onClick={handleBack} className="mb-4 flex items-center gap-4">
+        <IoMdArrowRoundBack /> Back
+      </button>
       <div className="flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
         <Button variant="outline" className="flex flex-row" onClick={handleOpenModal}>
           +<span className="ml-2">Upload File</span>

@@ -1,25 +1,53 @@
 import { FC } from "react";
+import { IoFolderOpenOutline } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import Loader from "@/components/Loader";
 
 type RoomCardProps = {
   room: {
     id: string;
-    title: string;
+    name: string;
     description: string;
+    icon: string;
+    default: boolean;
   };
+
   onClick: (roomId: string) => void;
 };
 
 const RoomCard: FC<RoomCardProps> = ({ room, onClick }) => {
+  const isLoading = false;
   return (
-    <div
-      className="relative shadow-md rounded-lg p-4 bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-      onClick={() => onClick(room.id)}
-    >
-      <div className="flex justify-between items-start">
+    <div className="relative shadow-md rounded-lg p-4 bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+      {!room.default && (
+        <span className=" absolute top-2 right-1 z-20">
+          <Popover>
+            <PopoverTrigger>
+              <BsThreeDotsVertical />
+            </PopoverTrigger>
+            <PopoverContent className="w-fit">
+              {isLoading ? <Loader /> : <MdDelete className="cursor-pointer text-red-500" />}
+            </PopoverContent>
+          </Popover>
+        </span>
+      )}
+
+      <div className="flex justify-between items-start" onClick={() => onClick(room.id)}>
         <div className="flex flex-col space-y-1">
-          <h3 className="font-semibold">{room.title}</h3>
+          <h3 className="font-semibold">{room.name}</h3>
           <span className="text-slate-500 text-sm">{room.description}</span>
         </div>
+        {room.icon === "IoFolderOpenOutline" ? (
+          <IoFolderOpenOutline className=" w-6 h-6 mr-2" />
+        ) : (
+          <div
+            className=" text-right"
+            dangerouslySetInnerHTML={{ __html: room.icon }}
+            style={{ width: 24, height: 24 }}
+          />
+        )}
       </div>
     </div>
   );
