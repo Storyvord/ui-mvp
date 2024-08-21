@@ -1,10 +1,10 @@
-import CustomForm from "@/components/crew/CustomForm";
 import React, { useState } from "react";
 import { AdministratorFormData } from "./types";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { FormFieldConfig } from "@/types/crew";
 import { useFormData } from "@/context/AdministratorContext";
+import CustomForm from "@/components/CustomForm";
 
 const profileFormFields: FormFieldConfig<AdministratorFormData>[] = [
   {
