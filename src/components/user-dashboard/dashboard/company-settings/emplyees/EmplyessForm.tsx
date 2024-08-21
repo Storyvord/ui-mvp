@@ -1,10 +1,10 @@
-import CustomForm from "@/components/crew/CustomForm";
 import React, { useEffect, useState } from "react";
 import { EmplyeesFormData } from "./types";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { FormFieldConfig } from "@/types/crew";
 import { useFormData } from "@/context/EmplyeesContext";
+import CustomForm from "@/components/CustomForm";
 
 const profileFormFields: FormFieldConfig<EmplyeesFormData>[] = [
   {
