@@ -1,31 +1,42 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ExternalContactDialog from "./ExternalContactDialog";
 import CrewHireNavBar from "./CrewHireNavBar";
 import { useParams } from "next/navigation";
-import { useSentInvitationToCrew } from "@/lib/react-query/queriesAndMutations/invitation";
 import Loader from "@/components/Loader";
+import {
+  useGetOnBoardedCrewList,
+  useSentInvitationToCrew,
+} from "@/lib/react-query/queriesAndMutations/crew";
+import CrewList, { Crew } from "./CrewList";
 
 const CrewHire = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialogExternalContact, setOpenDialogExternalContact] = useState(false);
   const [email, setEmail] = useState("");
-  const { id }: { id: string } = useParams();
-  console.log(id);
-  const { mutateAsync, isLoading } = useSentInvitationToCrew();
+  const { id: projectId }: { id: string } = useParams();
+  const { mutateAsync, isLoading: isLoadingInvitation } = useSentInvitationToCrew();
   const handleSendInvitation = async () => {
-    const res = await mutateAsync({ project_id: id, crew_email: email });
+    const res = await mutateAsync({ project_id: projectId, crew_email: email });
     if (res) setOpenDialog(false);
   };
+
+  const { data: crewList, isLoading: isLoadingCrewList } = useGetOnBoardedCrewList(projectId);
+  const [filterCrewList, setFilterCrewList] = useState<Crew[] | undefined>(crewList);
+  const [searchValue, setSearchValue] = useState("");
+  
+  useEffect(() => {
+    if (crewList) {
+      const filtered = crewList.filter((item: Crew) =>
+        item.email.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilterCrewList(filtered);
+    }
+  }, [searchValue, crewList]);
+
   return (
     <div>
       <CrewHireNavBar
@@ -33,11 +44,10 @@ const CrewHire = () => {
         setOpenDialog={setOpenDialog}
         openDialogExternalContact={openDialogExternalContact}
         setOpenDialogExternalContact={setOpenDialogExternalContact}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
       />
-      <main className="mt-12 flex flex-col gap-8">
-        <h1 className=" text-2xl text-center text-gray-500">On boarded cew will display here</h1>
-      </main>
-
+      <CrewList data={filterCrewList} isLoading={isLoadingCrewList} />
       <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
         <DialogContent>
           <DialogHeader>
@@ -48,8 +58,8 @@ const CrewHire = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="enter email"
               />
-              <Button disabled={isLoading} onClick={handleSendInvitation}>
-                {isLoading ? <Loader /> : "Invite"}
+              <Button disabled={isLoadingInvitation} onClick={handleSendInvitation}>
+                {isLoadingInvitation ? <Loader /> : "Invite"}
               </Button>
             </div>
           </DialogHeader>

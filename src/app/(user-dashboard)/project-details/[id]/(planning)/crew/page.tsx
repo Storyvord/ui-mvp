@@ -1,7 +1,7 @@
 "use client";
 import Tabs from "@/components/Tabs";
-import CrewHire from "@/components/user-dashboard/project-details/planning/crew/CrewHire";
-import CrewSearch from "@/components/user-dashboard/project-details/planning/crew/CrewSearch";
+import CrewHire from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewHire";
+import CrewSearch from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewSearch";
 import OpenPosition from "@/components/user-dashboard/project-details/planning/crew/OpenPosition";
 import React, { useState } from "react";
 
