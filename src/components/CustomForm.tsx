@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
@@ -14,11 +13,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
+import SelectInput from "@/components/SelectInput";
 
-type FormFieldConfig<TFormValues extends FieldValues> = {
-  name: Path<TFormValues>;
-  type: string;
+type FormFieldConfig<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
+  type:
+    | "text"
+    | "number"
+    | "email"
+    | "textarea"
+    | "checkbox"
+    | "date"
+    | "file"
+    | "datetime-local"
+    | "select";
+  isMulti?: boolean; // this is only for type select
+  options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
 };
 
@@ -69,7 +80,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                       type === "number" ||
                       type === "email" ||
                       type === "date" ||
-                      "datetime-local" ? (
+                      type === "datetime-local" ? (
                       <Input
                         type={type}
                         placeholder={placeholder}
@@ -88,6 +99,14 @@ const CustomForm = <TFormValues extends FieldValues>({
                         checked={field.value as boolean}
                         onCheckedChange={field.onChange}
                       />
+                    ) : type === "select" ? (
+                      <SelectInput
+                        control={form.control}
+                        name={name}
+                        options={fieldConfig.options || []}
+                        isMulti={fieldConfig.isMulti}
+                        placeholder={placeholder}
+                      />
                     ) : null}
                   </FormControl>
                   <FormMessage />
@@ -98,7 +117,7 @@ const CustomForm = <TFormValues extends FieldValues>({
         })}
         {isError && (
           <p className=" text-center text-sm text-red-600 font-semibold">
-            Filed to submit your form
+            Failed to submit your form
           </p>
         )}
 
