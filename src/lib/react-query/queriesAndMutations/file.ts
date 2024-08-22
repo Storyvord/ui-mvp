@@ -3,6 +3,7 @@ import {
   deleteFile,
   getAllFileDocumentRooms,
   getAllFiles,
+  updateRoomAccessRights,
   uploadFile,
 } from "@/lib/api/file";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -101,6 +102,18 @@ export const useDeleteFile = () => {
     },
     onError: (error) => {
       console.error("Error deleting file:", error);
+    },
+  });
+};
+
+export const useUpdateRoomAccessRights = () => {
+  return useMutation({
+    mutationFn: updateRoomAccessRights,
+    onSuccess: (data) => {
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error updating room access rights:", error);
     },
   });
 };

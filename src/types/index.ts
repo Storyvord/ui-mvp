@@ -10,7 +10,18 @@ import { FieldValues, Path } from "react-hook-form";
 export type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
   label: string;
-  type: "text" | "number" | "email" | "textarea" | "checkbox" | "date" | "file" | "datetime-local";
+  type:
+    | "text"
+    | "number"
+    | "email"
+    | "textarea"
+    | "checkbox"
+    | "date"
+    | "file"
+    | "datetime-local"
+    | "select";
+  isMulti?: boolean; // this is only for type select
+  options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
 };
 
@@ -98,6 +109,7 @@ export type CalenderEventType = {
 export type RoomFormData = {
   name: string;
   description: string;
+  accessRight: string | never[];
 };
 
 export type UploadFileFormData = {
