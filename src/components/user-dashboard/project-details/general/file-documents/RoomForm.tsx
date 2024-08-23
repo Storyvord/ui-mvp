@@ -4,8 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import CustomForm from "@/components/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRoomFormSchema } from "@/lib/validation";
-import { FormFieldConfig } from "@/types/crew";
-import { RoomFormData } from "@/types";
+import { FormFieldConfig, RoomFormData } from "@/types";
 
 type RoomFormProps = {
   createRoom: (data: RoomFormData) => void;
@@ -13,7 +12,9 @@ type RoomFormProps = {
   isError: boolean;
   open: boolean;
   onClose: () => void;
+  crewList: { value: string; label: string }[];
 };
+
 const formData: FormFieldConfig<RoomFormData>[] = [
   {
     name: "name",
@@ -27,13 +28,23 @@ const formData: FormFieldConfig<RoomFormData>[] = [
     label: "Description",
     placeholder: "Enter room description",
   },
+  {
+    name: "accessRight",
+    type: "select",
+    isMulti: true,
+    options: [{ value: "", label: "" }],
+    label: "Access Right",
+    placeholder: "",
+  },
 ];
-const RoomForm = ({ createRoom, isLoading, isError, open, onClose }: RoomFormProps) => {
+const RoomForm = ({ createRoom, isLoading, isError, open, onClose, crewList }: RoomFormProps) => {
+  formData[2].options = crewList;
   const form = useForm({
     resolver: zodResolver(createRoomFormSchema),
-    defaultValues: { name: "", description: "" },
+    defaultValues: { name: "", description: "", accessRight: [] },
   });
   const onSubmit = (data: RoomFormData) => {
+    console.log(data)
     createRoom(data);
   };
 

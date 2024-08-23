@@ -8,17 +8,25 @@ import FileCard from "./FileCard";
 import {
   useDeleteFile,
   useGetAllFiles,
+  useUpdateRoomAccessRights,
   useUploadFile,
 } from "@/lib/react-query/queriesAndMutations/file";
 import { useParams } from "next/navigation";
 import { convertToBase64 } from "@/lib/utils";
 import { UploadFileFormData } from "@/types";
+import AccessRights from "@/components/AccessRights";
+import { useToast } from "@/components/ui/use-toast";
 
 type FileType = {
   id: number;
   file: string;
   name: string;
   folder: number;
+};
+
+type OptionType = {
+  value: string;
+  label: string;
 };
 
 const FileManagement = () => {
@@ -28,7 +36,7 @@ const FileManagement = () => {
     fileName: string;
   } | null>(null);
   const { id: projectId, roomId }: { id: string; roomId: string } = useParams();
-
+  const { toast } = useToast();
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -40,8 +48,7 @@ const FileManagement = () => {
     setPreviewFile(null);
   };
 
-  const { roomId: roomID }: { roomId: string } = useParams();
-  const { data: fileList } = useGetAllFiles(roomID);
+  const { data: fileList } = useGetAllFiles(roomId);
   const { mutateAsync: deleteFile } = useDeleteFile();
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
@@ -56,12 +63,31 @@ const FileManagement = () => {
     }
   };
 
+  // section for giving access rights
+  const { mutateAsync: giveAccessRights, isLoading: isLoadingAccessRights } =
+    useUpdateRoomAccessRights();
+  const handleSubmitAccessRightsForm = async (data: OptionType[]) => {
+    console.log(data);
+    const user = data.map((item) => item.value);
+    const transFormData = { add_users: user };
+    const res = await giveAccessRights({ roomId, data: transFormData });
+    if (res) {
+      toast({ title: "Successfully give access to selected crew" });
+    } else {
+      toast({ title: "Something went wrong", variant: "destructive" });
+    }
+  };
+
   return (
     <section>
-      <div className="flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
+      <div className="flex flex-row gap-2 items-center justify-between mt-5 w-full">
         <Button variant="outline" className="flex flex-row" onClick={handleOpenModal}>
           +<span className="ml-2">Upload File</span>
         </Button>
+        <AccessRights
+          handleSubmit={handleSubmitAccessRightsForm}
+          isLoading={isLoadingAccessRights}
+        />
       </div>
 
       <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

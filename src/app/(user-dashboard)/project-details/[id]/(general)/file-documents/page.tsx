@@ -10,6 +10,8 @@ import {
   useGetAllFileDocumentRooms,
 } from "@/lib/react-query/queriesAndMutations/file";
 import { RoomFormData } from "@/types";
+import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
+import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
 
 type RoomDataType = {
   id: string;
@@ -21,23 +23,27 @@ type RoomDataType = {
 
 const FileSection: FC = () => {
   const [showForm, setShowForm] = useState(false);
-
   const { id: projectId }: { id: string } = useParams();
-  const { data: roomData, isLoading: isLoadingFiles } = useGetAllFileDocumentRooms(projectId);
-
   const router = useRouter();
 
-  const handleCardClick = (roomId: string) => {
-    router.push(`/project-details/${projectId}/file-documents/${roomId}`);
-  };
-
+  const { data: roomData, isLoading: isLoadingFiles } = useGetAllFileDocumentRooms(projectId);
   const {
     mutateAsync,
     isLoading: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
   } = useCreateFileDocumentRoom();
+  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
+  const crewList = crew_list?.map((crew: Crew) => ({
+    value: crew.id,
+    label: crew.profile.name,
+  }));
+
+  const handleCardClick = (roomId: string) => {
+    router.push(`/project-details/${projectId}/file-documents/${roomId}`);
+  };
+
   const handleCreateRoom = async (data: RoomFormData) => {
-    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: [] };
+    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: data.accessRight };
     const res = await mutateAsync({ roomFormData: transformData, projectId });
     if (res.ok) setShowForm(false);
   };
@@ -65,6 +71,7 @@ const FileSection: FC = () => {
         isError={isErrorCreateRoom}
         open={showForm}
         onClose={() => setShowForm(false)}
+        crewList={crewList}
       />
     </section>
   );

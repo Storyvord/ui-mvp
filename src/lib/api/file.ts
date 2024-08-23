@@ -135,3 +135,20 @@ export const deleteFile = async (fileId: number) => {
     throw new Error("Failed to delete files");
   }
 };
+
+export const updateRoomAccessRights = async ({ roomId, data }: { roomId: string; data: any }) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/files/folders/details/${roomId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update room access rights");
+  }
+  return res.json()
+};
