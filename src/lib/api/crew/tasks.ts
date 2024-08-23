@@ -14,3 +14,21 @@ export const getCrewTasks = async () => {
   }
   return res.json();
 };
+
+export const requestApprovalForTask = async (taskId: number) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/request-completion/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ completion_requested: true }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to request approve task");
+  }
+
+  return res.json();
+};

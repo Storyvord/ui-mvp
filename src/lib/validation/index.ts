@@ -44,6 +44,7 @@ export const taskFormSchema = z.object({
   title: z.string().min(1, { message: "Task title is required" }),
   description: z.string(),
   due_date: z.string().date(),
+  assigned_to: z.number().min(1),
 });
 
 export const ClientProfileUpdateSchema = z.object({
@@ -105,10 +106,7 @@ export const openPositionFormSchema = z.object({
 export const createRoomFormSchema = z.object({
   name: z.string().min(2, "Name is required"),
   description: z.string().min(2, "Description is required"),
-  accessRight: z.union([
-    z.number(),
-    z.array(z.number())
-  ]),
+  accessRight: z.union([z.number(), z.array(z.number())]),
 });
 
 // image: z.union([
