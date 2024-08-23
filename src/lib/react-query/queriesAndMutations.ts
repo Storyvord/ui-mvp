@@ -19,6 +19,7 @@ import {
   createNewTask,
   deleteTask,
   completeTask,
+  taskCompletionApproval,
 } from "../api/api";
 import Cookies from "js-cookie";
 
@@ -209,7 +210,6 @@ export const useDeleteTask = () => {
   });
 };
 
-
 export const useCompleteTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -224,30 +224,30 @@ export const useCompleteTask = () => {
       console.error(error);
     },
   });
-}
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
+export const useTaskCompletionApproval = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: taskCompletionApproval,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getTasks"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+};
 
 export const useLocationList = () => {
-  return useMutation(
-    (params: { search: string; page: number }) => fetchLocation(params),
-    {
-      onError: (error) => {
-        console.error("Error in fetching location:", error);
-      },
-    }
-  );
+  return useMutation((params: { search: string; page: number }) => fetchLocation(params), {
+    onError: (error) => {
+      console.error("Error in fetching location:", error);
+    },
+  });
 };
 
 export const useProjectLogistics = (project_id: string) => {

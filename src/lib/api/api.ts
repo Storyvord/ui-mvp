@@ -285,6 +285,22 @@ export const completeTask = async ({
   return res.json();
 };
 
+export const taskCompletionApproval = async (taskId: number) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/approve-completion/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // "Content-Type": "application/json",
+    },
+    // body: JSON.stringify(taskData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to approve task ");
+  }
+  return res.json();
+};
+
 export const fetchLocation = async (params: { search: string; page: number }) => {
   const { search, page } = params;
   const apiKey = process.env.NEXT_PUBLIC_LOCATION_API_KEY;

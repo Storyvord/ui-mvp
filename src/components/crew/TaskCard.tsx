@@ -3,24 +3,24 @@
 import { taskType } from "@/types";
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "../ui/button";
+import Loader from "../Loader";
 
 interface TaskCardProps {
   task: taskType;
-  completeTask: (task: taskType) => void;
+  handleRequestApproval: (taskId: number) => void;
+  isLoading: boolean;
 }
 
-const TaskCard: FC<TaskCardProps> = ({ task, completeTask }) => {
-  console.log(task.project);
-
+const TaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoading }) => {
   return (
-    <Card className="min-h-[60px] py-0 px-2 rounded-sm">
+    <Card className="min-h-[60px] py-0 px-2 rounded-sm mt-4">
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <div className="flex py-2 relative pl-6 gap-2 items-center">
@@ -29,15 +29,32 @@ const TaskCard: FC<TaskCardProps> = ({ task, completeTask }) => {
             ></div>
             <div className="flex w-full h-full items-center gap-2 justify-between">
               <div className="flex items-center gap-3">
-                <Checkbox checked={task.completed} onClick={() => completeTask(task)} />
                 <span className=" sm:flex gap-12">
                   <h1 className="font-sans text-gray-700 font-bold text-[14px] sm:text-[16px]">
                     {task.title}
                   </h1>
-                  <h3 className="text-sm">Project:- {task.project}</h3>
+                  <h3 className="text-sm">Project:- {task.project.name}</h3>
                 </span>
               </div>
               <div className="flex gap-2 items-center">
+                {task.completion_requested && (
+                  <p className=" my-2 text-center hidden lg:block text-sm font-bold text-orange-400">
+                    You have requested this task for approval.
+                  </p>
+                )}
+                {!task.completion_requested && !task.completed && (
+                  <Button
+                    className="hidden md:block"
+                    onClick={() => handleRequestApproval(task.id)}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {isLoading ? <Loader /> : " Request completion"}
+                  </Button>
+                )}
+                <span className=" text-gray-500 text-sm mr-4">
+                  {task.completed ? "Completed" : "Pending"}
+                </span>
                 <div className="hidden sm:block font-sans mr-10 text-center">
                   <p className="text-black text-[10px]">Task Deadline</p>
                   <p className="text-gray-500 text-[14px]">{task.due_date}</p>
@@ -47,13 +64,30 @@ const TaskCard: FC<TaskCardProps> = ({ task, completeTask }) => {
             <AccordionTrigger className=""></AccordionTrigger>
           </div>
           <AccordionContent>
-            <p className="text-gray-500">
-              <span className="font-sans text-gray-700 font-bold text-[14px] mr-1">
-                Task Description:{" "}
-              </span>
-              {task.description}
-            </p>
-            <p className="text-gray-500 sm:hidden">
+            {task.completion_requested && (
+              <p className=" my-2 block lg:hidden text-center text-sm font-bold text-orange-400">
+                You have requested this task for approval.
+              </p>
+            )}
+            <div className=" flex justify-between">
+              <p className="text-gray-500">
+                <span className="font-sans text-gray-700 font-bold text-[14px] mr-1">
+                  Task Description:
+                </span>
+                {task.description}
+              </p>
+              {!task.completion_requested && !task.completed && (
+                <Button
+                  className="md:hidden"
+                  onClick={() => handleRequestApproval(task.id)}
+                  variant="outline"
+                  size="sm"
+                >
+                  {isLoading ? <Loader /> : " Request completion"}
+                </Button>
+              )}
+            </div>
+            <p className="text-gray-500 sm:hidden mt-2">
               <span className="font-sans text-gray-700 font-bold text-[14px] mr-1">
                 Task DeadLine:{" "}
               </span>
