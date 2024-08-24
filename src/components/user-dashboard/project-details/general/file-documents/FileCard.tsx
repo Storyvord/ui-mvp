@@ -27,7 +27,7 @@ interface FileCardProps {
     name: string;
     folder: number;
   };
-  onDeleteFile: (fileId: number) => void;
+  onDeleteFile?: (fileId: number) => void;
   onPreview: (fileUrl: string, fileName: string) => void;
 }
 
@@ -44,15 +44,17 @@ const FileCard = ({ file, onDeleteFile, onPreview }: FileCardProps) => {
         <div className="flex-grow">
           <h3 className="text-black font-medium">{file.name}</h3>
         </div>
-        <button
-          className="text-red-500"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDeleteFile(file.id);
-          }}
-        >
-          <MdDelete />
-        </button>
+        {onDeleteFile && (
+          <button
+            className="text-red-500"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteFile(file.id);
+            }}
+          >
+            <MdDelete />
+          </button>
+        )}
       </div>
     </div>
   );

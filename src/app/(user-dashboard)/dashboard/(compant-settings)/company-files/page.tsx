@@ -64,6 +64,7 @@ const CompanyFileSection: FC = () => {
         isError={isErrorCreateRoom}
         open={showForm}
         onClose={() => setShowForm(false)}
+        crewList={undefined}
       />
     </section>
   );
