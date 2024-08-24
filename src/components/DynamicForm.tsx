@@ -92,7 +92,7 @@ export const DynamicForm = <TFormValues extends FieldValues>({
               )}
             </div>
           ))}
-          {/* {fields.length < 3 && (
+          {fields.length < 3 && (
             <Button
               className="w-full border-2 border-green-600 mt-2"
               variant="outline"
@@ -100,7 +100,7 @@ export const DynamicForm = <TFormValues extends FieldValues>({
             >
               Add
             </Button>
-          )} */}
+          )}
           {isError && <p className=" my-2 text-center text-red-600 ">Something went wrong</p>}
           <Button className="w-full mt-2" type="submit" disabled={isLoading}>
             Submit

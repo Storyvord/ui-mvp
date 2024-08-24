@@ -44,14 +44,6 @@ const Projects = () => {
     setRejectedProjects(rejectedProjects);
   }, [projects]);
 
-  console.log(projects)
-
-  console.log(invitedProjects)
-
-  console.log(inProgressProjects)
-
-  console.log(rejectedProjects)
-
   const {
     mutateAsync: acceptInvitation,
     isLoading: isAcceptLoading,

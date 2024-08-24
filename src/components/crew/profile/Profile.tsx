@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { MdOutlineModeEdit } from "react-icons/md";
+import BasicDetails from "../update-profile/BasicDetails";
 
 interface ProfileProps {
   profile: {
@@ -23,14 +24,17 @@ interface ProfileProps {
 }
 
 const Profile = ({ profile }: ProfileProps) => {
+  const [openDialog, setOpenDialog] = useState(false);
   return (
     <div className="bg-white p-6 shadow-md max-w-4xl mx-auto relative">
-      {!profile?.image && <h2>Add your profile details, by clicking edit button</h2>}
-      <Link href="/crew/update-profile" className=" cursor-pointer my-0 absolute top-2 right-2 ">
-        <Button variant="outline" size="sm">
-          Edit
-        </Button>
-      </Link>
+      <span className=" flex justify-between">
+        <h2 className="text-xl font-semibold mb-4">Profile</h2>
+        <MdOutlineModeEdit
+          className=" w-6 h-6 cursor-pointer"
+          onClick={() => setOpenDialog(true)}
+        />
+      </span>
+      <hr />
       {profile?.image && (
         <>
           <div className="flex flex-col items-center sm:flex-row sm:items-start">
@@ -78,6 +82,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         </>
       )}
+      <BasicDetails openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </div>
   );
 };
