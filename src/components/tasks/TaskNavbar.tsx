@@ -1,5 +1,4 @@
 "use client"
-
 import { FC, useState } from 'react'
 import NavbarItem from './NavbarItem'
 
@@ -19,6 +18,10 @@ const taskNavbarMenu = [
         name: "Completed",
         type: "completed",
         link: "/report"
+    },
+    {
+        name: "Request Approval",
+        type: "requested-approval",
     }
 ]
 

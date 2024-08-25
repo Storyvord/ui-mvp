@@ -42,3 +42,15 @@ export const convertToBase64 = (
     }
   });
 };
+
+
+export const  getFileTypeFromUrl = async (url: string) =>{
+  try {
+    const response = await fetch(url, { method: 'HEAD' }); // Use 'HEAD' to fetch headers only
+    const contentType = response.headers.get('Content-Type');
+    return contentType;
+  } catch (error) {
+    console.error('Error fetching file type:', error);
+    return null;
+  }
+}

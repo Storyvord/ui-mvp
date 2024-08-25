@@ -251,3 +251,155 @@ export const getCredit = async () => {
   }
   return res.json();
 };
+
+//////////////////////////////////////////////////////////////////////
+export const updatePortfolio = async ({
+  portfolioData,
+  id,
+}: {
+  portfolioData: PortfolioFormData;
+  id: number;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/portfolios/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(portfolioData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create your portfolio");
+  }
+
+  return res.json();
+};
+
+export const updateEducation = async ({
+  educationData,
+  id,
+}: {
+  educationData: EducationFormType;
+  id: number;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/crew-education/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(educationData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create your educational details");
+  }
+
+  return res.json();
+};
+
+export const updateSocialLink = async ({
+  socialLinkData,
+  id,
+}: {
+  socialLinkData: SocialLinkFormType;
+  id: number;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/social-links/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(socialLinkData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create your social links");
+  }
+
+  return res.json();
+};
+
+export const updateEndorsement = async ({
+  endorsementData,
+  id,
+}: {
+  endorsementData: EndorsementFormType;
+  id: number;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/endorsement-from-peers/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(endorsementData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create your endorsement");
+  }
+
+  return res.json();
+};
+
+export const updateCredit = async ({
+  creditData,
+  id,
+}: {
+  creditData: CreditsFormFields;
+  id: number;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/crew-credits/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(creditData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create your credits");
+  }
+
+  return res.json();
+};
+
+// Helper function to send DELETE requests.
+const deleteResource = async (endpoint: string) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(endpoint, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete the resource");
+  }
+};
+
+// Delete functions for each resource
+export const deletePortfolio = async (id: number) => {
+  return deleteResource(`${USER_API}/api/crew/portfolios/${id}/`);
+};
+
+export const deleteEducation = async (id: number) => {
+  return deleteResource(`${USER_API}/api/crew/crew-education/${id}/`);
+};
+
+export const deleteSocialLink = async (id: number) => {
+  return deleteResource(`${USER_API}/api/crew/social-links/${id}/`);
+};
+
+export const deleteEndorsement = async (id: number) => {
+  return deleteResource(`${USER_API}/api/crew/endorsement-from-peers/${id}/`);
+};
+
+export const deleteCredit = async (id: number) => {
+  return deleteResource(`${USER_API}/api/crew/crew-credits/${id}/`);
+};

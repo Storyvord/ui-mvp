@@ -1,12 +1,73 @@
-import FileManagement from "@/components/user-dashboard/project-details/general/file-documents/FileManagement";
-import React from "react";
+"use client";
+import { FC, useState } from "react";
+import { FaPlus } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import RoomForm from "@/components/user-dashboard/project-details/general/file-documents/RoomForm";
+import RoomCard from "@/components/user-dashboard/project-details/general/file-documents/RoomCard";
+import { RoomFormData } from "@/types";
+import {
+  useCreateCompanyFileDocumentRoom,
+  useGetCompanyFileDocumentRooms,
+} from "@/lib/react-query/queriesAndMutations/company/file-docs";
 
-const page = () => {
+type RoomDataType = {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  default: boolean;
+};
+
+const CompanyFileSection: FC = () => {
+  const [showForm, setShowForm] = useState(false);
+
+  const { data: roomData, isLoading: isLoadingFiles } = useGetCompanyFileDocumentRooms();
+
+  const router = useRouter();
+
+  const handleCardClick = (roomId: string) => {
+    router.push(`/dashboard/company-files/${roomId}`);
+  };
+
+  const {
+    mutateAsync,
+    isLoading: isLoadingCreateRoom,
+    isError: isErrorCreateRoom,
+  } = useCreateCompanyFileDocumentRoom();
+  const handleCreateRoom = async (data: RoomFormData) => {
+    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: [] };
+    const res = await mutateAsync(transformData);
+    if (res.ok) setShowForm(false);
+  };
+
   return (
-    <div className="p-4">
-      <FileManagement roomId="" />
-    </div>
+    <section className="relative py-5 px-4">
+      <div className="mb-5 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
+        <Button
+          variant="outline"
+          className="flex items-center mb-4 md:mb-0 lg:mb-0"
+          onClick={() => setShowForm(true)}
+        >
+          <FaPlus className="mr-2" /> Create Room
+        </Button>
+      </div>
+      {isLoadingFiles && <p className=" text-center">Fetching your files...</p>}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
+        {roomData?.map((room: RoomDataType, index: number) => (
+          <RoomCard key={index} room={room} onClick={handleCardClick} />
+        ))}
+      </div>
+      <RoomForm
+        createRoom={handleCreateRoom}
+        isLoading={isLoadingCreateRoom}
+        isError={isErrorCreateRoom}
+        open={showForm}
+        onClose={() => setShowForm(false)}
+        crewList={undefined}
+      />
+    </section>
   );
 };
 
-export default page;
+export default CompanyFileSection;

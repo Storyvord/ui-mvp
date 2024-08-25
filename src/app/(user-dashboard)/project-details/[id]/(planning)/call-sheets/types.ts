@@ -24,4 +24,5 @@ export interface CallSheet {
     nearestPoliceStation: string;
     nearestFireStation: string;
     additionalDetails: string;
+    project:string;
 }

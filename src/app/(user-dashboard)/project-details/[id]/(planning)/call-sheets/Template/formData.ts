@@ -26,4 +26,5 @@ export const initialFormData: CallSheet = {
     nearestPoliceStation: '',
     nearestFireStation: '',
     additionalDetails: '',
+    project: 'bf66cf06-b07d-44ba-974f-f2edcbe138bd'
 };

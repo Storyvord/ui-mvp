@@ -1,12 +1,15 @@
-"use client";
-import CustomForm from "@/components/crew/CustomForm";
+import React, { useEffect } from "react";
+import CustomForm from "@/components/CustomForm";
 import { useToast } from "@/components/ui/use-toast";
-import { useCreateProfile } from "@/lib/react-query/queriesAndMutations/crew/profile";
+import {
+  useCreateProfile,
+  useGetProfile,
+} from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { convertToBase64 } from "@/lib/utils";
 import { profileFormValidationSchema } from "@/lib/validation/crew";
 import { FormFieldConfig, ProfileFormData } from "@/types/crew";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import { useForm } from "react-hook-form";
 
 const profileFormFields: FormFieldConfig<ProfileFormData>[] = [
@@ -94,32 +97,26 @@ const profileFormFields: FormFieldConfig<ProfileFormData>[] = [
   },
 ];
 
-const profileFormDefaultValue: ProfileFormData = {
-  name: "",
-  phone: "",
-  image: null,
-  location: "",
-  languages: "",
-  job_title: "",
-  bio: "",
-  experience: "",
-  skills: "",
-  standardRate: "",
-  technicalProficiencies: "",
-  specializations: "",
-  drive: false,
-  active: true,
+type Props = {
+  setOpenDialog: (openDialog: boolean) => void;
+  openDialog: boolean;
 };
 
-const BasicDetails = () => {
+const BasicDetails = ({ openDialog, setOpenDialog }: Props) => {
   const { toast } = useToast();
+  const { data: profileData } = useGetProfile();
+  const { mutateAsync, isLoading, isError } = useCreateProfile();
 
   const form = useForm({
     resolver: zodResolver(profileFormValidationSchema),
-    defaultValues: profileFormDefaultValue,
+    defaultValues: profileData || {},
   });
 
-  const { mutateAsync, isLoading, isError } = useCreateProfile();
+  useEffect(() => {
+    if (profileData) {
+      form.reset(profileData);
+    }
+  }, [profileData, form]);
 
   const onSubmit = async (data: ProfileFormData) => {
     const base64 = await convertToBase64(data.image);
@@ -128,26 +125,30 @@ const BasicDetails = () => {
     if (res) {
       form.reset();
       toast({
-        title: "Your portfolio details successfully submitted",
+        title: "Your profile details successfully submitted",
       });
+      setOpenDialog(false);
     }
   };
 
   return (
-    <>
-      <h1 className=" text-center sm:text-xl text-lg font-semibold text-gray-800 mt-4">
-        Basic Details
-      </h1>
-      <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] lg:mt-6 lg:w-3/5 bg-white p-4">
-        <CustomForm
-          form={form}
-          formFields={profileFormFields}
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          isError={isError}
-        />
-      </div>
-    </>
+    <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Basic Details</DialogTitle>
+        </DialogHeader>
+        <div className=" max-h-[80vh] overflow-y-auto px-2">
+          <CustomForm
+            form={form}
+            formFields={profileFormFields}
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
+
 export default BasicDetails;

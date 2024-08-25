@@ -1,5 +1,29 @@
 import { z } from "zod";
-import { announcementFormSchema, calenderFormSchema, projectFormSchema, taskFormSchema } from "../lib/validation";
+import {
+  announcementFormSchema,
+  calenderFormSchema,
+  projectFormSchema,
+  taskFormSchema,
+} from "../lib/validation";
+import { FieldValues, Path } from "react-hook-form";
+
+export type FormFieldConfig<T extends FieldValues> = {
+  name: Path<T>;
+  label: string;
+  type:
+    | "text"
+    | "number"
+    | "email"
+    | "textarea"
+    | "checkbox"
+    | "date"
+    | "file"
+    | "datetime-local"
+    | "select";
+  isMulti?: boolean; // this is only for type select
+  options?: { value: string; label: string }[]; // this is only for type select
+  placeholder?: string;
+};
 
 interface project {
   id: number;
@@ -37,15 +61,13 @@ export type CalenderFormType = {
   end: string;
   description?: string;
   location?: string;
-  participants: number[]
+  participants: number[];
 };
-
 
 export type CalenderEventTypeWithId = CalenderFormType & {
-  id: string
+  id: string;
   participants?: string[];
 };
-
 
 export type projectFormInputType = z.infer<typeof projectFormSchema>;
 
@@ -60,18 +82,17 @@ export type AnnouncementFormFieldConfig = {
 export type Announcements = {
   title: string;
   message: string;
-  project:  string | string[]
+  project: string | string[];
   recipients: number[];
 };
 
-export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>
+export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;
 export type CalenderFormFieldConfig = {
   name: keyof CalenderFormFieldType;
   label: string;
   type: "text" | "datetime-local" | "textarea";
   required: boolean;
 };
-
 
 export type CalenderEventType = {
   id: number;
@@ -85,13 +106,16 @@ export type CalenderEventType = {
   participants: number[];
 };
 
+export type RoomFormData = {
+  name: string;
+  description: string;
+  accessRight: string | never[];
+};
 
-
-
-
-
-
-
+export type UploadFileFormData = {
+  name: string;
+  file: string | ArrayBuffer | File | null;
+};
 
 export type ReturnAnnouncements = Announcements & {
   id: number;
@@ -106,8 +130,8 @@ export type taskType = {
   due_date: string;
   completed: boolean;
   completion_requested: boolean;
-  project: string;
-  assigned_to: number | null;
+  project: {name: string};
+  assigned_to: number;
   requester: number | null;
   created_by: number;
 };
@@ -203,11 +227,3 @@ export type PageProps = {
   };
   projectsData?: ProjectData[];
 };
-
-
-
-
-
-
-
-
