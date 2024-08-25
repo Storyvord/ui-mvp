@@ -129,13 +129,13 @@ const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
           <DialogTitle>Portfolio Details</DialogTitle>
         </DialogHeader>
         <div className="max-h-[80vh] overflow-y-auto px-2">
-          <CustomForm
-            form={form}
-            formFields={portfolioFormFields}
-            onSubmit={onSubmit}
-            isLoading={isLoading}
-            isError={isError}
-          />
+        <CustomForm
+          form={form}
+          formFields={portfolioFormFields}
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          isError={isError}
+        />
         </div>
       </DialogContent>
     </Dialog>

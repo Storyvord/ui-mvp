@@ -1,10 +1,11 @@
 "use client";
 
 import Dashboard from "@/components/crew/Dashboard";
-import Navbar from "@/components/crew/Navbar";
+import { useGetProfile } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import React from "react";
 
 const CrewSection = () => {
+  const {data} = useGetProfile()
 
   return (
     <div className="">
