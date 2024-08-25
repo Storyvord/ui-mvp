@@ -25,34 +25,42 @@ export type FormFieldConfig<T extends FieldValues> = {
 };
 
 export type PortfolioFormData = {
+  id?: number;
   title: string;
   link: string;
   image: string | ArrayBuffer | File | null;
   contentTag: string;
   description: string;
   providedService: string;
-  // verification_type: "client_reference";
+  verification_type?: string;
 };
 
 export type EducationFormType = {
+  id?: number;
   academicQualifications: string;
   professionalCourses: string;
   workshopsAttended: string;
+  crew?: number;
 };
 
 export type SocialLinkFormType = {
+  id?: number;
   link: string;
 };
 
 export type EndorsementFormType = {
+  id?: number;
   text: string;
   givenBy: string;
+  crew?: number;
 };
 export type CreditsFormFields = {
+  id?: number;
   title: string;
   year: string;
   role: string;
   production: string;
   type_of_content: string;
   tags: string;
+  crew?: number;
 };

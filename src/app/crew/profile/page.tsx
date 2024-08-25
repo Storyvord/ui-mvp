@@ -7,6 +7,11 @@ import SocialLinks from "@/components/crew/profile/SocialLinks";
 import Credit from "@/components/crew/profile/Credit";
 import Education from "@/components/crew/profile/Education";
 import {
+  useDeleteCredit,
+  useDeleteEducation,
+  useDeleteEndorsement,
+  useDeletePortfolio,
+  useDeleteSocialLink,
   useGetCredit,
   useGetEducation,
   useGetEndorsement,
@@ -19,9 +24,19 @@ const ProfilePage = () => {
   const { data: profileData } = useGetProfile();
   const { data: portfolioData } = useGetPortfolio();
   const { data: educationData } = useGetEducation();
-  const { data: socialLinks } = useGetSocialLink();
+  const { data: socialLinksData } = useGetSocialLink();
   const { data: endorsementData } = useGetEndorsement();
   const { data: creditsData } = useGetCredit();
+
+  const { mutateAsync: deleteEducation, isLoading: isLoadingDeleteEducation } =
+    useDeleteEducation();
+  const { mutateAsync: deleteEndorsement, isLoading: isLoadingDeleteEndorsement } =
+    useDeleteEndorsement();
+  const { mutateAsync: deletePortfolio, isLoading: isLoadingDeletePortfolio } =
+    useDeletePortfolio();
+  const { mutateAsync: deleteCredit, isLoading: isLoadingDeleteCredit } = useDeleteCredit();
+  const { mutateAsync: deleteSocialLink, isLoading: isLoadingDeleteSocialLinks } =
+    useDeleteSocialLink();
 
   const [isClient, setIsClient] = useState(false);
 
@@ -35,12 +50,32 @@ const ProfilePage = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      {profileData && <Profile profile={profileData} />}
-      {endorsementData && <Endorsements endorsements={endorsementData} />}
-      {portfolioData && <Portfolio portfolio={portfolioData} />}
-      {creditsData && <Credit credits={creditsData} />}
-      {socialLinks && <SocialLinks socialLinks={socialLinks} />}
-      {educationData && <Education education={educationData} />}
+      <Profile profile={profileData} />
+      <Education
+        educationData={educationData}
+        deleteEducation={deleteEducation}
+        isLoadingDeleteEducation={isLoadingDeleteEducation}
+      />
+      <Portfolio
+        portfolioData={portfolioData}
+        deletePortfolio={deletePortfolio}
+        isLoadingDeletePortfolio={isLoadingDeletePortfolio}
+      />
+      <Endorsements
+        endorsementData={endorsementData}
+        deleteEndorsement={deleteEndorsement}
+        isLoadingDeleteEndorsement={isLoadingDeleteEndorsement}
+      />
+      <Credit
+        creditsData={creditsData}
+        deleteCredit={deleteCredit}
+        isLoadingDeleteCredit={isLoadingDeleteCredit}
+      />
+      <SocialLinks
+        socialLinksData={socialLinksData}
+        deleteSocialLink={deleteSocialLink}
+        isLoadingDeleteSocialLinks={isLoadingDeleteSocialLinks}
+      />
     </div>
   );
 };
