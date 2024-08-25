@@ -16,8 +16,8 @@ import { FaRegUser } from "react-icons/fa";
 
 const navLinks = [
   {
-    name: "Postings",
-    link: "/crew/postings",
+    name: "File & Document",
+    link: "/crew/file-documents",
   },
   {
     name: "Projects",
