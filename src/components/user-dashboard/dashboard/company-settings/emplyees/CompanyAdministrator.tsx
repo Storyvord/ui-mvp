@@ -44,7 +44,7 @@ const CompanyAdministrator = () => {
     if (storedData) {
       setSubmittedData(JSON.parse(storedData));
     }
-  }, []);
+  }, [setSubmittedData]);
 
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, page } =
     useTable<AdministratorFormData>(
@@ -116,8 +116,12 @@ const CompanyAdministrator = () => {
               <div className="w-full bg-white shadow-sm rounded-lg mt-6 md:overflow-hidden overflow-x-scroll border">
                 <table {...getTableProps()} className="w-full table-auto">
                   <thead className="w-full bg-gray-50">
-                    {headerGroups.map((hg) => (
-                      <tr {...hg.getHeaderGroupProps()} className="cursor-pointer w-full border-b">
+                    {headerGroups.map((hg, index) => (
+                      <tr
+                        {...hg.getHeaderGroupProps()}
+                        key={index}
+                        className="cursor-pointer w-full border-b"
+                      >
                         {hg.headers.map((column) => (
                           <th
                             {...column.getHeaderProps(column.getSortByToggleProps())}
@@ -142,11 +146,12 @@ const CompanyAdministrator = () => {
                     ))}
                   </thead>
                   <tbody {...getTableBodyProps()} className="w-full">
-                    {page.map((row) => {
+                    {page.map((row, index) => {
                       prepareRow(row);
                       return (
                         <tr
                           {...row.getRowProps()}
+                          key={index}
                           className="hover:bg-gray-50 cursor-default w-full border-b"
                         >
                           {row.cells.map((cell) => (

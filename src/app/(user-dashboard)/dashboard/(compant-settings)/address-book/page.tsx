@@ -9,7 +9,7 @@ import {
   useDeleteAddressBook,
   useGetAddressBook,
 } from "@/lib/react-query/queriesAndMutations/company/addressBook";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export type AddressBookForm = AddressBookFormType & {
   id: number;
@@ -19,6 +19,16 @@ export type AddressBookForm = AddressBookFormType & {
 
 const AddressBook = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [user, setUser] = useState<{ id: number } | null>(null); // Safely handle user data
+
+  useEffect(() => {
+    // This ensures localStorage is only accessed in the browser
+    const storedUser = localStorage.getItem("user-details");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   const {
     data: addressBooks,
     isLoading: isLoadingGetAddressBook,
@@ -32,9 +42,8 @@ const AddressBook = () => {
 
   const { mutateAsync: deleteAddressBook } = useDeleteAddressBook();
 
-  const user = JSON.parse(localStorage.getItem("user-details") || "");
   const handleCreateAddressBook = async (data: AddressBookFormType) => {
-    const transformData = { ...data, on_set: true, created_by: user.id };
+    const transformData = { ...data, on_set: true, created_by: user?.id };
     const res = await mutateAsync(transformData);
     if (res) setOpenDialog(false);
   };
