@@ -90,7 +90,7 @@ export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;
 export type CalenderFormFieldConfig = {
   name: keyof CalenderFormFieldType;
   label: string;
-  type: "text" | "datetime-local" | "textarea";
+  type: "text" | "datetime-local" | "textarea" | "select";
   required: boolean;
 };
 

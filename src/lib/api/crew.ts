@@ -24,7 +24,7 @@ export const sentInvitationToCrew = async (formData: {
 
 export const getOnBoardedCrewList = async (projectId: string) => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/project/crew/${projectId}`, {
+  const res = await fetch(`${USER_API}/api/project/crew/${projectId}/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

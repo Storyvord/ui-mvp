@@ -80,6 +80,7 @@ export const calenderFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   start: z.string().min(1, "Start date and time is required"),
   end: z.string().min(1, "End date and time is required"),
+  participants: z.array(z.number()),
   location: z.string().optional(),
   description: z.string().optional(),
 });

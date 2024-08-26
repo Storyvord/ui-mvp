@@ -65,6 +65,7 @@ const CompanyCalender = () => {
     title: "",
     description: "",
     location: "",
+    participants: []
   });
 
   const handleSelectSlot = ({ start }: any) => {

@@ -13,6 +13,8 @@ import {
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
+import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
+import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
 
 const localizer = momentLocalizer(moment);
 
@@ -35,13 +37,32 @@ const MyCalendarPage = () => {
     isLoading: deleteEventLoading,
     isError: deleteEventError,
   } = useDeleteEvent();
+  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
+  const crewList = crew_list?.map((crew: Crew) => ({
+    value: crew.id,
+    label: crew.profile.name,
+  }));
+
+  const [formDefaultValue, setFormDefaultValue] = useState({
+    start: "",
+    end: "",
+    title: "",
+    participants: [],
+    description: "",
+    location: "",
+  });
+
+  const handleSelectSlot = ({ start }: any) => {
+    setOpenFormDialog(true);
+  };
+
+  const handleSelectEvent = (event: CalenderEventType) => {
+    setEventToDisplay(event);
+    setOpenEventDialog(true);
+  };
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
-    const transformData = {
-      ...formData,
-      participants: [],
-    };
-    const res = await createCalenderEvent({ eventData: transformData, projectId });
+    const res = await createCalenderEvent({ eventData: formData, projectId });
     if (res) setOpenFormDialog(false);
   };
 
@@ -60,23 +81,7 @@ const MyCalendarPage = () => {
     }));
     setTransformEvents(transformEvents);
   }, [events]);
-
-  const [formDefaultValue, setFormDefaultValue] = useState({
-    start: "",
-    end: "",
-    title: "",
-    description: "",
-    location: "",
-  });
-
-  const handleSelectSlot = ({ start }: any) => {
-    setOpenFormDialog(true);
-  };
-
-  const handleSelectEvent = (event: CalenderEventType) => {
-    setEventToDisplay(event);
-    setOpenEventDialog(true);
-  };
+  console.log(transformEvents)
 
   return (
     <div className="h-auto bg-white p-4">
@@ -104,6 +109,7 @@ const MyCalendarPage = () => {
         createCalenderEvent={handleCreateEvent}
         isLoading={createEventLoading}
         isError={createEventError}
+        crewList={crewList}
       />
       <EventDialog
         event={eventToDisplay}
@@ -112,6 +118,7 @@ const MyCalendarPage = () => {
         deleteEvent={handleDeleteEvent}
         isLoading={deleteEventLoading}
         isError={deleteEventError}
+        crewList={crewList}
       />
     </div>
   );
