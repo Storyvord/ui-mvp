@@ -10,6 +10,7 @@ import {
   useCreateCompanyFileDocumentRoom,
   useGetCompanyFileDocumentRooms,
 } from "@/lib/react-query/queriesAndMutations/company/file-docs";
+import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
 
 type RoomDataType = {
   id: string;
@@ -23,7 +24,12 @@ const CompanyFileSection: FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   const { data: roomData, isLoading: isLoadingFiles } = useGetCompanyFileDocumentRooms();
-
+  const { data: employee_list } = useGetOnBoardedEmployeeList();
+  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
+    value: employee.id,
+    label: employee.email,
+  }));
+  console.log(employeeList);
   const router = useRouter();
 
   const handleCardClick = (roomId: string) => {
@@ -36,7 +42,7 @@ const CompanyFileSection: FC = () => {
     isError: isErrorCreateRoom,
   } = useCreateCompanyFileDocumentRoom();
   const handleCreateRoom = async (data: RoomFormData) => {
-    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: [] };
+    const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: data.accessRight };
     const res = await mutateAsync(transformData);
     if (res.ok) setShowForm(false);
   };
@@ -52,6 +58,14 @@ const CompanyFileSection: FC = () => {
           <FaPlus className="mr-2" /> Create Room
         </Button>
       </div>
+      {roomData?.length === 0 && (
+        <>
+          <h1 className=" text-center text-gray-700 text-xl mt-8">No room found</h1>
+          <h3 className="text-center text-gray-600 text-md mt-2">
+            Create Room and manage your company files
+          </h3>
+        </>
+      )}
       {isLoadingFiles && <p className=" text-center">Fetching your files...</p>}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
         {roomData?.map((room: RoomDataType, index: number) => (
@@ -64,7 +78,7 @@ const CompanyFileSection: FC = () => {
         isError={isErrorCreateRoom}
         open={showForm}
         onClose={() => setShowForm(false)}
-        crewList={undefined}
+        crewList={employeeList}
       />
     </section>
   );
