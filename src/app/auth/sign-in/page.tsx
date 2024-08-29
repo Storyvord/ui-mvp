@@ -27,8 +27,8 @@ const SignIn: React.FC = () => {
     formState: { errors },
   } = useForm<SignInFormData>({
     defaultValues: {
-      email: "souvik@gmail.com",
-      password: "string@123",
+      email: "",
+      password: "",
     },
   });
   const { mutateAsync: loginUser } = useUserSignIn();
