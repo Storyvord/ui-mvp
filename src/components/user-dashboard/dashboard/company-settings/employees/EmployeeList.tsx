@@ -8,59 +8,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const headers = [
-  "Name",
-  "Email",
-  "Phone",
-  "Job Title",
-  "Location",
-  "Languages",
-  "Standard Rate",
-  "Skills",
-  "Technical Proficiencies",
-  "Specializations",
-  "Drive",
-  "Active",
-];
+// [
+// 	{
+// 		"id": 2,
+// 		"username": null,
+// 		"email": "souvik2@client.com",
+// 		"first_name": "",
+// 		"last_name": ""
+// 	}
+// ]
+const headers = ["Name", "Email"];
 type Profile = {
   id: number;
-  image: string;
-  name: string;
-  phone: string;
-  location: string;
-  languages: string;
-  job_title: string;
-  bio: string;
-  experience: string;
-  skills: string;
-  standardRate: string;
-  technicalProficiencies: string;
-  specializations: string;
-  drive: boolean;
-  active: boolean;
-  user: number;
-};
-
-export type Crew = {
-  id: number;
+  username: string;
   email: string;
-  profile: Profile;
+  first_name: string;
+  last_name: string;
 };
 
 type Props = {
-  data?: Crew[] | undefined;
+  data?: Profile[] | undefined;
   isLoading?: boolean;
 };
 
 const EmployeeList = ({ data, isLoading }: Props) => {
   return (
     <>
-      {data?.length === 0 && (
-        <main className="mt-12 flex flex-col gap-8">
-          <h1 className=" text-2xl text-center text-gray-500">No crew Found</h1>
-        </main>
-      )}
       <Table className=" mt-4 bg-white p-2">
         <TableHeader>
           <TableRow>
@@ -70,25 +43,15 @@ const EmployeeList = ({ data, isLoading }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((item: Crew) => (
+          {data?.map((item:Profile) => (
             <TableRow key={item.id} className="">
-              <TableCell>{item.profile.name}</TableCell>
+              <TableCell>{item.first_name}</TableCell>
               <TableCell>{item.email}</TableCell>
-              <TableCell>{item.profile.phone}</TableCell>
-              <TableCell>{item.profile.job_title}</TableCell>
-              <TableCell>{item.profile.location}</TableCell>
-              <TableCell>{item.profile.languages}</TableCell>
-              <TableCell>{item.profile.standardRate}</TableCell>
-              <TableCell>{item.profile.skills}</TableCell>
-              <TableCell>{item.profile.technicalProficiencies}</TableCell>
-              <TableCell>{item.profile.specializations}</TableCell>
-              <TableCell>{item.profile.drive ? "Yes" : "No"}</TableCell>
-              <TableCell>{item.profile.active ? "Yes" : "No"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {!data && (
+      {data?.length === 0 && (
         <h2 className=" text-center mt-4 text-gray-600"> No Employee and Staff added</h2>
       )}
     </>

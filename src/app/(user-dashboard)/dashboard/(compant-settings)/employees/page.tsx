@@ -32,6 +32,8 @@ const EmployeeAndStaff = () => {
   const { mutateAsync: acceptInvitation } = useAcceptCompanyInvitation();
   const { mutateAsync: rejectInvitation } = useRejectCompanyInvitation();
 
+  console.log(invitationAcceptList)
+
   const handleSendInvitation = async () => {
     const res = await inviteEmployeeAndStaff(email);
     if (res) {

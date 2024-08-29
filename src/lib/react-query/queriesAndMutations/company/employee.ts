@@ -39,7 +39,7 @@ export const useAcceptCompanyInvitation = () => {
     mutationFn: acceptCompanyInvitation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["getCompanyInvitations", "getOnBoardedEmployeeList"],
+        queryKey: ["getCompanyInvitations"],
       });
       return data;
     },
@@ -52,7 +52,7 @@ export const useRejectCompanyInvitation = () => {
     mutationFn: rejectCompanyInvitation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["getCompanyInvitations", "getOnBoardedEmployeeList"],
+        queryKey: ["getCompanyInvitations"],
       });
       return data;
     },

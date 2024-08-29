@@ -22,7 +22,7 @@ export const sentInvitationToEmployee = async (employee_email: string) => {
 export const getOnBoardedEmployeeList = async () => {
   const token = Cookies.get("accessToken");
   const res = await fetch(
-    `${USER_API}/api/referral/company/invitations/accept/
+    `${USER_API}/api/company/employees/
 `,
     {
       headers: {
