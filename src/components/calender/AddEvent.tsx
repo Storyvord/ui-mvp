@@ -48,7 +48,6 @@ const AddEvent = ({
   useEffect(() => {
     formFields[3].options = crewList;
   }, [crewList]);
-  console.log(formFields);
   const form = useForm<CalenderFormFieldType>({
     resolver: zodResolver(calenderFormSchema),
     defaultValues: formDefaultValue,
