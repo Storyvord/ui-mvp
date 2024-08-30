@@ -18,7 +18,7 @@ interface TaskCardProps {
   isLoading: boolean;
 }
 
-const TaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoading }) => {
+const AssignTaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoading }) => {
   return (
     <Card className="min-h-[60px] py-0 px-2 rounded-sm mt-4">
       <Accordion type="single" collapsible>
@@ -33,7 +33,8 @@ const TaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoading })
                   <h1 className="font-sans text-gray-700 font-bold text-[14px] sm:text-[16px]">
                     {task.title}
                   </h1>
-                  <h3 className="text-sm">Project:- {task.project.name}</h3>
+                  {task.project && <h3 className="text-sm">Project:- {task.project.name}</h3>}
+                  {/* {task.created_by } */}
                 </span>
               </div>
               <div className="flex gap-2 items-center">
@@ -100,4 +101,4 @@ const TaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoading })
   );
 };
 
-export default TaskCard;
+export default AssignTaskCard;
