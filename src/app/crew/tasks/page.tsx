@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import TaskCard from "@/components/crew/TaskCard";
 import {
   useGetCrewTasks,
   useRequestApprovalForTask,
@@ -9,6 +8,7 @@ import { taskType } from "@/types";
 import Tabs from "@/components/Tabs";
 import { useToast } from "@/components/ui/use-toast";
 import TaskSkeleton from "@/components/TaskSkeleton";
+import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const tabs = ["All Tasks", "Pending", "completed"];
 const Tasks = () => {
@@ -39,7 +39,7 @@ const Tasks = () => {
       {isLoadingTask && <TaskSkeleton />}
       {activeTab === tabs[0] &&
         tasks?.map((task: taskType) => (
-          <TaskCard
+          <AssignTaskCard
             key={task.id}
             handleRequestApproval={handleRequestApproval}
             isLoading={isLoading}
@@ -50,7 +50,7 @@ const Tasks = () => {
         tasks?.map((task: taskType) => {
           if (!task.completed) {
             return (
-              <TaskCard
+              <AssignTaskCard
                 key={task.id}
                 handleRequestApproval={handleRequestApproval}
                 isLoading={isLoading}
@@ -63,7 +63,7 @@ const Tasks = () => {
         tasks?.map((task: taskType) => {
           if (task.completed) {
             return (
-              <TaskCard
+              <AssignTaskCard
                 key={task.id}
                 handleRequestApproval={handleRequestApproval}
                 isLoading={isLoading}

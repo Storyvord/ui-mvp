@@ -17,17 +17,32 @@ import TaskSkeleton from "@/components/TaskSkeleton";
 import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
 import { useToast } from "@/components/ui/use-toast";
+import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import {
+  useCompanyTaskCompletionApproval,
+  useCompanyTaskCompletionRequest,
+  useCreateNewCompanyTask,
+  useDeleteCompanyTask,
+  useGetCompanyEmployeeTasks,
+  useGetCompanyTasks,
+  useUpdateCompanyTask,
+} from "@/lib/react-query/queriesAndMutations/company/tasks";
+import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask } = useGetTasks(params.id);
-  const { mutateAsync: createNewTaskMutation } = useCreateNewTask();
-  const { mutateAsync: deleteTaskMutation } = useDeleteTask();
-  const { mutateAsync: completeTaskMutation } = useCompleteTask();
-  const { mutateAsync: taskApprovalMutation, isLoading:isLoadingApprovedTask } = useTaskCompletionApproval();
-  const { data: crew_list } = useGetOnBoardedCrewList(params.id);
-  const crewList = crew_list?.map((crew: Crew) => ({
-    value: crew.id,
-    label: crew.profile.name,
+  const { data: tasksList, isLoading: isLoadingTask } = useGetCompanyTasks();
+  const { data: employeeTaskList } = useGetCompanyEmployeeTasks();
+  const { mutateAsync: createNewTaskMutation } = useCreateNewCompanyTask();
+  const { mutateAsync: deleteTaskMutation } = useDeleteCompanyTask();
+  const { mutateAsync: updateTaskMutation } = useUpdateCompanyTask();
+  const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
+    useCompanyTaskCompletionApproval();
+  const { mutateAsync: taskRequestCompletionMutation, isLoading: isLoadingRequestTask } =
+    useCompanyTaskCompletionRequest();
+  const { data: employee_list } = useGetOnBoardedEmployeeList();
+  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
+    value: employee.id,
+    label: employee.email,
   }));
 
   const [tasks, setTasks] = useState<taskType[]>([]);
@@ -40,7 +55,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const completeTask = (task: taskType) => {
     const updatedTasks = { ...task, completed: !task.completed };
     console.log(updatedTasks);
-    completeTaskMutation({ taskId: task.id, taskData: updatedTasks });
+    updateTaskMutation({ taskId: task.id, taskData: updatedTasks });
   };
 
   const deleteTask = async (id: number) => {
@@ -64,7 +79,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
     };
 
     try {
-      await createNewTaskMutation({ taskData: newTask, projectId: params.id });
+      await createNewTaskMutation(newTask);
     } catch (error) {
       console.log("failed to create new task", error);
     }
@@ -72,13 +87,12 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
 
   const editTask = (id: number, task: taskType) => {
     const updatedTasks = {
-      ...task,
       title: task.title,
-      desc: task.description,
-      deadline: task.due_date,
+      description: task.description,
+      due_date: task.due_date,
       assigned_to: task.assigned_to,
     };
-    completeTaskMutation({ taskId: id, taskData: updatedTasks });
+    updateTaskMutation({ taskId: id, taskData: updatedTasks });
   };
 
   const approveTaskCompletion = async (taskId: number) => {
@@ -87,6 +101,15 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       toast({ title: "Success fully approved task" });
     } else {
       toast({ title: "Failed approved task", variant: "destructive" });
+    }
+  };
+
+  const requestTaskCompletion = async (taskId: number) => {
+    const res = await taskRequestCompletionMutation(taskId);
+    if (res) {
+      toast({ title: "Success fully request task approval" });
+    } else {
+      toast({ title: "Failed to request task approval", variant: "destructive" });
     }
   };
 
@@ -140,30 +163,41 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         setFormOpen={setFormOpen}
         formOpen={formOpen}
         handleSubmission={createTask}
-        crewList={crewList}
+        crewList={employeeList}
       />
       {isLoadingTask ? (
         <TaskSkeleton />
       ) : (
-        <div className="w-full mt-4 flex flex-col gap-2">
-          {sortedTasks.length === 0 ? (
-            <p className="text-center text-gray-500">No tasks found</p>
-          ) : (
-            sortedTasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                completeTask={completeTask}
-                deleteTask={deleteTask}
-                editTask={editTask}
-                crewList={crewList}
-                approveTaskCompletion={approveTaskCompletion}
-                isLoading={isLoadingApprovedTask}
-              />
-            ))
-          )}
-        </div>
+        taskFilter === "assign-task" || (
+          <div className="w-full mt-4 flex flex-col gap-2">
+            {sortedTasks.length === 0 ? (
+              <p className="text-center text-gray-500">No tasks found</p>
+            ) : (
+              sortedTasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  completeTask={completeTask}
+                  deleteTask={deleteTask}
+                  editTask={editTask}
+                  crewList={employeeList}
+                  approveTaskCompletion={approveTaskCompletion}
+                  isLoading={isLoadingApprovedTask}
+                />
+              ))
+            )}
+          </div>
+        )
       )}
+      {taskFilter === "assign-task" &&
+        employeeTaskList?.map((task: any) => (
+          <AssignTaskCard
+            key={task.id}
+            task={task}
+            isLoading={isLoadingRequestTask}
+            handleRequestApproval={requestTaskCompletion}
+          />
+        ))}
     </div>
   );
 };
