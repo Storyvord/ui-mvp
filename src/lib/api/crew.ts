@@ -16,7 +16,7 @@ export const sentInvitationToCrew = async (formData: {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to create project");
+    throw new Error("Failed to sent invitation");
   }
 
   return res.json();
