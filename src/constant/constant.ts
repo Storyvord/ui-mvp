@@ -25,13 +25,13 @@ import { ImAddressBook } from "react-icons/im";
 import { MdNaturePeople, MdLocationPin } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 
-// export const API_URL = "https://sv-aibackend.azurewebsites.net";
-// export const USER_API = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
-// export const NEW_API_URL = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
-
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
-export const USER_API = "http://0.0.0.0:8000";
-export const NEW_API_URL = "http://0.0.0.0:8000";
+export const USER_API = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
+export const NEW_API_URL = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
+
+// export const API_URL = "https://sv-aibackend.azurewebsites.net";
+// export const USER_API = "http://0.0.0.0:8000";
+// export const NEW_API_URL = "http://0.0.0.0:8000";
 
 export const userTypes = [
   { value: "option1", label: "Option 1" },
