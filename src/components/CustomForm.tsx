@@ -20,6 +20,7 @@ type FormFieldConfig<T extends FieldValues> = {
   label: string;
   type:
     | "text"
+    | "password"
     | "number"
     | "email"
     | "textarea"
@@ -31,6 +32,7 @@ type FormFieldConfig<T extends FieldValues> = {
   isMulti?: boolean; // this is only for type select
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
+  disabled?: boolean;
 };
 
 type Props<TFormValues extends FieldValues> = {
@@ -77,6 +79,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                         }}
                       />
                     ) : type === "text" ||
+                      type === "password" ||
                       type === "number" ||
                       type === "email" ||
                       type === "date" ||
@@ -86,6 +89,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is string
+                        disabled={fieldConfig.disabled}
                       />
                     ) : type === "textarea" ? (
                       <Textarea
