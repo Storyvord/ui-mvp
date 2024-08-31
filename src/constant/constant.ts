@@ -529,8 +529,8 @@ export const companySettingsMenuItems = [
     ],
   },
   {
-    title:"administrative",
-    items:[
+    title: "administrative",
+    items: [
       {
         link: "/settings",
         icon: IoMdSettings,
@@ -541,11 +541,6 @@ export const companySettingsMenuItems = [
         icon: MdSubscriptions,
         text: "Subscriptions",
       },
-    ]
+    ],
   },
-
-
 ];
-
-
-
