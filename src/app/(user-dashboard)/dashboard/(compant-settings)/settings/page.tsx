@@ -1,24 +1,31 @@
 "use client";
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React, { useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { companySettingsSchema } from "@/lib/validation/company";
+import { z } from "zod";
+import { FormFieldConfig } from "@/types";
+import CustomForm from "@/components/CustomForm";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import Loader from "@/components/Loader";
-import { useForm } from "react-hook-form";
+  useGetCompanySettings,
+  useUpdateCompanySettings,
+} from "@/lib/react-query/queriesAndMutations/company/settings";
+import { countryName } from "@/constant/countryName";
 
-const companySettingsFormField = [
+// Infer CompanySettings type from schema
+type CompanySettings = z.infer<typeof companySettingsSchema>;
+
+const companySettingsFormField: FormFieldConfig<CompanySettings>[] = [
   {
-    name: "company-name",
+    name: "company_name",
     label: "Company Name",
     type: "text",
     placeholder: "company name",
+  },
+  {
+    name: "company_logo",
+    label: "Company Logo",
+    type: "file",
   },
   {
     name: "street",
@@ -27,28 +34,22 @@ const companySettingsFormField = [
     placeholder: "enter street",
   },
   {
-    name: "city",
-    label: "City",
+    name: "cityandstate",
+    label: "City and State",
     type: "text",
-    placeholder: "enter city",
+    placeholder: "enter city and state",
   },
   {
-    name: "state",
-    label: "State",
-    type: "text",
-    placeholder: "enter state",
-  },
-  {
-    name: "postal-code",
+    name: "postalcode",
     label: "Postal Code",
-    type: "number",
+    type: "text",
     placeholder: "enter postal code",
   },
   {
     name: "country",
     label: "Country",
-    type: "text",
-    placeholder: "enter country",
+    type: "select",
+    options: countryName,
   },
   {
     name: "name",
@@ -65,65 +66,70 @@ const companySettingsFormField = [
   {
     name: "phone",
     label: "Phone",
-    type: "number",
+    type: "text",
     placeholder: "enter phone number",
   },
   {
     name: "fax",
     label: "Fax",
-    type: "number",
+    type: "text",
     placeholder: "enter fax number",
   },
 ];
 
 const CompanySettings = () => {
-  const isLoading = false;
-  const form = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { data } = useGetCompanySettings();
+  const { mutateAsync, isLoading, isError } = useUpdateCompanySettings();
+
+  const form = useForm<CompanySettings>({
+    resolver: zodResolver(companySettingsSchema),
+    defaultValues: {
+      company_name: "",
+      company_logo: null,
+      street: "",
+      cityandstate: "",
+      postalcode: "",
+      country: "",
+      name: "",
+      email: "",
+      phone: "",
+      fax: "",
+    },
+    mode: "onChange",
+  });
+
+  // useEffect to reset form values when data changes
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        company_name: data.company_name || "",
+        company_logo: data.company_logo || null,
+        street: data.street || "",
+        cityandstate: data.cityandstate || "",
+        postalcode: data.postalcode || 0,
+        country: data.country || "",
+        name: data.name || "",
+        email: data.email || "",
+        phone: data.phone || 0,
+        fax: data.fax || 0,
+      });
+    }
+  }, [data, form]);
+
+  const onSubmit: SubmitHandler<CompanySettings> = async (formData) => {
+    await mutateAsync(formData);
   };
+
   return (
     <div className="w-full space-y-8 mx-auto max-w-[650px] mt-4 lg:mt-6 lg:w-3/5 p-4 mb-8 bg-white">
-      <h1 className=" sm:text-2xl font-semibold text-gray-800 text-center">Company settings</h1>
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 justify-center flex flex-col"
-      >
-        {companySettingsFormField.map((fieldConfig) => {
-          const { name, type, label, placeholder } = fieldConfig;
-          return (
-            <FormField
-              key={name}
-              control={form.control}
-              name={name}
-              render={({ field }) => (
-                <FormItem>
-                  {name === "name" && (
-                    <h2 className=" sm:text-xl mt-6 font-semibold text-gray-800 text-center">
-                      Contact information
-                    </h2>
-                  )}
-                  <FormLabel className="font-sans font-bold text-gray-600">{label}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type={type}
-                      placeholder={placeholder}
-                      {...field}
-                      value={field.value as string} // Ensure value is string
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          );
-        })}
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? <Loader /> : "Save"}
-        </Button>
-      </form>
-    </Form>
+      <h1 className="sm:text-2xl font-semibold text-gray-800 text-center">Company settings</h1>
+      <CustomForm
+        form={form}
+        formFields={companySettingsFormField}
+        onSubmit={onSubmit}
+        isLoading={isLoading}
+        isError={isError}
+      />
     </div>
   );
 };

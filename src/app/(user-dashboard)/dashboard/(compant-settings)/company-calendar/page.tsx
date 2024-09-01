@@ -12,11 +12,11 @@ import {
   useDeleteCompanyCalenderEvent,
   useGetCompanyCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/company/calender";
+import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
 
 const localizer = momentLocalizer(moment);
 
 const CompanyCalender = () => {
-
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
@@ -34,10 +34,17 @@ const CompanyCalender = () => {
     isError: deleteEventError,
   } = useDeleteCompanyCalenderEvent();
 
+  const { data: employee_list } = useGetOnBoardedEmployeeList();
+  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
+    value: employee.id,
+    label: employee.email,
+  }));
+
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
+    console.log(formData)
     const transformData = {
       ...formData,
-      participants: [],
+      participants: formData.participants,
     };
     const res = await createCalenderEvent(transformData);
     if (res) setOpenFormDialog(false);
@@ -65,6 +72,7 @@ const CompanyCalender = () => {
     title: "",
     description: "",
     location: "",
+    participants: [],
   });
 
   const handleSelectSlot = ({ start }: any) => {
@@ -102,6 +110,7 @@ const CompanyCalender = () => {
         createCalenderEvent={handleCreateEvent}
         isLoading={createEventLoading}
         isError={createEventError}
+        crewList={employeeList}
       />
       <EventDialog
         event={eventToDisplay}

@@ -26,8 +26,12 @@ import { MdNaturePeople, MdLocationPin } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
-export const USER_API = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
-export const NEW_API_URL = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
+
+export const USER_API = "https://api-stage.storyvord.com";
+export const NEW_API_URL = "https://api-stage.storyvord.com";
+
+// export const USER_API = "http://0.0.0.0:8000";
+// export const NEW_API_URL = "http://0.0.0.0:8000";
 
 export const userTypes = [
   { value: "option1", label: "Option 1" },
@@ -525,8 +529,8 @@ export const companySettingsMenuItems = [
     ],
   },
   {
-    title:"administrative",
-    items:[
+    title: "administrative",
+    items: [
       {
         link: "/settings",
         icon: IoMdSettings,
@@ -537,8 +541,6 @@ export const companySettingsMenuItems = [
         icon: MdSubscriptions,
         text: "Subscriptions",
       },
-    ]
+    ],
   },
-
-
 ];

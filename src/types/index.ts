@@ -12,6 +12,7 @@ export type FormFieldConfig<T extends FieldValues> = {
   label: string;
   type:
     | "text"
+    | "password"
     | "number"
     | "email"
     | "textarea"
@@ -23,6 +24,7 @@ export type FormFieldConfig<T extends FieldValues> = {
   isMulti?: boolean; // this is only for type select
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
+  disabled?: boolean;
 };
 
 interface project {
@@ -90,7 +92,7 @@ export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;
 export type CalenderFormFieldConfig = {
   name: keyof CalenderFormFieldType;
   label: string;
-  type: "text" | "datetime-local" | "textarea";
+  type: "text" | "datetime-local" | "textarea" | "select";
   required: boolean;
 };
 
@@ -130,7 +132,7 @@ export type taskType = {
   due_date: string;
   completed: boolean;
   completion_requested: boolean;
-  project: {name: string};
+  project?: {name: string};
   assigned_to: number;
   requester: number | null;
   created_by: number;
