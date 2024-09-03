@@ -1,5 +1,5 @@
 "use client"
-import { userLogout } from '@/lib/api/api'
+import { userLogout } from '@/lib/api/auth/auth'
 import React from 'react'
 
 const LogoutButton = () => {

@@ -3,7 +3,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProjectComponent from "@/components/profile/ProjectComponent";
-import { useGetClientProfile, useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
+import { useGetClientProfile } from "@/lib/react-query/queriesAndMutations";
+import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
 
 const Page: React.FC = () => {
   const defaultProfileData = {

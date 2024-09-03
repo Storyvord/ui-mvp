@@ -1,6 +1,5 @@
 "use client";
 
-import { getUserDetails } from "@/lib/api/api";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import Cookies from "js-cookie";
 
