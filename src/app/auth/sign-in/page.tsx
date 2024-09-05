@@ -12,6 +12,7 @@ import CustomForm from "@/components/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import { getUserDetails } from "@/lib/api/auth/auth";
+import Link from "next/link";
 
 interface SignInFormData {
   email: string;
@@ -69,9 +70,9 @@ const SignIn = () => {
   return (
     <section className="flex min-h-screen  justify-center bg-white -m-4">
       <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
-        <div className="flex justify-center m-2 cursor-pointer" onClick={() => router.push("/")}>
+        <Link href="/" className="flex justify-center m-2 cursor-pointer">
           <Image src={Logo} className=" w-44" alt="Logo" />
-        </div>
+        </Link>
         <CustomForm
           form={form}
           formFields={formFields}
@@ -83,13 +84,13 @@ const SignIn = () => {
         <div>
           <div className="mt-4 mb-4 text-center text-sm md:text-normal">
             <span className=" text-slate-600">
-              Don&apos;t have an account yet?{" "}
-              <span
+              Don&apos;t have an account yet?
+              <Link
+                href="/auth/sign-up"
                 className="underline font-semibold ml-1 text-indigo-500 hover:text-indigo-700 cursor-pointer"
-                onClick={() => router.push("/auth/sign-up")}
               >
                 Create Account
-              </span>
+              </Link>
             </span>
           </div>
         </div>

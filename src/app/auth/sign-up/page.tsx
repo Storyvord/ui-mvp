@@ -1,16 +1,17 @@
 "use client";
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Logo from "@/assets/logo.png";
-import { FormFieldConfig } from "@/types";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+import { FormFieldConfig } from "@/types";
 import { signUpFormSchema } from "@/lib/validation/auth";
 import CustomForm from "@/components/CustomForm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/components/ui/use-toast";
 import { useRegisterUser } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import Logo from "@/assets/logo.png";
 
 const userTypeOptions = [
   { value: "client", label: "client" },
@@ -75,9 +76,9 @@ const SignUp: React.FC = () => {
   return (
     <section className="flex min-h-screen  justify-center bg-white -m-4">
       <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
-        <div className="flex justify-center m-2 cursor-pointer" onClick={() => router.push("/")}>
+        <Link href="/" className="flex justify-center m-2 cursor-pointer">
           <Image src={Logo} className=" w-44" alt="Logo" />
-        </div>
+        </Link>
         <div>
           <CustomForm
             form={form}
@@ -90,12 +91,12 @@ const SignUp: React.FC = () => {
           <div className="my-4  text-center">
             <span className="text-sm text-slate-600">
               Already have an account?
-              <span
+              <Link
+                href="/auth/sign-in"
                 className="underline font-semibold ml-1 text-indigo-500 hover:text-indigo-700 cursor-pointer"
-                onClick={() => router.push("/auth/sign-in")}
               >
                 Sign-in
-              </span>
+              </Link>
             </span>
           </div>
         </div>

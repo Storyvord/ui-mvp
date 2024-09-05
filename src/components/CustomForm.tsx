@@ -82,69 +82,76 @@ const CustomForm = <TFormValues extends FieldValues>({
                     <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span>
                   </FormLabel>
                   <FormControl>
-                    {type === "file" ? (
-                      <Input
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files.length > 0) {
-                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
-                          }
-                        }}
-                      />
-                    ) : type === "text" ||
-                      type === "number" ||
-                      type === "email" ||
-                      type === "date" ||
-                      type === "datetime-local" ? (
-                      <Input
-                        type={type}
-                        placeholder={placeholder}
-                        {...field}
-                        value={field.value as string} // Ensure value is string
-                        disabled={fieldConfig.disabled}
-                      />
-                    ) : type === "password" ? (
-                      <div className=" relative">
+                    <>
+                      {type === "file" && (
                         <Input
-                          type={showPasswords[name] ? "text" : "password"}
+                          type="file"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files.length > 0) {
+                              field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
+                            }
+                          }}
+                        />
+                      )}
+                      {(type === "text" ||
+                        type === "email" ||
+                        type === "number" ||
+                        type === "date" ||
+                        type === "datetime-local") && (
+                        <Input
+                          type={type}
                           placeholder={placeholder}
                           {...field}
                           value={field.value as string} // Ensure value is string
                           disabled={fieldConfig.disabled}
                         />
-                        {!showPasswords[name] ? (
-                          <FaRegEyeSlash
-                            onClick={() => togglePasswordVisibility(name)}
-                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                      )}
+                      {type === "password" && (
+                        <div className=" relative">
+                          <Input
+                            type={showPasswords[name] ? "text" : "password"}
+                            placeholder={placeholder}
+                            {...field}
+                            value={field.value as string} // Ensure value is string
+                            disabled={fieldConfig.disabled}
                           />
-                        ) : (
-                          <FaRegEye
-                            onClick={() => togglePasswordVisibility(name)}
-                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
-                          />
-                        )}
-                      </div>
-                    ) : type === "textarea" ? (
-                      <Textarea
-                        placeholder={placeholder}
-                        {...field}
-                        value={field.value as string}
-                      />
-                    ) : type === "checkbox" ? (
-                      <Checkbox
-                        className=" ml-3"
-                        checked={field.value as boolean}
-                        onCheckedChange={field.onChange}
-                      />
-                    ) : type === "select" ? (
-                      <SelectInput
-                        control={form.control}
-                        name={name}
-                        options={fieldConfig.options || []}
-                        isMulti={fieldConfig.isMulti}
-                        placeholder={placeholder}
-                      />
-                    ) : null}
+                          {!showPasswords[name] ? (
+                            <FaRegEyeSlash
+                              onClick={() => togglePasswordVisibility(name)}
+                              className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                            />
+                          ) : (
+                            <FaRegEye
+                              onClick={() => togglePasswordVisibility(name)}
+                              className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                            />
+                          )}
+                        </div>
+                      )}{" "}
+                      {type === "textarea" && (
+                        <Textarea
+                          placeholder={placeholder}
+                          {...field}
+                          value={field.value as string}
+                        />
+                      )}
+                      {type === "checkbox" && (
+                        <Checkbox
+                          className=" ml-3"
+                          checked={field.value as boolean}
+                          onCheckedChange={field.onChange}
+                        />
+                      )}
+                      {type === "select" && (
+                        <SelectInput
+                          control={form.control}
+                          name={name}
+                          options={fieldConfig.options || []}
+                          isMulti={fieldConfig.isMulti}
+                          placeholder={placeholder}
+                        />
+                      )}
+                    </>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
