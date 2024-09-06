@@ -16,6 +16,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import SelectInput from "@/components/SelectInput";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
+import HideIcon from "@/assets/hide-eye.svg";
+import ShowIcon from "@/assets/show.svg";
+import Image from "next/image";
+import Link from "next/link";
 
 type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -66,7 +70,8 @@ const CustomForm = <TFormValues extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 justify-center flex flex-col"
+        // className="space-y-5 justify-center flex flex-col"
+        className="justify-center flex flex-col"
       >
         {formFields.map((fieldConfig) => {
           const { name, type, label, placeholder } = fieldConfig;
@@ -76,10 +81,10 @@ const CustomForm = <TFormValues extends FieldValues>({
               control={form.control}
               name={name}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans font-bold text-gray-800 text-md">
+                <FormItem className="mt-5">
+                  <FormLabel className="font-poppins font-normal text-[#666666] text-base">
                     {label}
-                    <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span>
+                    {/* <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span> */}
                   </FormLabel>
                   <FormControl>
                     {type === "file" ? (
@@ -98,21 +103,23 @@ const CustomForm = <TFormValues extends FieldValues>({
                       type === "datetime-local" ? (
                       <Input
                         type={type}
-                        placeholder={placeholder}
+                        // placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is string
                         disabled={fieldConfig.disabled}
+                        className="text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                       />
                     ) : type === "password" ? (
                       <div className=" relative">
                         <Input
                           type={showPasswords[name] ? "text" : "password"}
-                          placeholder={placeholder}
+                          // placeholder={placeholder}
                           {...field}
                           value={field.value as string} // Ensure value is string
                           disabled={fieldConfig.disabled}
+                          className="text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                         />
-                        {!showPasswords[name] ? (
+                        {/* {!showPasswords[name] ? (
                           <FaRegEyeSlash
                             onClick={() => togglePasswordVisibility(name)}
                             className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
@@ -122,6 +129,15 @@ const CustomForm = <TFormValues extends FieldValues>({
                             onClick={() => togglePasswordVisibility(name)}
                             className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
                           />
+                        )} */}
+                        {!showPasswords[name] ? (
+                          <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility(name)}>
+                            <Image src={HideIcon} alt="eye-password" />
+                          </div>
+                        ) : (
+                          <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility(name)}>
+                            <Image src={ShowIcon} alt="eye-password" />
+                          </div>
                         )}
                       </div>
                     ) : type === "textarea" ? (
@@ -153,13 +169,13 @@ const CustomForm = <TFormValues extends FieldValues>({
           );
         })}
         {isError && (
-          <p className=" text-center text-sm text-red-600 font-semibold">
+          <p className="text-center text-xs font-semibold text-[#ff0000] font-poppins">
             Failed to submit your form <br /> {error?.message}
           </p>
         )}
-
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? <Loader /> : "Submit"}
+        <Link href='' className="text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">Forget your password</Link>
+        <Button className="mt-5" type="submit" disabled={isLoading}>
+          {isLoading ? <Loader /> : "Log in"}
         </Button>
       </form>
     </Form>
