@@ -1,49 +1,98 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import ExternalContactDialog from "./ExternalContactDialog";
-import CrewHireNavBar from "./CrewHireNavBar";
 import { useParams } from "next/navigation";
-import Loader from "@/components/Loader";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import CrewHireNavBar from "./CrewHireNavBar";
 import {
   useGetOnBoardedCrewList,
   useSentInvitationToCrew,
 } from "@/lib/react-query/queriesAndMutations/crew";
 import CrewList, { Crew } from "./CrewList";
+import { FormFieldConfig } from "@/types";
+import { z } from "zod";
+import CustomForm from "@/components/CustomForm";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const validationSchema = z.object({
+  crew_email: z.string().min(1, "This field may not be blank."), // Ensures the field is not empty
+  firstName: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+  lastName: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+  message: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+});
+type ValidationSchemaType = z.infer<typeof validationSchema>;
+
+const formFields: FormFieldConfig<ValidationSchemaType>[] = [
+  {
+    name: "crew_email",
+    label: "Crew Email",
+    type: "email",
+    placeholder: "Enter crew email",
+  },
+  {
+    name: "firstName",
+    label: "First Name",
+    type: "text",
+    placeholder: "Enter crew first name",
+  },
+  {
+    name: "lastName",
+    label: "Last Name",
+    type: "text",
+    placeholder: "Enter crew last name",
+  },
+  {
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "message",
+  },
+];
+const defaultValues = {
+  crew_email: "",
+  firstName: "",
+  lastName: "",
+  message: "",
+};
 const CrewHire = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [openDialogExternalContact, setOpenDialogExternalContact] = useState(false);
-  const [email, setEmail] = useState("");
-  const { id: projectId }: { id: string } = useParams();
-  const { mutateAsync, isLoading: isLoadingInvitation } = useSentInvitationToCrew();
-  const handleSendInvitation = async () => {
-    const res = await mutateAsync({ project_id: projectId, crew_email: email });
-    if (res) setOpenDialog(false);
-  };
 
+  const { id: projectId }: { id: string } = useParams();
+
+  const {
+    mutateAsync,
+    isLoading: isLoadingInvitation,
+    isError: isErrorInvitation,
+  } = useSentInvitationToCrew();
   const { data: crewList, isLoading: isLoadingCrewList } = useGetOnBoardedCrewList(projectId);
   const [filterCrewList, setFilterCrewList] = useState<Crew[] | undefined>(crewList);
   const [searchValue, setSearchValue] = useState("");
-  
+  console.log(crewList);
+  const form = useForm({
+    resolver: zodResolver(validationSchema),
+    defaultValues,
+  });
+
   useEffect(() => {
     if (crewList) {
-      const filtered = crewList.filter((item: Crew) =>
-        item.email.toLowerCase().includes(searchValue.toLowerCase())
+      const filtered = crewList.pending.filter((item: Crew) =>
+        item.firstName?.toLowerCase().includes(searchValue.toLowerCase())
       );
       setFilterCrewList(filtered);
     }
   }, [searchValue, crewList]);
+
+  const onSubmit = async (data: ValidationSchemaType) => {
+    const transFormData = { ...data, project_id: projectId };
+    const res = await mutateAsync(transFormData);
+    if (res) setOpenDialog(false);
+  };
 
   return (
     <div>
       <CrewHireNavBar
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
-        openDialogExternalContact={openDialogExternalContact}
-        setOpenDialogExternalContact={setOpenDialogExternalContact}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
       />
@@ -52,24 +101,16 @@ const CrewHire = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle> Invite </DialogTitle>
-            <div className=" flex gap-4 items-center">
-              <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="enter email"
-              />
-              <Button disabled={isLoadingInvitation} onClick={handleSendInvitation}>
-                {isLoadingInvitation ? <Loader /> : "Invite"}
-              </Button>
-            </div>
+            <CustomForm
+              form={form}
+              formFields={formFields}
+              onSubmit={onSubmit}
+              isLoading={isLoadingInvitation}
+              isError={isErrorInvitation}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>
-
-      <ExternalContactDialog
-        openDialogExternalContact={openDialogExternalContact}
-        setOpenDialogExternalContact={setOpenDialogExternalContact}
-      />
     </div>
   );
 };
