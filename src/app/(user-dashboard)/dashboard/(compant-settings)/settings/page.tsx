@@ -77,24 +77,26 @@ const companySettingsFormField: FormFieldConfig<CompanySettings>[] = [
   },
 ];
 
+const defaultValues = {
+  company_name: "",
+  company_logo: null,
+  street: "",
+  cityandstate: "",
+  postalcode: "",
+  country: "",
+  name: "",
+  email: "",
+  phone: "",
+  fax: "",
+};
+
 const CompanySettings = () => {
   const { data } = useGetCompanySettings();
   const { mutateAsync, isLoading, isError } = useUpdateCompanySettings();
 
   const form = useForm<CompanySettings>({
     resolver: zodResolver(companySettingsSchema),
-    defaultValues: {
-      company_name: "",
-      company_logo: null,
-      street: "",
-      cityandstate: "",
-      postalcode: "",
-      country: "",
-      name: "",
-      email: "",
-      phone: "",
-      fax: "",
-    },
+    defaultValues,
     mode: "onChange",
   });
 

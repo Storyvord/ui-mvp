@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import SelectInput from "@/components/SelectInput";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 
 type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -33,6 +35,7 @@ type FormFieldConfig<T extends FieldValues> = {
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
   disabled?: boolean;
+  optional?: boolean; // this is for optional fields
 };
 
 type Props<TFormValues extends FieldValues> = {
@@ -41,6 +44,7 @@ type Props<TFormValues extends FieldValues> = {
   onSubmit: (data: TFormValues) => void;
   isLoading: boolean;
   isError: boolean;
+  error?: unknown | any;
 };
 
 const CustomForm = <TFormValues extends FieldValues>({
@@ -49,7 +53,15 @@ const CustomForm = <TFormValues extends FieldValues>({
   onSubmit,
   isLoading,
   isError,
+  error,
 }: Props<TFormValues>) => {
+  const [showPasswords, setShowPasswords] = useState<{ [key: string]: boolean }>({});
+  const togglePasswordVisibility = (fieldName: string) => {
+    setShowPasswords((prevState) => ({
+      ...prevState,
+      [fieldName]: !prevState[fieldName],
+    }));
+  };
   return (
     <Form {...form}>
       <form
@@ -67,6 +79,7 @@ const CustomForm = <TFormValues extends FieldValues>({
                 <FormItem>
                   <FormLabel className="font-sans font-bold text-gray-800 text-md">
                     {label}
+                    <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span>
                   </FormLabel>
                   <FormControl>
                     {type === "file" ? (
@@ -79,7 +92,6 @@ const CustomForm = <TFormValues extends FieldValues>({
                         }}
                       />
                     ) : type === "text" ||
-                      type === "password" ||
                       type === "number" ||
                       type === "email" ||
                       type === "date" ||
@@ -91,6 +103,27 @@ const CustomForm = <TFormValues extends FieldValues>({
                         value={field.value as string} // Ensure value is string
                         disabled={fieldConfig.disabled}
                       />
+                    ) : type === "password" ? (
+                      <div className=" relative">
+                        <Input
+                          type={showPasswords[name] ? "text" : "password"}
+                          placeholder={placeholder}
+                          {...field}
+                          value={field.value as string} // Ensure value is string
+                          disabled={fieldConfig.disabled}
+                        />
+                        {!showPasswords[name] ? (
+                          <FaRegEyeSlash
+                            onClick={() => togglePasswordVisibility(name)}
+                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                          />
+                        ) : (
+                          <FaRegEye
+                            onClick={() => togglePasswordVisibility(name)}
+                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                          />
+                        )}
+                      </div>
                     ) : type === "textarea" ? (
                       <Textarea
                         placeholder={placeholder}
@@ -121,7 +154,7 @@ const CustomForm = <TFormValues extends FieldValues>({
         })}
         {isError && (
           <p className=" text-center text-sm text-red-600 font-semibold">
-            Failed to submit your form
+            Failed to submit your form <br /> {error?.message}
           </p>
         )}
 

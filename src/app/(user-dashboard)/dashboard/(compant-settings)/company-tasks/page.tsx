@@ -165,29 +165,27 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         handleSubmission={createTask}
         crewList={employeeList}
       />
-      {isLoadingTask ? (
-        <TaskSkeleton />
-      ) : (
-        taskFilter === "assign-task" || (
-          <div className="w-full mt-4 flex flex-col gap-2">
-            {sortedTasks.length === 0 ? (
-              <p className="text-center text-gray-500">No tasks found</p>
-            ) : (
-              sortedTasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  completeTask={completeTask}
-                  deleteTask={deleteTask}
-                  editTask={editTask}
-                  crewList={employeeList}
-                  approveTaskCompletion={approveTaskCompletion}
-                  isLoading={isLoadingApprovedTask}
-                />
-              ))
-            )}
-          </div>
-        )
+      {isLoadingTask && <TaskSkeleton />}
+
+      {taskFilter === "assign-task" || (
+        <div className="w-full mt-4 flex flex-col gap-2">
+          {sortedTasks.length === 0 ? (
+            <p className="text-center text-gray-500">No tasks found</p>
+          ) : (
+            sortedTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                completeTask={completeTask}
+                deleteTask={deleteTask}
+                editTask={editTask}
+                crewList={employeeList}
+                approveTaskCompletion={approveTaskCompletion}
+                isLoading={isLoadingApprovedTask}
+              />
+            ))
+          )}
+        </div>
       )}
       {taskFilter === "assign-task" &&
         employeeTaskList?.map((task: any) => (
