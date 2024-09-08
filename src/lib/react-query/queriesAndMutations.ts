@@ -1,17 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
-  completeProject,
-  createProject,
-  deleteProject,
   fetchLocation,
   fetchProjectComplience,
   fetchProjectCulture,
-  getProjectDetails,
   fetchProjectLogistics,
   getSuggestedCrew,
   getClientProfile,
   updateClientProfile,
-  getOngoingProjects,
   getTasks,
   createNewTask,
   deleteTask,
@@ -51,69 +46,6 @@ export const useUpdateClientProfile = () => {
   });
 };
 
-export const useCreateProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createProject,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
-      });
-      return data;
-    },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
-    },
-  });
-};
-
-export const useGetOngoingProjects = () => {
-  return useQuery({
-    queryKey: ["ongoingProjects"],
-    queryFn: getOngoingProjects,
-    refetchInterval: false,
-  });
-};
-
-export const useGetProjectDetails = (project_id: string) => {
-  return useQuery({
-    queryKey: ["projectDetails", project_id],
-    queryFn: ({ queryKey }) => {
-      const [_key, project_id] = queryKey;
-      return getProjectDetails({ project_id });
-    },
-    retry: false,
-  });
-};
-
-export const useDeleteProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteProject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
-      });
-    },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
-    },
-  });
-};
-
-export const useCompleteProject = (projectId: string) => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: completeProject,
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries(["projectDetails", projectId]);
-    },
-    onError: (error) => {
-      console.error("Error in completing project:", error);
-    },
-  });
-};
 
 //----------------------------tasks----------------------------
 
