@@ -11,8 +11,8 @@ import Link from "next/link";
 import { Button } from "../../ui/button";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { userLogout } from "@/lib/api/api";
 import { useUser } from "@/context/UserContext";
+import { userLogout } from "@/lib/api/auth/auth";
 
 const ProfileImage = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
+import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import Image from "next/image";
 import Link from "next/link";
 
