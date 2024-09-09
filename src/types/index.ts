@@ -25,6 +25,7 @@ export type FormFieldConfig<T extends FieldValues> = {
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
   disabled?: boolean;
+  optional?: boolean; // this is for optional fields
 };
 
 interface project {
@@ -132,7 +133,7 @@ export type taskType = {
   due_date: string;
   completed: boolean;
   completion_requested: boolean;
-  project?: {name: string};
+  project?: { name: string };
   assigned_to: number;
   requester: number | null;
   created_by: number;

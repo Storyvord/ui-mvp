@@ -1,0 +1,94 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Project } from "@/types/project";
+import LoadingSkeleton from "./LoadingSkeleton";
+
+type Props = {
+  projects: Project[];
+  isLoading: boolean;
+  isError: boolean;
+};
+
+const PastProjects = ({ projects, isLoading, isError }: Props) => {
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError) {
+    return <p className=" mt-1 text-center text-red-500">Failed to get your project</p>;
+  }
+  return (
+    <Card className="relative mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 overflow-hidden shadow-sm border-blue-gray-100">
+      <div className="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 items-center flex justify-between p-6">
+        <h6 className="block antialiased tracking-normal text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
+          Previous Projects
+        </h6>
+      </div>
+      {projects?.length === 0 ? (
+        <h1 className=" mt-8 text-center">You don&apos;t have any ongoing project</h1>
+      ) : (
+        <CardContent className="overflow-x-auto px-0 pb-2">
+          <Table className="min-w-[640px] table-auto">
+            <TableHeader>
+              <TableRow>
+                <TableHead>PROJECT NAME</TableHead>
+                <TableHead>START DATE</TableHead>
+                <TableHead>END DATE</TableHead>
+                <TableHead>BUDGET</TableHead>
+                <TableHead>LOCATION</TableHead>
+                <TableHead>STATUS</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {projects.map((project) => (
+                <TableRow key={project.project_id}>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-[800]">
+                      {project.name}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-light">
+                      {project.location_details[0].start_date}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-light">
+                      {project.location_details[0].end_date}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
+                      {project.budget_amount}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
+                      {project.location_details[0].location}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="block antialiased text-base leading-relaxed  text-green-500 font-[600]">
+                      {project.status}
+                    </p>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      )}
+    </Card>
+  );
+};
+
+export default PastProjects;

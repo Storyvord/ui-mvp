@@ -41,7 +41,7 @@ const CompanyCalender = () => {
   }));
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
-    console.log(formData)
+    console.log(formData);
     const transformData = {
       ...formData,
       participants: formData.participants,
@@ -119,6 +119,7 @@ const CompanyCalender = () => {
         deleteEvent={handleDeleteEvent}
         isLoading={deleteEventLoading}
         isError={deleteEventError}
+        crewList={employeeList}
       />
     </div>
   );

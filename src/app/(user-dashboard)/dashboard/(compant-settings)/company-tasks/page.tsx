@@ -30,7 +30,7 @@ import {
 import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask } = useGetCompanyTasks();
+  const { data: tasksList, isLoading: isLoadingTask, isError: isErrorTask } = useGetCompanyTasks();
   const { data: employeeTaskList } = useGetCompanyEmployeeTasks();
   const { mutateAsync: createNewTaskMutation } = useCreateNewCompanyTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteCompanyTask();
@@ -78,10 +78,11 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       requester: null,
     };
 
-    try {
-      await createNewTaskMutation(newTask);
-    } catch (error) {
-      console.log("failed to create new task", error);
+    const res = await createNewTaskMutation(newTask);
+    if (res) {
+      toast({ title: "Task created" });
+    } else {
+      toast({ title: "Failed to create new task", variant: "destructive" });
     }
   };
 
@@ -166,7 +167,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         crewList={employeeList}
       />
       {isLoadingTask && <TaskSkeleton />}
-
+      {isErrorTask && <p className=" text-center text-red-600">Failed to get your tasks</p>}
       {taskFilter === "assign-task" || (
         <div className="w-full mt-4 flex flex-col gap-2">
           {sortedTasks.length === 0 ? (

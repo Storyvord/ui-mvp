@@ -24,7 +24,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { content_type, crew_data, defaultFormValues, equipment_data } from "@/constant/constant";
 import { Badge } from "@/components/ui/badge";
-import { useCreateProject, useLocationList } from "@/lib/react-query/queriesAndMutations";
+import {  useLocationList } from "@/lib/react-query/queriesAndMutations";
+import { useCreateProject } from "@/lib/react-query/queriesAndMutations/project";
 
 interface OptionType {
   label: string;
