@@ -46,6 +46,7 @@ export type Crew = {
   id: number;
   email: string;
   profile: Profile;
+  firstName: string
 };
 
 type Props = {
@@ -54,6 +55,7 @@ type Props = {
 };
 
 const CrewList = ({ data, isLoading }: Props) => {
+  console.log(data)
   return (
     <>
       {data?.length === 0 && (
@@ -61,7 +63,7 @@ const CrewList = ({ data, isLoading }: Props) => {
           <h1 className=" text-2xl text-center text-gray-500">No crew Found</h1>
         </main>
       )}
-      <Table className=" mt-4 bg-white p-2">
+      {/* <Table className=" mt-4 bg-white p-2">
         <TableHeader >
           <TableRow>
             {headers.map((header, index) => (
@@ -87,7 +89,7 @@ const CrewList = ({ data, isLoading }: Props) => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table> */}
     </>
   );
 };

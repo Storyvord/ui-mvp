@@ -17,7 +17,7 @@ import {
 // 		"last_name": ""
 // 	}
 // ]
-const headers = ["Name", "Email"];
+const headers = ["First Name", "Last Name", "Email", "User Name"];
 type Profile = {
   id: number;
   username: string;
@@ -43,10 +43,13 @@ const EmployeeList = ({ data, isLoading }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((item:Profile) => (
+          {data?.map((item: Profile) => (
             <TableRow key={item.id} className="">
+               {/* <TableCell>{item.last_name}</TableCell> */}
               <TableCell>{item.first_name}</TableCell>
+              <TableCell>{item.last_name}</TableCell>
               <TableCell>{item.email}</TableCell>
+              <TableCell>{item.username}</TableCell>
             </TableRow>
           ))}
         </TableBody>
