@@ -15,7 +15,53 @@ import EmployeeList from "@/components/user-dashboard/dashboard/company-settings
 import Loader from "@/components/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import InvitationList from "@/components/user-dashboard/dashboard/company-settings/employees/InvitationList";
+import { FormFieldConfig } from "@/types";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CustomForm from "@/components/CustomForm";
 
+const validationSchema = z.object({
+  employee_email: z.string().min(1, "This field may not be blank."), // Ensures the field is not empty
+  firstName: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+  lastName: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+  message: z.string().min(1, "This field is required."), // Ensures the field is required and not empty
+});
+
+type ValidationSchemaType = z.infer<typeof validationSchema>;
+
+const formFields: FormFieldConfig<ValidationSchemaType>[] = [
+  {
+    name: "employee_email",
+    label: "Employee Email",
+    type: "email",
+    placeholder: "Enter employee email",
+  },
+  {
+    name: "firstName",
+    label: "First Name",
+    type: "text",
+    placeholder: "Enter employee first name",
+  },
+  {
+    name: "lastName",
+    label: "Last Name",
+    type: "text",
+    placeholder: "Enter employee last name",
+  },
+  {
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "message",
+  },
+];
+const defaultValues = {
+  employee_email: "",
+  firstName: "",
+  lastName: "",
+  message: "",
+};
 type Props = {
   inviteEmployee: (value: string) => void;
   isLoadingInvitation: boolean;
@@ -25,17 +71,23 @@ const EmployeeAndStaff = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [email, setEmail] = useState("");
   const { toast } = useToast();
-  const { mutateAsync: inviteEmployeeAndStaff, isLoading: isLoadingInvitation } =
-    useSentInvitationToEmployee();
+  const {
+    mutateAsync: inviteEmployeeAndStaff,
+    isLoading: isLoadingInvitation,
+    isError: isErrorInvitation,
+  } = useSentInvitationToEmployee();
   const { data: invitationAcceptList } = useGetOnBoardedEmployeeList();
   const { data: getInvitationsList } = useGetCompanyInvitations();
   const { mutateAsync: acceptInvitation } = useAcceptCompanyInvitation();
   const { mutateAsync: rejectInvitation } = useRejectCompanyInvitation();
 
-  console.log(invitationAcceptList)
+  const form = useForm({
+    resolver: zodResolver(validationSchema),
+    defaultValues,
+  });
 
-  const handleSendInvitation = async () => {
-    const res = await inviteEmployeeAndStaff(email);
+  const handleSendInvitation = async (data: ValidationSchemaType) => {
+    const res = await inviteEmployeeAndStaff(data);
     if (res) {
       toast({
         title: "Invitation send to Employee",
@@ -74,6 +126,7 @@ const EmployeeAndStaff = () => {
       });
     }
   };
+
   return (
     <section className="mt-2 p-4">
       <h1 className="text-gray-700 md:text-xl text-lg font-medium">Employee & Staff</h1>
@@ -89,7 +142,7 @@ const EmployeeAndStaff = () => {
         </Button>
         <EmployeeList data={invitationAcceptList} />
         <InvitationList
-          getInvitationsList={getInvitationsList}
+          getInvitationsList={getInvitationsList?.pending}
           acceptInvitation={handleAcceptInvitation}
           rejectInvitation={handleRejectInvitation}
         />
@@ -98,17 +151,14 @@ const EmployeeAndStaff = () => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-left"> Invite </DialogTitle>
-              <div className=" flex gap-4 items-center">
-                <Input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="enter email"
-                />
-                <Button disabled={isLoadingInvitation} onClick={handleSendInvitation}>
-                  {isLoadingInvitation ? <Loader /> : "Invite"}
-                </Button>
-              </div>
             </DialogHeader>
+            <CustomForm
+              form={form}
+              formFields={formFields}
+              onSubmit={handleSendInvitation}
+              isLoading={isLoadingInvitation}
+              isError={isErrorInvitation}
+            />
           </DialogContent>
         </Dialog>
       </div>

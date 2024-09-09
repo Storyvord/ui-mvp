@@ -1,7 +1,7 @@
 import { USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
 
-export const sentInvitationToEmployee = async (employee_email: string) => {
+export const sentInvitationToEmployee = async (formData: any) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/referral/company/invite/`, {
     method: "POST",
@@ -9,7 +9,7 @@ export const sentInvitationToEmployee = async (employee_email: string) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ employee_email }),
+    body: JSON.stringify(formData),
   });
 
   if (!res.ok) {
