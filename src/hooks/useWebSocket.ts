@@ -1,64 +1,59 @@
-// hooks/useWebSocket.ts
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from 'react';
 
-interface WebSocketMessage {
+type MessageType = {
   type: string;
-  content: string;
-}
+  data: any;
+};
 
-interface UseWebSocketReturn {
-  messages: WebSocketMessage[];
-  sendMessage: (message: WebSocketMessage) => void;
-}
-
-export const useWebSocket = (url: string): UseWebSocketReturn => {
-  const [messages, setMessages] = useState<WebSocketMessage[]>([]);
-  const socketRef = useRef<WebSocket | null>(null);
+const useWebSocket = (userId: string, accessToken: string) => {
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      socketRef.current = new WebSocket(url);
+    // WebSocket URL
+    const wsUrl = `wss://api-stage.storyvord.com:8001/ws/chat/${userId}/?access_token=${accessToken}`;
 
-      // WebSocket Connection Opened
-      socketRef.current.onopen = () => {
-        console.log("WebSocket connection established.");
-      };
+    // Initialize WebSocket
+    wsRef.current = new WebSocket(wsUrl);
 
-      // Handle incoming messages
-      socketRef.current.onmessage = (event) => {
-        try {
-          const data: WebSocketMessage = JSON.parse(event.data);
-          setMessages((prevMessages) => [...prevMessages, data]);
-        } catch (error) {
-          console.error("Error parsing WebSocket message", error);
-        }
-      };
+    wsRef.current.onopen = () => {
+      console.log('WebSocket connection established');
+    };
 
-      // Handle WebSocket errors
-      socketRef.current.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
+    wsRef.current.onmessage = (event: MessageEvent) => {
+      try {
+        const message: MessageType = JSON.parse(event.data);
+        console.log('Received message:', message);
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
+    };
 
-      // Handle WebSocket close
-      socketRef.current.onclose = (event) => {
-        console.log("WebSocket connection closed", event);
-      };
+    wsRef.current.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
 
-      // Cleanup WebSocket on component unmount
-      return () => {
-        socketRef.current?.close();
-      };
-    }
-  }, [url]);
+    wsRef.current.onerror = (error: Event) => {
+      console.error('WebSocket error:', error);
+    };
 
-  // Function to send a message to the server
-  const sendMessage = (message: WebSocketMessage) => {
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-      socketRef.current.send(JSON.stringify(message));
+    // Cleanup function to close WebSocket when component unmounts
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [userId, accessToken]);
+
+  // Function to send messages
+  const sendMessage = (message: MessageType) => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(message));
     } else {
-      console.log("WebSocket is not open. Cannot send message.");
+      console.error('WebSocket is not open. Unable to send message.');
     }
   };
 
-  return { messages, sendMessage };
+  return { sendMessage };
 };
+
+export default useWebSocket;

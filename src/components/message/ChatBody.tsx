@@ -1,41 +1,48 @@
-// components/ChatBody.tsx
+"use client";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Message {
   content: string;
   type: "sent" | "received";
 }
-
+const user = JSON.parse(localStorage.getItem("user-details") || "");
+const token = Cookies.get("accessToken") || "";
+// Fetch messages function with typing
+const fetchMessages = async (): Promise<Message[]> => {
+  const response = await fetch(
+    `https://api-stage.storyvord.com/api/inbox/dialogs/${user.id}/messages/`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch messages");
+  }
+  const data = await response.json();
+  return data;
+};
 export default function ChatBody() {
-  const messages: Message[] = [
-    { content: "Hey hope you're doing well! We should catch up sometime soon. 🙏", type: "sent" },
-    { content: "Sure! I'm free this weekend if you want to grab a coffee.", type: "received" },
-    { content: "Sounds good! Let's meet at the Starbucks on 5th Ave.", type: "sent" },
-    { content: "I'll message you on Saturday.", type: "received" },
-  ];
+  // Use the Message type for the state
+  const [messages, setMessages] = useState<Message[]>([]);
 
+  useEffect(() => {
+    // Fetch and set messages, handle errors
+    fetchMessages()
+      .then(setMessages)
+      .catch((error) => console.error("Error fetching messages:", error));
+  }, []);
   return (
     <ScrollArea className="h-[calc(100vh-112px)] p-4 grid gap-4">
-      {messages.map((message, index) => (
-        <div
-          key={index}
-          className={`flex w-max max-w-[65%] flex-col gap-2 rounded-full px-4 py-2 text-sm ${
-            message.type === "sent" ? "ml-auto bg-primary text-primary-foreground" : "bg-muted"
-          }`}
-        >
-          {message.content}
-        </div>
-      ))}
-      <div className="flex w-max max-w-[65%] flex-col gap-2 rounded-xl overflow-hidden text-sm ml-auto">
-        {/* <img
-          src="/placeholder.svg"
-          alt="photo"
-          width={200}
-          height={150}
-          className="object-cover"
-          style={{ aspectRatio: "200/150", objectFit: "cover" }}
-        /> */}
-      </div>
+      <h2>Messages</h2>
+      <ul>
+        {messages.map((msg) => (
+          <li key={msg.content}>{msg.content}</li>
+        ))}
+      </ul>
     </ScrollArea>
   );
 }
