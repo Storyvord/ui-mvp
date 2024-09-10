@@ -76,7 +76,7 @@ export const editProject = async (project: Project) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ project }),
+    body: JSON.stringify({ status: project.status }),
   });
   if (!res.ok) {
     throw new Error("Failed to mark project as completed");
