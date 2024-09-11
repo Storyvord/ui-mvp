@@ -9,7 +9,7 @@ import {
   useUpdateSocialLink,
   useGetSocialLink,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
-import { DynamicForm } from "@/components/DynamicForm";
+import { DynamicForm } from "@/components/DynamicFormFields";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomForm from "@/components/CustomForm";

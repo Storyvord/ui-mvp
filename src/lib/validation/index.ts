@@ -7,8 +7,9 @@ export const projectFormSchema = z.object({
     .number()
     .min(5, { message: "Minimum budget is $5k" })
     .max(200000, { message: "Maximum budget is $200000k" }),
-  description: z.string().min(1, { message: "Project description is required" }),
-  additionalDetails: z.string().min(1, { message: "Additional details required" }),
+  description: z
+    .string()
+    .min(100, { message: "The project description must be at least 100 characters long." }),
   locationDetails: z.array(
     z
       .object({
@@ -34,10 +35,19 @@ export const projectFormSchema = z.object({
   ),
   uploadedDocument: z.string(),
   ai_suggestions: z.boolean(),
-  crew: z.record(z.string(), z.number().min(1, { message: "Value must be greater than 0" })),
-  // .refine(crew => Object.keys(crew).length > 0, { message: 'At least one crew member is required' }),
-  equipment: z.record(z.string(), z.number().min(1, { message: "Value must be greater than 0" })),
-  // .refine(eqmt => Object.keys(eqmt).length > 0, { message: 'At least one equipment is required' }),
+  crew: z.array(
+    z.object({
+      title: z.string().min(1, { message: "Title is required" }),
+      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
+    })
+  ),
+
+  equipment: z.array(
+    z.object({
+      title: z.string().min(1, { message: "Title is required" }),
+      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
+    })
+  ),
 });
 
 export const taskFormSchema = z.object({

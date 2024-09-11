@@ -322,8 +322,8 @@ export const defaultFormValues = {
   ],
   uploadedDocument: "",
   ai_suggestions: true,
-  crew: {},
-  equipment: {},
+  crew: [],
+  equipment: [],
 };
 
 export const tempTaskList = [
