@@ -43,7 +43,7 @@ const formFields: FormFieldConfig<FormSchemaType>[] = [
     label: '',
     title: "Forget your password",
     type: "link",
-    routeTo: '#',
+    routeTo: '/auth/forget-password',
   },
 ];
 
@@ -80,8 +80,8 @@ const SignIn = () => {
   };
 
   return (
-    <section className="flex h-screen justify-between">
-      <div className="w-6/12">
+    <section className="flex md:h-screen h-full justify-between">
+      <div className="md:w-6/12 md:block hidden">
         <div className="relative">
           <div className="absolute top-6 left-10 cursor-pointer" onClick={() => router.push("/")}>
             <Image src={Logo} alt="app-logo" />
@@ -95,8 +95,11 @@ const SignIn = () => {
           </div>
         </div>
       </div>
-      <div className="h-screen w-6/12 flex items-center justify-center">
-        <div className="w-full px-24 py-4">
+      <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
+        <div className="w-full md:px-24 px-5 py-4">
+          <div className="md:hidden block cursor-pointer mb-10" onClick={() => router.push("/")}>
+            <Image src={Logo} alt="app-logo" />
+          </div>
           <h3 className="text-3xl leading-[3rem] font-medium text-[#111111] font-poppins">Log in</h3>
           <p className="text-base font-normal text-[#111111] font-poppins">
             Don’t have an ccount? {' '}
