@@ -19,7 +19,6 @@ import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import HideIcon from "@/assets/hide-eye.svg";
 import ShowIcon from "@/assets/show.svg";
 import Image from "next/image";
-import Link from "next/link";
 
 type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -34,10 +33,14 @@ type FormFieldConfig<T extends FieldValues> = {
     | "date"
     | "file"
     | "datetime-local"
-    | "select";
+    | "select"
+    | "link";
   isMulti?: boolean; // this is only for type select
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
+  title?: string;
+  routeTo?: string;
+  note?: string;
   disabled?: boolean;
   optional?: boolean; // this is for optional fields
 };
@@ -49,6 +52,7 @@ type Props<TFormValues extends FieldValues> = {
   isLoading: boolean;
   isError: boolean;
   error?: unknown | any;
+  // buttonLabel: string;
 };
 
 const CustomForm = <TFormValues extends FieldValues>({
@@ -58,6 +62,7 @@ const CustomForm = <TFormValues extends FieldValues>({
   isLoading,
   isError,
   error,
+  // buttonLabel,
 }: Props<TFormValues>) => {
   const [showPasswords, setShowPasswords] = useState<{ [key: string]: boolean }>({});
   const togglePasswordVisibility = (fieldName: string) => {
@@ -74,14 +79,14 @@ const CustomForm = <TFormValues extends FieldValues>({
         className="justify-center flex flex-col"
       >
         {formFields.map((fieldConfig) => {
-          const { name, type, label, placeholder } = fieldConfig;
+          const { name, type, label, placeholder, title, routeTo, note } = fieldConfig;
           return (
             <FormField
               key={name}
               control={form.control}
               name={name}
               render={({ field }) => (
-                <FormItem className="mt-5">
+                <FormItem className="mt-4">
                   <FormLabel className="font-poppins font-normal text-[#666666] text-base">
                     {label}
                     {/* <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span> */}
@@ -139,6 +144,9 @@ const CustomForm = <TFormValues extends FieldValues>({
                             <Image src={ShowIcon} alt="eye-password" />
                           </div>
                         )}
+                        <p className="font-poppins font-normal text-[#666666] text-sm" >
+                          {note}
+                        </p>
                       </div>
                     ) : type === "textarea" ? (
                       <Textarea
@@ -147,11 +155,17 @@ const CustomForm = <TFormValues extends FieldValues>({
                         value={field.value as string}
                       />
                     ) : type === "checkbox" ? (
-                      <Checkbox
-                        className=" ml-3"
-                        checked={field.value as boolean}
-                        onCheckedChange={field.onChange}
-                      />
+                      // <Checkbox
+                      //   className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]"
+                      //   checked={field.value as boolean}
+                      //   onCheckedChange={field.onChange}
+                      // />
+                      <div className="flex items-center space-x-3 mt-4">
+                        <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
+                        <p className="font-poppins font-normal text-[#666666] text-sm" >
+                          {title}
+                        </p>
+                      </div>
                     ) : type === "select" ? (
                       <SelectInput
                         control={form.control}
@@ -160,6 +174,8 @@ const CustomForm = <TFormValues extends FieldValues>({
                         isMulti={fieldConfig.isMulti}
                         placeholder={placeholder}
                       />
+                    ) : type === "link" ? (
+                      <a href={routeTo} className="block text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">{title}</a>
                     ) : null}
                   </FormControl>
                   <FormMessage />
@@ -173,9 +189,16 @@ const CustomForm = <TFormValues extends FieldValues>({
             Failed to submit your form <br /> {error?.message}
           </p>
         )}
-        <Link href='' className="text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">Forget your password</Link>
+        {/* <Link href='' className="text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">Forget your password</Link> */}
+        {/* <div className="flex items-center space-x-3 mt-4">
+          <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
+          <p className="font-poppins font-normal text-[#666666] text-sm" >
+            By creating an account, you agree to our <span className="font-medium text-[#111111] underline cursor-pointer">
+            Terms of use</span> and <span className="font-medium text-[#111111] underline cursor-pointer">Privacy Policy</span>
+          </p>
+        </div> */}
         <Button className="mt-5" type="submit" disabled={isLoading}>
-          {isLoading ? <Loader /> : "Log in"}
+          {isLoading ? <Loader /> : 'Submit'}
         </Button>
       </form>
     </Form>

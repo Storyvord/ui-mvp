@@ -38,6 +38,13 @@ const formFields: FormFieldConfig<FormSchemaType>[] = [
     type: "password",
     placeholder: "Enter password",
   },
+  {
+    name: "forgetPassword",
+    label: '',
+    title: "Forget your password",
+    type: "link",
+    routeTo: '#',
+  },
 ];
 
 const SignIn = () => {
@@ -47,6 +54,7 @@ const SignIn = () => {
     resolver: zodResolver(signinFormSchema),
   });
   const { mutateAsync: loginUser, error, isError, isLoading } = useUserSignIn();
+  // const buttonLabel = 'Log in';
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     try {
       const res = await loginUser(data);
@@ -102,6 +110,7 @@ const SignIn = () => {
               isLoading={isLoading}
               isError={isError}
               error={error}
+              // buttonLabel={'Log in'}
             />
             {/* <div className="mt-4 mb-4 text-center text-sm md:text-normal">
               <span className=" text-slate-600">

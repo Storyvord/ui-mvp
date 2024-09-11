@@ -8,10 +8,11 @@ import {
 import { FieldValues, Path } from "react-hook-form";
 
 export type FormFieldConfig<T extends FieldValues> = {
-  name: Path<T>;
+  name: Path<T> | string;
   label: string;
   type:
     | "text"
+    | "link"
     | "password"
     | "number"
     | "email"
@@ -26,6 +27,9 @@ export type FormFieldConfig<T extends FieldValues> = {
   placeholder?: string;
   disabled?: boolean;
   optional?: boolean; // this is for optional fields
+  note?: string;
+  title?: string;
+  routeTo?: string;
 };
 
 interface project {
