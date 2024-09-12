@@ -1,42 +1,28 @@
-"use client";
-import { Button } from "@/components/ui/button";
+import React, { FormEvent } from "react";
 import { Input } from "@/components/ui/input";
-import { MdSend } from "react-icons/md";
-import { FormEvent } from "react";
-import useWebSocket from "@/hooks/useWebSocket";
-import Cookies from "js-cookie";
+import { Button } from "@/components/ui/button";
 
-export default function MessageInput() {
-  const accessToken = Cookies.get("accessToken") || "";
+type MessageInputProps = {
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  sendMessage: (e: FormEvent) => void;
+};
 
-  const { sendMessage } = useWebSocket("2", accessToken);
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const message = formData.get("message") as string;
-
-    if (message.trim()) {
-      sendMessage({ type: "chat", data: message });
-
-      event.currentTarget.reset();
-    }
-  };
-
+const MessageInput: React.FC<MessageInputProps> = ({ message, setMessage, sendMessage }) => {
   return (
-    <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2 p-4 border-t-4">
+    <form onSubmit={sendMessage} className="mt-4 flex gap-2">
       <Input
-        id="message"
-        name="message"
-        placeholder="Type your message..."
+        type="text"
+        placeholder="Write your message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         className="flex-1"
-        autoComplete="off"
       />
-      <Button type="submit" size="icon">
-        <span className="sr-only">Send</span>
-        <MdSend className="h-4 w-4" />
+      <Button type="submit">
+        Send
       </Button>
     </form>
   );
-}
+};
+
+export default MessageInput;

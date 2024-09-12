@@ -48,15 +48,21 @@ export const getMessageList = async () => {
   return res.json();
 };
 
-export const getMessages = async (userId: number) => {
-    const token = Cookies.get("accessToken");
-    const res = await fetch(`${USER_API}/api/inbox/dialogs/${userId}/messages`, {
+export const getMessages = async (receiverId: string) => {
+  const token = Cookies.get("accessToken");
+  try {
+    const res = await fetch(`${USER_API}/api/inbox/dialogs/${receiverId}/messages/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     if (!res.ok) {
-      throw new Error("Failed to get message list");
+      throw new Error("Failed to fetch tasks");
     }
+
     return res.json();
-  };
+  } catch (err) {
+    console.log("API error from :: getTasks ::", err);
+  }
+};
+
