@@ -2,6 +2,7 @@ import {
   createProject,
   deleteProject,
   editProject,
+  editProjectStatus,
   getProjectDetails,
   getProjects,
 } from "@/lib/api/project";
@@ -61,6 +62,20 @@ export const useEditProject = (projectId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: editProject,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["projectDetails", projectId]);
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error in Editing project:", error);
+    },
+  });
+};
+
+export const useEditProjectStatus = (projectId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editProjectStatus,
     onSuccess: (data) => {
       queryClient.invalidateQueries(["projectDetails", projectId]);
       return data;

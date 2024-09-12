@@ -7,9 +7,42 @@ export const projectFormSchema = z.object({
     .number()
     .min(5, { message: "Minimum budget is $5k" })
     .max(200000, { message: "Maximum budget is $200000k" }),
+  crew: z.array(
+    z.object({
+      title: z.string().min(1, { message: "crew is required" }),
+      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
+    })
+  ),
+  equipment: z.array(
+    z.object({
+      title: z.string().min(1, { message: "equipment is required" }),
+      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
+    })
+  ),
   description: z
     .string()
-    .min(100, { message: "The project description must be at least 100 characters long." }),
+    .min(100, { message: "The project description must be at least 100 words long." }),
+
+    uploadedDocument : z
+    .union([
+      z.string().nonempty({ message: "Document cannot be an empty" }),
+      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+        message: "Document cannot be an empty ArrayBuffer",
+      }),
+      z.instanceof(File).refine(
+        (file) =>
+          (file.type === "image/jpeg" ||
+            file.type === "image/png" ||
+            file.type === "application/pdf" ||
+            file.type === "application/msword" || // For .doc files
+            file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+            file.type === "text/plain") && // For .txt files
+          file.size > 0, // Ensure the file is not empty
+        {
+          message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+        }
+      ),
+    ]),
   locationDetails: z.array(
     z
       .object({
@@ -33,21 +66,7 @@ export const projectFormSchema = z.object({
         }
       )
   ),
-  uploadedDocument: z.string(),
-  ai_suggestions: z.boolean(),
-  crew: z.array(
-    z.object({
-      title: z.string().min(1, { message: "Title is required" }),
-      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
-    })
-  ),
-
-  equipment: z.array(
-    z.object({
-      title: z.string().min(1, { message: "Title is required" }),
-      quantity: z.number().min(1, { message: "Value must be greater than 0" }),
-    })
-  ),
+  aiSuggestions: z.boolean(),
 });
 
 export const taskFormSchema = z.object({
@@ -119,14 +138,6 @@ export const createRoomFormSchema = z.object({
   description: z.string().min(2, "Description is required"),
   accessRight: z.union([z.number(), z.array(z.number())]),
 });
-
-// image: z.union([
-//   z.string(),
-//   z.instanceof(ArrayBuffer),
-//   z.instanceof(File).refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
-//     message: "Only .jpg or .png files are accepted",
-//   }),
-// ]);
 
 export const uploadFileFormSchema = z.object({
   name: z.string().min(2, "Name is required"),

@@ -9,17 +9,26 @@ import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const { data: projects, isLoading, isError } = useGetProjects();
-  const [pastProjects, setPastProject] = useState<Project[]>([]);
-  const [onGoingProjects, setOngoingProject] = useState<Project[]>([]);
+  const [pastProjects, setPastProjects] = useState<Project[]>([]);
+  const [onGoingProjects, setOngoingProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    projects?.forEach((project: Project) => {
-      if (project.status === "COMPLETED" || project.status === "CANCELLED") {
-        setPastProject((prev) => [...prev, project]);
-      } else {
-        setOngoingProject((prev) => [...prev, project]);
-      }
-    });
+    if (projects) {
+      // Filter past projects based on their status
+      const filteredPastProjects = projects.filter((project: Project) =>
+        ["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
+      );
+
+      // Filter ongoing projects based on their status
+      const filteredOngoingProjects = projects.filter(
+        (project: Project) =>
+          !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
+      );
+
+      // Set state with filtered projects
+      setPastProjects(filteredPastProjects);
+      setOngoingProjects(filteredOngoingProjects);
+    }
   }, [projects]);
 
   return (

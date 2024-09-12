@@ -1,9 +1,9 @@
 "use client";
-
 import React from "react";
 import Select from "react-select";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,8 +26,9 @@ interface ProjectDetailsUIProps {
   selectedStatus: { value: string; label: string } | null;
   deletingProject: boolean;
   projectStatuses: { value: string; label: string }[];
-  handleChange: (selectedOption: any) => void;
+  handleChangeStatus: (selectedOption: any) => void;
   handleDeleteProject: () => void;
+  handleEditForm: () => void;
 }
 
 const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
@@ -35,8 +36,9 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   selectedStatus,
   deletingProject,
   projectStatuses,
-  handleChange,
+  handleChangeStatus,
   handleDeleteProject,
+  handleEditForm,
 }) => {
   return (
     <div className="flex flex-col items-center gap-2 py-2 w-full h-auto px-4">
@@ -51,11 +53,12 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                 {projectDetails?.status === "COMPLETED" && (
                   <p className="text-sm sm:text-base text-green-500 font-bold">COMPLETED</p>
                 )}
-                {projectDetails?.status !== ("COMPLETED" && "CANCELLED") && (
-                  <p className="text-sm sm:text-base text-yellow-500 font-bold">
-                    {projectDetails?.status}
-                  </p>
-                )}
+                {projectDetails?.status !== "COMPLETED" &&
+                  projectDetails?.status !== "CANCELLED" && (
+                    <p className="text-sm sm:text-base text-yellow-500 font-bold">
+                      {projectDetails?.status}
+                    </p>
+                  )}
               </div>
             </div>
 
@@ -65,6 +68,20 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
               </PopoverTrigger>
               <PopoverContent className=" space-y-4 mr-6 w-fit">
                 <Button
+                  onClick={handleEditForm}
+                  variant="outline"
+                  className=" w-full text-gray-600"
+                >
+                  Edit &nbsp; <HiOutlinePencilSquare className="w-6 h-6" />
+                </Button>
+
+                <Select
+                  options={projectStatuses}
+                  placeholder="Change Status"
+                  value={selectedStatus}
+                  onChange={handleChangeStatus}
+                />
+                <Button
                   onClick={handleDeleteProject}
                   variant="outline"
                   className=" w-full text-gray-600"
@@ -72,12 +89,6 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                 >
                   {deletingProject ? <Loader /> : <MdDelete className=" w-6 h-6 text-red-500" />}
                 </Button>
-                <Select
-                  options={projectStatuses}
-                  placeholder="Change Status"
-                  value={selectedStatus}
-                  onChange={handleChange}
-                />
               </PopoverContent>
             </Popover>
           </div>
