@@ -37,7 +37,7 @@ export const getOnBoardedEmployeeList = async () => {
   return res.json();
 };
 
-export const getCompanyInvitations = async () => {
+export const getReceivedInvitationsList = async () => {
   const token = Cookies.get("accessToken");
   try {
     const res = await fetch(`${USER_API}/api/referral/company/invitations/`, {
@@ -54,6 +54,24 @@ export const getCompanyInvitations = async () => {
     console.log(err);
   }
 };
+export const getSendInvitationsList = async () => {
+  const token = Cookies.get("accessToken");
+  try {
+    const res = await fetch(`${USER_API}/api/referral/company/client/employee-invitations/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to fetch invitations details");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 export const acceptCompanyInvitation = async (referralCode: string) => {
   const token = Cookies.get("accessToken");

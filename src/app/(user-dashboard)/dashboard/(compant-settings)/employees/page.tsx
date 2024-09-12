@@ -3,23 +3,21 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FiPlus } from "react-icons/fi";
-import { Input } from "@/components/ui/input";
 import {
   useAcceptCompanyInvitation,
-  useGetCompanyInvitations,
-  useGetOnBoardedEmployeeList,
+  useGetReceivedInvitationsList,
+  useGetSendInvitationsList,
   useRejectCompanyInvitation,
   useSentInvitationToEmployee,
 } from "@/lib/react-query/queriesAndMutations/company/employee";
 import EmployeeList from "@/components/user-dashboard/dashboard/company-settings/employees/EmployeeList";
-import Loader from "@/components/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import InvitationList from "@/components/user-dashboard/dashboard/company-settings/employees/InvitationList";
 import { FormFieldConfig } from "@/types";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomForm from "@/components/CustomForm";
+import { z } from "zod";
 
 const validationSchema = z.object({
   employee_email: z.string().min(1, "This field may not be blank."), // Ensures the field is not empty
@@ -69,15 +67,14 @@ type Props = {
 
 const EmployeeAndStaff = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [email, setEmail] = useState("");
   const { toast } = useToast();
   const {
     mutateAsync: inviteEmployeeAndStaff,
     isLoading: isLoadingInvitation,
     isError: isErrorInvitation,
   } = useSentInvitationToEmployee();
-  const { data: invitationAcceptList } = useGetOnBoardedEmployeeList();
-  const { data: getInvitationsList } = useGetCompanyInvitations();
+  const { data: getReceivedInvitationsList } = useGetReceivedInvitationsList();
+  const { data: getSendInvitationsList } = useGetSendInvitationsList();
   const { mutateAsync: acceptInvitation } = useAcceptCompanyInvitation();
   const { mutateAsync: rejectInvitation } = useRejectCompanyInvitation();
 
@@ -140,17 +137,19 @@ const EmployeeAndStaff = () => {
           <FiPlus size={19} />
           Add Employee & Staff
         </Button>
-        <EmployeeList data={invitationAcceptList} />
-        <InvitationList
-          getInvitationsList={getInvitationsList?.pending}
-          acceptInvitation={handleAcceptInvitation}
-          rejectInvitation={handleRejectInvitation}
-        />
+        <EmployeeList data={getSendInvitationsList} />
+        {getReceivedInvitationsList?.pending.length !== 0 && (
+          <InvitationList
+            getInvitationsList={getReceivedInvitationsList?.pending}
+            acceptInvitation={handleAcceptInvitation}
+            rejectInvitation={handleRejectInvitation}
+          />
+        )}
 
         <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-left"> Invite </DialogTitle>
+              <DialogTitle> Invite Employee </DialogTitle>
             </DialogHeader>
             <CustomForm
               form={form}

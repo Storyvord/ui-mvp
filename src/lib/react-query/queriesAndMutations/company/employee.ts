@@ -1,16 +1,21 @@
 import {
   acceptCompanyInvitation,
-  getCompanyInvitations,
   getOnBoardedEmployeeList,
+  getReceivedInvitationsList,
+  getSendInvitationsList,
   rejectCompanyInvitation,
   sentInvitationToEmployee,
 } from "@/lib/api/company/employee";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useSentInvitationToEmployee = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: sentInvitationToEmployee,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getSendInvitationsList"],
+      });
       return data;
     },
     onError: (error) => {
@@ -26,10 +31,16 @@ export const useGetOnBoardedEmployeeList = () => {
   });
 };
 
-export const useGetCompanyInvitations = () => {
+export const useGetReceivedInvitationsList = () => {
   return useQuery({
-    queryKey: ["getCompanyInvitations"],
-    queryFn: getCompanyInvitations,
+    queryKey: ["getReceivedInvitationsList"],
+    queryFn: getReceivedInvitationsList,
+  });
+};
+export const useGetSendInvitationsList = () => {
+  return useQuery({
+    queryKey: ["getSendInvitationsList"],
+    queryFn: getSendInvitationsList,
   });
 };
 

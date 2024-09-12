@@ -10,7 +10,7 @@ import {
   useCreateCompanyFileDocumentRoom,
   useGetCompanyFileDocumentRooms,
 } from "@/lib/react-query/queriesAndMutations/company/file-docs";
-import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 
 type RoomDataType = {
   id: string;
@@ -24,12 +24,13 @@ const CompanyFileSection: FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   const { data: roomData, isLoading: isLoadingFiles } = useGetCompanyFileDocumentRooms();
-  const { data: employee_list } = useGetOnBoardedEmployeeList();
-  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
-    value: employee.id,
-    label: employee.email,
-  }));
-  console.log(employeeList);
+  const { data: employee_list } = useGetSendInvitationsList();
+  const employeeList = employee_list?.accepted.map(
+    (employee: { firstName: string; id: number; employee_email: string }) => ({
+      value: employee.id,
+      label: employee.firstName || employee.employee_email,
+    })
+  );
   const router = useRouter();
 
   const handleCardClick = (roomId: string) => {

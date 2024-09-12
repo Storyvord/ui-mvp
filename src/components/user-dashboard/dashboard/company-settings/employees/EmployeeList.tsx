@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -8,33 +9,57 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// [
-// 	{
-// 		"id": 2,
-// 		"username": null,
-// 		"email": "souvik2@client.com",
-// 		"first_name": "",
-// 		"last_name": ""
-// 	}
-// ]
-const headers = ["First Name", "Last Name", "Email", "User Name"];
-type Profile = {
+import Tabs from "@/components/Tabs";
+import { BiMessageDetail } from "react-icons/bi";
+
+const headers = ["First Name", "Last Name", "Email", "Status", "Message"];
+type ProfileData = {
   id: number;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
+  employee_email: string;
+  status: string;
+};
+type Profile = {
+  accepted: ProfileData[];
+  pending: ProfileData[];
+  rejected: ProfileData[];
 };
 
 type Props = {
-  data?: Profile[] | undefined;
+  data: Profile;
   isLoading?: boolean;
 };
-
+const tabs = ["Accepted", "Pending", "Rejected"];
 const EmployeeList = ({ data, isLoading }: Props) => {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const handleRedirectToMessagePage = (id: number, name: string) => {
+    router.push(`dashboard/message/?receiverId=${id}&name=${name}`);
+  };
+
+  // Function to get the current list based on active tab
+  const getCurrentList = () => {
+    switch (activeTab) {
+      case "Accepted":
+        return data?.accepted;
+      case "Pending":
+        return data?.pending;
+      case "Rejected":
+        return data?.rejected;
+      default:
+        return [];
+    }
+  };
+
+  // Get the current list of profiles based on active tab
+  const currentList = getCurrentList();
+
   return (
     <>
-      <Table className=" mt-4 bg-white p-2">
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
+      {isLoading && <p className="w-full text-center">Loading...</p>}
+      <Table className="mt-4 bg-white p-2">
         <TableHeader>
           <TableRow>
             {headers.map((header, index) => (
@@ -43,20 +68,22 @@ const EmployeeList = ({ data, isLoading }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((item: Profile) => (
+          {currentList?.map((item: ProfileData) => (
             <TableRow key={item.id} className="">
-               {/* <TableCell>{item.last_name}</TableCell> */}
-              <TableCell>{item.first_name}</TableCell>
-              <TableCell>{item.last_name}</TableCell>
-              <TableCell>{item.email}</TableCell>
-              <TableCell>{item.username}</TableCell>
+              <TableCell>{item.firstName}</TableCell>
+              <TableCell>{item.lastName}</TableCell>
+              <TableCell>{item.employee_email}</TableCell>
+              <TableCell>{item.status}</TableCell>
+              <TableCell>
+                <BiMessageDetail
+                  onClick={() => handleRedirectToMessagePage(item.id, item.firstName)}
+                  className="w-6 h-6 hover:text-gray-600 cursor-pointer"
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {data?.length === 0 && (
-        <h2 className=" text-center mt-4 text-gray-600"> No Employee and Staff added</h2>
-      )}
     </>
   );
 };
