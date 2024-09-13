@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,88 +8,95 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRouter } from "next/navigation";
+import Tabs from "@/components/Tabs";
+import { BiMessageDetail } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { cn } from "@/lib/utils";
 
-const headers = [
-  "Name",
-  "Email",
-  "Phone",
-  "Job Title",
-  "Location",
-  "Languages",
-  "Standard Rate",
-  "Skills",
-  "Technical Proficiencies",
-  "Specializations",
-  "Drive",
-  "Active",
-];
-type Profile = {
+const headers = ["Profile", "First Name", "Last Name", "Status", "Message"];
+type ProfileData = {
   id: number;
-  image: string;
-  name: string;
-  phone: string;
-  location: string;
-  languages: string;
-  job_title: string;
-  bio: string;
-  experience: string;
-  skills: string;
-  standardRate: string;
-  technicalProficiencies: string;
-  specializations: string;
-  drive: boolean;
-  active: boolean;
-  user: number;
+  firstName: string;
+  lastName: string;
+  employee_email: string;
+  status: string;
 };
-
-export type Crew = {
-  id: number;
-  email: string;
-  profile: Profile;
-  firstName: string
+type Profile = {
+  accepted: ProfileData[];
+  pending: ProfileData[];
+  rejected: ProfileData[];
 };
 
 type Props = {
-  data: Crew[] | undefined;
-  isLoading: boolean;
+  data: Profile;
+  isLoading?: boolean;
 };
+const tabs = ["Accepted", "Pending", "Rejected"];
 
 const CrewList = ({ data, isLoading }: Props) => {
-  console.log(data)
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const handleRedirectToMessagePage = (id: number, name: string) => {
+    router.push(`/dashboard/message/?receiverId=${id}&name=${name}`);
+  };
+
+  // Function to get the current list based on active tab
+  const getCurrentList = () => {
+    switch (activeTab) {
+      case "Accepted":
+        return data?.accepted;
+      case "Pending":
+        return data?.pending;
+      case "Rejected":
+        return data?.rejected;
+      default:
+        return [];
+    }
+  };
+
+  // Get the current list of profiles based on active tab
+  const currentList = getCurrentList();
   return (
     <>
-      {data?.length === 0 && (
-        <main className="mt-12 flex flex-col gap-8">
-          <h1 className=" text-2xl text-center text-gray-500">No crew Found</h1>
-        </main>
-      )}
-      {/* <Table className=" mt-4 bg-white p-2">
-        <TableHeader >
-          <TableRow>
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
+      {isLoading && <p className="w-full text-center">Loading...</p>}
+      <Table className="mt-4 bg-white p-2 ">
+        <TableHeader>
+          <TableRow className="hover:bg-white">
             {headers.map((header, index) => (
               <TableHead key={index}>{header}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((item: Crew) => (
-            <TableRow key={item.id} className="">
-              <TableCell>{item.profile.name}</TableCell>
-              <TableCell>{item.email}</TableCell>
-              <TableCell>{item.profile.phone}</TableCell>
-              <TableCell>{item.profile.job_title}</TableCell>
-              <TableCell>{item.profile.location}</TableCell>
-              <TableCell>{item.profile.languages}</TableCell>
-              <TableCell>{item.profile.standardRate}</TableCell>
-              <TableCell>{item.profile.skills}</TableCell>
-              <TableCell>{item.profile.technicalProficiencies}</TableCell>
-              <TableCell>{item.profile.specializations}</TableCell>
-              <TableCell>{item.profile.drive ? "Yes" : "No"}</TableCell>
-              <TableCell>{item.profile.active ? "Yes" : "No"}</TableCell>
+          {currentList?.map((item: ProfileData) => (
+            <TableRow key={item.id} className="hover:bg-white">
+              <TableCell>
+                <CgProfile className=" w-8 h-8 cursor-pointer hover:text-gray-700 text-gray-800"/>
+              </TableCell>
+              <TableCell>{item.firstName}</TableCell>
+              <TableCell>{item.lastName}</TableCell>
+              <TableCell
+                className={cn(
+                  "font-semibold",
+                  item.status === "accepted" && "text-green-500",
+                  item.status === "pending" && "text-yellow-500",
+                  item.status === "rejected" && "text-red-500"
+                )}
+              >
+                {item.status}
+              </TableCell>
+              <TableCell>
+                <BiMessageDetail
+                  onClick={() => handleRedirectToMessagePage(item.id, item.firstName)}
+                  className="w-6 h-6 hover:text-gray-600 cursor-pointer"
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
-      </Table> */}
+      </Table>
     </>
   );
 };

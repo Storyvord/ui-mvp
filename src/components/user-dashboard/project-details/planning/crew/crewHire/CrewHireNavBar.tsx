@@ -12,35 +12,19 @@ type Props = {
   setSearchValue: (value: string) => void;
 };
 
-const CrewHireNavBar = ({
-  setOpenDialog,
-  openDialog,
-  searchValue,
-  setSearchValue,
-}: Props) => {
+const CrewHireNavBar = ({ setOpenDialog, openDialog, searchValue, setSearchValue }: Props) => {
   return (
-    <nav className="mx-auto flex gap-4 flex-col sm:flex-row justify-end">
+    <nav className="mx-auto flex gap-4 flex-col sm:flex-row justify-start">
       <div className=" flex gap-4">
         <Button onClick={() => setOpenDialog(!openDialog)} className="mr-4 font-semibold">
           Invite Crew
         </Button>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline">
-              <CiLock className="w-6 h-6" />
-              Access Rights
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <Input placeholder="enter email" />
-          </PopoverContent>
-        </Popover>
       </div>
-      <Input
+      {/* <Input
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder="search crew"
-      />
+      /> */}
     </nav>
   );
 };

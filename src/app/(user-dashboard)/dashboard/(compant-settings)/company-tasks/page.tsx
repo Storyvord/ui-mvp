@@ -1,23 +1,5 @@
 "use client";
-
-import CreateTask from "@/components/tasks/CreateTask";
-import TaskCard from "@/components/tasks/TaskCard";
-import TaskNavbar from "@/components/tasks/TaskNavbar";
-import ToolBar from "@/components/tasks/ToolBar";
-import {
-  useCompleteTask,
-  useCreateNewTask,
-  useDeleteTask,
-  useGetTasks,
-  useTaskCompletionApproval,
-} from "@/lib/react-query/queriesAndMutations";
-import { taskFormType, taskType } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
-import TaskSkeleton from "@/components/TaskSkeleton";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
-import { useToast } from "@/components/ui/use-toast";
-import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import {
   useCompanyTaskCompletionApproval,
   useCompanyTaskCompletionRequest,
@@ -27,6 +9,14 @@ import {
   useGetCompanyTasks,
   useUpdateCompanyTask,
 } from "@/lib/react-query/queriesAndMutations/company/tasks";
+import CreateTask from "@/components/tasks/CreateTask";
+import TaskCard from "@/components/tasks/TaskCard";
+import TaskNavbar from "@/components/tasks/TaskNavbar";
+import ToolBar from "@/components/tasks/ToolBar";
+import { taskFormType, taskType } from "@/types";
+import TaskSkeleton from "@/components/TaskSkeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
@@ -39,11 +29,13 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
     useCompanyTaskCompletionApproval();
   const { mutateAsync: taskRequestCompletionMutation, isLoading: isLoadingRequestTask } =
     useCompanyTaskCompletionRequest();
-  const { data: employee_list } = useGetOnBoardedEmployeeList();
-  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
-    value: employee.id,
-    label: employee.email,
-  }));
+  const { data: employee_list } = useGetSendInvitationsList();
+  const employeeList = employee_list?.accepted.map(
+    (employee: { firstName: string; id: number; employee_email: string }) => ({
+      value: employee.id,
+      label: employee.firstName || employee.employee_email,
+    })
+  );
 
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();

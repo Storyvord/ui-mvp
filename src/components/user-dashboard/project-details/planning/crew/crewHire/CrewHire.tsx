@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CrewHireNavBar from "./CrewHireNavBar";
 import {
-  useGetOnBoardedCrewList,
+  useGetCrewList,
   useSentInvitationToCrew,
 } from "@/lib/react-query/queriesAndMutations/crew";
-import CrewList, { Crew } from "./CrewList";
+import CrewList from "./CrewList";
 import { FormFieldConfig } from "@/types";
 import { z } from "zod";
 import CustomForm from "@/components/CustomForm";
@@ -64,23 +64,12 @@ const CrewHire = () => {
     isLoading: isLoadingInvitation,
     isError: isErrorInvitation,
   } = useSentInvitationToCrew();
-  const { data: crewList, isLoading: isLoadingCrewList } = useGetOnBoardedCrewList(projectId);
-  const [filterCrewList, setFilterCrewList] = useState<Crew[] | undefined>(crewList);
+  const { data: crewList, isLoading: isLoadingCrewList } = useGetCrewList(projectId);
   const [searchValue, setSearchValue] = useState("");
-  console.log(crewList);
   const form = useForm({
     resolver: zodResolver(validationSchema),
     defaultValues,
   });
-
-  useEffect(() => {
-    if (crewList) {
-      const filtered = crewList.pending.filter((item: Crew) =>
-        item.firstName?.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      setFilterCrewList(filtered);
-    }
-  }, [searchValue, crewList]);
 
   const onSubmit = async (data: ValidationSchemaType) => {
     const transFormData = { ...data, project_id: projectId };
@@ -96,7 +85,7 @@ const CrewHire = () => {
         searchValue={searchValue}
         setSearchValue={setSearchValue}
       />
-      <CrewList data={filterCrewList} isLoading={isLoadingCrewList} />
+      <CrewList data={crewList} isLoading={isLoadingCrewList} />
       <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
         <DialogContent>
           <DialogHeader>

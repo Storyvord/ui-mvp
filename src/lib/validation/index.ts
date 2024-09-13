@@ -137,3 +137,36 @@ export const uploadFileFormSchema = z.object({
     ),
   ]),
 });
+
+export const updateProfileSchema = z.object({
+  firstName: z.string().min(1, "First Name is required"), // Minimum length of 1
+  lastName: z.string().min(1, "Last Name is required"),
+  formalName: z.string().min(1, "Formal Name is required"),
+  role: z.string().min(1, "Role is required"),
+  description: z.string().optional(), // Optional field
+  address: z.string().min(1, "Address is required"),
+  countryName: z.string().min(1, "Country Name is required"),
+  locality: z.string().min(1, "Locality is required"),
+  personalWebsite: z
+    .string()
+    .url("Invalid URL format") // Validate URL format
+    .optional(), // Optional field
+  image: z
+    .union([
+      z.string(),
+      z.instanceof(ArrayBuffer),
+      z
+        .instanceof(File)
+        .refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
+          message: "Only .jpg or .png files are accepted",
+        })
+        .refine((file) => file.size <= 5 * 1024 * 1024, {
+          message: "File size must be less than or equal to 5MB",
+        }),
+    ])
+    .nullable(),
+  phone_number: z
+    .string()
+    .nullable()
+    .or(z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")), // Validates E.164 phone format or can be null
+});
