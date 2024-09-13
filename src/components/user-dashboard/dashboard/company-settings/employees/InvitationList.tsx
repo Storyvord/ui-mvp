@@ -20,7 +20,7 @@ const InvitationList = ({ getInvitationsList, acceptInvitation, rejectInvitation
       <hr />
       <>
         {getInvitationsList?.map((invitation) => {
-          if (invitation.status === "accepted") {
+          if (invitation.status === "pending") {
             return (
               <div
                 key={invitation.id}
