@@ -1,3 +1,4 @@
+import { ProjectFormFieldType } from "@/components/user-dashboard/dashboard/CreateProjectForm";
 import { API_URL, USER_API } from "@/constant/constant";
 import { Project } from "@/types/project";
 import Cookies from "js-cookie";
@@ -68,18 +69,46 @@ export const deleteProject = async ({ project_id }: { project_id: string }) => {
   }
 };
 
-export const editProject = async (project: Project) => {
+export const editProject = async ({
+  projectData,
+  projectId,
+}: {
+  projectData: ProjectFormFieldType;
+  projectId: string;
+}) => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/project/projects/${project.project_id}/`, {
+  const res = await fetch(`${USER_API}/api/project/projects/${projectId}/`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ project }),
+    body: JSON.stringify(projectData),
   });
   if (!res.ok) {
-    throw new Error("Failed to mark project as completed");
+    throw new Error("Failed to edit project as completed");
+  }
+  return res.json();
+};
+
+export const editProjectStatus = async ({
+  status,
+  projectId,
+}: {
+  status: ProjectFormFieldType;
+  projectId: string;
+}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/project/projects/${projectId}/`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({status}),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to edit project as completed");
   }
   return res.json();
 };

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Project } from "@/types/project";
 import LoadingSkeleton from "./LoadingSkeleton";
+import Link from "next/link";
 
 type Props = {
   projects: Project[];
@@ -34,7 +36,7 @@ const PastProjects = ({ projects, isLoading, isError }: Props) => {
         </h6>
       </div>
       {projects?.length === 0 ? (
-        <h1 className=" mt-8 text-center">You don&apos;t have any ongoing project</h1>
+        <h1 className=" mt-8 text-center">You don&apos;t have any previous project</h1>
       ) : (
         <CardContent className="overflow-x-auto px-0 pb-2">
           <Table className="min-w-[640px] table-auto">
@@ -52,9 +54,12 @@ const PastProjects = ({ projects, isLoading, isError }: Props) => {
               {projects.map((project) => (
                 <TableRow key={project.project_id}>
                   <TableCell>
-                    <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-[800]">
+                    <Link
+                      href={`/project-details/${project.project_id}`}
+                      className="block antialiased text-base leading-relaxed text-blue-gray-900 font-[800]"
+                    >
                       {project.name}
-                    </p>
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-light">

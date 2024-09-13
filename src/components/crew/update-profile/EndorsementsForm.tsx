@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateEndorsement,
