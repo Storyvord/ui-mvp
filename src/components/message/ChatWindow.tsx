@@ -1,5 +1,20 @@
 "use client";
-import React from "react";
+import React, { FormEvent } from "react";
+import ConversationList from "./ConversationList";
+import MessageInput from "./MessageInput";
+type User = {
+  id: number;
+  email: string;
+  user_type: string; // You may want to specify this as "crew" | "client" if these are the only values
+  name: string | null; // Name can be null based on your data
+  you: boolean;
+};
+
+type Conversation = {
+  id: number;
+  user1: User;
+  user2: User;
+};
 
 type Message = {
   message: string;
@@ -10,38 +25,52 @@ type ChatWindowProps = {
   messages: Message[];
   messagesEndRef: React.RefObject<HTMLDivElement>;
   receiverName: string;
+  conversationsList: Conversation[];
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  sendMessage: (e: FormEvent) => void;
 };
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ messages, messagesEndRef, receiverName }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({
+  messages,
+  messagesEndRef,
+  receiverName,
+  conversationsList,
+  message,
+  setMessage,
+  sendMessage,
+}) => {
   const senderId = JSON.parse(localStorage.getItem("user-details") || "").id;
-  console.log(senderId);
-
   return (
-    <>
-      <h1 className="text-center">
-        <b>chat with:</b> {receiverName}
-      </h1>
-      <div className="mt-12 h-80 overflow-auto p-4 border rounded">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex mb-2 ${message.sender === senderId ? "justify-end" : "justify-start"}`}
-          >
+    <main className=" flex p-8 gap-2">
+      <section className="flex-[0.2] border rounded p-2 bg-white">
+        <h1 className="w-full text-center border-b pb-2 font-semibold">Conversations</h1>
+        <ConversationList conversations={conversationsList} senderId={senderId} />
+      </section>
+      <section className=" flex-1 border rounded p-2 bg-white">
+        <h1 className="w-full border-b pb-2 font-semibold">{receiverName}</h1>
+        <main className=" h-96 overflow-auto p-4 ">
+          {messages?.map((message, index) => (
             <div
-              className={`max-w-xs p-2 rounded-lg ${
-                message.sender === senderId ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
-              }`}
+              key={index}
+              className={`flex mb-2 ${message.sender == senderId ? "justify-end" : "justify-start"}`}
             >
-              <h3 className="font-semibold">
-                {message.sender === senderId ? "You" : message.sender}
-              </h3>
-              <p>{message.message}</p>
+              <div
+                className={`max-w-xs p-2 rounded-lg ${
+                  message.sender == senderId ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
+                }`}
+              >
+                <p>{message.message}</p>
+              </div>
             </div>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-    </>
+          ))}
+          <div ref={messagesEndRef} />
+        </main>
+        {receiverName && (
+          <MessageInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
+        )}
+      </section>
+    </main>
   );
 };
 

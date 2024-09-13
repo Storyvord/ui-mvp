@@ -1,8 +1,8 @@
-import Message from "@/app/crew/message/page";
+import MessageComponent from "@/components/message/Message";
 import React from "react";
 
 const page = () => {
-  return <Message />;
+  return <MessageComponent />;
 };
 
 export default page;
