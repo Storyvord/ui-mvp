@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import Tabs from "@/components/Tabs";
 import { BiMessageDetail } from "react-icons/bi";
+import { cn } from "@/lib/utils";
 
 const headers = ["First Name", "Last Name", "Email", "Status", "Message"];
 type ProfileData = {
@@ -35,7 +36,7 @@ const EmployeeList = ({ data, isLoading }: Props) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const handleRedirectToMessagePage = (id: number, name: string) => {
-    router.push(`dashboard/message/?receiverId=${id}&name=${name}`);
+    router.push(`/dashboard/message/?receiverId=${id}&name=${name}`);
   };
 
   // Function to get the current list based on active tab
@@ -61,7 +62,7 @@ const EmployeeList = ({ data, isLoading }: Props) => {
       {isLoading && <p className="w-full text-center">Loading...</p>}
       <Table className="mt-4 bg-white p-2">
         <TableHeader>
-          <TableRow>
+          <TableRow className="hover:bg-white">
             {headers.map((header, index) => (
               <TableHead key={index}>{header}</TableHead>
             ))}
@@ -69,11 +70,20 @@ const EmployeeList = ({ data, isLoading }: Props) => {
         </TableHeader>
         <TableBody>
           {currentList?.map((item: ProfileData) => (
-            <TableRow key={item.id} className="">
+            <TableRow key={item.id} className="hover:bg-white">
               <TableCell>{item.firstName}</TableCell>
               <TableCell>{item.lastName}</TableCell>
               <TableCell>{item.employee_email}</TableCell>
-              <TableCell>{item.status}</TableCell>
+              <TableCell
+                className={cn(
+                  "font-semibold",
+                  item.status === "accepted" && "text-green-500",
+                  item.status === "pending" && "text-yellow-500",
+                  item.status === "rejected" && "text-red-500"
+                )}
+              >
+                {item.status}
+              </TableCell>
               <TableCell>
                 <BiMessageDetail
                   onClick={() => handleRedirectToMessagePage(item.id, item.firstName)}

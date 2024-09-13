@@ -10,8 +10,7 @@ import {
   useGetAllFileDocumentRooms,
 } from "@/lib/react-query/queriesAndMutations/file";
 import { RoomFormData } from "@/types";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 type RoomDataType = {
   id: string;
@@ -32,10 +31,10 @@ const FileSection: FC = () => {
     isLoading: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
   } = useCreateFileDocumentRoom();
-  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
-  const crewList = crew_list?.map((crew: Crew) => ({
+  const { data: crew_list } = useGetCrewList(projectId);
+  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
     value: crew.id,
-    label: crew.profile.name,
+    label: crew.firstName,
   }));
 
   const handleCardClick = (roomId: string) => {
