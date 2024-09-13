@@ -6,9 +6,14 @@ export const profileFormValidationSchema = z.object({
   image: z.union([
     z.string(),
     z.instanceof(ArrayBuffer),
-    z.instanceof(File).refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
-      message: "Only .jpg or .png files are accepted",
-    }),
+    z
+      .instanceof(File)
+      .refine((file) => file.type === "image/jpeg" || file.type === "image/png", {
+        message: "Only .jpg or .png files are accepted",
+      })
+      .refine((file) => file.size <= 5 * 1024 * 1024, {
+        message: "File size must be less than or equal to 5MB",
+      }),
   ]),
   location: z.string().min(2, "Location is required"),
   languages: z.string().min(2, "Languages are required"),
