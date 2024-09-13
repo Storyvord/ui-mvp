@@ -26,9 +26,12 @@ const EventDialog = ({
 }: Props) => {
   if (!event) return null; // If no event is provided, do not render anything
 
-  const participants = crewList?.map((crew) => {
-    if (event.participants.includes(Number(crew.value))) return crew.label;
-  });
+  const participants = event.participants
+    .map((valueToFind) => {
+      const foundObject = crewList?.find((item) => Number(item.value) === valueToFind);
+      return foundObject ? foundObject.label : null;
+    })
+    .filter((label) => label !== null);
 
   return (
     <>

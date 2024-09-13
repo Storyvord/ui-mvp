@@ -1,23 +1,5 @@
 "use client";
-
-import CreateTask from "@/components/tasks/CreateTask";
-import TaskCard from "@/components/tasks/TaskCard";
-import TaskNavbar from "@/components/tasks/TaskNavbar";
-import ToolBar from "@/components/tasks/ToolBar";
-import {
-  useCompleteTask,
-  useCreateNewTask,
-  useDeleteTask,
-  useGetTasks,
-  useTaskCompletionApproval,
-} from "@/lib/react-query/queriesAndMutations";
-import { taskFormType, taskType } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
-import TaskSkeleton from "@/components/TaskSkeleton";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
-import { useToast } from "@/components/ui/use-toast";
-import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import {
   useCompanyTaskCompletionApproval,
   useCompanyTaskCompletionRequest,
@@ -27,10 +9,18 @@ import {
   useGetCompanyTasks,
   useUpdateCompanyTask,
 } from "@/lib/react-query/queriesAndMutations/company/tasks";
+import CreateTask from "@/components/tasks/CreateTask";
+import TaskCard from "@/components/tasks/TaskCard";
+import TaskNavbar from "@/components/tasks/TaskNavbar";
+import ToolBar from "@/components/tasks/ToolBar";
+import { taskFormType, taskType } from "@/types";
+import TaskSkeleton from "@/components/TaskSkeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask } = useGetCompanyTasks();
+  const { data: tasksList, isLoading: isLoadingTask, isError: isErrorTask } = useGetCompanyTasks();
   const { data: employeeTaskList } = useGetCompanyEmployeeTasks();
   const { mutateAsync: createNewTaskMutation } = useCreateNewCompanyTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteCompanyTask();
@@ -39,11 +29,13 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
     useCompanyTaskCompletionApproval();
   const { mutateAsync: taskRequestCompletionMutation, isLoading: isLoadingRequestTask } =
     useCompanyTaskCompletionRequest();
-  const { data: employee_list } = useGetOnBoardedEmployeeList();
-  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
-    value: employee.id,
-    label: employee.email,
-  }));
+  const { data: employee_list } = useGetSendInvitationsList();
+  const employeeList = employee_list?.accepted.map(
+    (employee: { firstName: string; id: number; employee_email: string }) => ({
+      value: employee.id,
+      label: employee.firstName || employee.employee_email,
+    })
+  );
 
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();
@@ -78,10 +70,11 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       requester: null,
     };
 
-    try {
-      await createNewTaskMutation(newTask);
-    } catch (error) {
-      console.log("failed to create new task", error);
+    const res = await createNewTaskMutation(newTask);
+    if (res) {
+      toast({ title: "Task created" });
+    } else {
+      toast({ title: "Failed to create new task", variant: "destructive" });
     }
   };
 
@@ -165,29 +158,27 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         handleSubmission={createTask}
         crewList={employeeList}
       />
-      {isLoadingTask ? (
-        <TaskSkeleton />
-      ) : (
-        taskFilter === "assign-task" || (
-          <div className="w-full mt-4 flex flex-col gap-2">
-            {sortedTasks.length === 0 ? (
-              <p className="text-center text-gray-500">No tasks found</p>
-            ) : (
-              sortedTasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  completeTask={completeTask}
-                  deleteTask={deleteTask}
-                  editTask={editTask}
-                  crewList={employeeList}
-                  approveTaskCompletion={approveTaskCompletion}
-                  isLoading={isLoadingApprovedTask}
-                />
-              ))
-            )}
-          </div>
-        )
+      {isLoadingTask && <TaskSkeleton />}
+      {isErrorTask && <p className=" text-center text-red-600">Failed to get your tasks</p>}
+      {taskFilter === "assign-task" || (
+        <div className="w-full mt-4 flex flex-col gap-2">
+          {sortedTasks.length === 0 ? (
+            <p className="text-center text-gray-500">No tasks found</p>
+          ) : (
+            sortedTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                completeTask={completeTask}
+                deleteTask={deleteTask}
+                editTask={editTask}
+                crewList={employeeList}
+                approveTaskCompletion={approveTaskCompletion}
+                isLoading={isLoadingApprovedTask}
+              />
+            ))
+          )}
+        </div>
       )}
       {taskFilter === "assign-task" &&
         employeeTaskList?.map((task: any) => (

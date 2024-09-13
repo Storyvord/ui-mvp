@@ -308,22 +308,21 @@ export const crew_data = [
 export const defaultFormValues = {
   projectName: "",
   contentType: "",
-  budget: 5000,
+  budget: 500,
   description: "",
-  additionalDetails: "",
   locationDetails: [
     {
       location: "",
       start_date: "",
       end_date: "",
-      permits: false,
+      permits: true,
       mode_of_shooting: undefined,
     },
   ],
   uploadedDocument: "",
-  ai_suggestions: true,
-  crew: {},
-  equipment: {},
+  aiSuggestions: true,
+  crew: [],
+  equipment: [],
 };
 
 export const tempTaskList = [

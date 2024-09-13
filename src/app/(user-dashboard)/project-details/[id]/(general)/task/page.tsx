@@ -14,20 +14,20 @@ import {
 import { taskFormType, taskType } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import TaskSkeleton from "@/components/TaskSkeleton";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
 import { useToast } from "@/components/ui/use-toast";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
   const { data: tasksList, isLoading: isLoadingTask } = useGetTasks(params.id);
   const { mutateAsync: createNewTaskMutation } = useCreateNewTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteTask();
   const { mutateAsync: completeTaskMutation } = useCompleteTask();
-  const { mutateAsync: taskApprovalMutation, isLoading:isLoadingApprovedTask } = useTaskCompletionApproval();
-  const { data: crew_list } = useGetOnBoardedCrewList(params.id);
-  const crewList = crew_list?.map((crew: Crew) => ({
+  const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
+    useTaskCompletionApproval();
+  const { data: crew_list } = useGetCrewList(params.id);
+  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
     value: crew.id,
-    label: crew.profile.name,
+    label: crew.firstName,
   }));
 
   const [tasks, setTasks] = useState<taskType[]>([]);

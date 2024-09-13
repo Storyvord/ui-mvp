@@ -1,67 +1,36 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
+"use client";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import OngoingProjects from "@/components/dashboardHome/OngoingProjectCard";
-import { projects } from "@/constant/constant";
+import PastProjects from "@/components/dashboardHome/PastProjects";
+import { useGetProjects } from "@/lib/react-query/queriesAndMutations/project";
+import { Project } from "@/types/project";
+import { useEffect, useState } from "react";
 
-interface project {
-  id: number;
-  name: string;
-  start_date?: string;
-  end_date?: string;
-  budget?: string;
-  location?: string;
-  status: boolean;
-}
+const Dashboard = () => {
+  const { data: projects, isLoading, isError } = useGetProjects();
+  const [pastProjects, setPastProjects] = useState<Project[]>([]);
+  const [onGoingProjects, setOngoingProjects] = useState<Project[]>([]);
 
-type projectArray = project[];
+  useEffect(() => {
+    if (projects) {
+      // Filter past projects based on their status
+      const filteredPastProjects = projects.filter((project: Project) =>
+        ["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
+      );
 
-const page = async () => {
-  const PastProjects = projects
-    .filter((project) => project.status === true)
-    .map((project) => (
-      <TableRow key={project.name}>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-[800]">
-            {project.name}
-          </p>
-        </TableCell>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-light">
-            {project.start_date}
-          </p>
-        </TableCell>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed text-blue-gray-900 font-light">
-            {project.end_date}
-          </p>
-        </TableCell>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
-            {project.budget}
-          </p>
-        </TableCell>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed text-blue-gray-600 font-[600]">
-            {project.location}
-          </p>
-        </TableCell>
-        <TableCell>
-          <p className="block antialiased text-base leading-relaxed  text-green-500 font-[600]">
-            COMPLETED
-          </p>
-        </TableCell>
-      </TableRow>
-    ));
+      // Filter ongoing projects based on their status
+      const filteredOngoingProjects = projects.filter(
+        (project: Project) =>
+          !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
+      );
+
+      // Set state with filtered projects
+      setPastProjects(filteredPastProjects);
+      setOngoingProjects(filteredOngoingProjects);
+    }
+  }, [projects]);
+
   return (
     <div className="mt-12 lg:gap-16 gap-9 px-4">
       <div className="md:flex justify-between gap-4">
@@ -96,35 +65,12 @@ const page = async () => {
           <CardHeader>
             <CardTitle className="text-xl">Your Ongoing Projects</CardTitle>
           </CardHeader>
-          <>
-            <OngoingProjects />
-          </>
+          <OngoingProjects projects={onGoingProjects} isLoading={isLoading} isError={isError} />
         </Card>
       </div>
-      <Card className="relative mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 overflow-hidden shadow-sm border-blue-gray-100">
-        <div className="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 items-center flex justify-between p-6">
-          <h6 className="block antialiased tracking-normal text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
-            Previous Projects
-          </h6>
-        </div>
-        <CardContent className="overflow-x-auto px-0 pb-2">
-          <Table className="min-w-[640px] table-auto">
-            <TableHeader>
-              <TableRow>
-                <TableHead>PROJECT NAME</TableHead>
-                <TableHead>START DATE</TableHead>
-                <TableHead>END DATE</TableHead>
-                <TableHead>BUDGET</TableHead>
-                <TableHead>LOCATION</TableHead>
-                <TableHead>STATUS</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>{PastProjects}</TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <PastProjects projects={pastProjects} isLoading={isLoading} isError={isError} />
     </div>
   );
 };
 
-export default page;
+export default Dashboard;

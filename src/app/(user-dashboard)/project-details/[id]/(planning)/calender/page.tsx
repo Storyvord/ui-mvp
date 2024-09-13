@@ -13,8 +13,7 @@ import {
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 const localizer = momentLocalizer(moment);
 
@@ -37,10 +36,10 @@ const MyCalendarPage = () => {
     isLoading: deleteEventLoading,
     isError: deleteEventError,
   } = useDeleteEvent();
-  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
-  const crewList = crew_list?.map((crew: Crew) => ({
+  const { data: crew_list } = useGetCrewList(projectId);
+  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
     value: crew.id,
-    label: crew.profile.name,
+    label: crew.firstName,
   }));
 
   const [formDefaultValue, setFormDefaultValue] = useState({
@@ -81,7 +80,7 @@ const MyCalendarPage = () => {
     }));
     setTransformEvents(transformEvents);
   }, [events]);
-  console.log(transformEvents)
+  console.log(transformEvents);
 
   return (
     <div className="h-auto bg-white p-4">

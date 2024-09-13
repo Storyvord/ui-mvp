@@ -1,5 +1,4 @@
 "use client";
-import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateEducation,

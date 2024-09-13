@@ -10,7 +10,7 @@ export const convertToBase64 = (
 ): Promise<string | ArrayBuffer | null> => {
   return new Promise((resolve, reject) => {
     if (!file) {
-      return reject(new Error("No file provided"));
+      return null;
     }
 
     const reader = new FileReader();

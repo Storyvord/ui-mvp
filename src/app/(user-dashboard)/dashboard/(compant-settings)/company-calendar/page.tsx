@@ -12,7 +12,9 @@ import {
   useDeleteCompanyCalenderEvent,
   useGetCompanyCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/company/calender";
-import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import {
+  useGetSendInvitationsList,
+} from "@/lib/react-query/queriesAndMutations/company/employee";
 
 const localizer = momentLocalizer(moment);
 
@@ -34,14 +36,16 @@ const CompanyCalender = () => {
     isError: deleteEventError,
   } = useDeleteCompanyCalenderEvent();
 
-  const { data: employee_list } = useGetOnBoardedEmployeeList();
-  const employeeList = employee_list?.map((employee: { email: string; id: number }) => ({
-    value: employee.id,
-    label: employee.email,
-  }));
+  const { data: employee_list } = useGetSendInvitationsList();
+  const employeeList = employee_list?.accepted.map(
+    (employee: { firstName: string; id: number; employee_email: string }) => ({
+      value: employee.id,
+      label: employee.firstName || employee.employee_email,
+    })
+  );
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
-    console.log(formData)
+    console.log(formData);
     const transformData = {
       ...formData,
       participants: formData.participants,
@@ -119,6 +123,7 @@ const CompanyCalender = () => {
         deleteEvent={handleDeleteEvent}
         isLoading={deleteEventLoading}
         isError={deleteEventError}
+        crewList={employeeList}
       />
     </div>
   );

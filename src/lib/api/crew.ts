@@ -1,10 +1,7 @@
 import { USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
 
-export const sentInvitationToCrew = async (formData: {
-  project_id: string;
-  crew_email: string;
-}) => {
+export const sentInvitationToCrew = async (formData: any) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/referral/projects/add-crew/`, {
     method: "POST",
@@ -24,7 +21,7 @@ export const sentInvitationToCrew = async (formData: {
 
 export const getOnBoardedCrewList = async (projectId: string) => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/project/crew/${projectId}/`, {
+  const res = await fetch(`${USER_API}/api/referral/client/crew-invitations/${projectId}/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
