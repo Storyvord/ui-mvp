@@ -10,6 +10,7 @@ import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
 import { GiFilmProjector } from "react-icons/gi";
 import { HiHome, HiBanknotes } from "react-icons/hi2";
+import { MdOutlineMessage } from "react-icons/md";
 import { useSelectedLayoutSegment } from "next/navigation";
 
 const SideBar = () => {
@@ -56,6 +57,9 @@ const SideBar = () => {
         <ul className="mb-1 flex flex-col gap-1">
           <li>
             <SideBarButton Icon={HiHome} text="dashboard" link="home" root="dashboard" />
+            <li>
+            <SideBarButton Icon={MdOutlineMessage} text="message" link="message" root="dashboard" />
+          </li>
           </li>
           <li>
             <SideBarButton

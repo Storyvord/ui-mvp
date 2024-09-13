@@ -14,7 +14,7 @@ export const registerUser = async (data: {
     password: data.password,
     re_password: data.password,
   };
-  const res = await fetch(`${USER_API}/auth/users/`, {
+  const res = await fetch(`${USER_API}/api/accounts/old-register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
