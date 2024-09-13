@@ -51,7 +51,6 @@ const SignIn = () => {
         const userDetails = await getUserDetails(token);
 
         if (userDetails) {
-          localStorage.setItem("user-details", JSON.stringify(userDetails));
           if (userDetails.user_type === "client") {
             Cookies.set("isClient", "true");
             router.push("/dashboard/home");
@@ -59,6 +58,7 @@ const SignIn = () => {
             Cookies.set("isClient", "false");
             router.push("/crew/home");
           }
+          localStorage.setItem("user-details", JSON.stringify(userDetails));
         }
       }
     } catch (err) {

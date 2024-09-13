@@ -17,32 +17,13 @@ export type Project = {
   referral_code: string;
   status: "pending" | "rejected" | "accepted";
   created_at: string;
+  message: string;
 };
 const Projects = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [invitedProjects, setInvitedProject] = useState([]);
-  const [inProgressProjects, setInProgressProject] = useState([]);
-  const [rejectedProjects, setRejectedProjects] = useState([]);
   const { toast } = useToast();
 
   const { data: projects } = useGetInvitations();
-
-  useEffect(() => {
-    const invitedProjects = projects?.filter((project: Project) => {
-      return project.status === "pending";
-    });
-    setInvitedProject(invitedProjects);
-
-    const inProgressProjects = projects?.filter((project: Project) => {
-      return project.status === "accepted";
-    });
-    setInProgressProject(inProgressProjects);
-
-    const rejectedProjects = projects?.filter((project: Project) => {
-      return project.status === "rejected";
-    });
-    setRejectedProjects(rejectedProjects);
-  }, [projects]);
 
   const {
     mutateAsync: acceptInvitation,
@@ -77,12 +58,12 @@ const Projects = () => {
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
       <div className="p-4 mt-4 text-center font-mono">
         {activeTab === tabs[0] &&
-          inProgressProjects?.map((project: Project) => (
+          projects?.accepted.map((project: Project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         {activeTab === tabs[1] && "Completed"}
         {activeTab === tabs[2] &&
-          invitedProjects?.map((project: Project) => (
+          projects?.pending.map((project: Project) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -94,7 +75,7 @@ const Projects = () => {
           ))}
 
         {activeTab === tabs[3] &&
-          rejectedProjects?.map((project: Project) => (
+          projects?.rejected.map((project: Project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
       </div>
