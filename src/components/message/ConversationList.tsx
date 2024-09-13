@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Cookies from "js-cookie";
 
 type User = {
   id: number;
@@ -33,7 +32,6 @@ const ConversationList: React.FC<{
     }
     return { name: convo.user1.name || "Unnamed User", id: convo.user1.id };
   };
-  const isClient = Boolean(Cookies.get("isClient"));
   return (
     <div className="conversation-list p-4 overflow-y-auto flex flex-col gap-2">
       {filteredConversations.length > 0 ? (

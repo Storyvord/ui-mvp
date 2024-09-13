@@ -35,6 +35,7 @@ type Props = {
 const tabs = ["Accepted", "Pending", "Rejected"];
 
 const CrewList = ({ data, isLoading }: Props) => {
+  console.log(data)
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const handleRedirectToMessagePage = (id: number, name: string) => {

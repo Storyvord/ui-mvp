@@ -31,6 +31,7 @@ const Message: React.FC = () => {
   const senderId = JSON.parse(localStorage.getItem("user-details") || "{}").id;
 
   const { data: conversationsList } = useGetConversationsList();
+  console.log(conversationsList);
   const { data } = useGetMessages(receiverId);
   useEffect(() => {
     if (data) {
