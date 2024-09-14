@@ -1,4 +1,4 @@
-import { getOnBoardedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
+import { getCrewFullProfile, getOnBoardedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useSentInvitationToCrew = () => {
@@ -17,5 +17,12 @@ export const useGetCrewList = (projectId: string) => {
   return useQuery({
     queryKey: ["getOnBoardedCrewList", projectId],
     queryFn: () => getOnBoardedCrewList(projectId),
+  });
+};
+
+export const useGetCrewFullProfile = (crewId: number) => {
+  return useQuery({
+    queryKey: ["getCrewFullProfile", crewId],
+    queryFn: () => getCrewFullProfile(crewId),
   });
 };

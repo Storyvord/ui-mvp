@@ -32,3 +32,17 @@ export const getOnBoardedCrewList = async (projectId: string) => {
 
   return res.json();
 };
+
+export const getCrewFullProfile = async (crewId: number) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/crew/crew-list/${crewId}/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get crew profile");
+  }
+
+  return res.json();
+};

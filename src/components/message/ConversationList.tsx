@@ -43,7 +43,7 @@ const ConversationList: React.FC<{
               key={convo.id}
               className="my-1 p-1 hover:bg-gray-100 cursor-pointer border-b"
             >
-              {name.split(" ")[0]}
+              {name}
             </Link>
           );
         })

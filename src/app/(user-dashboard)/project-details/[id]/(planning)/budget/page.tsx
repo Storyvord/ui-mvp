@@ -1,11 +1,11 @@
-import React from 'react'
+"use client";
+import { useParams } from "next/navigation";
+import React from "react";
 
-const page = () => {
-  return (
-    <div>
-      Budget
-    </div>
-  )
-}
+const Budget = () => {
+  const { id: projectId } = useParams<{ id: string }>();
 
-export default page
+  return <div>Budget</div>;
+};
+
+export default Budget;
