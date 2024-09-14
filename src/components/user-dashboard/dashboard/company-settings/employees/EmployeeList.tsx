@@ -20,6 +20,7 @@ type ProfileData = {
   lastName: string;
   employee_email: string;
   status: string;
+  invited_user: { id: number };
 };
 type Profile = {
   accepted: ProfileData[];
@@ -35,8 +36,8 @@ const tabs = ["Accepted", "Pending", "Rejected"];
 const EmployeeList = ({ data, isLoading }: Props) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const handleRedirectToMessagePage = (id: number, name: string) => {
-    router.push(`/dashboard/message/?receiverId=${id}&name=${name}`);
+  const handleRedirectToMessagePage = (id: number, firstName: string, lastName: string) => {
+    router.push(`/dashboard/message/?receiverId=${id}&name=${firstName}%20${lastName}`);
   };
 
   // Function to get the current list based on active tab
@@ -86,7 +87,9 @@ const EmployeeList = ({ data, isLoading }: Props) => {
               </TableCell>
               <TableCell>
                 <BiMessageDetail
-                  onClick={() => handleRedirectToMessagePage(item.id, item.firstName)}
+                  onClick={() =>
+                    handleRedirectToMessagePage(item.invited_user.id, item.firstName, item.lastName)
+                  }
                   className="w-6 h-6 hover:text-gray-600 cursor-pointer"
                 />
               </TableCell>

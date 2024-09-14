@@ -52,11 +52,11 @@ const SignIn = () => {
 
         if (userDetails) {
           if (userDetails.user_type === "client") {
-            Cookies.set("isClient", "true");
             router.push("/dashboard/home");
+            Cookies.set("isClient", "true");
           } else if (userDetails.user_type === "crew") {
-            Cookies.set("isClient", "false");
             router.push("/crew/home");
+            Cookies.set("isClient", "false");
           }
           localStorage.setItem("user-details", JSON.stringify(userDetails));
         }

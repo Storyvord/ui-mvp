@@ -1,38 +1,46 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+
 import { MdOutlineModeEdit } from "react-icons/md";
 import BasicDetails from "../update-profile/BasicDetails";
 
 interface ProfileProps {
-  profile: {
-    image: string;
-    name: string;
-    phone: string;
-    location: string;
-    languages: string;
-    job_title: string;
-    bio: string;
-    experience: string;
-    skills: string;
-    standardRate: string;
-    technicalProficiencies: string;
-    specializations: string;
-    drive: boolean;
-    active: boolean;
-  };
+  profile:
+    | {
+        id?: number;
+        image: string;
+        name: string;
+        phone: string;
+        location: string;
+        languages: string;
+        job_title: string;
+        bio: string;
+        experience: string;
+        skills: string;
+        standardRate: string;
+        technicalProficiencies: string;
+        specializations: string;
+        drive: boolean;
+        active: boolean;
+        user?: number;
+      }
+    | undefined;
+  isClient?: boolean;
 }
 
-const Profile = ({ profile }: ProfileProps) => {
+const Profile = ({ profile, isClient }: ProfileProps) => {
   const [openDialog, setOpenDialog] = useState(false);
   return (
     <div className="bg-white p-6 shadow-md max-w-4xl mx-auto relative">
       <span className=" flex justify-between">
         <h2 className="text-xl font-semibold mb-4">Profile</h2>
-        <MdOutlineModeEdit
-          className=" w-6 h-6 cursor-pointer"
-          onClick={() => setOpenDialog(true)}
-        />
+        {!isClient && (
+          <MdOutlineModeEdit
+            className=" w-6 h-6 cursor-pointer"
+            onClick={() => setOpenDialog(true)}
+          />
+        )}
       </span>
       <hr />
       {profile?.image && (

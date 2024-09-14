@@ -13,6 +13,7 @@ import Tabs from "@/components/Tabs";
 import { BiMessageDetail } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const headers = ["Profile", "First Name", "Last Name", "Status", "Message"];
 type ProfileData = {
@@ -21,6 +22,7 @@ type ProfileData = {
   lastName: string;
   employee_email: string;
   status: string;
+  invited_user: { id: number };
 };
 type Profile = {
   accepted: ProfileData[];
@@ -35,7 +37,7 @@ type Props = {
 const tabs = ["Accepted", "Pending", "Rejected"];
 
 const CrewList = ({ data, isLoading }: Props) => {
-  console.log(data)
+  console.log(data);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const handleRedirectToMessagePage = (id: number, name: string) => {
@@ -74,7 +76,9 @@ const CrewList = ({ data, isLoading }: Props) => {
           {currentList?.map((item: ProfileData) => (
             <TableRow key={item.id} className="hover:bg-white">
               <TableCell>
-                <CgProfile className=" w-8 h-8 cursor-pointer hover:text-gray-700 text-gray-800"/>
+                <Link href={`/dashboard/crew-profile/?crewId=${item.invited_user.id}`}>
+                  <CgProfile className=" w-8 h-8 cursor-pointer hover:text-gray-700 text-gray-800" />
+                </Link>
               </TableCell>
               <TableCell>{item.firstName}</TableCell>
               <TableCell>{item.lastName}</TableCell>
@@ -90,7 +94,7 @@ const CrewList = ({ data, isLoading }: Props) => {
               </TableCell>
               <TableCell>
                 <BiMessageDetail
-                  onClick={() => handleRedirectToMessagePage(item.id, item.firstName)}
+                  onClick={() => handleRedirectToMessagePage(item.invited_user.id, item.firstName)}
                   className="w-6 h-6 hover:text-gray-600 cursor-pointer"
                 />
               </TableCell>

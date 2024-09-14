@@ -23,7 +23,7 @@ export const useUserSignIn = () => {
       Cookies.set("accessToken", data.access);
 
       queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
+        queryKey: ["getProjects"],
       });
       queryClient.invalidateQueries({
         queryKey: ["userDetails"],
