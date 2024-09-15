@@ -7,7 +7,6 @@ import Link from "next/link";
 const Navbar = () => {
   const { data: userDetails } = useGetUserDetails();
 
-
   return (
     <nav className="flex items-center justify-between gap-2 relative bg-[#04052e] p-4">
       <div className="flex items-center">
@@ -21,10 +20,7 @@ const Navbar = () => {
       </div>
 
       {userDetails ? (
-        <Link
-          href="/dashboard/home"
-          className="text-white text-md font-josefin font-[15px]"
-        >
+        <Link href="/dashboard/home" className="text-white text-md font-josefin font-[15px]">
           Dashboard
         </Link>
       ) : (
