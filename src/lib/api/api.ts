@@ -1,64 +1,10 @@
 import { ClientProfileUpdateFormType, projectFormInputType, taskFormType, taskType } from "@/types";
 import { API_URL, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
 
-export const registerUser = async (data: {
-  email: string;
-  userType: string;
-  password: string;
-  confirmPassword: string;
-}) => {
-  const signUpUserData = {
-    user_type: data.userType,
-    email: data.email,
-    password: data.password,
-    re_password: data.password,
-  };
-  const res = await fetch(`${USER_API}/auth/users/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(signUpUserData),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to register user");
-  }
-  return res.json();
-};
 
-export const userSignIn = async ({ email, password }: { email: string; password: string }) => {
-  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to login user");
-  }
-  return res.json();
-};
-
-export const userLogout = () => {
-  Cookies.remove("accessToken");
-  Cookies.remove("refreshToken");
-
-  return null;
-};
-
-export const getUserDetails = async (token: string) => {
-  const res = await fetch(`${USER_API}/auth/users/me/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch user details");
-  }
-  return await res.json();
-};
 
 export const getClientProfile = async (token: string) => {
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
@@ -72,7 +18,7 @@ export const getClientProfile = async (token: string) => {
   return res.json();
 };
 
-export const updateClientProfile = async (data: ClientProfileUpdateFormType) => {
+export const updateClientProfile = async (data: ProfileType) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     method: "PUT",
@@ -90,89 +36,7 @@ export const updateClientProfile = async (data: ClientProfileUpdateFormType) => 
 
 //-----------------------------projects-----------------------------------------------//
 
-export const createProject = async (formData: any) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/project/projects/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(formData),
-  });
 
-  if (!res.ok) {
-    throw new Error("Failed to create project");
-  }
-
-  return res.json();
-};
-
-export const getOngoingProjects = async () => {
-  const token = Cookies.get("accessToken");
-  try {
-    const res = await fetch(`${USER_API}/api/project/projects/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch project details");
-    }
-
-    return res.json();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getProjectDetails = async ({ project_id }: { project_id: string }) => {
-  try {
-    const token = Cookies.get("accessToken");
-    const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch project details");
-    }
-
-    return res.json();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const deleteProject = async ({ project_id }: { project_id: string }) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/project/projects/${project_id}/`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to delete project");
-  }
-};
-
-export const completeProject = async ({ project_id }: { project_id: string }) => {
-  const res = await fetch(
-    `${API_URL}/api/project/mark-project-as-completed/?project_id=${project_id}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ project_id }),
-    }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to mark project as completed");
-  }
-  return res.json();
-};
 
 //------------------------------tasks------------------------//
 
@@ -249,6 +113,22 @@ export const completeTask = async ({
   });
   if (!res.ok) {
     throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+};
+
+export const taskCompletionApproval = async (taskId: number) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/approve-completion/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // "Content-Type": "application/json",
+    },
+    // body: JSON.stringify(taskData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to approve task ");
   }
   return res.json();
 };

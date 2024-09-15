@@ -1,76 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
-  completeProject,
-  createProject,
-  deleteProject,
   fetchLocation,
   fetchProjectComplience,
   fetchProjectCulture,
-  getProjectDetails,
   fetchProjectLogistics,
   getSuggestedCrew,
-  getUserDetails,
-  registerUser,
-  userSignIn,
   getClientProfile,
   updateClientProfile,
-  getOngoingProjects,
   getTasks,
   createNewTask,
   deleteTask,
   completeTask,
+  taskCompletionApproval,
 } from "../api/api";
 import Cookies from "js-cookie";
-
-export const useRegisterUser = () => {
-  return useMutation({
-    mutationFn: registerUser,
-    onSuccess: (data) => {
-      console.log(data);
-      return data;
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-};
-
-export const useUserSignIn = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: userSignIn,
-    onSuccess: (data) => {
-      Cookies.set("accessToken", data.access);
-      Cookies.set("refreshToken", data.refresh);
-
-      queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["userDetails"],
-      });
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-};
-
-export const useGetUserDetails = () => {
-  return useQuery({
-    queryKey: ["userDetails"],
-    queryFn: async () => {
-      const token = Cookies.get("accessToken");
-      if (!token) {
-        throw new Error("No auth token found");
-      }
-      return await getUserDetails(token);
-    },
-    enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
-    cacheTime: 0, // Disable caching
-    staleTime: 0, // Data is always considered stale
-  });
-};
 
 export const useGetClientProfile = () => {
   return useQuery({
@@ -103,69 +46,6 @@ export const useUpdateClientProfile = () => {
   });
 };
 
-export const useCreateProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createProject,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
-      });
-      return data;
-    },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
-    },
-  });
-};
-
-export const useGetOngoingProjects = () => {
-  return useQuery({
-    queryKey: ["ongoingProjects"],
-    queryFn: getOngoingProjects,
-    refetchInterval: false,
-  });
-};
-
-export const useGetProjectDetails = (project_id: string) => {
-  return useQuery({
-    queryKey: ["projectDetails", project_id],
-    queryFn: ({ queryKey }) => {
-      const [_key, project_id] = queryKey;
-      return getProjectDetails({ project_id });
-    },
-    retry: false,
-  });
-};
-
-export const useDeleteProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteProject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
-      });
-    },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
-    },
-  });
-};
-
-export const useCompleteProject = (projectId: string) => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: completeProject,
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries(["projectDetails", projectId]);
-    },
-    onError: (error) => {
-      console.error("Error in completing project:", error);
-    },
-  });
-};
 
 //----------------------------tasks----------------------------
 
@@ -210,7 +90,6 @@ export const useDeleteTask = () => {
   });
 };
 
-
 export const useCompleteTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -225,30 +104,30 @@ export const useCompleteTask = () => {
       console.error(error);
     },
   });
-}
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
+export const useTaskCompletionApproval = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: taskCompletionApproval,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getTasks"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+};
 
 export const useLocationList = () => {
-  return useMutation(
-    (params: { search: string; page: number }) => fetchLocation(params),
-    {
-      onError: (error) => {
-        console.error("Error in fetching location:", error);
-      },
-    }
-  );
+  return useMutation((params: { search: string; page: number }) => fetchLocation(params), {
+    onError: (error) => {
+      console.error("Error in fetching location:", error);
+    },
+  });
 };
 
 export const useProjectLogistics = (project_id: string) => {

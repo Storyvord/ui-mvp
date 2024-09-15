@@ -1,11 +1,7 @@
 import { AnnouncementFormFieldConfig, projectArray } from "../types";
 import { projectDetailItem } from "../types";
 import { RiRobot2Line } from "react-icons/ri";
-import {
-  IoDocumentsSharp,
-  IoLocationOutline,
-  IoPeopleOutline,
-} from "react-icons/io5";
+import { IoDocumentsSharp, IoLocationOutline, IoPeopleOutline } from "react-icons/io5";
 import { FaTasks } from "react-icons/fa";
 import { GrAnnounce, GrResources, GrMoney } from "react-icons/gr";
 import { LuFileSpreadsheet, LuMonitorPlay } from "react-icons/lu";
@@ -15,6 +11,7 @@ import {
   MdCamera,
   MdGroups,
   MdGridView,
+  MdSubscriptions,
 } from "react-icons/md";
 import { PiCoatHanger } from "react-icons/pi";
 import { GiLipstick } from "react-icons/gi";
@@ -22,9 +19,19 @@ import { CiShoppingTag } from "react-icons/ci";
 import { GoLaw } from "react-icons/go";
 import { CgFilm } from "react-icons/cg";
 
+import { IoIosPeople, IoMdFolder, IoMdSettings, IoMdStopwatch } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
+import { ImAddressBook } from "react-icons/im";
+import { MdNaturePeople, MdLocationPin } from "react-icons/md";
+import { RxActivityLog } from "react-icons/rx";
+
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
-export const USER_API = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
-export const NEW_API_URL = "https://storyvord-back-end-d432tn3msq-uc.a.run.app";
+
+export const USER_API = "https://api-stage.storyvord.com";
+export const NEW_API_URL = "https://api-stage.storyvord.com";
+
+// export const USER_API = "http://0.0.0.0:8000";
+// export const NEW_API_URL = "http://0.0.0.0:8000";
 
 export const userTypes = [
   { value: "option1", label: "Option 1" },
@@ -230,7 +237,6 @@ export const projectdetailsItems: projectDetailItem[] = [
   },
 ];
 
-
 export const content_type = [
   {
     value: "Events",
@@ -302,22 +308,21 @@ export const crew_data = [
 export const defaultFormValues = {
   projectName: "",
   contentType: "",
-  budget: 5000,
+  budget: 500,
   description: "",
-  additionalDetails: "",
   locationDetails: [
     {
       location: "",
       start_date: "",
       end_date: "",
-      permits: false,
+      permits: true,
       mode_of_shooting: undefined,
     },
   ],
   uploadedDocument: "",
-  ai_suggestions: true,
-  crew: {},
-  equipment: {},
+  aiSuggestions: true,
+  crew: [],
+  equipment: [],
 };
 
 export const tempTaskList = [
@@ -446,4 +451,95 @@ export const destn = [
   },
 ];
 
-
+export const companySettingsMenuItems = [
+  {
+    title: "General",
+    items: [
+      {
+        link: "employees",
+        icon: IoIosPeople,
+        text: "Employees & Staff",
+      },
+      {
+        link: "address-book",
+        icon: ImAddressBook,
+        text: "Address Book",
+      },
+      {
+        link: "company-files",
+        icon: IoMdFolder,
+        text: "Company Files",
+      },
+      {
+        link: "company-tasks",
+        icon: FaTasks,
+        text: "Company Tasks",
+      },
+      {
+        link: "activity-logs",
+        icon: RxActivityLog,
+        text: "Activity Logs",
+      },
+    ],
+  },
+  {
+    title: "planning",
+    items: [
+      {
+        link: "company-calendar",
+        icon: SlCalender,
+        text: "Company Calendar",
+      },
+      {
+        link: "timesheets",
+        icon: IoMdStopwatch,
+        text: "Time Sheets",
+      },
+      {
+        link: "resource-planning",
+        icon: GrResources,
+        text: "Resource Planning",
+      },
+    ],
+  },
+  {
+    title: "database",
+    items: [
+      {
+        link: "actor-database",
+        icon: MdNaturePeople,
+        text: "Actor Database",
+      },
+      {
+        link: "location-database",
+        icon: MdLocationPin,
+        text: "Location Database",
+      },
+      {
+        link: "costume-database",
+        icon: PiCoatHanger,
+        text: "Costume Database",
+      },
+      {
+        link: "prop-database",
+        icon: CiShoppingTag,
+        text: "Prop Database",
+      },
+    ],
+  },
+  {
+    title: "administrative",
+    items: [
+      {
+        link: "settings",
+        icon: IoMdSettings,
+        text: "Settings",
+      },
+      {
+        link: "subscriptions",
+        icon: MdSubscriptions,
+        text: "Subscriptions",
+      },
+    ],
+  },
+];

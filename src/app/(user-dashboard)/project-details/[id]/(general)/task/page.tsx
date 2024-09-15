@@ -9,20 +9,31 @@ import {
   useCreateNewTask,
   useDeleteTask,
   useGetTasks,
-  useGetUserDetails,
+  useTaskCompletionApproval,
 } from "@/lib/react-query/queriesAndMutations";
 import { taskFormType, taskType } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
-import TaskSkeleton from "./TaskSkeleton";
+import TaskSkeleton from "@/components/TaskSkeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
   const { data: tasksList, isLoading: isLoadingTask } = useGetTasks(params.id);
   const { mutateAsync: createNewTaskMutation } = useCreateNewTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteTask();
   const { mutateAsync: completeTaskMutation } = useCompleteTask();
-  const {data: userDetails} = useGetUserDetails()
+  const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
+    useTaskCompletionApproval();
+  const { data: crew_list } = useGetCrewList(params.id);
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [tasks, setTasks] = useState<taskType[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (tasksList) setTasks([...tasksList]);
@@ -30,7 +41,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
 
   const completeTask = (task: taskType) => {
     const updatedTasks = { ...task, completed: !task.completed };
-
+    console.log(updatedTasks);
     completeTaskMutation({ taskId: task.id, taskData: updatedTasks });
   };
 
@@ -50,9 +61,8 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       completed: false,
       completion_requested: false,
       project: params.id,
-      assigned_to: 2,
-      requester: 2,
-      created_by: userDetails?.id,
+      assigned_to: task.assigned_to,
+      requester: null,
     };
 
     try {
@@ -63,19 +73,26 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   };
 
   const editTask = (id: number, task: taskType) => {
-    console.log(task);
     const updatedTasks = {
       ...task,
       title: task.title,
       desc: task.description,
       deadline: task.due_date,
+      assigned_to: task.assigned_to,
     };
     completeTaskMutation({ taskId: id, taskData: updatedTasks });
   };
 
-  const [sortBy, setSortBy] = useState<
-    "id" | "due_date" | "title" | "completed"
-  >("id");
+  const approveTaskCompletion = async (taskId: number) => {
+    const res = await taskApprovalMutation(taskId);
+    if (res) {
+      toast({ title: "Success fully approved task" });
+    } else {
+      toast({ title: "Failed approved task", variant: "destructive" });
+    }
+  };
+
+  const [sortBy, setSortBy] = useState<"id" | "due_date" | "title" | "completed">("id");
   const [taskFilter, setTaskFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
 
@@ -87,6 +104,8 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       filteredTasks = [...filteredTasks].filter((task) => !task.completed);
     } else if (taskFilter === "completed") {
       filteredTasks = [...filteredTasks].filter((task) => task.completed);
+    } else if (taskFilter === "requested-approval") {
+      filteredTasks = [...filteredTasks].filter((task) => task.completion_requested);
     }
     const sortedTasks = [...filteredTasks].sort((a, b) => {
       if (sortBy === "id") {
@@ -117,14 +136,13 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         formOpen={formOpen}
         setFormOpen={setFormOpen}
         sortBy={sortBy}
-        handleSort={(value: "id" | "due_date" | "title" | "completed") =>
-          setSortBy(value)
-        }
+        handleSort={(value: "id" | "due_date" | "title" | "completed") => setSortBy(value)}
       />
       <CreateTask
         setFormOpen={setFormOpen}
         formOpen={formOpen}
         handleSubmission={createTask}
+        crewList={crewList}
       />
       {isLoadingTask ? (
         <TaskSkeleton />
@@ -140,6 +158,9 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
                 completeTask={completeTask}
                 deleteTask={deleteTask}
                 editTask={editTask}
+                crewList={crewList}
+                approveTaskCompletion={approveTaskCompletion}
+                isLoading={isLoadingApprovedTask}
               />
             ))
           )}

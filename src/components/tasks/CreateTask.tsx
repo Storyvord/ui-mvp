@@ -1,31 +1,43 @@
-import { taskFormType, taskType } from "@/types";
+import { FormFieldConfig, taskFormType, taskType } from "@/types";
 import { FC } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema } from "@/lib/validation";
+import CustomForm from "../CustomForm";
 
+const formFields: FormFieldConfig<taskFormType>[] = [
+  {
+    name: "title",
+    label: "Task Title",
+    type: "text",
+    placeholder: "Enter task title",
+  },
+  {
+    name: "description",
+    label: "Task Description",
+    type: "textarea",
+    placeholder: "Enter task description",
+  },
+  {
+    name: "due_date",
+    label: "Task Deadline",
+    type: "date",
+  },
+  {
+    name: "assigned_to",
+    label: "Assign To",
+    type: "select",
+    options: [{ value: "", label: "" }],
+  },
+];
 interface CreateTaskProps {
   taskEditing?: taskType;
   formOpen: boolean;
   handleSubmission: (newTask: taskFormType) => void;
   setFormOpen: (value: boolean) => void;
+  crewList: { value: string; label: string }[];
 }
 
 const CreateTask: FC<CreateTaskProps> = ({
@@ -33,17 +45,21 @@ const CreateTask: FC<CreateTaskProps> = ({
   formOpen,
   handleSubmission,
   setFormOpen,
+  crewList,
 }) => {
-  const defaultData = taskEditing
+  formFields[3].options = crewList;
+  const defaultData: taskFormType = taskEditing
     ? {
         title: taskEditing.title,
         description: taskEditing.description,
         due_date: taskEditing.due_date,
+        assigned_to: taskEditing.assigned_to,
       }
     : {
         title: "",
         description: "",
-        due_date: "2024-06-01",
+        due_date: "",
+        assigned_to: 0,
       };
 
   const form = useForm<taskFormType>({
@@ -58,6 +74,7 @@ const CreateTask: FC<CreateTaskProps> = ({
         title: formData.title,
         description: formData.description,
         due_date: formData.due_date,
+        assigned_to: formData.assigned_to,
       };
       handleSubmission(taskData);
       setFormOpen(!formOpen);
@@ -76,71 +93,13 @@ const CreateTask: FC<CreateTaskProps> = ({
         <DialogHeader>
           <DialogTitle>{taskEditing ? "Edit Task" : "Create Task"}</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-5 justify-center flex flex-col"
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans font-bold text-gray-600">
-                    Task Title
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter task title"
-                      {...field}
-                      className="focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans font-bold text-gray-600">
-                    Task Description
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter task description"
-                      {...field}
-                      className="resize-none focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="due_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans font-bold text-gray-600">
-                    Task Deadline
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      {...field}
-                      className="block focus-visible:ring-0 focus-visible:ring-offset-0  focus:shadow-[rgb(38,132,255)_0_0_0_1px] focus:border-[rgb(38,132,255)]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
+        <CustomForm
+          form={form}
+          formFields={formFields}
+          onSubmit={onSubmit}
+          isLoading={false}
+          isError={false}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { projectdetailsItems } from "@/constant/constant";
+import { companySettingsMenuItems, projectdetailsItems } from "@/constant/constant";
 import { useProjectControl } from "@/context/ProjectContext";
 import { useSideBarControl } from "@/context/SideBarContext";
 import Image from "next/image";
@@ -10,9 +10,13 @@ import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
 import { GiFilmProjector } from "react-icons/gi";
 import { HiHome, HiBanknotes } from "react-icons/hi2";
+import { MdOutlineMessage } from "react-icons/md";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 const SideBar = () => {
   const { isSideBarOpen } = useSideBarControl();
+  const segment = useSelectedLayoutSegment();
+  console.log(segment);
 
   const ProjectDetailsMenu = projectdetailsItems.map((details) => (
     <div key={details.title} className="flex flex-col gap-1">
@@ -53,6 +57,14 @@ const SideBar = () => {
         <ul className="mb-1 flex flex-col gap-1">
           <li>
             <SideBarButton Icon={HiHome} text="dashboard" link="home" root="dashboard" />
+            <span>
+              <SideBarButton
+                Icon={MdOutlineMessage}
+                text="message"
+                link="message"
+                root="dashboard"
+              />
+            </span>
           </li>
           <li>
             <SideBarButton
@@ -62,6 +74,22 @@ const SideBar = () => {
               root="dashboard"
             />
           </li>
+          {segment === "dashboard" &&
+            companySettingsMenuItems.map((details) => (
+              <div key={details.title} className="flex flex-col gap-1">
+                <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">{details.title}</h1>
+                {details.items.map((item) => (
+                  <li key={item.text} className="list-none">
+                    <SideBarButton
+                      Icon={item.icon}
+                      link={item.link}
+                      root="dashboard"
+                      text={item.text}
+                    />
+                  </li>
+                ))}
+              </div>
+            ))}
         </ul>
         <ProjectButtonGroup>
           <SideBarButton

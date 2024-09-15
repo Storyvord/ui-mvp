@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { forwardRef } from 'react';
 import Logo from './logo1.jpeg';
+import { useGetCallSheet } from '@/lib/react-query/queriesAndMutations/callsheet';
 
 interface CallSheetTemplateProps {
     formData: any;
@@ -8,6 +9,13 @@ interface CallSheetTemplateProps {
 
 const CallSheetTemplate = forwardRef<HTMLDivElement, CallSheetTemplateProps>(({ formData }, ref) => {
     const { street, city, country, website, contact, producerName, producerContact, directorName, directorContact, productionManagerName, productionManagerContact, breakfast, lunch, sunrise, sunset, weather, nearestHospital, nearestPoliceStation, nearestFireStation, additionalDetails, title, callTime } = formData;
+    
+    
+     if (formData) {
+    console.log("Data fetched successfully:", formData);
+  } else {
+    console.log("Data is undefined.");
+  }
 
     // Generate the Google Maps Embed URL
     const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAnmHDoxexwRcNy63vKd-my62JA6Xy4L7M&q=${encodeURIComponent(street)},${encodeURIComponent(city)},${encodeURIComponent(country)}`;

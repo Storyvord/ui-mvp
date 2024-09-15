@@ -1,0 +1,111 @@
+"use client";
+import React, { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useCreateEndorsement,
+  useGetEndorsement,
+  useUpdateEndorsement,
+} from "@/lib/react-query/queriesAndMutations/crew/profile";
+import { endorsementFormValidationSchema } from "@/lib/validation/crew";
+import { EndorsementFormType, FormFieldConfig } from "@/types/crew";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import CustomForm from "@/components/CustomForm";
+
+const endorsementFormFields: FormFieldConfig<EndorsementFormType>[] = [
+  {
+    name: "text",
+    label: "Text",
+    type: "text",
+    placeholder: "Enter text",
+  },
+  {
+    name: "givenBy",
+    label: "Given By",
+    type: "text",
+    placeholder: "Enter name of the person who gave the endorsement",
+  },
+];
+
+const endorsementDefaultValue: EndorsementFormType = {
+  text: "",
+  givenBy: "",
+};
+
+type Props = {
+  setOpenDialog: (openDialog: boolean) => void;
+  openDialog: boolean;
+  fieldId?: number;
+};
+
+const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { toast } = useToast();
+
+  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
+  const { mutateAsync, isLoading, isError } = useCreateEndorsement();
+  const { mutateAsync: updateEndorsement } = useUpdateEndorsement();
+  const { data: endorsementData } = useGetEndorsement();
+
+  const editableData = endorsementData?.find((item: EndorsementFormType) => item.id === fieldId);
+
+  const form = useForm({
+    resolver: zodResolver(endorsementFormValidationSchema),
+    defaultValues: endorsementDefaultValue,
+  });
+
+  useEffect(() => {
+    if (editableData) {
+      form.reset({
+        text: editableData.text,
+        givenBy: editableData.givenBy,
+      });
+    } else {
+      form.reset(endorsementDefaultValue);
+    }
+  }, [editableData, form, fieldId]);
+
+  const onSubmit = async (data: EndorsementFormType) => {
+    if (editableData && fieldId) {
+      const res = await updateEndorsement({ endorsementData: data, id: fieldId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your endorsement details successfully updated",
+        });
+      }
+      setOpenDialog(false);
+    } else {
+      const res = await mutateAsync({ ...data, crew: crewProfileId });
+      if (res) {
+        form.reset();
+        toast({
+          title: "Your endorsement successfully submitted",
+        });
+      }
+
+      setOpenDialog(false);
+    }
+  };
+
+  return (
+    <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Endorsement Details</DialogTitle>
+        </DialogHeader>
+        <div className="max-h-[80vh] overflow-y-auto px-2">
+          <CustomForm
+            form={form}
+            formFields={endorsementFormFields}
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default EndorsementsForm;

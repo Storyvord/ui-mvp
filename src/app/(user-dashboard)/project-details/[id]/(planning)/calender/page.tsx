@@ -1,47 +1,59 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useGetAllCalenderEvents } from "@/lib/react-query/queriesAndMutations/calender";
+import {
+  useCreateCalenderEvents,
+  useDeleteEvent,
+  useGetAllCalenderEvents,
+} from "@/lib/react-query/queriesAndMutations/calender";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
-import { CalenderEventType } from "@/types";
+import { CalenderEventType, CalenderFormFieldType } from "@/types";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 const localizer = momentLocalizer(moment);
 
 const MyCalendarPage = () => {
-  const { id }: { id: string } = useParams();
-  const { data:events } = useGetAllCalenderEvents(id);
+  const { id: projectId }: { id: string } = useParams();
 
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
+  const [transformEvents, setTransformEvents] = useState();
 
-  const [transFormEvents, setTransFormEvents] = useState();
-
-  useEffect(() => {
-    setTransFormEvents(
-      events?.map((event: CalenderEventType) => ({
-        ...event,
-        start: moment(event.start).toDate(),
-        end: moment(events.end).toDate(),
-      }))
-    );
-  }, [events]);
+  const { data: events } = useGetAllCalenderEvents(projectId);
+  const {
+    mutateAsync: createCalenderEvent,
+    isLoading: createEventLoading,
+    isError: createEventError,
+  } = useCreateCalenderEvents();
+  const {
+    mutateAsync: deleteEvent,
+    isLoading: deleteEventLoading,
+    isError: deleteEventError,
+  } = useDeleteEvent();
+  const { data: crew_list } = useGetCrewList(projectId);
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
     end: "",
     title: "",
+    participants: [],
     description: "",
     location: "",
   });
 
-  const handleSelectSlot = ({start}: any) => {
-   
+  const handleSelectSlot = ({ start }: any) => {
     setOpenFormDialog(true);
   };
 
@@ -49,6 +61,27 @@ const MyCalendarPage = () => {
     setEventToDisplay(event);
     setOpenEventDialog(true);
   };
+
+  const handleCreateEvent = async (formData: CalenderFormFieldType) => {
+    const res = await createCalenderEvent({ eventData: formData, projectId });
+    if (res) setOpenFormDialog(false);
+  };
+
+  const handleDeleteEvent = async (eventId: number) => {
+    await deleteEvent({ projectId, eventId });
+    if (!deleteEventError) {
+      setOpenFormDialog(false);
+    }
+  };
+
+  useEffect(() => {
+    const transformEvents = events?.map((event: any) => ({
+      ...event,
+      start: moment(event.start).toDate(),
+      end: moment(event.end).toDate(),
+    }));
+    setTransformEvents(transformEvents);
+  }, [events]);
 
   return (
     <div className="h-auto bg-white p-4">
@@ -61,9 +94,11 @@ const MyCalendarPage = () => {
       <div className="h-[90vh]">
         <Calendar
           localizer={localizer}
-          events={transFormEvents}
+          events={transformEvents}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
+          startAccessor="start"
+          endAccessor="end"
           selectable
         />
       </div>
@@ -71,11 +106,19 @@ const MyCalendarPage = () => {
         openDialog={openFormDialog}
         setOpenDialog={setOpenFormDialog}
         formDefaultValue={formDefaultValue}
+        createCalenderEvent={handleCreateEvent}
+        isLoading={createEventLoading}
+        isError={createEventError}
+        crewList={crewList}
       />
       <EventDialog
         event={eventToDisplay}
         openDialog={openEventDialog}
         setOpenDialog={setOpenEventDialog}
+        deleteEvent={handleDeleteEvent}
+        isLoading={deleteEventLoading}
+        isError={deleteEventError}
+        crewList={crewList}
       />
     </div>
   );

@@ -1,13 +1,11 @@
 "use client";
 
-import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations";
+import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
   const { data: userDetails } = useGetUserDetails();
-
-  console.log(userDetails);
 
   return (
     <nav className="flex items-center justify-between gap-2 relative bg-[#04052e] p-4">
@@ -22,10 +20,7 @@ const Navbar = () => {
       </div>
 
       {userDetails ? (
-        <Link
-          href="/dashboard/home"
-          className="text-white text-md font-josefin font-[15px]"
-        >
+        <Link href="/dashboard/home" className="text-white text-md font-josefin font-[15px]">
           Dashboard
         </Link>
       ) : (
