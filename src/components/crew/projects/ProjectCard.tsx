@@ -23,7 +23,6 @@ const ProjectCard = ({
   handleReject,
   isRejectLoading,
 }: Props) => {
-  console.log(project);
   return (
     <div>
       <div

@@ -57,9 +57,14 @@ const SideBar = () => {
         <ul className="mb-1 flex flex-col gap-1">
           <li>
             <SideBarButton Icon={HiHome} text="dashboard" link="home" root="dashboard" />
-            <li>
-            <SideBarButton Icon={MdOutlineMessage} text="message" link="message" root="dashboard" />
-          </li>
+            <span>
+              <SideBarButton
+                Icon={MdOutlineMessage}
+                text="message"
+                link="message"
+                root="dashboard"
+              />
+            </span>
           </li>
           <li>
             <SideBarButton

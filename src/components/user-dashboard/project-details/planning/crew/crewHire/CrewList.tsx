@@ -76,7 +76,7 @@ const CrewList = ({ data, isLoading }: Props) => {
           {currentList?.map((item: ProfileData) => (
             <TableRow key={item.id} className="hover:bg-white">
               <TableCell>
-                <Link href={`/dashboard/crew-profile/?crewId=${item.invited_user.id}`}>
+                <Link href={`/dashboard/crew-profile/?crewId=${item?.invited_user?.id}`}>
                   <CgProfile className=" w-8 h-8 cursor-pointer hover:text-gray-700 text-gray-800" />
                 </Link>
               </TableCell>
@@ -94,7 +94,7 @@ const CrewList = ({ data, isLoading }: Props) => {
               </TableCell>
               <TableCell>
                 <BiMessageDetail
-                  onClick={() => handleRedirectToMessagePage(item.invited_user.id, item.firstName)}
+                  onClick={() => handleRedirectToMessagePage(item?.invited_user?.id, item.firstName)}
                   className="w-6 h-6 hover:text-gray-600 cursor-pointer"
                 />
               </TableCell>

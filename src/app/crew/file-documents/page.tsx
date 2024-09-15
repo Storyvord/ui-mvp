@@ -6,18 +6,16 @@ import React from "react";
 import { Project } from "../projects/page";
 
 const FileDocument = () => {
-  const { data } = useGetInvitations();
-  const listOfProjects = data?.filter((item: Project) => item.status === "accepted");
+  const { data: listOfProjects } = useGetInvitations();
   const router = useRouter();
-  console.log(listOfProjects);
   return (
     <div>
       <h1 className=" text-center font-semibold text-xl text-gray-700">FileDocument</h1>
-      {listOfProjects?.length === 0 && (
+      {listOfProjects?.accepted.length === 0 && (
         <p className=" text-center text-gray-600 mt-4">You are not on boarder in any project</p>
       )}
       <section className=" mt-4">
-        {listOfProjects?.map((item: Project) => (
+        {listOfProjects?.accepted.map((item: Project) => (
           <Card
             onClick={() => router.push(`/crew/file-documents/${item.project}`)}
             key={item.id}

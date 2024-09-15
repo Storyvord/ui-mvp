@@ -19,7 +19,7 @@ export const sentInvitationToCrew = async (formData: any) => {
   return res.json();
 };
 
-export const getOnBoardedCrewList = async (projectId: string) => {
+export const getInvitedCrewList = async (projectId: string) => {
   const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/referral/client/crew-invitations/${projectId}/`, {
     headers: {

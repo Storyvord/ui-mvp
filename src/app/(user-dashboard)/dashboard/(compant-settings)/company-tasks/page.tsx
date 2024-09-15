@@ -46,7 +46,6 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
 
   const completeTask = (task: taskType) => {
     const updatedTasks = { ...task, completed: !task.completed };
-    console.log(updatedTasks);
     updateTaskMutation({ taskId: task.id, taskData: updatedTasks });
   };
 

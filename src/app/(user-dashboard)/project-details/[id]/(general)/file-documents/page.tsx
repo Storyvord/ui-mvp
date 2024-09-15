@@ -32,10 +32,12 @@ const FileSection: FC = () => {
     isError: isErrorCreateRoom,
   } = useCreateFileDocumentRoom();
   const { data: crew_list } = useGetCrewList(projectId);
-  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
-    value: crew.id,
-    label: crew.firstName,
-  }));
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const handleCardClick = (roomId: string) => {
     router.push(`/project-details/${projectId}/file-documents/${roomId}`);

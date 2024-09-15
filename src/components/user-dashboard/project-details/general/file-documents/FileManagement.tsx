@@ -67,8 +67,7 @@ const FileManagement = () => {
   const { mutateAsync: giveAccessRights, isLoading: isLoadingAccessRights } =
     useUpdateRoomAccessRights();
   const handleSubmitAccessRightsForm = async (data: OptionType[]) => {
-    console.log(data);
-    const user = data.map((item) => item.value);
+    const user = data.map((item) => item.label);
     const transFormData = { add_users: user };
     const res = await giveAccessRights({ roomId, data: transFormData });
     if (res) {

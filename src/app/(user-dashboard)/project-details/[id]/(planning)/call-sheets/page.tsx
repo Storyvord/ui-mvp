@@ -30,7 +30,6 @@ const Page: FC = () => {
   const { mutateAsync: editCallSheet } = useEditCallSheet();
   const { mutateAsync: deleteCallSheet } = useDeleteCallSheet();
 
-  console.log(id);
 
   if (callsheetDetails) {
     console.log("Data fetched successfully:", callsheetDetails);

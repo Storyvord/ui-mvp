@@ -25,10 +25,12 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
     useTaskCompletionApproval();
   const { data: crew_list } = useGetCrewList(params.id);
-  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
-    value: crew.id,
-    label: crew.firstName,
-  }));
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();

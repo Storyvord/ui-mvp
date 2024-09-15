@@ -9,7 +9,6 @@ import { z } from "zod";
 
 export type ExternalContactFormData = z.infer<typeof ExternalContactFormSchema>;
 
-
 type Props = {
   openDialogExternalContact: boolean;
   setOpenDialogExternalContact: (value: boolean) => void;
@@ -23,12 +22,10 @@ const ExternalContactDialog = ({
   const projectId = params.id;
 
   const form = useForm({
-    resolver: zodResolver(ExternalContactFormSchema)
+    resolver: zodResolver(ExternalContactFormSchema),
   });
 
-  const onSubmit = (data:ExternalContactFormData) => {
-    console.log(data);
-  };
+  const onSubmit = (data: ExternalContactFormData) => {};
 
   return (
     <Dialog

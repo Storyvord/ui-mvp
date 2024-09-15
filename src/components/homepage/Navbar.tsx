@@ -7,7 +7,6 @@ import Link from "next/link";
 const Navbar = () => {
   const { data: userDetails } = useGetUserDetails();
 
-  console.log(userDetails);
 
   return (
     <nav className="flex items-center justify-between gap-2 relative bg-[#04052e] p-4">

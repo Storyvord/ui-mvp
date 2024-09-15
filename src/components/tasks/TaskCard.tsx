@@ -51,7 +51,9 @@ const TaskCard: FC<TaskCardProps> = ({
                 <Checkbox checked={task.completed} onClick={() => completeTask(task)} />
                 <span className=" flex sm:gap-4 flex-col sm:flex-row">
                   <h1 className="font-sans text-gray-700 font-bold">{task.title}</h1>
-                  <h3 className=" text-sm text-gray-600">Assign to: {assignedCrew?.label}</h3>
+                  {assignedCrew?.label && (
+                    <h3 className=" text-sm text-gray-600">Assign to: {assignedCrew?.label}</h3>
+                  )}
                 </span>
               </div>
               <div className="flex gap-2 items-center">
