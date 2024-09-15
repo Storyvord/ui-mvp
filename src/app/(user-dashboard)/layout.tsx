@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, Suspense } from "react";
 import SideBar from "@/components/sidebar/SideBar";
 import NavBar from "@/components/navbar/NavBar";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 
 import SideBarContextProvider from "@/context/SideBarContext";
 import UserContextProvider from "@/context/UserContext";
 import ProjectContextProvider from "@/context/ProjectContext";
+import Loading from "./loading";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,9 +21,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
             <SideBar />
             <div className="lg:ml-72 font-sans">
               <NavBar />
-              {children}
+              <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
-              <Toaster />
+            <Toaster />
           </ProjectContextProvider>
         </SideBarContextProvider>
       </div>
