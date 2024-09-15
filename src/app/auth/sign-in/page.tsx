@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -37,15 +37,13 @@ const formFields: FormFieldConfig<FormSchemaType>[] = [
 ];
 
 const SignIn = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signinFormSchema),
   });
-  const { mutateAsync: loginUser, error, isError } = useUserSignIn();
+  const { mutateAsync: loginUser, error, isError, isLoading } = useUserSignIn();
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
-    setIsLoading(true);
     try {
       const res = await loginUser(data);
       if (res) {
@@ -54,22 +52,18 @@ const SignIn = () => {
 
         if (userDetails) {
           if (userDetails.user_type === "client") {
-            Cookies.set("isClient", "true");
-            setIsLoading(false);
             router.push("/dashboard/home");
+            Cookies.set("isClient", "true");
           } else if (userDetails.user_type === "crew") {
-            Cookies.set("isClient", "false");
-            setIsLoading(false);
             router.push("/crew/home");
+            Cookies.set("isClient", "false");
           }
           localStorage.setItem("user-details", JSON.stringify(userDetails));
         }
-        setIsLoading(false);
       }
     } catch (err) {
       Cookies.remove("accessToken");
       Cookies.remove("refreshToken");
-      setIsLoading(false);
     }
   };
 

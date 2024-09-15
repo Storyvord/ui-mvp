@@ -29,13 +29,12 @@ export const getProjects = async () => {
       },
     });
     if (!res.ok) {
-      throw res;
+      throw new Error("Failed to fetch project details");
     }
 
     return res.json();
   } catch (err) {
-    console.log("API error from :: projects ::", err);
-    throw err;
+    console.log(err);
   }
 };
 
@@ -106,7 +105,7 @@ export const editProjectStatus = async ({
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({status}),
   });
   if (!res.ok) {
     throw new Error("Failed to edit project as completed");
