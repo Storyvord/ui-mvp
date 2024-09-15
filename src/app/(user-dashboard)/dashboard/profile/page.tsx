@@ -7,7 +7,6 @@ import { useGetClientProfile } from "@/lib/react-query/queriesAndMutations";
 
 const Page: React.FC = () => {
   const { data: clientDetails } = useGetClientProfile();
-  console.log(clientDetails);
 
   return (
     <div className="relative px-4 mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mb-6 lg:mx-4 border border-blue-gray-100">

@@ -1,7 +1,10 @@
 "use client";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import ConversationList from "./ConversationList";
 import MessageInput from "./MessageInput";
+import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
+import { cn } from "@/lib/utils";
+
 type User = {
   id: number;
   email: string;
@@ -41,14 +44,29 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   sendMessage,
 }) => {
   const senderId = JSON.parse(localStorage.getItem("user-details") || "").id;
+  const [isConversationListVisible, setIsConversationListVisible] = useState(true);
   return (
-    <main className=" flex p-8 gap-2">
-      <section className="flex-[0.2] border rounded p-2 bg-white">
-        <h1 className="w-full text-center border-b pb-2 font-semibold">Conversations</h1>
+    <main className=" flex sm:p-8 gap-2">
+      <section
+        className={cn(
+          "flex-[0.2] border rounded p-2 bg-white relative",
+          isConversationListVisible && "block",
+          !isConversationListVisible && "hidden"
+        )}
+      >
+        <RxCross2
+          onClick={() => setIsConversationListVisible((prev) => !prev)}
+          className=" w-6 h-6 sm:hidden block absolute cursor-pointer"
+        />
+        <h1 className="w-full text-center border-b pb-2 font-semibold">Chats</h1>
         <ConversationList conversations={conversationsList} senderId={senderId} />
       </section>
-      <section className=" flex-1 border rounded p-2 bg-white">
-        <h1 className="w-full border-b pb-2 font-semibold">{receiverName}</h1>
+      <section className=" flex-1 border rounded p-2 bg-white relative">
+        <RxHamburgerMenu
+          onClick={() => setIsConversationListVisible((prev) => !prev)}
+          className=" w-6 h-6 sm:hidden block absolute cursor-pointer"
+        />
+        <h1 className="w-full border-b pb-2 pl-8 sm:pl-2 font-semibold">{receiverName}</h1>
         <main className=" h-96 overflow-auto p-4 ">
           {messages?.map((message, index) => (
             <div

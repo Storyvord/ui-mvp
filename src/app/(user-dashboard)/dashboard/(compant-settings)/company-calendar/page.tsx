@@ -45,7 +45,6 @@ const CompanyCalender = () => {
   );
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
-    console.log(formData);
     const transformData = {
       ...formData,
       participants: formData.participants,

@@ -58,7 +58,7 @@ const CreateTask: FC<CreateTaskProps> = ({
     : {
         title: "",
         description: "",
-        due_date: "2024-06-01",
+        due_date: "",
         assigned_to: 0,
       };
 

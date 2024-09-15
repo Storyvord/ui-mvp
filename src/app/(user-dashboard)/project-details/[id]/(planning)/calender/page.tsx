@@ -37,10 +37,12 @@ const MyCalendarPage = () => {
     isError: deleteEventError,
   } = useDeleteEvent();
   const { data: crew_list } = useGetCrewList(projectId);
-  const crewList = crew_list?.accepted.map((crew: { id: number; firstName: string }) => ({
-    value: crew.id,
-    label: crew.firstName,
-  }));
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
@@ -80,7 +82,6 @@ const MyCalendarPage = () => {
     }));
     setTransformEvents(transformEvents);
   }, [events]);
-  console.log(transformEvents);
 
   return (
     <div className="h-auto bg-white p-4">

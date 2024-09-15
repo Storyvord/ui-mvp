@@ -59,7 +59,6 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
     defaultValues,
   });
 
-  console.log(fieldId);
 
   // Reset form values when editableData changes
   useEffect(() => {

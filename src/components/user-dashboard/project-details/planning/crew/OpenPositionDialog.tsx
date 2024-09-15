@@ -19,12 +19,10 @@ const OpenPositionDialog: React.FC<Props> = ({ openDialog, setOpenDialog }) => {
   const projectId = params.id;
 
   const form = useForm({
-    resolver: zodResolver(openPositionFormSchema)
+    resolver: zodResolver(openPositionFormSchema),
   });
 
-  const onSubmit = (data:OpenPositionFormData) => {
-    console.log(data);
-  };
+  const onSubmit = (data: OpenPositionFormData) => {};
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>

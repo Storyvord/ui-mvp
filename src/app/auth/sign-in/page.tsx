@@ -47,8 +47,8 @@ const SignIn = () => {
     try {
       const res = await loginUser(data);
       if (res) {
-        const token: any = Cookies.get("accessToken");
-        const userDetails = await getUserDetails(token);
+        Cookies.set("accessToken", res?.access);
+        const userDetails = await getUserDetails(res.access);
 
         if (userDetails) {
           if (userDetails.user_type === "client") {
