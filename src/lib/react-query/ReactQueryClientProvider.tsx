@@ -12,12 +12,12 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
           queries: {
             staleTime: 60000,
             retry(failureCount, error: any): any {
-              if (error.status === 401) userLogout();
+              if (error?.status === 401) userLogout();
             },
           },
           mutations: {
             onSettled(data, error: any) {
-              if (error.status === 401) userLogout();
+              if (error?.status === 401) userLogout();
             },
           },
         },
