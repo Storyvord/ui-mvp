@@ -1,17 +1,24 @@
 // React
-import { RefObject, useEffect, useRef, useState } from "react";
+import { Dispatch, RefObject, useEffect, useRef, useState } from "react";
 import { ChatResponse } from "./ChatResponse";
 import { ChatbotQuestions } from "./ChatbotQuestions";
 import { ChatbotSearch } from "./ChatbotSearch";
 import { useChatMutation } from "@/lib/react-query/queriesAndMutations/chatbot";
 
+interface ChatbotDetailsProps {
+  conversation: Array<Conversation> | [];
+  setConversation: Dispatch<React.SetStateAction<Array<Conversation>>>;
+}
+
 const initialResponse = {
   data: "Hello! How can I assist you today with your film production needs? If you have specific details about your project, such as the type of shoot, location preferences, crew size, or equipment, please share, and I can provide tailored advice.",
 };
 
-export default function ChatbotDetails() {
+export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
+  conversation,
+  setConversation,
+}) => {
   const [search, setSearch] = useState(""); // search chat
-  const [conversation, setConversation] = useState<Array<Conversation>>([]);
 
   // Ref to scroll to bottom
   const messagesEndRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -20,7 +27,7 @@ export default function ChatbotDetails() {
   const { mutateAsync: askQuestion, isLoading: chatIsLoading } = useChatMutation();
 
   // Filter the results based on search
-  let filteredConversation: any[] = [];
+  let filteredConversation: Array<number> = [];
   conversation.forEach((item: Conversation, index) => {
     if (search.length > 0 && item?.queryType === "question" && item?.data?.indexOf(search) > -1) {
       filteredConversation.push(index);
@@ -89,4 +96,4 @@ export default function ChatbotDetails() {
       </div>
     </div>
   );
-}
+};

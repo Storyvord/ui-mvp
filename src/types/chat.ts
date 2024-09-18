@@ -1,5 +1,5 @@
 type Conversation = {
-  queryType: "question" | "answer";
   data: string;
+  queryType?: "question" | "answer";
   timestamp?: string;
 };
