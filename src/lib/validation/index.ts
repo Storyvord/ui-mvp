@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// Helper function for validating time format (HH:MM)
+const timeSchema = z
+  .string()
+  .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
+
 export const projectFormSchema = z.object({
   projectName: z.string().min(1, { message: "Project Name is required" }),
   contentType: z.string().min(1, { message: "Content Type is required" }),
@@ -23,26 +28,26 @@ export const projectFormSchema = z.object({
     .string()
     .min(100, { message: "The project description must be at least 100 words long." }),
 
-    uploadedDocument : z
-    .union([
-      z.string().nonempty({ message: "Document cannot be an empty" }),
-      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
-        message: "Document cannot be an empty ArrayBuffer",
-      }),
-      z.instanceof(File).refine(
-        (file) =>
-          (file.type === "image/jpeg" ||
-            file.type === "image/png" ||
-            file.type === "application/pdf" ||
-            file.type === "application/msword" || // For .doc files
-            file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-            file.type === "text/plain") && // For .txt files
-          file.size > 0, // Ensure the file is not empty
-        {
-          message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
-        }
-      ),
-    ]),
+  uploadedDocument: z.union([
+    z.string().nonempty({ message: "Document cannot be an empty" }),
+    z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+      message: "Document cannot be an empty ArrayBuffer",
+    }),
+    z.instanceof(File).refine(
+      (file) =>
+        (file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "application/pdf" ||
+          file.type === "application/msword" || // For .doc files
+          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+          file.type === "text/plain") && // For .txt files
+        file.size > 0, // Ensure the file is not empty
+      {
+        message:
+          "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+      }
+    ),
+  ]),
   locationDetails: z.array(
     z
       .object({
@@ -190,4 +195,85 @@ export const updateProfileSchema = z.object({
     .string()
     .nullable()
     .or(z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")), // Validates E.164 phone format or can be null
+});
+
+export const CallSheetFormSchema = z.object({
+  // Project Information
+  title: z.string().min(1, "Title is required"), // Required string, minimum 1 character
+  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    // Validates as a date string
+    message: "Invalid date format, expected YYYY-MM-DD",
+  }),
+  calltime: timeSchema, // Time format HH:MM
+  location: z.string().min(1, "Location is required"), // Required string
+  nearest_hospital_address: z.string().min(1, "Nearest hospital address is required"), // Required string
+  nearest_police_station: z.string().min(1, "Nearest police station is required"), // Required string
+  nearest_fire_station: z.string().min(1, "Nearest fire station is required"), // Required string
+
+  // Events
+  events: z
+    .array(
+      z.object({
+        time: timeSchema, // Time format HH:MM
+        title: z.string().min(1, "Event title is required"), // Required string
+      })
+    )
+    .min(1, "At least one event is required"), // At least one event required
+
+  // Scenes
+  scenes: z
+    .array(
+      z.object({
+        scene_number: z.string().min(1, "Scene number is required"), // Required string
+        description: z.string().min(1, "Description is required"), // Required string
+        page_count: z.number().int().positive("Page count must be a positive integer"), // Positive integer
+        cast: z.string().min(1, "Cast is required"), // Required string
+        location: z.string().min(1, "Location is required"), // Required string
+        other_notes: z.string().optional(), // Optional string
+      })
+    )
+    .min(1, "At least one scene is required"), // At least one scene required
+
+  // Characters
+  characters: z
+    .array(
+      z.object({
+        character_name: z.string().min(1, "Character name is required"), // Required string
+        actor: z.string().min(1, "Actor name is required"), // Required string
+        status: timeSchema,
+        pickup: timeSchema,
+        arrival: timeSchema,
+        makeup: timeSchema,
+        costume: timeSchema,
+        rehearsal: timeSchema,
+        on_set: timeSchema,
+        info: z.string().optional(), // Optional string
+      })
+    )
+    .min(1, "At least one character is required"), // At least one character required
+
+  // Extras
+  extras: z
+    .array(
+      z.object({
+        scene_number: z.string().min(1, "Scene number is required"), // Required string
+        extra: z.string().min(1, "Extra role is required"), // Required string
+        arrival: timeSchema,
+        makeup: timeSchema,
+        costume: timeSchema,
+        rehearsal: timeSchema,
+        on_set: timeSchema,
+      })
+    )
+    .min(1, "At least one extra is required"), // At least one extra required
+
+  // Department Instructions
+  department_instructions: z
+    .array(
+      z.object({
+        department: z.string().min(1, "Department is required"), // Required string
+        instructions: z.string().min(1, "Instructions are required"), // Required string
+      })
+    )
+    .min(1, "At least one department instruction is required"), // At least one instruction required
 });

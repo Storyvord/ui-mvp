@@ -3,10 +3,42 @@ import { Button } from "@/components/ui/button";
 import React, { FC, useState } from "react";
 import Image from "next/image";
 import callSheetImg from "@/assets/callsheets.png";
-import CallSheetForm from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
+import CallSheetForm, {
+  ShootFormType,
+} from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
+import {
+  useCreateCallSheet,
+  useDeleteCallSheet,
+  useEditCallSheet,
+  useGetCallSheets,
+} from "@/lib/react-query/queriesAndMutations/callsheet";
+import { useParams, useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import CallSheetCard from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetCard";
+import Loader from "@/components/Loader";
 
 const Page: FC = () => {
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const { id: projectId }: { id: string } = useParams();
+  const router = useRouter();
+
+  const { data, isLoading, isError } = useGetCallSheets(projectId);
+
+  const {
+    mutateAsync: deleteCallSheet,
+    isLoading: isLoadingDelete,
+    isError: isErrorDelete,
+  } = useDeleteCallSheet();
+
+  const handleDeleteCallSheet = async (id: number) => {
+    await deleteCallSheet(id);
+  };
+
+  if (isLoading)
+    return (
+      <div className=" w-full h-screen grid place-content-center">
+        <Loader />
+      </div>
+    );
   return (
     <div className="py-4 px-4">
       <div className="p-2 flex flex-col items-start">
@@ -17,20 +49,34 @@ const Page: FC = () => {
           </div>
 
           <Button
-            onClick={() => setOpenDialog(true)}
+            onClick={() => router.push(`/project-details/${projectId}/call-sheets/create`)}
             className="rounded-md flex items-center space-x-2 mt-2"
             variant="outline"
           >
             Create Call Sheet
           </Button>
-          <Image
-            src={callSheetImg}
-            alt="Call Sheet Example"
-            layout="responsive"
-            className="mt-5 w-5/6 max-w-[80%] h-auto mx-auto"
-          />
+          {isError && <p> Failed to get call sheets</p>}
+          {data.length === 0 ? (
+            <Image
+              src={callSheetImg}
+              alt="Call Sheet Example"
+              layout="responsive"
+              className="mt-5 w-5/6 max-w-[80%] h-auto mx-auto"
+            />
+          ) : (
+            data?.map((item: { id: number; title: string; date: string; calltime: string }) => (
+              <CallSheetCard
+                key={item.id}
+                title={item.title}
+                date={item.date}
+                time={item.calltime}
+                deleteCallSheet={handleDeleteCallSheet}
+                isLoadingDelete={isLoadingDelete}
+                id={item.id}
+              />
+            ))
+          )}
         </div>
-        <CallSheetForm openDialog={openDialog} setOpenDialog={setOpenDialog} />
       </div>
     </div>
   );
