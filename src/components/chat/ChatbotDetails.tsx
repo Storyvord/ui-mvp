@@ -1,73 +1,63 @@
 // React
-import { useEffect, useRef, useState } from "react";
-
+import { RefObject, useEffect, useRef, useState } from "react";
 import { ChatResponse } from "./ChatResponse";
 import { ChatbotQuestions } from "./ChatbotQuestions";
 import { ChatbotSearch } from "./ChatbotSearch";
+import { useChatMutation } from "@/lib/react-query/queriesAndMutations/chatbot";
+
+const initialResponse = {
+  data: "Hello! How can I assist you today with your film production needs? If you have specific details about your project, such as the type of shoot, location preferences, crew size, or equipment, please share, and I can provide tailored advice.",
+};
 
 export default function ChatbotDetails() {
-  const [search, setSearch] = useState("");
-  const [conversation, setConversation] = useState([
-    { type: "question", question: "hello" },
-    { type: "answer", data: "hi" },
-  ]);
-  const [questionCount, setQuestionCount] = useState(0);
-  // Redux details
-  // const params = useParams();
+  const [search, setSearch] = useState(""); // search chat
+  const [conversation, setConversation] = useState<Array<Conversation>>([]);
+
+  // Ref to scroll to bottom
+  const messagesEndRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+  // API for chat response
+  const { mutateAsync: askQuestion, isLoading: chatIsLoading } = useChatMutation();
 
   // Filter the results based on search
   let filteredConversation: any[] = [];
-  conversation.forEach((item: any, index) => {
-    if (search.length > 0 && item?.type === "question" && item?.question?.indexOf(search) > -1) {
+  conversation.forEach((item: Conversation, index) => {
+    if (search.length > 0 && item?.queryType === "question" && item?.data?.indexOf(search) > -1) {
       filteredConversation.push(index);
     }
-    if (search.length === 0 && item?.type === "question") {
+    if (search.length === 0 && item?.queryType === "question") {
       filteredConversation.push(index);
     }
   });
 
-  const handleQuestion = (incomingQuestion: string) => {
+  // Handle asking questions
+  const handleQuestion = async (incomingQuestion: string) => {
     if (incomingQuestion) {
-      // Increase the number of question in session
-      setQuestionCount((prev) => prev + 1);
-      //   Append question into the conversation
-      setConversation([...conversation, { type: "question", question: incomingQuestion }]);
-      //   Get response for the question
-      // getResponse({
-      //   tenantKey: userDetails.tenantKey,
-      //   query: incomingQuestion,
-      //   appName,
-      //   incidentId: params?.incidentId,
-      //   contextKey: initResponse?.data[1],
-      // }).then((res) => {
-      //   // Append the answer into the conversation
-      //   setConversation([...conversation, { type: "question", question: incomingQuestion }, res]);
-      // });
+      // Append question into the conversation
+      setConversation([...conversation, { queryType: "question", data: incomingQuestion }]);
+      // Get response for the question
+      const response = await askQuestion(incomingQuestion);
+      // Append the answer into the conversation
+      const { timestamp, ai_response } = response;
+      setConversation([
+        ...conversation,
+        { queryType: "question", data: incomingQuestion },
+        { queryType: "answer", data: ai_response, timestamp },
+      ]);
     }
   };
 
-  //   //   Reset the chatbot
-  //   const handleReset = () => {
-  //     setConversation([]);
-  //     setQuestionCount(0);
-  //     filteredConversation = [];
-  //     resetChatbot({
-  //       userEmail: userDetails?.email,
-  //       tenantKey: userDetails.tenantKey,
-  //     });
-  //   };
-
-  const messagesEndRef = useRef<HTMLElement>(null);
-
+  // Scroll to bottom of response
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   useEffect(scrollToBottom, [filteredConversation]);
+
   return (
-    <div className="relative h-[90vh]">
-      <div className="col-span-1 bg-[#eceff180] rounded-t-xl">
-        <div className="container mx-auto col-span-12 mt-4 p-4">
+    <div className="w-[40vw] bg-white rounded-t-sm border border-gray-400">
+      <div>
+        <div className="container h-[70vh] mt-4 p-4 mb-10 overflow-x-scroll">
+          <ChatResponse data={initialResponse} isLoading={false} error={""} showLoading={false} />
           {filteredConversation?.map((item, key) => {
             return (
               <>
@@ -78,20 +68,24 @@ export default function ChatbotDetails() {
                 <div className={`mt-4 p-1 overflow-auto flex`} key={`answer${key}`}>
                   <ChatResponse
                     data={conversation[item + 1]}
-                    isLoading={false}
+                    isLoading={chatIsLoading}
                     error={""}
-                    showLoading={key === filteredConversation.length - 1}
+                    showLoading={key === filteredConversation.length - 1} //only show loading for latest question
                   />
                 </div>
               </>
             );
           })}
-          {/* <div ref={messagesEndRef} /> */}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 
       <div className="bg-white w-full absolute bottom-0">
-        <ChatbotSearch suggestedQueries={[]} handleQuestion={handleQuestion} isLoading={false} />
+        <ChatbotSearch
+          suggestedQueries={[]}
+          handleQuestion={handleQuestion}
+          isLoading={chatIsLoading}
+        />
       </div>
     </div>
   );

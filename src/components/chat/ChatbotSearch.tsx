@@ -1,24 +1,23 @@
-// React
 import { useState } from "react";
-// Material ui
-// Others
 import sendFilled from "@/assets/icons/send-filled";
 
 interface ChatbotSearchProps {
   suggestedQueries: string[];
   handleQuestion: (question: any) => void;
   isLoading: boolean;
-  title?: string; // `?` makes the title optional
 }
 
 export const ChatbotSearch: React.FC<ChatbotSearchProps> = ({
   suggestedQueries,
   handleQuestion,
   isLoading,
-  title,
 }) => {
-  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState(""); //Current question
 
+  // Send button disabled
+  const disabled = currentQuestion.length === 0 || isLoading;
+
+  // Handle submit
   const handleSubmit = () => {
     if (currentQuestion) {
       setCurrentQuestion("");
@@ -44,7 +43,7 @@ export const ChatbotSearch: React.FC<ChatbotSearchProps> = ({
           name="question"
           className="w-full p-2 focus:outline-none focus:ring-0"
           onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !disabled) {
               handleSubmit();
             }
           }}
@@ -55,7 +54,7 @@ export const ChatbotSearch: React.FC<ChatbotSearchProps> = ({
           placeholder="Type message here"
         />
 
-        <button className="bg-blue-400 h-10" onClick={handleSubmit} disabled={isLoading}>
+        <button className="bg-blue-500 h-10 w-10" onClick={handleSubmit} disabled={disabled}>
           {sendFilled}
         </button>
       </div>
