@@ -3,7 +3,7 @@ import sendFilled from "@/assets/icons/send-filled";
 
 interface ChatbotSearchProps {
   suggestedQueries: string[];
-  handleQuestion: (question: any) => void;
+  handleQuestion: (incomingQuestion: string) => void;
   isLoading: boolean;
 }
 
