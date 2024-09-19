@@ -2,12 +2,12 @@
 import NavBar from "@/components/navbar/NavBar";
 import SideBar from "@/components/sidebar/SideBar";
 import { Toaster } from "@/components/ui/toaster";
-import { FC, ReactNode, Suspense, useState } from "react";
-import creation from "@/assets/icons/creation";
-import ChatbotDetails from "@/components/chat/ChatbotDetails";
+import { FC, ReactNode, Suspense } from "react";
+
 import ProjectContextProvider from "@/context/ProjectContext";
 import SideBarContextProvider from "@/context/SideBarContext";
 import UserContextProvider from "@/context/UserContext";
+import Chatbot from "@/components/chat/Chatbot";
 import Loading from "./loading";
 
 interface LayoutProps {
@@ -15,7 +15,6 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-  const [openChat, setOpenChat] = useState(false);
   return (
     <UserContextProvider>
       <div className="w-full min-h-screen bg-[#eceff180] relative">
@@ -27,17 +26,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
             <Toaster />
-            <button
-              onClick={() => setOpenChat(!openChat)}
-              className="fixed bottom-5 right-5 grid place-items-center bg-gradient-to-r from-[#1A68FF] to-[#009185] rounded-sm mr-2 w-[3rem] h-[3rem] p-1"
-            >
-              {creation}
-            </button>
-            {openChat && (
-              <div className="fixed bottom-20 right-8 ">
-                <ChatbotDetails />
-              </div>
-            )}
+            <Chatbot />
           </ProjectContextProvider>
         </SideBarContextProvider>
       </div>
