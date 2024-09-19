@@ -1,5 +1,4 @@
 // src/middleware.ts
-
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -17,9 +16,8 @@ export async function middleware(request: NextRequest) {
   const isRestrictedClientPath = restrictedClientPaths.some((clientPath) => {
     return path.startsWith(clientPath);
   });
-
   if (!token) {
-    return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+    return NextResponse.next();
   } else if (isClient === "true") {
     if (isRestrictedCrewPath) {
       return NextResponse.redirect(new URL("/dashboard/home", request.url));

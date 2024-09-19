@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
 
-
-
 export const getClientProfile = async (token: string) => {
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     headers: {
@@ -35,8 +33,6 @@ export const updateClientProfile = async (data: ProfileType) => {
 };
 
 //-----------------------------projects-----------------------------------------------//
-
-
 
 //------------------------------tasks------------------------//
 
@@ -207,4 +203,35 @@ export const getSuggestedCrew = async (project_id: string) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const customFetch = async (url: string, options: RequestInit = {}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  let response;
+  if (!res.ok) {
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      response = await res.json();
+      throw {
+        ...response,
+        status: res.status,
+        statusText: res.statusText,
+      };
+    } else {
+      throw {
+        status: res.status,
+        statusText: res.statusText,
+      };
+    }
+  }
+
+  return response;
 };
