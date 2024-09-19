@@ -1,23 +1,22 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { FC, useState } from "react";
+import React, { FC, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
 import Image from "next/image";
 import callSheetImg from "@/assets/callsheets.png";
-import CallSheetForm, {
-  ShootFormType,
-} from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
 import {
-  useCreateCallSheet,
   useDeleteCallSheet,
-  useEditCallSheet,
   useGetCallSheets,
 } from "@/lib/react-query/queriesAndMutations/callsheet";
 import { useParams, useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import CallSheetCard from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetCard";
 import Loader from "@/components/Loader";
+import CallSheetTemplate from "./Template/CallSheetTemplate";
 
 const Page: FC = () => {
+  const templateRef = useRef(null);
+
   const { id: projectId }: { id: string } = useParams();
   const router = useRouter();
 
@@ -32,6 +31,11 @@ const Page: FC = () => {
   const handleDeleteCallSheet = async (id: number) => {
     await deleteCallSheet(id);
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => templateRef.current,
+    documentTitle: "CallSheet",
+  });
 
   if (isLoading)
     return (
@@ -77,6 +81,12 @@ const Page: FC = () => {
             ))
           )}
         </div>
+      </div>
+      <div className="">
+        <CallSheetTemplate ref={templateRef} />
+        <button onClick={handlePrint} className="mb-4 p-2 bg-blue-500 text-white rounded">
+          Download PDF
+        </button>
       </div>
     </div>
   );

@@ -22,7 +22,8 @@ export const createCallSheet = async ({
   });
 
   if (!res.ok) {
-    return res;
+    const errorData = await res.json(); // Extract error message from response
+    throw errorData
   }
 
   return res.json();

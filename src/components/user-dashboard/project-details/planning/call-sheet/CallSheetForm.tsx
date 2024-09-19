@@ -99,7 +99,7 @@ const CallSheetForm = ({
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
-                Failed to submit your form <br />
+                {error.detail}<br />
               </p>
             )}
 

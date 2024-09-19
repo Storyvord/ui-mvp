@@ -4,6 +4,8 @@ import { z } from "zod";
 const timeSchema = z
   .string()
   .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
+  // .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "Invalid time format (HH:MM:SS)");
+
 
 export const projectFormSchema = z.object({
   projectName: z.string().min(1, { message: "Project Name is required" }),
