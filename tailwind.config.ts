@@ -37,6 +37,9 @@ const config = {
           600: "rgb(84 110 122 / var(--tw-text-opacity))",
           900: "rgb(38 50 56 / var(--tw-text-opacity))",
         },
+        chatbot: {
+          color1: "#22CB67",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
