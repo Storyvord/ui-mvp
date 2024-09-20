@@ -18,9 +18,6 @@ export const useCreateProject = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
-    },
   });
 };
 
@@ -52,9 +49,6 @@ export const useDeleteProject = () => {
         queryKey: ["getProjects"],
       });
     },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
-    },
   });
 };
 
@@ -66,9 +60,6 @@ export const useEditProject = (projectId: string) => {
       queryClient.invalidateQueries(["projectDetails", projectId]);
       return data;
     },
-    onError: (error) => {
-      console.error("Error in Editing project:", error);
-    },
   });
 };
 
@@ -79,9 +70,6 @@ export const useEditProjectStatus = (projectId: string) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(["projectDetails", projectId]);
       return data;
-    },
-    onError: (error) => {
-      console.error("Error in completing project:", error);
     },
   });
 };

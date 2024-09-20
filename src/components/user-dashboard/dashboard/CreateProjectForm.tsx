@@ -162,7 +162,11 @@ const CreateProjectForm = ({
       budget_currency: "$",
       budget_amount: budget,
       content_type: contentType,
-      uploaded_document: base64,
+      documents: [
+        {
+          document: base64,
+        },
+      ],
     };
 
     if (isEdit && handleEditProject) {
@@ -255,5 +259,4 @@ const CreateProjectForm = ({
     </div>
   );
 };
-
 export default CreateProjectForm;
