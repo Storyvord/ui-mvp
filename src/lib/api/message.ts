@@ -1,5 +1,6 @@
 import { USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { customFetch } from "./api";
 
 export const sendMessage = async (formData: any) => {
   const token = Cookies.get("accessToken");
@@ -66,20 +67,8 @@ export const getMessages = async (receiverId: string) => {
   }
 };
 
-export const getConversationsList = async () => {
-  const token = Cookies.get("accessToken");
-  try {
-    const res = await fetch(`${USER_API}/api/inbox/dialogs/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch dialogs");
-    }
-
-    return res.json();
-  } catch (err) {
-    console.log("API error from :: getTasks ::", err);
-  }
+export const getConversationsList = () => {
+  return customFetch(`${USER_API}/api/inbox/dialogs/`, {
+    method: "GET",
+  });
 };
