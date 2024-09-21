@@ -18,6 +18,8 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const token = Cookies.get("accessToken");
+  if (!token) window.location.replace("/auth/sign-in");
+
   const { data: userDetails, isLoading } = useGetUserDetails();
 
   return (
