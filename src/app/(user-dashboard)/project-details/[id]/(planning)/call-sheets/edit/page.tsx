@@ -31,10 +31,10 @@ const EditCallSheet = () => {
     nearest_fire_station: data?.nearest_fire_station,
 
     events: data?.events,
-    scenes: data?.scenes,
-    characters: data?.characters,
-    extras: data?.extras,
-    department_instructions: data?.department_instructions,
+    call_time: data?.call_time,
+
+    additional_notes: data?.additional_notes,
+    production_notes: data?.production_notes,
   };
 
   const handleEditCallSheet = async (formData: ShootFormType) => {

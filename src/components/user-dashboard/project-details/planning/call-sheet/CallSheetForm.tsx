@@ -81,7 +81,7 @@ const CallSheetForm = ({
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
-                {error.detail}
+                {error?.detail}
                 <br />
               </p>
             )}

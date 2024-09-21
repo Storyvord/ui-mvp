@@ -1,9 +1,8 @@
 import { z } from "zod";
 
 // Helper function for validating time format (HH:MM)
-const timeSchema = z
-  .string()
-  .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
+const timeSchema = z.string().min(1, "Invalid time format");
+// .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
 // .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "Invalid time format (HH:MM:SS)");
 
 export const projectFormSchema = z.object({

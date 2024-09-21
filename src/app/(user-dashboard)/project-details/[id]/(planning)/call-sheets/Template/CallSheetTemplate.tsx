@@ -1,41 +1,22 @@
 import Image from "next/image";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import Logo from "./logo1.jpeg";
 import { useGetCallSheetDetails } from "@/lib/react-query/queriesAndMutations/callsheet";
 
 const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref) => {
-  // Hardcoded data
-  const street = "Central Park";
-  const city = "New York";
-  const country = "USA";
-  const website = "www.example.com";
-  const contact = "contact@example.com";
-  const producerName = "John Producer";
-  const producerContact = "123-456-7890";
-  const directorName = "Jane Director";
-  const directorContact = "987-654-3210";
-  const productionManagerName = "Alex PM";
-  const productionManagerContact = "111-222-3333";
-  const breakfast = "8:00 AM";
-  const lunch = "1:00 PM";
+  const [location, setLocation] = useState<[] | undefined>([]);
   const sunrise = "6:30 AM";
   const sunset = "7:30 PM";
   const weather = "Sunny, 25°C";
-  const nearestHospital = "City Hospital";
-  const nearestPoliceStation = "Downtown Police Station";
-  const nearestFireStation = "Central Fire Station";
-  const additionalDetails = "Be mindful of pedestrians in the park.";
-  const title = "Project Sunrise";
-  const callTime = "08:00:00";
-
-  // Generate the Google Maps Embed URL
-  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAnmHDoxexwRcNy63vKd-my62JA6Xy4L7M&q=${encodeURIComponent(
-    street
-  )},${encodeURIComponent(city)},${encodeURIComponent(country)}`;
 
   const { data } = useGetCallSheetDetails(props.id);
-  console.log(props.id);
-  console.log(data);
+
+  useEffect(() => {
+    setLocation(data?.location.split(","));
+  }, [data]);
+
+  // Generate the Google Maps Embed URL
+  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAnmHDoxexwRcNy63vKd-my62JA6Xy4L7M&q=${encodeURIComponent(location?.at(0) || "")},${encodeURIComponent(location?.at(1) || "")}`;
 
   return (
     <div
@@ -47,18 +28,14 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         <div className="w-1/3 border p-2 text-sm">
           <table className="w-full border-collapse border text-xs mt-2">
             <tbody>
-              <tr>
-                <td className="border px-2 py-1">
-                  <strong>Breakfast:</strong>
-                </td>
-                <td className="border px-2 py-1">{breakfast}</td>
-              </tr>
-              <tr>
-                <td className="border px-2 py-1">
-                  <strong>Lunch:</strong>
-                </td>
-                <td className="border px-2 py-1">{lunch}</td>
-              </tr>
+              {data?.events.map((item: any) => (
+                <tr key={item.id}>
+                  <td className="border px-2 py-1">
+                    <strong>{item.title}:</strong>
+                  </td>
+                  <td className="border px-2 py-1">{item.time}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -66,7 +43,9 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         <div className="w-1/5 text-center">
           <Image src={Logo} alt="Logo" className="mx-auto -my-2 size-18" />
           <h1 className="text-md font-normal mb-2">{data?.title}</h1>
-          <p className="text-lg font-semibold border-2 border-black rounded-full">{callTime}</p>
+          <p className="text-lg font-semibold border-2 border-black rounded-full">
+            {data?.calltime}
+          </p>
         </div>
         <div className="w-1/3 border p-2">
           <table className="w-full border-collapse border text-sm">
@@ -102,17 +81,16 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         <div className="w-1/2 border p-2 text-sm flex flex-col gap-3 pt-4">
           <p>
             <strong>Address: </strong>
-            {street}, {city}, {country}
+            {data?.location}
           </p>
           <p>
-            <strong>Nearest Police Station:</strong> {nearestPoliceStation}
+            <strong>Nearest Police Station:</strong> {data?.nearest_police_station}
           </p>
           <p>
-            <strong>Nearest Fire Station:</strong> {nearestFireStation}
+            <strong>Nearest Fire Station:</strong> {data?.nearest_fire_station}
           </p>
           <p>
-            <strong>Nearest Hospital:</strong>
-            {nearestHospital}
+            <strong>Nearest Hospital:</strong> {data?.nearest_hospital_address}
           </p>
         </div>
       </div>
@@ -130,13 +108,16 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="border px-2 py-1">Producer</td>
-            <td className="border px-2 py-1"></td>
-            <td className="border px-2 py-1"></td>
-            <td className="border px-2 py-1"></td>
-            <td className="border px-2 py-1"></td>
-          </tr>
+          {data?.call_time.map((item: any) => (
+            <tr key={item.id}>
+              <td className="border px-2 py-1">{item.position}</td>
+              <td className="border px-2 py-1">{item.name}</td>
+              <td className="border px-2 py-1">{item.phone}</td>
+              <td className="border px-2 py-1">{item.email}</td>
+              <td className="border px-2 py-1">{item.calltime}</td>
+              <td className="border px-2 py-1">{item?.remarks}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -149,7 +130,7 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         </thead>
         <tbody>
           <tr>
-            <td className="border px-2 py-5"></td>
+            <td className="border px-2 py-5 text-center">{data?.production_notes}</td>
           </tr>
         </tbody>
       </table>
@@ -163,7 +144,7 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         </thead>
         <tbody>
           <tr>
-            <td className="border px-2 py-5 text-center">{additionalDetails}</td>
+            <td className="border px-2 py-5 text-center">{data?.additional_notes}</td>
           </tr>
         </tbody>
       </table>
