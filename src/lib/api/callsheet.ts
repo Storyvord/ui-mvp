@@ -1,4 +1,3 @@
-import { CallSheet } from "@/app/(user-dashboard)/project-details/[id]/(planning)/call-sheets/types";
 import { ShootFormType } from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
 import { NEW_API_URL, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
@@ -31,7 +30,7 @@ export const createCallSheet = async ({
 
 export const editCallSheet = async ({ id, formData }: { id: number; formData: ShootFormType }) => {
   const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}}/api/callsheets/details/${id}/`, {
+  const res = await fetch(`${USER_API}/api/callsheets/details/${id}/`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,

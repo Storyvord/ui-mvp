@@ -1,16 +1,19 @@
 "use client";
-import { useToast } from "@/components/ui/use-toast";
-import CallSheetForm, {
-  ShootFormType,
-} from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
+import React, { Suspense } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+
 import {
   useEditCallSheet,
   useGetCallSheetDetails,
 } from "@/lib/react-query/queriesAndMutations/callsheet";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 
-const EditCallSheet = () => {
+import { useToast } from "@/components/ui/use-toast";
+import CallSheetForm, {
+  ShootFormType,
+} from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
+import Loader from "@/components/Loader";
+
+const EditCallSheetContent = () => {
   const { toast } = useToast();
   const router = useRouter();
   const { id: projectId } = useParams();
@@ -18,8 +21,7 @@ const EditCallSheet = () => {
   const id = Number(searchParams.get("id"));
 
   const { data } = useGetCallSheetDetails(id);
-
-  const { mutateAsync: editCallSheet, isLoading: isLoading, isError: isError } = useEditCallSheet();
+  const { mutateAsync: editCallSheet, isLoading, isError } = useEditCallSheet();
 
   const defaultValues = {
     title: data?.title,
@@ -38,8 +40,9 @@ const EditCallSheet = () => {
   };
 
   const handleEditCallSheet = async (formData: ShootFormType) => {
+    const transformData = { ...formData, project: projectId };
     try {
-      const res = await editCallSheet({ formData, id });
+      const res = await editCallSheet({ formData: transformData, id });
       if (res) {
         toast({ title: "update successfully" });
         router.push(`/project-details/${projectId}/call-sheets`);
@@ -60,5 +63,17 @@ const EditCallSheet = () => {
     </>
   );
 };
+
+const EditCallSheet = () => (
+  <Suspense
+    fallback={
+      <div className=" w-full p-4 mt-8 flex- justify-center">
+        <Loader />
+      </div>
+    }
+  >
+    <EditCallSheetContent />
+  </Suspense>
+);
 
 export default EditCallSheet;

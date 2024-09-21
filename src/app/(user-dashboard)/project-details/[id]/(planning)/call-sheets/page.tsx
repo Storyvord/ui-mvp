@@ -1,33 +1,35 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import React, { FC, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-
+import React, { FC } from "react";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+
 import callSheetImg from "@/assets/callsheets.png";
 import {
   useDeleteCallSheet,
   useGetCallSheets,
 } from "@/lib/react-query/queriesAndMutations/callsheet";
-import { useParams, useRouter } from "next/navigation";
+
 import CallSheetCard from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetCard";
+import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
-import CallSheetTemplate from "./Template/CallSheetTemplate";
+import { useToast } from "@/components/ui/use-toast";
 
 const Page: FC = () => {
   const { id: projectId }: { id: string } = useParams();
   const router = useRouter();
+  const { toast } = useToast();
 
   const { data, isLoading, isError } = useGetCallSheets(projectId);
 
-  const {
-    mutateAsync: deleteCallSheet,
-    isLoading: isLoadingDelete,
-    isError: isErrorDelete,
-  } = useDeleteCallSheet();
+  const { mutateAsync: deleteCallSheet, isLoading: isLoadingDelete } = useDeleteCallSheet();
 
   const handleDeleteCallSheet = async (id: number) => {
-    await deleteCallSheet(id);
+    try {
+      await deleteCallSheet(id);
+      toast({ title: "Successfully deleted" });
+    } catch (error) {
+      toast({ title: "Failed to delete", variant: "destructive" });
+    }
   };
 
   if (isLoading)

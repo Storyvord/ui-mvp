@@ -13,19 +13,15 @@ export const useCreateCallSheet = () => {
     mutationFn: createCallSheet,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["getCaSheets"],
+        queryKey: ["getCallSheets"],
       });
       return data;
     },
-    // onError: (error) => {
-    //   console.log(error)
-    //   throw error;
-    // },
   });
 };
 export const useGetCallSheets = (projectId: string) => {
   return useQuery({
-    queryKey: ["getCaSheets"],
+    queryKey: ["getCallSheets"],
     queryFn: () => getCallSheets(projectId),
   });
 };
@@ -34,10 +30,11 @@ export const useEditCallSheet = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: editCallSheet,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["getCaSheets"],
+        queryKey: ["getCallSheets"],
       });
+      return data;
     },
     onError: (error) => {
       console.error(error);
@@ -47,7 +44,7 @@ export const useEditCallSheet = () => {
 
 export const useGetCallSheetDetails = (id: number) => {
   return useQuery({
-    queryKey: ["getCaSheetDetails", id],
+    queryKey: ["getCallSheetDetails", id],
     queryFn: () => getCallSheetDetails(id),
   });
 };
@@ -59,7 +56,7 @@ export const useDeleteCallSheet = () => {
     mutationFn: deleteCallSheet,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["getCaSheets"],
+        queryKey: ["getCallSheets"],
       });
     },
     onError: (error) => {
@@ -68,4 +65,3 @@ export const useDeleteCallSheet = () => {
   });
 };
 
-// Edit call sheet hook

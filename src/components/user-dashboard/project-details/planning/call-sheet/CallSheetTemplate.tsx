@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { forwardRef, useEffect, useState } from "react";
-import Logo from "./logo1.jpeg";
+import Image from "next/image";
+import Logo from "@/assets/logo1.jpeg";
 import { useGetCallSheetDetails } from "@/lib/react-query/queriesAndMutations/callsheet";
 
 const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref) => {

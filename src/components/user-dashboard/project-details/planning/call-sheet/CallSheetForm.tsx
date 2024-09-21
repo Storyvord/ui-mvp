@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import { CallSheetFormSchema } from "@/lib/validation";
+
 import RenderFormFields from "@/components/RenderFormFields";
 import { Button } from "@/components/ui/button";
-
-import { CallSheetFormSchema } from "@/lib/validation";
 import Loader from "@/components/Loader";
 import { defaultValues, formFields } from "@/constant/formFields/callSheet";
 import RenderDynamicFormFields from "@/components/RenderDynamicFormFields";
@@ -36,13 +36,13 @@ const CallSheetForm = ({
     defaultValues,
   });
 
-  const onSubmit = (data: ShootFormType) => {
-    submitHandler(data);
-  };
-
   useEffect(() => {
     if (defaultValue) form.reset(defaultValue);
   }, [form, defaultValue]);
+
+  const onSubmit = (data: ShootFormType) => {
+    submitHandler(data);
+  };
 
   return (
     <div className="bg-white p-6 rounded-md w-[90%] max-w-7xl mx-auto mt-4 overflow-auto">

@@ -1,15 +1,18 @@
-import { Button } from "@/components/ui/button";
 import React, { useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useReactToPrint } from "react-to-print";
+
+import { CgMoreVertical } from "react-icons/cg";
+import { LuArrowDownToLine } from "react-icons/lu";
 import { BsTrash2 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { LuArrowDownToLine } from "react-icons/lu";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CgMoreVertical } from "react-icons/cg";
 import { Clapperboard } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Loader from "@/components/Loader";
-import { useParams, useRouter } from "next/navigation";
-import CallSheetTemplate from "@/app/(user-dashboard)/project-details/[id]/(planning)/call-sheets/Template/CallSheetTemplate";
-import { useReactToPrint } from "react-to-print";
+import CallSheetTemplate from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetTemplate";
+
 type Props = {
   title: string;
   date: string;
