@@ -47,7 +47,7 @@ export const useEditCallSheet = () => {
 
 export const useGetCallSheetDetails = (id: number) => {
   return useQuery({
-    queryKey: ["getCaSheetDetails"],
+    queryKey: ["getCaSheetDetails", id],
     queryFn: () => getCallSheetDetails(id),
   });
 };

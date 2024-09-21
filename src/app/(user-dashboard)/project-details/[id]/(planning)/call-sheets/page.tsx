@@ -15,8 +15,6 @@ import Loader from "@/components/Loader";
 import CallSheetTemplate from "./Template/CallSheetTemplate";
 
 const Page: FC = () => {
-  const templateRef = useRef(null);
-
   const { id: projectId }: { id: string } = useParams();
   const router = useRouter();
 
@@ -31,11 +29,6 @@ const Page: FC = () => {
   const handleDeleteCallSheet = async (id: number) => {
     await deleteCallSheet(id);
   };
-
-  const handlePrint = useReactToPrint({
-    content: () => templateRef.current,
-    documentTitle: "CallSheet",
-  });
 
   if (isLoading)
     return (
@@ -81,12 +74,6 @@ const Page: FC = () => {
             ))
           )}
         </div>
-      </div>
-      <div className="">
-        <CallSheetTemplate ref={templateRef} />
-        <button onClick={handlePrint} className="mb-4 p-2 bg-blue-500 text-white rounded">
-          Download PDF
-        </button>
       </div>
     </div>
   );

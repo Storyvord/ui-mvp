@@ -4,8 +4,7 @@ import { z } from "zod";
 const timeSchema = z
   .string()
   .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
-  // .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "Invalid time format (HH:MM:SS)");
-
+// .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "Invalid time format (HH:MM:SS)");
 
 export const projectFormSchema = z.object({
   projectName: z.string().min(1, { message: "Project Name is required" }),
@@ -207,75 +206,33 @@ export const CallSheetFormSchema = z.object({
     message: "Invalid date format, expected YYYY-MM-DD",
   }),
   calltime: timeSchema, // Time format HH:MM
-  location: z.string().min(1, "Location is required"), // Required string
-  nearest_hospital_address: z.string().min(1, "Nearest hospital address is required"), // Required string
-  nearest_police_station: z.string().min(1, "Nearest police station is required"), // Required string
-  nearest_fire_station: z.string().min(1, "Nearest fire station is required"), // Required string
+  location: z.string().min(1, "Location is required"),
+  nearest_hospital_address: z.string().min(1, "Nearest hospital address is required"),
+  nearest_police_station: z.string().min(1, "Nearest police station is required"),
+  nearest_fire_station: z.string().min(1, "Nearest fire station is required"),
 
   // Events
   events: z
     .array(
       z.object({
         time: timeSchema, // Time format HH:MM
-        title: z.string().min(1, "Event title is required"), // Required string
+        title: z.string().min(1, "Event title is required"),
       })
     )
     .min(1, "At least one event is required"), // At least one event required
 
-  // Scenes
-  scenes: z
-    .array(
-      z.object({
-        scene_number: z.string().min(1, "Scene number is required"), // Required string
-        description: z.string().min(1, "Description is required"), // Required string
-        page_count: z.number().int().positive("Page count must be a positive integer"), // Positive integer
-        cast: z.string().min(1, "Cast is required"), // Required string
-        location: z.string().min(1, "Location is required"), // Required string
-        other_notes: z.string().optional(), // Optional string
-      })
-    )
-    .min(1, "At least one scene is required"), // At least one scene required
-
-  // Characters
-  characters: z
-    .array(
-      z.object({
-        character_name: z.string().min(1, "Character name is required"), // Required string
-        actor: z.string().min(1, "Actor name is required"), // Required string
-        status: timeSchema,
-        pickup: timeSchema,
-        arrival: timeSchema,
-        makeup: timeSchema,
-        costume: timeSchema,
-        rehearsal: timeSchema,
-        on_set: timeSchema,
-        info: z.string().optional(), // Optional string
-      })
-    )
-    .min(1, "At least one character is required"), // At least one character required
-
-  // Extras
-  extras: z
-    .array(
-      z.object({
-        scene_number: z.string().min(1, "Scene number is required"), // Required string
-        extra: z.string().min(1, "Extra role is required"), // Required string
-        arrival: timeSchema,
-        makeup: timeSchema,
-        costume: timeSchema,
-        rehearsal: timeSchema,
-        on_set: timeSchema,
-      })
-    )
-    .min(1, "At least one extra is required"), // At least one extra required
-
   // Department Instructions
-  department_instructions: z
-    .array(
-      z.object({
-        department: z.string().min(1, "Department is required"), // Required string
-        instructions: z.string().min(1, "Instructions are required"), // Required string
-      })
-    )
-    .min(1, "At least one department instruction is required"), // At least one instruction required
+  call_time: z.array(
+    z.object({
+      name: z.string().min(1, "name is required"),
+      position: z.string().min(1, "position are required"),
+      phone: z.string().min(1, "phone is required"),
+      email: z.string().min(1, "Email is required").email("Invalid email address"),
+      calltime: timeSchema,
+      remark: z.string().optional(),
+    })
+  ),
+
+  additional_notes: z.string().optional(),
+  production_notes: z.string().optional(),
 });

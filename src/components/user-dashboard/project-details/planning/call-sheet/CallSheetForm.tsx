@@ -7,11 +7,11 @@ import { z } from "zod";
 
 import RenderFormFields from "@/components/RenderFormFields";
 import { Button } from "@/components/ui/button";
-import RenderDynamicFormFields from "./RenderDynamicFields";
 
 import { CallSheetFormSchema } from "@/lib/validation";
 import Loader from "@/components/Loader";
 import { defaultValues, formFields } from "@/constant/formFields/callSheet";
+import RenderDynamicFormFields from "@/components/RenderDynamicFormFields";
 
 export type ShootFormType = z.infer<typeof CallSheetFormSchema>;
 
@@ -66,40 +66,23 @@ const CallSheetForm = ({
               formFields={formFields.slice(7, 9)}
               defaultValue={defaultValues.events[0]}
             />
+
             <RenderDynamicFormFields
               form={form}
-              title="Scene Details"
-              name="scenes"
+              title="Add People"
+              name="call_time"
               formFields={formFields.slice(9, 15)}
-              defaultValue={defaultValues.scenes[0]}
-            />
-            <RenderDynamicFormFields
-              form={form}
-              title="Characters Details"
-              name="characters"
-              formFields={formFields.slice(15, 25)}
-              defaultValue={defaultValues.characters[0]}
+              defaultValue={defaultValues.call_time[0]}
             />
 
-            <RenderDynamicFormFields
-              form={form}
-              title="Extras Details"
-              name="extras"
-              formFields={formFields.slice(25, 32)}
-              defaultValue={defaultValues.extras[0]}
-            />
-
-            <RenderDynamicFormFields
-              form={form}
-              title="Department Details"
-              name="department_instructions"
-              formFields={formFields.slice(32, 34)}
-              defaultValue={defaultValues.department_instructions[0]}
-            />
+            <section className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <RenderFormFields form={form} formFields={formFields.slice(15, 18)} />
+            </section>
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
-                {error.detail}<br />
+                {error.detail}
+                <br />
               </p>
             )}
 

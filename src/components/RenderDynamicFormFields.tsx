@@ -43,7 +43,7 @@ const RenderDynamicFormFields = ({ form, title, name, formFields, defaultValue }
         className="w-full mt-2 border-green-600"
         onClick={() => append(defaultValue)}
       >
-        Add more {name}
+        Add more
       </Button>
     </>
   );
