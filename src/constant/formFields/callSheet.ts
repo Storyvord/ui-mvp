@@ -6,7 +6,7 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
   { name: "title", type: "text", placeholder: "Title", label: "Title" },
   { name: "date", type: "date", placeholder: "Date", label: "Shoot Date" },
   { name: "calltime", type: "time", placeholder: "Call Time", label: "Call Time" },
-  { name: "location", type: "text", placeholder: "Location", label: "Location" },
+  { name: "location", type: "text", placeholder: "Mumbai, India", label: "Location" },
   {
     name: "nearest_hospital_address",
     type: "text",
@@ -86,35 +86,35 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
 ];
 export const defaultValues: ShootFormType = {
   // Project Information
-  title: "Project Sunrise",
-  date: "2024-10-04", // YYYY-MM-DD format
-  calltime: "08:00", // HH:MM format
-  location: "Central Park, New York",
-  nearest_hospital_address: "123 Main St, New York, NY",
-  nearest_police_station: "456 Elm St, New York, NY",
-  nearest_fire_station: "789 Oak St, New York, NY",
+  title: "",
+  date: "",
+  calltime: "",
+  location: "",
+  nearest_hospital_address: "",
+  nearest_police_station: "",
+  nearest_fire_station: "",
 
   // Events (Dynamic)
   events: [
     {
-      time: "09:00", // Event time in HH:MM format
-      title: "Crew Call",
+      time: "",
+      title: "",
     },
     {
-      time: "10:00",
-      title: "First Scene Shoot",
+      time: "",
+      title: "",
     },
   ],
 
   // Department Instructions (Dynamic)
   call_time: [
     {
-      name: "SOuvik",
-      position: "Developer",
-      phone: "7029835504",
-      email: "souvik@storyvord.com",
-      remark: "no remark",
-      calltime: "05:25",
+      name: "",
+      position: "",
+      phone: "",
+      email: "",
+      remark: "",
+      calltime: "",
     },
   ],
 
