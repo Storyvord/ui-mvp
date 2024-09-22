@@ -128,7 +128,7 @@ const Message: React.FC = () => {
         receiverName={receiverName}
         messages={messages}
         messagesEndRef={messagesEndRef}
-        conversationsList={conversationsList}
+        conversationsList={conversationsList!}
         message={message}
         setMessage={setMessage}
         sendMessage={sendMessage}

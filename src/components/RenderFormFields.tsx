@@ -25,6 +25,7 @@ export type FormFieldConfig<T extends FieldValues> = {
     | "checkbox"
     | "date"
     | "file"
+    | "time"
     | "datetime-local"
     | "select"
     | "selectWithQuantity"
@@ -99,6 +100,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       type === "email" ||
                       type === "number" ||
                       type === "date" ||
+                      type === "time" ||
                       type === "datetime-local") && (
                       <Input
                         type={type}

@@ -50,6 +50,7 @@ export const getMessageList = async () => {
 };
 
 export const getMessages = async (receiverId: string) => {
+  if (!receiverId) return;
   const token = Cookies.get("accessToken");
   try {
     const res = await fetch(`${USER_API}/api/inbox/dialogs/${receiverId}/messages/`, {
@@ -67,8 +68,20 @@ export const getMessages = async (receiverId: string) => {
   }
 };
 
-export const getConversationsList = () => {
-  return customFetch(`${USER_API}/api/inbox/dialogs/`, {
-    method: "GET",
-  });
+export const getConversationsList = async () => {
+  const token = Cookies.get("accessToken");
+  try {
+    const res = await fetch(`${USER_API}/api/inbox/dialogs/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to fetch dialogs");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log("API error from :: getTasks ::", err);
+  }
 };

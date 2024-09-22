@@ -36,10 +36,13 @@ export const useUpdateClientProfile = () => {
       return data;
     },
     onError: (error) => {
-      console.error(error);
+      throw error;
     },
   });
 };
+
+
+//----------------------------tasks----------------------------
 
 export const useLocationList = () => {
   return useMutation((params: { search: string; page: number }) => fetchLocation(params), {
