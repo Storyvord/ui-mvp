@@ -41,11 +41,10 @@ export const useUpdateClientProfile = () => {
       return data;
     },
     onError: (error) => {
-      console.error(error);
+      throw error;
     },
   });
 };
-
 
 //----------------------------tasks----------------------------
 
