@@ -131,7 +131,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
               Crew List:
             </h2>
             <CardDescription className="text-base flex flex-wrap text-gray-600 dark:text-gray-200">
-              {projectDetails.selected_crew.map((crew: Crew) => (
+              {projectDetails?.selected_crew.map((crew: Crew) => (
                 <p key={crew.id} className="min-w-fit">
                   {crew.title}, &nbsp;
                 </p>
@@ -143,7 +143,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
               Equipment List:
             </h2>
             <CardDescription className="text-base flex flex-wrap text-gray-600 dark:text-gray-200">
-              {projectDetails.equipment.map((equipment: Equipment) => (
+              {projectDetails?.equipment.map((equipment: Equipment) => (
                 <p key={equipment.id} className="min-w-fit">
                   {equipment.title}, &nbsp;
                 </p>
