@@ -43,7 +43,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   setMessage,
   sendMessage,
 }) => {
-  const senderId = JSON.parse(localStorage.getItem("user-details") || "").id;
+  const senderId = JSON.parse(localStorage.getItem("user-details") || "{}")?.id;
   const [isConversationListVisible, setIsConversationListVisible] = useState(true);
   return (
     <main className=" flex sm:p-8 gap-2">

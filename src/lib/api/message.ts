@@ -1,5 +1,6 @@
 import { USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { customFetch } from "./api";
 
 export const sendMessage = async (formData: any) => {
   const token = Cookies.get("accessToken");
@@ -49,6 +50,7 @@ export const getMessageList = async () => {
 };
 
 export const getMessages = async (receiverId: string) => {
+  if (!receiverId) return;
   const token = Cookies.get("accessToken");
   try {
     const res = await fetch(`${USER_API}/api/inbox/dialogs/${receiverId}/messages/`, {

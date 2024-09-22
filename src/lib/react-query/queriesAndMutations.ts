@@ -7,11 +7,6 @@ import {
   getSuggestedCrew,
   getClientProfile,
   updateClientProfile,
-  getTasks,
-  createNewTask,
-  deleteTask,
-  completeTask,
-  taskCompletionApproval,
 } from "../api/api";
 import Cookies from "js-cookie";
 
@@ -41,86 +36,13 @@ export const useUpdateClientProfile = () => {
       return data;
     },
     onError: (error) => {
-      console.error(error);
+      throw error;
     },
   });
 };
 
 
 //----------------------------tasks----------------------------
-
-export const useGetTasks = (projectId: string) => {
-  return useQuery({
-    queryKey: ["getTasks", projectId],
-    queryFn: ({ queryKey }) => {
-      const [_key, projectId] = queryKey;
-      return getTasks(projectId);
-    },
-  });
-};
-
-export const useCreateNewTask = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createNewTask,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["getTasks"],
-      });
-      return data;
-    },
-    onError: (error) => {
-      console.error("Error from getTasks ::", error);
-    },
-  });
-};
-
-export const useDeleteTask = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["getTasks"],
-      });
-    },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
-    },
-  });
-};
-
-export const useCompleteTask = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: completeTask,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["getTasks"],
-      });
-      return data;
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-};
-
-export const useTaskCompletionApproval = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: taskCompletionApproval,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["getTasks"],
-      });
-      return data;
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-};
 
 export const useLocationList = () => {
   return useMutation((params: { search: string; page: number }) => fetchLocation(params), {

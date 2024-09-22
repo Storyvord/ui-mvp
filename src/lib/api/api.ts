@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
 
-
-
 export const getClientProfile = async (token: string) => {
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     headers: {
@@ -30,105 +28,6 @@ export const updateClientProfile = async (data: ProfileType) => {
   });
   if (!res.ok) {
     throw new Error("Failed to fetch user details");
-  }
-  return res.json();
-};
-
-//-----------------------------projects-----------------------------------------------//
-
-
-
-//------------------------------tasks------------------------//
-
-export const getTasks = async (project_id: string) => {
-  const token = Cookies.get("accessToken");
-  try {
-    const res = await fetch(`${USER_API}/api/tasks/projects/${project_id}/tasks/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch tasks");
-    }
-
-    return res.json();
-  } catch (err) {
-    console.log("API error from :: getTasks ::", err);
-  }
-};
-
-export const createNewTask = async ({
-  taskData,
-  projectId,
-}: {
-  taskData: taskFormType;
-  projectId: string;
-}) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/tasks/projects/${projectId}/tasks/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(taskData),
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to create project");
-  }
-
-  return res.json();
-};
-
-export const deleteTask = async (taskId: number) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to delete project");
-  }
-};
-
-export const completeTask = async ({
-  taskId,
-  taskData,
-}: {
-  taskId: number;
-  taskData: taskType;
-}) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(taskData),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch user details");
-  }
-  return res.json();
-};
-
-export const taskCompletionApproval = async (taskId: number) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/tasks/tasks/${taskId}/approve-completion/`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // "Content-Type": "application/json",
-    },
-    // body: JSON.stringify(taskData),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to approve task ");
   }
   return res.json();
 };
@@ -207,4 +106,34 @@ export const getSuggestedCrew = async (project_id: string) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const customFetch = async (url: string, options: RequestInit = {}) => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  let response;
+  if (!res.ok) {
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      response = await res.json();
+      throw {
+        ...response,
+        status: res.status,
+        statusText: res.statusText,
+      };
+    } else {
+      throw {
+        status: res.status,
+        statusText: res.statusText,
+      };
+    }
+  }
+  return options?.method === "DELETE" ? res : res.json();
 };
