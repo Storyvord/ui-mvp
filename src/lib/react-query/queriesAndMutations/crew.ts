@@ -1,5 +1,5 @@
 import { getCrewFullProfile, getInvitedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 export const useSentInvitationToCrew = () => {
   return useMutation({

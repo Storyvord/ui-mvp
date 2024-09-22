@@ -28,14 +28,14 @@ const ProfilePage = () => {
   const { data: endorsementData } = useGetEndorsement();
   const { data: creditsData } = useGetCredit();
 
-  const { mutateAsync: deleteEducation, isLoading: isLoadingDeleteEducation } =
+  const { mutateAsync: deleteEducation, isPending: isLoadingDeleteEducation } =
     useDeleteEducation();
-  const { mutateAsync: deleteEndorsement, isLoading: isLoadingDeleteEndorsement } =
+  const { mutateAsync: deleteEndorsement, isPending: isLoadingDeleteEndorsement } =
     useDeleteEndorsement();
-  const { mutateAsync: deletePortfolio, isLoading: isLoadingDeletePortfolio } =
+  const { mutateAsync: deletePortfolio, isPending: isLoadingDeletePortfolio } =
     useDeletePortfolio();
-  const { mutateAsync: deleteCredit, isLoading: isLoadingDeleteCredit } = useDeleteCredit();
-  const { mutateAsync: deleteSocialLink, isLoading: isLoadingDeleteSocialLinks } =
+  const { mutateAsync: deleteCredit, isPending: isLoadingDeleteCredit } = useDeleteCredit();
+  const { mutateAsync: deleteSocialLink, isPending: isLoadingDeleteSocialLinks } =
     useDeleteSocialLink();
 
   const [isClient, setIsClient] = useState(false);
@@ -61,21 +61,21 @@ const ProfilePage = () => {
         deletePortfolio={deletePortfolio}
         isLoadingDeletePortfolio={isLoadingDeletePortfolio}
       />
-      <Endorsements
+      {/* <Endorsements
         endorsementData={endorsementData}
         deleteEndorsement={deleteEndorsement}
         isLoadingDeleteEndorsement={isLoadingDeleteEndorsement}
-      />
-      <Credit
+      /> */}
+      {/* <Credit
         creditsData={creditsData}
         deleteCredit={deleteCredit}
         isLoadingDeleteCredit={isLoadingDeleteCredit}
-      />
-      <SocialLinks
+      /> */}
+      {/* <SocialLinks
         socialLinksData={socialLinksData}
         deleteSocialLink={deleteSocialLink}
         isLoadingDeleteSocialLinks={isLoadingDeleteSocialLinks}
-      />
+      /> */}
     </div>
   );
 };

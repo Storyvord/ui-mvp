@@ -50,7 +50,7 @@ const EmployeeReferralRegistrationContent = () => {
   const referralCode = searchParams.get("referral_code") || "";
 
   const { data } = useGetReferralEmployeeData(referralCode);
-  const { mutateAsync, isLoading, isError } = useRegisterEmployeeWithReferral();
+  const { mutateAsync, isPending, isError } = useRegisterEmployeeWithReferral();
   const form = useForm({
     resolver: zodResolver(employeeRegistrationFormSchema),
     defaultValues: { email: "", password: "", confirmPassword: "" },
@@ -98,7 +98,7 @@ const EmployeeReferralRegistrationContent = () => {
           form={form}
           formFields={formFields}
           onSubmit={onSubmit}
-          isLoading={isLoading}
+          isLoading={isPending}
           isError={isError}
         />
       </div>

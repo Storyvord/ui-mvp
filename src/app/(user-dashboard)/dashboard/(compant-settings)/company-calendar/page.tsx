@@ -12,9 +12,7 @@ import {
   useDeleteCompanyCalenderEvent,
   useGetCompanyCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/company/calender";
-import {
-  useGetSendInvitationsList,
-} from "@/lib/react-query/queriesAndMutations/company/employee";
+import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 
 const localizer = momentLocalizer(moment);
 
@@ -27,12 +25,12 @@ const CompanyCalender = () => {
   const { data: events } = useGetCompanyCalenderEvents();
   const {
     mutateAsync: createCalenderEvent,
-    isLoading: createEventLoading,
+    isPending: createEventLoading,
     isError: createEventError,
   } = useCreateCompanyCalenderEvents();
   const {
     mutateAsync: deleteEvent,
-    isLoading: deleteEventLoading,
+    isPending: deleteEventLoading,
     isError: deleteEventError,
   } = useDeleteCompanyCalenderEvent();
 

@@ -12,7 +12,7 @@ type AnnouncementProps = {
 
 const Announcement: React.FC<AnnouncementProps> = ({ title, message, id }) => {
   const { toast } = useToast();
-  const { mutateAsync, isLoading, isError } = useDeleteAnnouncement();
+  const { mutateAsync, isPending, isError } = useDeleteAnnouncement();
 
   useEffect(() => {
     if (isError) {
@@ -39,7 +39,7 @@ const Announcement: React.FC<AnnouncementProps> = ({ title, message, id }) => {
     <AnnouncementCard
       title={title}
       message={message}
-      isLoading={isLoading}
+      isLoading={isPending}
       onDelete={handleDelete}
     />
   );

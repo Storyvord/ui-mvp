@@ -1,5 +1,9 @@
-import { CreateAnnouncement, deleteAnnouncement, getAllAnnouncements } from "@/lib/api/announcements";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  CreateAnnouncement,
+  deleteAnnouncement,
+  getAllAnnouncements,
+} from "@/lib/api/announcements";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * The function `useGetAllAnnouncements` returns a query for fetching all announcements.
@@ -23,13 +27,13 @@ export const useGetAllAnnouncements = () => {
  * client on success, and logs an error message to the console on error.
  */
 export const useCreateAnnouncement = () => {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: CreateAnnouncement,
     onSuccess: (data) => {
-        queryClient.invalidateQueries({
-            queryKey: ["getAllAnnouncements"]
-        })
+      queryClient.invalidateQueries({
+        queryKey: ["getAllAnnouncements"],
+      });
       return data;
     },
     onError: (error) => {
@@ -47,18 +51,17 @@ export const useCreateAnnouncement = () => {
  * client on success, and logs an error message if there is an error during the deletion process.
  */
 export const useDeleteAnnouncement = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-      mutationFn: deleteAnnouncement,
-      onSuccess: (data) => {
-          queryClient.invalidateQueries({
-              queryKey: ["getAllAnnouncements"]
-          })
-        return data;
-      },
-      onError: (error) => {
-        console.error("Error deleting announcement:", error);
-      },
-    });
-
-}
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteAnnouncement,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllAnnouncements"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      console.error("Error deleting announcement:", error);
+    },
+  });
+};

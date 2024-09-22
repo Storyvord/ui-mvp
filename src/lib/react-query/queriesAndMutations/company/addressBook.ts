@@ -1,5 +1,9 @@
-import { createAddressBook, deleteAddressBook, getAddressBook } from "@/lib/api/company/addressBook";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  createAddressBook,
+  deleteAddressBook,
+  getAddressBook,
+} from "@/lib/api/company/addressBook";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetAddressBook = () => {
   return useQuery({

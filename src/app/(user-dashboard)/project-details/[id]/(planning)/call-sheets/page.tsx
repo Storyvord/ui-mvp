@@ -19,9 +19,9 @@ const Page: FC = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { data, isLoading, isError } = useGetCallSheets(projectId);
+  const { data, isPending, isError } = useGetCallSheets(projectId);
 
-  const { mutateAsync: deleteCallSheet, isLoading: isLoadingDelete } = useDeleteCallSheet();
+  const { mutateAsync: deleteCallSheet, isPending: isLoadingDelete } = useDeleteCallSheet();
 
   const handleDeleteCallSheet = async (id: number) => {
     try {
@@ -32,7 +32,7 @@ const Page: FC = () => {
     }
   };
 
-  if (isLoading)
+  if (isPending)
     return (
       <div className=" w-full h-screen grid place-content-center">
         <Loader />

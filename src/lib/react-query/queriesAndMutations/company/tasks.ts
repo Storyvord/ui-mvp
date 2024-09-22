@@ -7,7 +7,7 @@ import {
   getCompanyEmployeeTasks,
   companyTaskCompletionRequest,
 } from "@/lib/api/company/tasks";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetCompanyTasks = () => {
   return useQuery({

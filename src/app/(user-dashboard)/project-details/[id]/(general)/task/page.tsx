@@ -18,11 +18,11 @@ import {
 } from "@/lib/react-query/queriesAndMutations/tasks";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask } = useGetTasks(params.id);
+  const { data: tasksList, isPending: isLoadingTask } = useGetTasks(params.id);
   const { mutateAsync: createNewTaskMutation } = useCreateNewTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteTask();
   const { mutateAsync: completeTaskMutation } = useCompleteTask();
-  const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
+  const { mutateAsync: taskApprovalMutation, isPending: isLoadingApprovedTask } =
     useTaskCompletionApproval();
   const { data: crew_list } = useGetCrewList(params.id);
   const crewList = crew_list?.accepted.map(

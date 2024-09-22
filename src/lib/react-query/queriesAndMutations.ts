@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetchLocation,
   fetchProjectComplience,
@@ -13,15 +13,7 @@ import Cookies from "js-cookie";
 export const useGetClientProfile = () => {
   return useQuery({
     queryKey: ["getClientProfile"],
-    queryFn: async () => {
-      const token = Cookies.get("accessToken");
-      if (!token) {
-        throw new Error("No auth token found");
-      }
-      return await getClientProfile(token);
-    },
-    enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
-    refetchOnWindowFocus: true,
+    queryFn: getClientProfile,
   });
 };
 
@@ -41,17 +33,7 @@ export const useUpdateClientProfile = () => {
   });
 };
 
-
-//----------------------------tasks----------------------------
-
-export const useLocationList = () => {
-  return useMutation((params: { search: string; page: number }) => fetchLocation(params), {
-    onError: (error) => {
-      console.error("Error in fetching location:", error);
-    },
-  });
-};
-
+//----------------------------------------------------
 export const useProjectLogistics = (project_id: string) => {
   return useQuery({
     queryKey: ["projectLogistics", project_id],

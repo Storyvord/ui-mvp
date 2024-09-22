@@ -1,6 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { getCompanySettings, updateCompanySettings } from "@/lib/api/company/settings";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetCompanySettings = () => {
   return useQuery({
@@ -8,7 +8,6 @@ export const useGetCompanySettings = () => {
     queryFn: getCompanySettings,
   });
 };
-
 
 export const useUpdateCompanySettings = () => {
   const { toast } = useToast();
@@ -20,8 +19,8 @@ export const useUpdateCompanySettings = () => {
         queryKey: ["getCompanySettings"],
       });
       toast({
-        title: "Successfully update company settings"
-      })
+        title: "Successfully update company settings",
+      });
       return data;
     },
     onError: (error) => {

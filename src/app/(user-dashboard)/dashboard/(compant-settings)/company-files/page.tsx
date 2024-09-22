@@ -39,7 +39,7 @@ const CompanyFileSection: FC = () => {
 
   const {
     mutateAsync,
-    isLoading: isLoadingCreateRoom,
+    isPending: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
   } = useCreateCompanyFileDocumentRoom();
   const handleCreateRoom = async (data: RoomFormData) => {

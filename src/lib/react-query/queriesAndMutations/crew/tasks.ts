@@ -1,5 +1,5 @@
 import { getCrewTasks, requestApprovalForTask } from "@/lib/api/crew/tasks";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetCrewTasks = () => {
   return useQuery({

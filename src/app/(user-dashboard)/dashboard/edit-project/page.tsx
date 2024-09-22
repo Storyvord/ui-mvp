@@ -20,7 +20,7 @@ const EditProjectContent = () => {
   // Mutation hook to edit a project, using the projectId.
   const {
     mutateAsync: editProject,
-    isLoading: isLoadingEditProject,
+    isPending: isLoadingEditProject,
     isError: isErrorEditProject,
   } = useEditProject(projectId);
 

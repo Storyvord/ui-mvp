@@ -22,7 +22,7 @@ import {
   updatePortfolio,
   updateSocialLink,
 } from "@/lib/api/crew/profile";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateProfile = () => {
   const queryClient = useQueryClient();
@@ -126,9 +126,6 @@ export const useGetProfile = () => {
   return useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
-    onSuccess: (data) => {
-      JSON.stringify(localStorage.setItem("crew-profile-id", data?.id));
-    },
   });
 };
 export const useGetPortfolio = () => {

@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
 
-export const getClientProfile = async (token: string) => {
+export const getClientProfile = async () => {
+  const token = Cookies.get("accessToken");
   const res = await fetch(`${USER_API}/api/client/profile/detail/`, {
     headers: {
       Authorization: `Bearer ${token}`,

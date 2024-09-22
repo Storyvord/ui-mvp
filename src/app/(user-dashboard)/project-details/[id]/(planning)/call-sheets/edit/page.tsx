@@ -21,7 +21,7 @@ const EditCallSheetContent = () => {
   const id = Number(searchParams.get("id"));
 
   const { data } = useGetCallSheetDetails(id);
-  const { mutateAsync: editCallSheet, isLoading, isError } = useEditCallSheet();
+  const { mutateAsync: editCallSheet, isPending, isError } = useEditCallSheet();
 
   const defaultValues = {
     title: data?.title,
@@ -55,7 +55,7 @@ const EditCallSheetContent = () => {
     <>
       <CallSheetForm
         submitHandler={handleEditCallSheet}
-        isLoading={isLoading}
+        isLoading={isPending}
         isError={isError}
         isEdit={true}
         defaultValue={defaultValues}

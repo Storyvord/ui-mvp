@@ -6,7 +6,7 @@ import {
   updateRoomAccessRights,
   uploadFile,
 } from "@/lib/api/file";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * The function `useGetAllFileDocumentRooms` returns a query for getting all file document rooms based

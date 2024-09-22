@@ -10,13 +10,13 @@ interface CulturePageProps {
 
 const CulturePage: FC<CulturePageProps> = ({project_id}) => {
 
-  const {data: projectCulture, isLoading, error} = useProjectCulture(project_id)
+  const {data: projectCulture, isPending, error} = useProjectCulture(project_id)
 
   const [selectedLocation, setSelectedLocation] = useState("all")
   return (
     <div className='w-full mt-2'>
       {
-        isLoading ? <CultureLoading/> : 
+        isPending ? <CultureLoading/> : 
         error ? <p className='text-center text-gray-700'>Something went wrong</p> :
         (
           <div className="flex flex-col gap-4">

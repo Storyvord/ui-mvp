@@ -27,12 +27,12 @@ const Projects = () => {
 
   const {
     mutateAsync: acceptInvitation,
-    isLoading: isAcceptLoading,
+    isPending: isAcceptLoading,
     isError: isAcceptError,
   } = useAcceptInvitation();
   const {
     mutateAsync: rejectInvitation,
-    isLoading: isRejectLoading,
+    isPending: isRejectLoading,
     isError: isRejectError,
   } = useRejectInvitation();
   const handleAccept = async (referral_code: string) => {

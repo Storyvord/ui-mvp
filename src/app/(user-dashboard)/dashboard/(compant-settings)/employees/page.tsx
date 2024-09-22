@@ -70,7 +70,7 @@ const EmployeeAndStaff = () => {
   const { toast } = useToast();
   const {
     mutateAsync: inviteEmployeeAndStaff,
-    isLoading: isLoadingInvitation,
+    isPending: isLoadingInvitation,
     isError: isErrorInvitation,
   } = useSentInvitationToEmployee();
   const { data: getReceivedInvitationsList } = useGetReceivedInvitationsList();
