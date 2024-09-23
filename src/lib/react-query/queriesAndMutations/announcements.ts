@@ -36,9 +36,6 @@ export const useCreateAnnouncement = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting announcement form:", error);
-    },
   });
 };
 
@@ -59,9 +56,6 @@ export const useDeleteAnnouncement = () => {
         queryKey: ["getAllAnnouncements"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting announcement:", error);
     },
   });
 };

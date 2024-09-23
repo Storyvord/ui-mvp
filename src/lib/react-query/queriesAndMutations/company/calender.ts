@@ -37,9 +37,6 @@ export const useCreateCompanyCalenderEvents = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create event form:", error);
-    },
   });
 };
 
@@ -60,9 +57,6 @@ export const useDeleteCompanyCalenderEvent = () => {
         queryKey: ["getCompanyCalenderEvents"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting calender event:", error);
     },
   });
 };

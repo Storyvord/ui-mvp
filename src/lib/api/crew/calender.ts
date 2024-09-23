@@ -1,15 +1,7 @@
 import { USER_API } from "@/constant/constant";
-import Cookies from "js-cookie";
+import { customFetch } from "../api";
 export const getAllCrewCalenderEvents = async () => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/calendar/calendars/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return customFetch(`${USER_API}/api/calendar/calendars/`, {
+    method: "GET",
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch calender event");
-  }
-  return res.json();
 };

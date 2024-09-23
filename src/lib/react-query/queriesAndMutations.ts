@@ -8,7 +8,6 @@ import {
   getClientProfile,
   updateClientProfile,
 } from "../api/api";
-import Cookies from "js-cookie";
 
 export const useGetClientProfile = () => {
   return useQuery({
@@ -26,9 +25,6 @@ export const useUpdateClientProfile = () => {
         queryKey: ["getClientProfile"],
       });
       return data;
-    },
-    onError: (error) => {
-      throw error;
     },
   });
 };

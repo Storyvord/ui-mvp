@@ -8,9 +8,6 @@ export const useSentInvitationToCrew = () => {
     onSuccess: (data) => {
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };
 

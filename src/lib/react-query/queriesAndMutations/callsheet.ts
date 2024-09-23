@@ -36,9 +36,6 @@ export const useEditCallSheet = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
@@ -58,9 +55,6 @@ export const useDeleteCallSheet = () => {
       queryClient.invalidateQueries({
         queryKey: ["getCallSheets"],
       });
-    },
-    onError: (error) => {
-      throw error;
     },
   });
 };

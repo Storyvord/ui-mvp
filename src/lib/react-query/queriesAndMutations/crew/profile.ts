@@ -34,9 +34,6 @@ export const useCreateProfile = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -49,9 +46,6 @@ export const useCreatePortfolio = () => {
         queryKey: ["getPortfolio"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -66,9 +60,6 @@ export const useCreateEducation = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -81,9 +72,6 @@ export const useCreateSocialLink = () => {
         queryKey: ["getSocialLink"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -98,9 +86,6 @@ export const useCreateEndorsement = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -113,9 +98,6 @@ export const useCreateCredit = () => {
         queryKey: ["getCredit"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -171,9 +153,6 @@ export const useUpdatePortfolio = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -186,9 +165,6 @@ export const useUpdateEducation = () => {
         queryKey: ["getEducation"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -203,9 +179,6 @@ export const useUpdateSocialLink = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -218,9 +191,6 @@ export const useUpdateEndorsement = () => {
         queryKey: ["getEndorsement"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -235,9 +205,6 @@ export const useUpdateCredit = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -251,9 +218,6 @@ const useDeleteResource = (deleteFn: (id: number) => Promise<any>, queryKey: str
         queryKey: [queryKey],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };

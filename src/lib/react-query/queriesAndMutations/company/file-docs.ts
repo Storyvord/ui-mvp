@@ -24,9 +24,6 @@ export const useCreateCompanyFileDocumentRoom = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create create company room form:", error);
-    },
   });
 };
 
@@ -47,9 +44,6 @@ export const useUploadCompanyFile = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error uploading company file:", error);
-    },
   });
 };
 
@@ -62,9 +56,6 @@ export const useDeleteCompanyFile = () => {
         queryKey: ["getAllCompanyFiles"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting company file:", error);
     },
   });
 };

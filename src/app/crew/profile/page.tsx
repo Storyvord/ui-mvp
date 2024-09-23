@@ -51,31 +51,31 @@ const ProfilePage = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <Profile profile={profileData} />
-      <Education
-        educationData={educationData}
-        deleteEducation={deleteEducation}
-        isLoadingDeleteEducation={isLoadingDeleteEducation}
-      />
       <Portfolio
         portfolioData={portfolioData}
         deletePortfolio={deletePortfolio}
         isLoadingDeletePortfolio={isLoadingDeletePortfolio}
       />
-      {/* <Endorsements
+      <Education
+        educationData={educationData}
+        deleteEducation={deleteEducation}
+        isLoadingDeleteEducation={isLoadingDeleteEducation}
+      />
+      <Endorsements
         endorsementData={endorsementData}
         deleteEndorsement={deleteEndorsement}
         isLoadingDeleteEndorsement={isLoadingDeleteEndorsement}
-      /> */}
-      {/* <Credit
+      />
+      <Credit
         creditsData={creditsData}
         deleteCredit={deleteCredit}
         isLoadingDeleteCredit={isLoadingDeleteCredit}
-      /> */}
-      {/* <SocialLinks
+      />
+      <SocialLinks
         socialLinksData={socialLinksData}
         deleteSocialLink={deleteSocialLink}
         isLoadingDeleteSocialLinks={isLoadingDeleteSocialLinks}
-      /> */}
+      />
     </div>
   );
 };

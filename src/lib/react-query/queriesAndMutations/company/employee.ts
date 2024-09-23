@@ -18,9 +18,6 @@ export const useSentInvitationToEmployee = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };
 

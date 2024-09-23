@@ -18,8 +18,5 @@ export const useRequestApprovalForTask = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

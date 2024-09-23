@@ -22,9 +22,6 @@ export const useCreateAddressBook = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create address book:", error);
-    },
   });
 };
 
@@ -37,9 +34,6 @@ export const useDeleteAddressBook = () => {
         queryKey: ["getAddressBook"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting address book:", error);
     },
   });
 };

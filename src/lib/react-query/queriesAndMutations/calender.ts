@@ -36,9 +36,6 @@ export const useCreateCalenderEvents = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create event form:", error);
-    },
   });
 };
 
@@ -59,9 +56,6 @@ export const useDeleteEvent = () => {
         queryKey: ["getAllCalenderEvents"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting calender event:", error);
     },
   });
 };

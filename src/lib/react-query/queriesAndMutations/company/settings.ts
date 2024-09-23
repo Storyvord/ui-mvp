@@ -23,8 +23,5 @@ export const useUpdateCompanySettings = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
