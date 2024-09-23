@@ -1,5 +1,5 @@
 import { acceptInvitation, getInvitations, rejectInvitation } from "@/lib/api/crew/invitation";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetInvitations = () => {
   return useQuery({

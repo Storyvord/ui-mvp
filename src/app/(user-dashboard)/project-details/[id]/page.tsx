@@ -39,12 +39,12 @@ const ProjectDetails: React.FC = () => {
   // Fetch project details, handle loading and error states
   const {
     data: projectDetails,
-    isLoading: projectDetailsLoading,
+    isPending: projectDetailsLoading,
     isError,
   } = useGetProjectDetails(projectId);
 
   // Mutation hook for deleting a project
-  const { mutateAsync: deleteProject, isLoading: deletingProject } = useDeleteProject();
+  const { mutateAsync: deleteProject, isPending: deletingProject } = useDeleteProject();
 
   // Mutation hook for editing project status
   const { mutateAsync: editProjectStatus } = useEditProjectStatus(projectId);

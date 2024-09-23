@@ -6,7 +6,7 @@ import {
   getProjectDetails,
   getProjects,
 } from "@/lib/api/project";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
@@ -57,7 +57,9 @@ export const useEditProject = (projectId: string) => {
   return useMutation({
     mutationFn: editProject,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["projectDetails", projectId]);
+      queryClient.invalidateQueries({
+        queryKey: ["getProjects", projectId],
+      });
       return data;
     },
   });
@@ -68,7 +70,9 @@ export const useEditProjectStatus = (projectId: string) => {
   return useMutation({
     mutationFn: editProjectStatus,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["projectDetails", projectId]);
+      queryClient.invalidateQueries({
+        queryKey: ["projectDetails", projectId],
+      });
       return data;
     },
   });

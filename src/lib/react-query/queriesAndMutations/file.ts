@@ -6,7 +6,7 @@ import {
   updateRoomAccessRights,
   uploadFile,
 } from "@/lib/api/file";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * The function `useGetAllFileDocumentRooms` returns a query for getting all file document rooms based
@@ -44,9 +44,6 @@ export const useCreateFileDocumentRoom = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create create room form:", error);
-    },
   });
 };
 
@@ -77,9 +74,6 @@ export const useUploadFile = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error uploading file:", error);
-    },
   });
 };
 
@@ -100,9 +94,6 @@ export const useDeleteFile = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error deleting file:", error);
-    },
   });
 };
 
@@ -111,9 +102,6 @@ export const useUpdateRoomAccessRights = () => {
     mutationFn: updateRoomAccessRights,
     onSuccess: (data) => {
       return data;
-    },
-    onError: (error) => {
-      console.error("Error updating room access rights:", error);
     },
   });
 };

@@ -5,7 +5,7 @@ import {
   getTasks,
   taskCompletionApproval,
 } from "@/lib/api/tasks";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetTasks = (projectId: string) => {
   return useQuery({

@@ -5,7 +5,7 @@ import {
   getCallSheetDetails,
   getCallSheets,
 } from "@/lib/api/callsheet";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateCallSheet = () => {
   const queryClient = useQueryClient();
@@ -36,9 +36,6 @@ export const useEditCallSheet = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
@@ -59,9 +56,5 @@ export const useDeleteCallSheet = () => {
         queryKey: ["getCallSheets"],
       });
     },
-    onError: (error) => {
-      throw error;
-    },
   });
 };
-

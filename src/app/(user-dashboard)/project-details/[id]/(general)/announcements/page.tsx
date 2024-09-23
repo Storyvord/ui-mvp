@@ -9,13 +9,13 @@ import AnnouncementSkeleton from "@/components/user-dashboard/project-details/ge
 
 const Announcements = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const { data, isLoading } = useGetAllAnnouncements();
+  const { data, isPending } = useGetAllAnnouncements();
 
   return (
     <div className=" w-full px-4">
       <h1 className=" text-3xl my-4 underline">Announcements</h1>
 
-      {isLoading && <AnnouncementSkeleton />}
+      {isPending && <AnnouncementSkeleton />}
 
       {data?.length === 0 ? (
         <div className="space-y-2 mt-8 text-center px-4">

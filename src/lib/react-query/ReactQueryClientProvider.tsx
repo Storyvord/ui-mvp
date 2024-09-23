@@ -1,8 +1,14 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import { userLogout } from "../api/auth/auth";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 export const ReactQueryClientProvider = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(

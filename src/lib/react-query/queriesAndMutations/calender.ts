@@ -1,5 +1,5 @@
 import { createCalenderEvent, deleteCalenderEvent, getAllCalenderEvents } from "@/lib/api/calender";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * The function `useGetAllCalenderEvents` is a custom hook in TypeScript that fetches all calendar
@@ -36,13 +36,8 @@ export const useCreateCalenderEvents = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create event form:", error);
-    },
   });
 };
-
-
 
 /**
  * The `useDeleteEvent` function is a custom hook in TypeScript that uses `useMutation` to delete a
@@ -61,9 +56,6 @@ export const useDeleteEvent = () => {
         queryKey: ["getAllCalenderEvents"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting calender event:", error);
     },
   });
 };

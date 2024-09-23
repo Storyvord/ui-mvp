@@ -14,12 +14,7 @@ const CreateCaSheet = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const {
-    mutateAsync: createCallSheet,
-    isLoading: isLoading,
-    isError: isError,
-    error: error,
-  } = useCreateCallSheet();
+  const { mutateAsync: createCallSheet, isPending, isError, error } = useCreateCallSheet();
 
   const handleCreateCallSheet = async (formData: ShootFormType) => {
     try {
@@ -36,7 +31,7 @@ const CreateCaSheet = () => {
     <div>
       <CallSheetForm
         submitHandler={handleCreateCallSheet}
-        isLoading={isLoading}
+        isLoading={isPending}
         isError={isError}
         error={error}
       />

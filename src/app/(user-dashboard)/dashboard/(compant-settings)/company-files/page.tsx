@@ -26,8 +26,8 @@ const CompanyFileSection: FC = () => {
   const { data: roomData, isLoading: isLoadingFiles } = useGetCompanyFileDocumentRooms();
   const { data: employee_list } = useGetSendInvitationsList();
   const employeeList = employee_list?.accepted.map(
-    (employee: { firstName: string; id: number; employee_email: string }) => ({
-      value: employee.id,
+    (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
+      value: employee.invited_user.id,
       label: employee.firstName || employee.employee_email,
     })
   );
@@ -39,7 +39,7 @@ const CompanyFileSection: FC = () => {
 
   const {
     mutateAsync,
-    isLoading: isLoadingCreateRoom,
+    isPending: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
   } = useCreateCompanyFileDocumentRoom();
   const handleCreateRoom = async (data: RoomFormData) => {

@@ -141,7 +141,7 @@ const CreateProjectForm = ({
 
   const {
     mutateAsync: createProjectMutation,
-    isLoading: isLoadingCreateProject,
+    isPending: isLoadingCreateProject,
     isError: isErrorCreateProject,
     error,
   } = useCreateProject();
