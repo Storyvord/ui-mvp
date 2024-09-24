@@ -60,7 +60,7 @@ const SignUp: React.FC = () => {
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
   });
-  const { mutateAsync: registerUser, isLoading, isError, error } = useRegisterUser();
+  const { mutateAsync: registerUser, isPending, isError, error } = useRegisterUser();
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     const { email, userType, password, confirmPassword } = data;
@@ -84,7 +84,7 @@ const SignUp: React.FC = () => {
             form={form}
             formFields={formFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
             error={error}
           />

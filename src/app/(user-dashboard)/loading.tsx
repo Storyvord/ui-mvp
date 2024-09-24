@@ -1,8 +1,10 @@
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className=" absolute top-0 left-0 w-full h-full grid place-content-center bg-gray-100 bg-transparent">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width={100} >
+    <div
+      style={{ clipPath: "ellipse(50% 100% at 50% 100%)" }}
+      className=" absolute top-0 left-0 w-full h-48 grid place-content-center bg-gray-200 bg-opacity-50 keyframes-accordion-down z-50 clip-path rotate-180"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width={80}>
         <radialGradient
           id="a12"
           cx=".66"

@@ -20,19 +20,19 @@ import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations
 import AssignTaskCard from "@/components/tasks/AssignTaskCard";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask, isError: isErrorTask } = useGetCompanyTasks();
+  const { data: tasksList, isPending: isLoadingTask, isError: isErrorTask } = useGetCompanyTasks();
   const { data: employeeTaskList } = useGetCompanyEmployeeTasks();
   const { mutateAsync: createNewTaskMutation } = useCreateNewCompanyTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteCompanyTask();
   const { mutateAsync: updateTaskMutation } = useUpdateCompanyTask();
-  const { mutateAsync: taskApprovalMutation, isLoading: isLoadingApprovedTask } =
+  const { mutateAsync: taskApprovalMutation, isPending: isLoadingApprovedTask } =
     useCompanyTaskCompletionApproval();
-  const { mutateAsync: taskRequestCompletionMutation, isLoading: isLoadingRequestTask } =
+  const { mutateAsync: taskRequestCompletionMutation, isPending: isLoadingRequestTask } =
     useCompanyTaskCompletionRequest();
   const { data: employee_list } = useGetSendInvitationsList();
   const employeeList = employee_list?.accepted.map(
-    (employee: { firstName: string; id: number; employee_email: string }) => ({
-      value: employee.id,
+    (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
+      value: employee.invited_user.id,
       label: employee.firstName || employee.employee_email,
     })
   );

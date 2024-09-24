@@ -319,7 +319,7 @@ export const defaultFormValues = {
       mode_of_shooting: undefined,
     },
   ],
-  uploadedDocument: "",
+  uploadedDocument: [],
   aiSuggestions: true,
   crew: [],
   equipment: [],

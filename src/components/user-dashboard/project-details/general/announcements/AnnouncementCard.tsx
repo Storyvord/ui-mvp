@@ -13,7 +13,12 @@ type AnnouncementCardProps = {
   onDelete: () => void;
 };
 
-const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ title, message, isLoading, onDelete }) => {
+const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
+  title,
+  message,
+  isLoading,
+  onDelete,
+}) => {
   return (
     <Card className="relative max-h-[40rem]">
       <CardHeader>
@@ -28,20 +33,10 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ title, message, isL
             {isLoading ? (
               <Loader />
             ) : (
-              <MdDelete
-                onClick={onDelete}
-                className="cursor-pointer text-red-500"
-              />
+              <MdDelete onClick={onDelete} className="cursor-pointer text-red-500" />
             )}
           </PopoverContent>
         </Popover>
-      </div>
-      <div className="flex items-center gap-3 mt-2">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>SS</AvatarFallback>
-        </Avatar>
-        <h3 className="font-semibold text-gray-600 text-sm">Souvik</h3>
       </div>
       <CardContent>
         <p className="mt-4 text-gray-500 line-clamp-6">{message}</p>

@@ -28,14 +28,14 @@ const ProfilePage = () => {
   const { data: endorsementData } = useGetEndorsement();
   const { data: creditsData } = useGetCredit();
 
-  const { mutateAsync: deleteEducation, isLoading: isLoadingDeleteEducation } =
+  const { mutateAsync: deleteEducation, isPending: isLoadingDeleteEducation } =
     useDeleteEducation();
-  const { mutateAsync: deleteEndorsement, isLoading: isLoadingDeleteEndorsement } =
+  const { mutateAsync: deleteEndorsement, isPending: isLoadingDeleteEndorsement } =
     useDeleteEndorsement();
-  const { mutateAsync: deletePortfolio, isLoading: isLoadingDeletePortfolio } =
+  const { mutateAsync: deletePortfolio, isPending: isLoadingDeletePortfolio } =
     useDeletePortfolio();
-  const { mutateAsync: deleteCredit, isLoading: isLoadingDeleteCredit } = useDeleteCredit();
-  const { mutateAsync: deleteSocialLink, isLoading: isLoadingDeleteSocialLinks } =
+  const { mutateAsync: deleteCredit, isPending: isLoadingDeleteCredit } = useDeleteCredit();
+  const { mutateAsync: deleteSocialLink, isPending: isLoadingDeleteSocialLinks } =
     useDeleteSocialLink();
 
   const [isClient, setIsClient] = useState(false);
@@ -51,15 +51,15 @@ const ProfilePage = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <Profile profile={profileData} />
-      <Education
-        educationData={educationData}
-        deleteEducation={deleteEducation}
-        isLoadingDeleteEducation={isLoadingDeleteEducation}
-      />
       <Portfolio
         portfolioData={portfolioData}
         deletePortfolio={deletePortfolio}
         isLoadingDeletePortfolio={isLoadingDeletePortfolio}
+      />
+      <Education
+        educationData={educationData}
+        deleteEducation={deleteEducation}
+        isLoadingDeleteEducation={isLoadingDeleteEducation}
       />
       <Endorsements
         endorsementData={endorsementData}

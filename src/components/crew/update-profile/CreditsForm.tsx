@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreditsFormFields, FormFieldConfig } from "@/types/crew";
@@ -8,6 +8,7 @@ import {
   useCreateCredit,
   useUpdateCredit,
   useGetCredit,
+  useGetProfile,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -68,10 +69,14 @@ type Props = {
 };
 
 const CreditsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { data: profileData } = useGetProfile();
+  const [crewProfileId, setCrewProfileId] = useState();
+  useEffect(() => {
+    setCrewProfileId(profileData?.id);
+  }, [profileData]);
   const { toast } = useToast();
 
-  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
-  const { mutateAsync, isLoading, isError } = useCreateCredit();
+  const { mutateAsync, isPending, isError } = useCreateCredit();
   const { mutateAsync: updateCredit } = useUpdateCredit();
   const { data } = useGetCredit();
 
@@ -108,7 +113,7 @@ const CreditsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
       }
       setOpenDialog(false);
     } else {
-      const res = await mutateAsync({ ...data, crew: crewProfileId });
+      const res = await mutateAsync({ ...data, crew: crewProfileId || 0 });
       if (res) {
         form.reset();
         toast({
@@ -130,7 +135,7 @@ const CreditsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
             form={form}
             formFields={creditsFormFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
           />
         </div>

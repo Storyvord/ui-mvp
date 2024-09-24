@@ -11,7 +11,7 @@ const SelectedCrew = ({
   project_id: string;
   status: "INITIATED" | "COMPLETED" | "PLANNING";
 }) => {
-  const { data: crews, isLoading, error } = useGetSuggestedCrew(project_id);
+  const { data: crews, isPending, error } = useGetSuggestedCrew(project_id);
 
   const reportsPage = (
     <Link

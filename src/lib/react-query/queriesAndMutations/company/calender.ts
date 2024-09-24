@@ -3,7 +3,7 @@ import {
   deleteCompanyCalenderEvent,
   getCompanyCalenderEvents,
 } from "@/lib/api/company/calender";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * The function `useGetCompanyCalenderEvents` returns a query for fetching company calendar events.
@@ -18,7 +18,6 @@ export const useGetCompanyCalenderEvents = () => {
     queryFn: getCompanyCalenderEvents,
   });
 };
-
 
 /**
  * The function `useCreateCompanyCalenderEvents` is a custom hook in TypeScript that uses `useMutation`
@@ -38,12 +37,8 @@ export const useCreateCompanyCalenderEvents = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error submitting create event form:", error);
-    },
   });
 };
-
 
 /**
  * The function `useDeleteCompanyCalenderEvent` is a custom hook in TypeScript that uses `useMutation`
@@ -62,9 +57,6 @@ export const useDeleteCompanyCalenderEvent = () => {
         queryKey: ["getCompanyCalenderEvents"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting calender event:", error);
     },
   });
 };

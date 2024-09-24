@@ -47,7 +47,7 @@ const FileManagement = () => {
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
   };
-  const { mutateAsync, isError, isLoading } = useUploadCompanyFile();
+  const { mutateAsync, isError, isPending } = useUploadCompanyFile();
   const handleUploadFile = async (data: UploadFileFormData) => {
     const base64 = await convertToBase64(data.file);
     const transformData = { ...data, file: base64, allowed_users: [], project: projectId };
@@ -99,7 +99,7 @@ const FileManagement = () => {
 
       <FileUploadModal
         uploadFile={handleUploadFile}
-        isLoading={isLoading}
+        isLoading={isPending}
         isError={isError}
         isOpen={isModalOpen}
         onClose={handleCloseModal}

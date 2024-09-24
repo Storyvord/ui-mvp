@@ -87,7 +87,7 @@ const UpdateProfile = () => {
   const { toast } = useToast();
   const router = useRouter();
   const { data: clientProfileData } = useGetClientProfile();
-  const { mutateAsync: updateClientProfileData, isLoading, isError } = useUpdateClientProfile();
+  const { mutateAsync: updateClientProfileData, isPending, isError } = useUpdateClientProfile();
   const form = useForm<ProfileType>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {},
@@ -129,7 +129,7 @@ const UpdateProfile = () => {
           form={form}
           formFields={formFields}
           onSubmit={onSubmit}
-          isLoading={isLoading}
+          isLoading={isPending}
           isError={isError}
         />
       </div>

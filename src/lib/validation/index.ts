@@ -28,26 +28,31 @@ export const projectFormSchema = z.object({
     .string()
     .min(100, { message: "The project description must be at least 100 words long." }),
 
-  uploadedDocument: z.union([
-    z.string().nonempty({ message: "Document cannot be an empty" }),
-    z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
-      message: "Document cannot be an empty ArrayBuffer",
-    }),
-    z.instanceof(File).refine(
-      (file) =>
-        (file.type === "image/jpeg" ||
-          file.type === "image/png" ||
-          file.type === "application/pdf" ||
-          file.type === "application/msword" || // For .doc files
-          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-          file.type === "text/plain") && // For .txt files
-        file.size > 0, // Ensure the file is not empty
-      {
-        message:
-          "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
-      }
-    ),
-  ]),
+  uploadedDocument: z
+    .array(
+      z.union([
+        z.string(),
+        z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+          message: "Document cannot be an empty ArrayBuffer",
+        }),
+        z.instanceof(File).refine(
+          (file) =>
+            (file.type === "image/jpeg" ||
+              file.type === "image/png" ||
+              file.type === "application/pdf" ||
+              file.type === "application/msword" || // For .doc files
+              file.type ===
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+              file.type === "text/plain") && // For .txt files
+            file.size > 0, // Ensure the file is not empty
+          {
+            message:
+              "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+          }
+        ),
+      ])
+    )
+    .optional(),
   locationDetails: z.array(
     z
       .object({

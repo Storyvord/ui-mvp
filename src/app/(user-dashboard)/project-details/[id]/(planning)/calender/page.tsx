@@ -28,12 +28,12 @@ const MyCalendarPage = () => {
   const { data: events } = useGetAllCalenderEvents(projectId);
   const {
     mutateAsync: createCalenderEvent,
-    isLoading: createEventLoading,
+    isPending: createEventLoading,
     isError: createEventError,
   } = useCreateCalenderEvents();
   const {
     mutateAsync: deleteEvent,
-    isLoading: deleteEventLoading,
+    isPending: deleteEventLoading,
     isError: deleteEventError,
   } = useDeleteEvent();
   const { data: crew_list } = useGetCrewList(projectId);

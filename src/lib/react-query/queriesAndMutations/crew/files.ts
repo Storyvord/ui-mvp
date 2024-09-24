@@ -1,6 +1,7 @@
 import { getCrewFileDocumentRooms } from "@/lib/api/crew/files";
 import { getAllFiles } from "@/lib/api/file";
-import { useQuery } from "react-query";
+import { useQuery  } from "@tanstack/react-query";
+
 
 export const useGetCrewFileDocumentRooms = (project_id: string) => {
   return useQuery({

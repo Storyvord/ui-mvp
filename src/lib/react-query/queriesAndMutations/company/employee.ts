@@ -6,7 +6,7 @@ import {
   rejectCompanyInvitation,
   sentInvitationToEmployee,
 } from "@/lib/api/company/employee";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useSentInvitationToEmployee = () => {
   const queryClient = useQueryClient();
@@ -17,9 +17,6 @@ export const useSentInvitationToEmployee = () => {
         queryKey: ["getSendInvitationsList"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };
