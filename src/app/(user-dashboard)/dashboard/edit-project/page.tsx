@@ -54,7 +54,7 @@ const EditProjectContent = () => {
       permits: location.permits,
       mode_of_shooting: location.mode_of_shooting,
     })),
-    uploadedDocument: data?.uploaded_document,
+    uploadedDocument: data?.documents,
     aiSuggestions: data?.ai_suggestions,
     crew: data?.selected_crew.map((crew: { title: string; quantity: number }) => ({
       title: crew.title,
