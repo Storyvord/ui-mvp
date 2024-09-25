@@ -17,7 +17,7 @@ export default function Chatbot() {
   const clientRef = useRef<W3CWebSocket | null>(null);
 
   const { data: prevSessions } = useGetChatbotSessions();
-  const { data: sessionsDetails } = useGetSessionDetails(currentSession!.id);
+  // const { data: sessionsDetails } = useGetSessionDetails(currentSession!.id);
 
   const token = Cookies.get("accessToken");
   useEffect(() => {
