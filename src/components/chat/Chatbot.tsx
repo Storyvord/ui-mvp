@@ -4,16 +4,29 @@ import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 import { ChatbotDetails } from "./ChatbotDetails";
+import {
+  useGetChatbotSessions,
+  useGetSessionDetails,
+} from "@/lib/react-query/queriesAndMutations/chatbot";
 
 export default function Chatbot() {
   const [openChat, setOpenChat] = useState(false); //open or close modal
   const [conversation, setConversation] = useState<Array<ChatConversation>>([]); //store conversation
+  const [currentSession, setCurrentSession] = useState<Session>();
 
   const clientRef = useRef<W3CWebSocket | null>(null);
 
+  const { data: prevSessions } = useGetChatbotSessions();
+  const { data: sessionsDetails } = useGetSessionDetails(currentSession!.id);
+
   const token = Cookies.get("accessToken");
   useEffect(() => {
-    const wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?access_token=${token}`;
+    let wsUrl = "";
+    if (!currentSession) {
+      wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?token=${token}`;
+    } else {
+      wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?token=${token}&session_id:${currentSession.session_id}`;
+    }
     const wsClient = new W3CWebSocket(wsUrl);
     clientRef.current = wsClient;
 
@@ -43,7 +56,7 @@ export default function Chatbot() {
       }
       clientRef.current = null;
     };
-  }, [token]);
+  }, [token, currentSession]);
 
   // Handle sending messages
   const sendMessage = (question: string) => {
@@ -66,7 +79,12 @@ export default function Chatbot() {
       </button>
       {openChat && (
         <div className="fixed bottom-20 right-5 z-50 shadow-xl">
-          <ChatbotDetails conversation={conversation} sendMessage={sendMessage} />
+          <ChatbotDetails
+            conversation={conversation}
+            sendMessage={sendMessage}
+            prevSessions={prevSessions}
+            setCurrentSession={setCurrentSession}
+          />
         </div>
       )}
     </div>
