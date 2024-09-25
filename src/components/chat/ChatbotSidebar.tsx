@@ -20,7 +20,7 @@ export const ChatbotSidebar: React.FC<ChatbotSidebarProps> = ({
           <p
             className="font-bold cursor-pointer"
             onClick={() => {
-              setCurrentSession(item);
+              setCurrentSession({ id: 2, session_id: "eaa1fce4-a427-4605-aa21-cbdb4e84b755" });
               !expanded && setOpenHistory(false);
             }}
           >

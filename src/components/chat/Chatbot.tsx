@@ -17,8 +17,7 @@ export default function Chatbot() {
   const clientRef = useRef<W3CWebSocket | null>(null);
 
   const { data: prevSessions } = useGetChatbotSessions();
-  // const { data: sessionsDetails } = useGetSessionDetails(currentSession!.id);
-  const { data: sessionsDetails } = useGetSessionDetails(2);
+  const { data: sessionsDetails } = useGetSessionDetails(currentSession?.id ?? 0);
 
   const token = Cookies.get("accessToken");
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function Chatbot() {
     if (!currentSession) {
       wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?token=${token}`;
     } else {
-      wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?token=${token}&session_id:${currentSession.session_id}`;
+      wsUrl = `wss://api-stage.storyvord.com:8001/ws/ai_assistant/?session_id=${currentSession.session_id}&token=${token}`;
     }
     const wsClient = new W3CWebSocket(wsUrl);
     clientRef.current = wsClient;
@@ -58,15 +57,18 @@ export default function Chatbot() {
       clientRef.current = null;
     };
   }, [token, currentSession]);
+
   useEffect(() => {
-    let localConversations: any = [];
-    sessionsDetails?.forEach((item: any) => {
-      localConversations.push(
-        { data: item.user_message, queryType: "question" },
-        { data: item.ai_response, queryType: "answer" }
-      );
-    });
-    setConversation(localConversations);
+    if (currentSession) {
+      let localConversations: any = [];
+      sessionsDetails?.forEach((item: any) => {
+        localConversations.push(
+          { data: item.user_message, queryType: "question" },
+          { data: item.ai_response, queryType: "answer" }
+        );
+      });
+      setConversation(localConversations);
+    }
   }, [sessionsDetails]);
 
   // Handle sending messages
