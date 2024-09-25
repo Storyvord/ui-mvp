@@ -18,14 +18,14 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const token = Cookies.get("accessToken");
-  const { data: userDetails, isLoading } = useGetUserDetails();
+  const { data: userDetails, isPending } = useGetUserDetails();
 
   return (
     <UserContextProvider>
       <div className="w-full min-h-screen bg-[#eceff180] relative">
         <SideBarContextProvider>
           <ProjectContextProvider>
-            {userDetails && token && !isLoading ? (
+            {userDetails && token && !isPending ? (
               <>
                 <SideBar />
                 <div className="lg:ml-72 font-sans">

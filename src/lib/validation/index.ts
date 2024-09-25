@@ -115,14 +115,26 @@ export const announcementFormSchema = z.object({
     .nullable(),
 });
 
-export const calenderFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  start: z.string().min(1, "Start date and time is required"),
-  end: z.string().min(1, "End date and time is required"),
-  participants: z.array(z.number()),
-  location: z.string().optional(),
-  description: z.string().optional(),
-});
+export const calenderFormSchema = z
+  .object({
+    title: z.string().min(1, "Title is required"),
+    start: z.string().min(1, "Start date and time is required"),
+    end: z.string().min(1, "End date and time is required"),
+    participants: z.array(z.number()),
+    location: z.string().optional(),
+    description: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      const startDate = new Date(data.start);
+      const endDate = new Date(data.end);
+      return endDate >= startDate;
+    },
+    {
+      message: "End date must be after start date",
+      path: ["end"], // This will attach the error to the endDate field
+    }
+  );
 
 export const ExternalContactFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -211,19 +223,12 @@ export const CallSheetFormSchema = z.object({
   }),
   calltime: timeSchema, // Time format HH:MM
   location: z.string().min(1, "Location is required"),
-  nearest_hospital_address: z.string().min(1, "Nearest hospital address is required"),
-  nearest_police_station: z.string().min(1, "Nearest police station is required"),
-  nearest_fire_station: z.string().min(1, "Nearest fire station is required"),
-
-  // Events
-  events: z
-    .array(
-      z.object({
-        time: timeSchema, // Time format HH:MM
-        title: z.string().min(1, "Event title is required"),
-      })
-    )
-    .min(1, "At least one event is required"), // At least one event required
+  nearest_hospital_address: z.string().optional(),
+  nearest_police_station: z.string().optional(),
+  nearest_fire_station: z.string().optional(),
+  breakfast: timeSchema,
+  lunch: timeSchema,
+  dinner: timeSchema,
 
   // Department Instructions
   call_time: z.array(
@@ -233,10 +238,11 @@ export const CallSheetFormSchema = z.object({
       phone: z.string().min(1, "phone is required"),
       email: z.string().min(1, "Email is required").email("Invalid email address"),
       calltime: timeSchema,
-      remark: z.string().optional(),
+      remarks: z.string().optional(),
     })
   ),
 
   additional_notes: z.string().optional(),
   production_notes: z.string().optional(),
+  // allowed_users: z.union([z.number(), z.array(z.number())]).optional(),
 });

@@ -17,12 +17,19 @@ const formFields: FormFieldConfig<CalenderFormFieldType>[] = [
     isMulti: true,
     options: [{ value: "", label: "" }],
   },
-  { name: "location", label: "Location", type: "text", placeholder: "Enter event location" },
+  {
+    name: "location",
+    label: "Location",
+    type: "text",
+    placeholder: "Enter event location",
+    optional: true,
+  },
   {
     name: "description",
     label: "Description",
     type: "textarea",
     placeholder: "Enter event description",
+    optional: true,
   },
 ];
 
