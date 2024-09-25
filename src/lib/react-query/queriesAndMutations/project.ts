@@ -6,7 +6,7 @@ import {
   getProjectDetails,
   getProjects,
 } from "@/lib/api/project";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
@@ -17,9 +17,6 @@ export const useCreateProject = () => {
         queryKey: ["getProjects"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error submitting form:", error);
     },
   });
 };
@@ -52,9 +49,6 @@ export const useDeleteProject = () => {
         queryKey: ["getProjects"],
       });
     },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
-    },
   });
 };
 
@@ -63,11 +57,10 @@ export const useEditProject = (projectId: string) => {
   return useMutation({
     mutationFn: editProject,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["projectDetails", projectId]);
+      queryClient.invalidateQueries({
+        queryKey: ["getProjects", projectId],
+      });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error in Editing project:", error);
     },
   });
 };
@@ -77,11 +70,10 @@ export const useEditProjectStatus = (projectId: string) => {
   return useMutation({
     mutationFn: editProjectStatus,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["projectDetails", projectId]);
+      queryClient.invalidateQueries({
+        queryKey: ["projectDetails", projectId],
+      });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error in completing project:", error);
     },
   });
 };

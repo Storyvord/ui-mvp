@@ -1,5 +1,5 @@
 import { getUserDetails, registerUser, userSignIn } from "@/lib/api/auth/auth";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 
 export const useRegisterUser = () => {
@@ -45,7 +45,7 @@ export const useGetUserDetails = () => {
       return await getUserDetails(token);
     },
     enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
-    cacheTime: 0, // Disable caching
-    staleTime: 0, // Data is always considered stale
+    // cacheTime: Infinity, // Disable caching
+    staleTime: Infinity, // Data is always considered stale
   });
 };

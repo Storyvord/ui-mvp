@@ -22,7 +22,7 @@ type Props = {
 const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }) => {
   const params = useParams();
   const projectId = params.id;
-  const { mutateAsync, isLoading } = useCreateAnnouncement();
+  const { mutateAsync, isPending } = useCreateAnnouncement();
 
   const form = useForm<announcementFormInputType>({
     resolver: zodResolver(announcementFormSchema),
@@ -47,7 +47,7 @@ const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }
         <DialogHeader>
           <DialogTitle>Announcement details</DialogTitle>
         </DialogHeader>
-        <AnnouncementForm form={form} onSubmit={onSubmit} isLoading={isLoading} />
+        <AnnouncementForm form={form} onSubmit={onSubmit} isLoading={isPending} />
       </DialogContent>
     </Dialog>
   );

@@ -31,12 +31,12 @@ const AddressBook = () => {
 
   const {
     data: addressBooks,
-    isLoading: isLoadingGetAddressBook,
+    isPending: isLoadingGetAddressBook,
     isError: isErrorGetAddressBook,
   } = useGetAddressBook();
   const {
     mutateAsync,
-    isLoading: isLoadingCreateAddressBook,
+    isPending: isLoadingCreateAddressBook,
     isError: isErrorCreateAddressBook,
   } = useCreateAddressBook();
 

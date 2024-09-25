@@ -7,7 +7,7 @@ import { ChatbotDetails } from "./ChatbotDetails";
 
 export default function Chatbot() {
   const [openChat, setOpenChat] = useState(false); //open or close modal
-  const [conversation, setConversation] = useState<Array<Conversation>>([]); //store conversation
+  const [conversation, setConversation] = useState<Array<ChatConversation>>([]); //store conversation
 
   const clientRef = useRef<W3CWebSocket | null>(null);
 

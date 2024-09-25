@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// Helper function for validating time format (HH:MM)
+const timeSchema = z.string().min(1, "Invalid time format");
+// .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)");
+// .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "Invalid time format (HH:MM:SS)");
+
 export const projectFormSchema = z.object({
   projectName: z.string().min(1, { message: "Project Name is required" }),
   contentType: z.string().min(1, { message: "Content Type is required" }),
@@ -23,26 +28,31 @@ export const projectFormSchema = z.object({
     .string()
     .min(100, { message: "The project description must be at least 100 words long." }),
 
-    uploadedDocument : z
-    .union([
-      z.string().nonempty({ message: "Document cannot be an empty" }),
-      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
-        message: "Document cannot be an empty ArrayBuffer",
-      }),
-      z.instanceof(File).refine(
-        (file) =>
-          (file.type === "image/jpeg" ||
-            file.type === "image/png" ||
-            file.type === "application/pdf" ||
-            file.type === "application/msword" || // For .doc files
-            file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-            file.type === "text/plain") && // For .txt files
-          file.size > 0, // Ensure the file is not empty
-        {
-          message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
-        }
-      ),
-    ]),
+  uploadedDocument: z
+    .array(
+      z.union([
+        z.string(),
+        z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+          message: "Document cannot be an empty ArrayBuffer",
+        }),
+        z.instanceof(File).refine(
+          (file) =>
+            (file.type === "image/jpeg" ||
+              file.type === "image/png" ||
+              file.type === "application/pdf" ||
+              file.type === "application/msword" || // For .doc files
+              file.type ===
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+              file.type === "text/plain") && // For .txt files
+            file.size > 0, // Ensure the file is not empty
+          {
+            message:
+              "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+          }
+        ),
+      ])
+    )
+    .optional(),
   locationDetails: z.array(
     z
       .object({
@@ -190,4 +200,43 @@ export const updateProfileSchema = z.object({
     .string()
     .nullable()
     .or(z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")), // Validates E.164 phone format or can be null
+});
+
+export const CallSheetFormSchema = z.object({
+  // Project Information
+  title: z.string().min(1, "Title is required"), // Required string, minimum 1 character
+  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    // Validates as a date string
+    message: "Invalid date format, expected YYYY-MM-DD",
+  }),
+  calltime: timeSchema, // Time format HH:MM
+  location: z.string().min(1, "Location is required"),
+  nearest_hospital_address: z.string().min(1, "Nearest hospital address is required"),
+  nearest_police_station: z.string().min(1, "Nearest police station is required"),
+  nearest_fire_station: z.string().min(1, "Nearest fire station is required"),
+
+  // Events
+  events: z
+    .array(
+      z.object({
+        time: timeSchema, // Time format HH:MM
+        title: z.string().min(1, "Event title is required"),
+      })
+    )
+    .min(1, "At least one event is required"), // At least one event required
+
+  // Department Instructions
+  call_time: z.array(
+    z.object({
+      name: z.string().min(1, "name is required"),
+      position: z.string().min(1, "position are required"),
+      phone: z.string().min(1, "phone is required"),
+      email: z.string().min(1, "Email is required").email("Invalid email address"),
+      calltime: timeSchema,
+      remark: z.string().optional(),
+    })
+  ),
+
+  additional_notes: z.string().optional(),
+  production_notes: z.string().optional(),
 });

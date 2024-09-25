@@ -53,7 +53,7 @@ const FileManagement = () => {
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
   };
-  const { mutateAsync, isError, isLoading } = useUploadFile();
+  const { mutateAsync, isError, isPending } = useUploadFile();
   const handleUploadFile = async (data: UploadFileFormData) => {
     const base64 = await convertToBase64(data.file);
     const transformData = { ...data, file: base64, allowed_users: [], project: projectId };
@@ -64,7 +64,7 @@ const FileManagement = () => {
   };
 
   // section for giving access rights
-  const { mutateAsync: giveAccessRights, isLoading: isLoadingAccessRights } =
+  const { mutateAsync: giveAccessRights, isPending: isLoadingAccessRights } =
     useUpdateRoomAccessRights();
   const handleSubmitAccessRightsForm = async (data: OptionType[]) => {
     const user = data.map((item) => item.label);
@@ -116,7 +116,7 @@ const FileManagement = () => {
 
       <FileUploadModal
         uploadFile={handleUploadFile}
-        isLoading={isLoading}
+        isLoading={isPending}
         isError={isError}
         isOpen={isModalOpen}
         onClose={handleCloseModal}

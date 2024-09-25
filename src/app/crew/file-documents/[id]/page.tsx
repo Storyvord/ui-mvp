@@ -18,7 +18,7 @@ const FileSection: FC = () => {
   const { id: projectId }: { id: string } = useParams();
   const router = useRouter();
 
-  const { data: roomData, isLoading: isLoadingFiles } = useGetCrewFileDocumentRooms(projectId);
+  const { data: roomData, isPending: isLoadingFiles } = useGetCrewFileDocumentRooms(projectId);
 
   const handleCardClick = (roomId: string) => {
     router.push(`/crew/file-documents/${projectId}/${roomId}`);

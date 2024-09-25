@@ -11,6 +11,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 
 import SelectInputWithQuantity from "@/components/SelectInputWithQuantity";
 import SelectInput from "@/components/SelectInput";
+import CustomFileInput from "./CustomFileInput";
 
 // Define the configuration for each form field, specifying the field's type, label, and other properties
 export type FormFieldConfig<T extends FieldValues> = {
@@ -25,6 +26,7 @@ export type FormFieldConfig<T extends FieldValues> = {
     | "checkbox"
     | "date"
     | "file"
+    | "time"
     | "datetime-local"
     | "select"
     | "selectWithQuantity"
@@ -86,19 +88,25 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                   <Fragment>
                     {/* Render input fields based on type */}
                     {type === "file" && (
-                      <Input
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files.length > 0) {
-                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
-                          }
-                        }}
+                      <CustomFileInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        isMulti={fieldConfig.isMulti}
                       />
+                      // <Input
+                      //   type="file"
+                      //   onChange={(e) => {
+                      //     if (e.target.files && e.target.files.length > 0) {
+                      //       field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
+                      //     }
+                      //   }}
+                      // />
                     )}
                     {(type === "text" ||
                       type === "email" ||
                       type === "number" ||
                       type === "date" ||
+                      type === "time" ||
                       type === "datetime-local") && (
                       <Input
                         type={type}

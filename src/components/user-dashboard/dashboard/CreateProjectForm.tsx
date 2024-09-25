@@ -63,9 +63,11 @@ const formFields: FormFieldConfig<ProjectFormFieldType>[] = [
   },
   {
     name: "uploadedDocument",
-    label: "Uploaded Document",
+    label: "Upload Document",
     type: "file",
     placeholder: "Upload document",
+    isMulti: true,
+    optional: true,
   },
   {
     name: "aiSuggestions",
@@ -141,17 +143,30 @@ const CreateProjectForm = ({
 
   const {
     mutateAsync: createProjectMutation,
-    isLoading: isLoadingCreateProject,
+    isPending: isLoadingCreateProject,
     isError: isErrorCreateProject,
     error,
   } = useCreateProject();
   const router = useRouter();
 
   const onSubmit = async (formData: ProjectFormFieldType) => {
-    const { locationDetails, crew, equipment, projectName, description, budget, contentType } =
-      formData;
+    const {
+      locationDetails,
+      crew,
+      equipment,
+      projectName,
+      description,
+      uploadedDocument,
+      budget,
+      contentType,
+    } = formData;
 
-    const base64 = await convertToBase64(formData.uploadedDocument);
+    const base64Documents = uploadedDocument?.map(async (item) => {
+      const base64 = await convertToBase64(item);
+      return { document: base64 };
+    });
+    const documents = await Promise.all(base64Documents || []);
+
     const transformedFormData = {
       location_details: locationDetails,
       selected_crew: crew,
@@ -162,9 +177,8 @@ const CreateProjectForm = ({
       budget_currency: "$",
       budget_amount: budget,
       content_type: contentType,
-      uploaded_document: base64,
+      documents,
     };
-
     if (isEdit && handleEditProject) {
       handleEditProject(transformedFormData);
     } else {
@@ -255,5 +269,4 @@ const CreateProjectForm = ({
     </div>
   );
 };
-
 export default CreateProjectForm;

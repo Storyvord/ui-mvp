@@ -1,15 +1,12 @@
 import { sentInvitationToCrew } from "@/lib/api/crew";
 import { getConversationsList, getMessages } from "@/lib/api/message";
-import { useMutation, useQuery } from "react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 export const useSentInvitationToCrew = () => {
   return useMutation({
     mutationFn: sentInvitationToCrew,
     onSuccess: (data) => {
       return data;
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };

@@ -3,7 +3,8 @@ import {
   getReferralEmployeeData,
   registerEmployeeWithReferral,
 } from "@/lib/api/auth/employee-referral";
-import { useMutation, useQuery } from "react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+
 
 export const useGetReferralEmployeeData = (referralCode: string) => {
   return useQuery({

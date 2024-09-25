@@ -1,67 +1,60 @@
+import {
+  createCallSheet,
+  deleteCallSheet,
+  editCallSheet,
+  getCallSheetDetails,
+  getCallSheets,
+} from "@/lib/api/callsheet";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { CallSheet } from "@/app/(user-dashboard)/project-details/[id]/(planning)/call-sheets/types";
-import { createCallSheet, deleteCallSheet, editCallSheet, getCallSheet } from "@/lib/api/callsheet";
-import { useParams } from "next/navigation";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-
-
-// Create call sheet hook
 export const useCreateCallSheet = () => {
- 
-    return useMutation({
-      mutationFn: createCallSheet,
-      onSuccess: (data) => {
-        console.log(data);
-        return data;
-      },
-      onError: (error) => {
-        console.error("Error creating call sheet:", error);
-      },
-    });
-  };
-  
-  // get call sheet data
-  export const useGetCallSheet = (id:number) => {  
-    return useQuery({
-      queryKey: ["callSheetDetails", id],
-      queryFn: () => getCallSheet(id),
-      onSuccess: (data) => {
-        console.log("Data fetched successfully:", data);
-        return data;
-      },
-      onError: (error) => {
-        console.error("Error fetching call sheet:", error);
-      },
-    });
-  };
-  
-  
-  // Delete call sheet hook
-  export const useDeleteCallSheet = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-      mutationFn: deleteCallSheet,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["deleteCallSheet"],
-        });
-      },
-      onError: (error) => {
-        console.error("Error in deleting project:", error);
-      },
-    });
-  };
-  
-  // Edit call sheet hook
-  export const useEditCallSheet = () => {
-      const queryClient = useQueryClient();
-      return useMutation({
-        mutationFn: editCallSheet,
-        onSuccess: () => {
-          queryClient.invalidateQueries(["editCallSheet"]);
-        },
-        onError: (error) => {
-          console.error(error);
-        },
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createCallSheet,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCallSheets"],
       });
-    };
+      return data;
+    },
+  });
+};
+export const useGetCallSheets = (projectId: string) => {
+  return useQuery({
+    queryKey: ["getCallSheets"],
+    queryFn: () => getCallSheets(projectId),
+  });
+};
+
+export const useEditCallSheet = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editCallSheet,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCallSheets"],
+      });
+      return data;
+    },
+  });
+};
+
+export const useGetCallSheetDetails = (id: number) => {
+  return useQuery({
+    queryKey: ["getCallSheetDetails", id],
+    queryFn: () => getCallSheetDetails(id),
+  });
+};
+
+// Delete call sheet hook
+export const useDeleteCallSheet = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteCallSheet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCallSheets"],
+      });
+    },
+  });
+};

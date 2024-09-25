@@ -28,7 +28,7 @@ const FileSection: FC = () => {
   const { data: roomData, isLoading: isLoadingFiles } = useGetAllFileDocumentRooms(projectId);
   const {
     mutateAsync,
-    isLoading: isLoadingCreateRoom,
+    isPending: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
   } = useCreateFileDocumentRoom();
   const { data: crew_list } = useGetCrewList(projectId);

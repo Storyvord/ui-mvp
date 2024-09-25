@@ -50,7 +50,7 @@ const CrewReferralRegistrationContent = () => {
   const referralCode = searchParams.get("referral_code") || "";
 
   const { data } = useGetReferralCrewData(referralCode);
-  const { mutateAsync, isLoading, isError } = useRegisterCrewWithReferral();
+  const { mutateAsync, isPending, isError } = useRegisterCrewWithReferral();
 
   const form = useForm({
     resolver: zodResolver(employeeRegistrationFormSchema),
@@ -97,7 +97,7 @@ const CrewReferralRegistrationContent = () => {
           form={form}
           formFields={formFields}
           onSubmit={onSubmit}
-          isLoading={isLoading}
+          isLoading={isPending}
           isError={isError}
         />
       </div>

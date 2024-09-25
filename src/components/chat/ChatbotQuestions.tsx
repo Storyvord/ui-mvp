@@ -2,7 +2,7 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 
 interface ChatbotQuestionsProps {
-  item: Conversation;
+  item: ChatConversation;
 }
 
 export const ChatbotQuestions: React.FC<ChatbotQuestionsProps> = ({ item }) => {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PortfolioFormData, FormFieldConfig } from "@/types/crew";
@@ -8,6 +8,7 @@ import {
   useCreatePortfolio,
   useUpdatePortfolio,
   useGetPortfolio,
+  useGetProfile,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { convertToBase64 } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
@@ -68,10 +69,15 @@ type Props = {
 };
 
 const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { data: profileData } = useGetProfile();
+  const [crewProfileId, setCrewProfileId] = useState();
+  useEffect(() => {
+    setCrewProfileId(profileData?.id);
+  }, [profileData]);
+
   const { toast } = useToast();
 
-  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
-  const { mutateAsync, isLoading, isError } = useCreatePortfolio();
+  const { mutateAsync, isPending, isError } = useCreatePortfolio();
   const { mutateAsync: updatePortfolio } = useUpdatePortfolio();
   const { data } = useGetPortfolio();
 
@@ -129,13 +135,13 @@ const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
           <DialogTitle>Portfolio Details</DialogTitle>
         </DialogHeader>
         <div className="max-h-[80vh] overflow-y-auto px-2">
-        <CustomForm
-          form={form}
-          formFields={portfolioFormFields}
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          isError={isError}
-        />
+          <CustomForm
+            form={form}
+            formFields={portfolioFormFields}
+            onSubmit={onSubmit}
+            isLoading={isPending}
+            isError={isError}
+          />
         </div>
       </DialogContent>
     </Dialog>

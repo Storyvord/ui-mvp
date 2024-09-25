@@ -9,7 +9,7 @@ interface CompliancePageProps {
 }
 
 const CompliancePage: FC<CompliancePageProps> = ({project_id}) => {
-  const {data: projectCompliance, isLoading, error} = useProjectComplience(project_id)
+  const {data: projectCompliance, isPending, error} = useProjectComplience(project_id)
 
   const [selectedLocation, setSelectedLocation] = useState("all")
   return (
@@ -31,7 +31,7 @@ const CompliancePage: FC<CompliancePageProps> = ({project_id}) => {
           </SelectContent>
       </Select>
       {
-        isLoading ? <CultureLoading/> : 
+        isPending ? <CultureLoading/> : 
         error ? <p className='text-center text-gray-700'>Something went wrong</p> :
         (
           <div className="flex flex-col gap-4">

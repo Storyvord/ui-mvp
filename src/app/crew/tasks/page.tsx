@@ -15,7 +15,7 @@ const Tasks = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const { toast } = useToast();
   const { data: tasks, isLoading: isLoadingTask } = useGetCrewTasks();
-  const { mutateAsync, isLoading, isError } = useRequestApprovalForTask();
+  const { mutateAsync, isPending, isError } = useRequestApprovalForTask();
 
   const handleRequestApproval = async (taskId: number) => {
     const res = await mutateAsync(taskId);
@@ -42,7 +42,7 @@ const Tasks = () => {
           <AssignTaskCard
             key={task.id}
             handleRequestApproval={handleRequestApproval}
-            isLoading={isLoading}
+            isLoading={isPending}
             task={task}
           />
         ))}
@@ -53,7 +53,7 @@ const Tasks = () => {
               <AssignTaskCard
                 key={task.id}
                 handleRequestApproval={handleRequestApproval}
-                isLoading={isLoading}
+                isLoading={isPending}
                 task={task}
               />
             );
@@ -66,7 +66,7 @@ const Tasks = () => {
               <AssignTaskCard
                 key={task.id}
                 handleRequestApproval={handleRequestApproval}
-                isLoading={isLoading}
+                isLoading={isPending}
                 task={task}
               />
             );

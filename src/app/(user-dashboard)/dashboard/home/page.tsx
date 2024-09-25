@@ -8,7 +8,7 @@ import { Project } from "@/types/project";
 import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const { data: projects, isLoading, isError } = useGetProjects();
+  const { data: projects, isPending, isError } = useGetProjects();
   const [pastProjects, setPastProjects] = useState<Project[]>([]);
   const [onGoingProjects, setOngoingProjects] = useState<Project[]>([]);
 
@@ -65,10 +65,10 @@ const Dashboard = () => {
           <CardHeader>
             <CardTitle className="text-xl">Your Ongoing Projects</CardTitle>
           </CardHeader>
-          <OngoingProjects projects={onGoingProjects} isLoading={isLoading} isError={isError} />
+          <OngoingProjects projects={onGoingProjects} isLoading={isPending} isError={isError} />
         </Card>
       </div>
-      <PastProjects projects={pastProjects} isLoading={isLoading} isError={isError} />
+      <PastProjects projects={pastProjects} isLoading={isPending} isError={isError} />
     </div>
   );
 };

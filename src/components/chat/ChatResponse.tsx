@@ -2,7 +2,7 @@ import creation from "@/assets/icons/creation";
 import { ChatTextResponse } from "./ChatTextResponse";
 import Loader from "@/components/Loader";
 interface ChatResponseProps {
-  data: Conversation;
+  data: ChatConversation;
   error: string;
   isLoading: boolean;
   showLoading?: boolean;

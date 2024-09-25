@@ -61,10 +61,10 @@ const CrewHire = () => {
 
   const {
     mutateAsync,
-    isLoading: isLoadingInvitation,
+    isPending: isLoadingInvitation,
     isError: isErrorInvitation,
   } = useSentInvitationToCrew();
-  const { data: crewList, isLoading: isLoadingCrewList } = useGetCrewList(projectId);
+  const { data: crewList, isPending: isLoadingCrewList } = useGetCrewList(projectId);
   const [searchValue, setSearchValue] = useState("");
   const form = useForm({
     resolver: zodResolver(validationSchema),
