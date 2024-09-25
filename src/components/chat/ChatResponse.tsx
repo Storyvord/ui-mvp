@@ -1,6 +1,5 @@
-import creation from "@/assets/icons/creation";
-import { ChatTextResponse } from "./ChatTextResponse";
 import Loader from "@/components/Loader";
+import { ChatTextResponse } from "./ChatTextResponse";
 interface ChatResponseProps {
   data: ChatConversation;
   error: string;
@@ -21,7 +20,7 @@ export const ChatResponse: React.FC<ChatResponseProps> = ({
       {isLoading && showLoading && <Loader />}
 
       {data && (
-        <div className="flex flex-col gap-2 w-full p-4 rounded-tl-none rounded-tr-[16px] rounded-br-[16px] rounded-bl-[16px] bg-chatbot-color1 text-white">
+        <div className="flex flex-col gap-2 w-full p-4 rounded-tl-none rounded-tr-[16px] rounded-br-[16px] rounded-bl-[16px] bg-gray-200 text-black">
           <ChatTextResponse data={data?.data} />
         </div>
       )}
