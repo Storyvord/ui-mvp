@@ -7,6 +7,6 @@ type ChatConversation = {
 type Session = {
   id: Number;
   session_id: String;
-  user: Number;
-  created_at: String;
+  user?: Number;
+  created_at?: String;
 };

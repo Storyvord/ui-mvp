@@ -97,7 +97,7 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
           </div>
         )}
         {openHistory && expanded && (
-          <div className="w-[40%] overflow-y-scroll">
+          <div className="w-[30%] overflow-y-scroll">
             <ChatbotSidebar
               data={prevSessions}
               setCurrentSession={setCurrentSession}
@@ -106,7 +106,9 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
             />
           </div>
         )}
-        <div className="p-3 overflow-x-hidden  bg-gray-100 overflow-y-scroll">
+        <div
+          className={`p-3 overflow-x-hidden bg-gray-100 overflow-y-scroll ${expanded && openHistory && "w-[70%]"}`}
+        >
           <ChatResponse data={initialResponse} isLoading={false} error={""} showLoading={false} />
           {filteredConversation?.map((item, key) => {
             return (
