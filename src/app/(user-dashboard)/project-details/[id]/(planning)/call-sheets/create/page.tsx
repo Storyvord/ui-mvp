@@ -16,6 +16,14 @@ const CreateCaSheet = () => {
 
   const { mutateAsync: createCallSheet, isPending, isError, error } = useCreateCallSheet();
 
+  // const { data: crew_list } = useGetCrewList(projectId);
+  // const crewList = crew_list?.accepted.map(
+  //   (crew: { invited_user: { id: number }; firstName: string }) => ({
+  //     value: crew.invited_user?.id,
+  //     label: crew.firstName,
+  //   })
+  // );
+
   const handleCreateCallSheet = async (formData: ShootFormType) => {
     try {
       const res = await createCallSheet({ formData, projectId });

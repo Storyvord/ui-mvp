@@ -19,6 +19,7 @@ type Props = {
   submitHandler: (data: ShootFormType) => void;
   isError: boolean;
   isLoading: boolean;
+  // crewList: { value: string; label: string }[];
   defaultValue?: any;
   isEdit?: boolean;
   error?: any;
@@ -27,10 +28,16 @@ const CallSheetForm = ({
   submitHandler,
   isLoading,
   isError,
+  // crewList,
+  defaultValue,
   isEdit,
   error,
-  defaultValue,
 }: Props) => {
+  // console.log(crewList);
+  // useEffect(() => {
+  //   formFields[18].options = crewList;
+  // }, [crewList]);
+
   const form = useForm({
     resolver: zodResolver(CallSheetFormSchema),
     defaultValues,
@@ -41,6 +48,7 @@ const CallSheetForm = ({
   }, [form, defaultValue]);
 
   const onSubmit = (data: ShootFormType) => {
+    console.log(data);
     submitHandler(data);
   };
 
@@ -56,28 +64,30 @@ const CallSheetForm = ({
             className="space-y-5 justify-center flex flex-col"
           >
             <section className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <RenderFormFields form={form} formFields={formFields.slice(0, 7)} />
+              <RenderFormFields form={form} formFields={formFields.slice(0, 10)} />
             </section>
             {/* Render fields dynamically */}
-            <RenderDynamicFormFields
+
+            {/* <RenderDynamicFormFields
               form={form}
               title="Event Details"
               name="events"
-              formFields={formFields.slice(7, 9)}
+              formFields={formFields.slice(10, 13)}
               defaultValue={defaultValues.events[0]}
-            />
+            /> */}
 
             <RenderDynamicFormFields
               form={form}
               title="Add People"
               name="call_time"
-              formFields={formFields.slice(9, 15)}
+              formFields={formFields.slice(10, 16)}
               defaultValue={defaultValues.call_time[0]}
             />
 
             <section className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <RenderFormFields form={form} formFields={formFields.slice(15, 18)} />
+              <RenderFormFields form={form} formFields={formFields.slice(16, 18)} />
             </section>
+            <RenderFormFields form={form} formFields={formFields.slice(18)} />
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
