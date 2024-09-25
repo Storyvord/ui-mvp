@@ -12,23 +12,40 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
     type: "text",
     placeholder: "Nearest Hospital Address",
     label: "Nearest Hospital Address",
+    optional: true,
   },
   {
     name: "nearest_police_station",
     type: "text",
     placeholder: "Nearest Police Station",
     label: "Nearest Police Station",
+    optional: true,
   },
   {
     name: "nearest_fire_station",
     type: "text",
     placeholder: "Nearest Fire Station",
     label: "Nearest Fire Station",
+    optional: true,
   },
-
-  // Events (Dynamic)
-  { name: "events.0.time", type: "time", placeholder: "Event Time", label: "Event Time" },
-  { name: "events.0.title", type: "text", placeholder: "Event Title", label: "Event Title" },
+  {
+    name: "breakfast",
+    type: "time",
+    placeholder: "Breakfast time",
+    label: "Breakfast Time",
+  },
+  {
+    name: "lunch",
+    type: "time",
+    placeholder: "Lunch time",
+    label: "Lunch Time",
+  },
+  {
+    name: "dinner",
+    type: "time",
+    placeholder: "Dinner time",
+    label: "Dinner Time",
+  },
 
   // Department Instructions (Dynamic)
   {
@@ -62,7 +79,7 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
     label: "Time",
   },
   {
-    name: "call_time.0.remark",
+    name: "call_time.0.remarks",
     type: "text",
     placeholder: "Remark",
     label: "Remark",
@@ -83,6 +100,15 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
     label: "Additional Notes",
     optional: true,
   },
+  // {
+  //   name: "allowed_users",
+  //   type: "select",
+  //   isMulti: true,
+  //   options: [{ value: "", label: "" }],
+  //   label: "Access Right",
+  //   placeholder: "",
+  //   optional: true,
+  // },
 ];
 export const defaultValues: ShootFormType = {
   // Project Information
@@ -93,18 +119,9 @@ export const defaultValues: ShootFormType = {
   nearest_hospital_address: "",
   nearest_police_station: "",
   nearest_fire_station: "",
-
-  // Events (Dynamic)
-  events: [
-    {
-      time: "",
-      title: "",
-    },
-    {
-      time: "",
-      title: "",
-    },
-  ],
+  breakfast: "",
+  lunch: "",
+  dinner: "",
 
   // Department Instructions (Dynamic)
   call_time: [
@@ -113,11 +130,12 @@ export const defaultValues: ShootFormType = {
       position: "",
       phone: "",
       email: "",
-      remark: "",
+      remarks: "",
       calltime: "",
     },
   ],
 
   additional_notes: "",
   production_notes: "",
+  // allowed_users: [],
 };

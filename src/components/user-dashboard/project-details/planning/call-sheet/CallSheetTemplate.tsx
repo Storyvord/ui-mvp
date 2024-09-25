@@ -28,14 +28,24 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
         <div className="w-1/3 border p-2 text-sm">
           <table className="w-full border-collapse border text-xs mt-2">
             <tbody>
-              {data?.events.map((item: any) => (
-                <tr key={item.id}>
-                  <td className="border px-2 py-1">
-                    <strong>{item.title}:</strong>
-                  </td>
-                  <td className="border px-2 py-1">{item.time}</td>
-                </tr>
-              ))}
+              <tr>
+                <td className="border px-2 py-1">
+                  <strong>Breakfast Time:</strong>
+                </td>
+                <td className="border px-2 py-1">{data?.breakfast}</td>
+              </tr>
+              <tr>
+                <td className="border px-2 py-1">
+                  <strong>Lunch Time:</strong>
+                </td>
+                <td className="border px-2 py-1">{data?.lunch}</td>
+              </tr>
+              <tr>
+                <td className="border px-2 py-1">
+                  <strong>Dinner Time:</strong>
+                </td>
+                <td className="border px-2 py-1">{data?.dinner}</td>
+              </tr>
             </tbody>
           </table>
         </div>

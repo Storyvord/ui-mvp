@@ -43,6 +43,7 @@ export const useGetCallSheetDetails = (id: number) => {
   return useQuery({
     queryKey: ["getCallSheetDetails", id],
     queryFn: () => getCallSheetDetails(id),
+    staleTime: 0,
   });
 };
 

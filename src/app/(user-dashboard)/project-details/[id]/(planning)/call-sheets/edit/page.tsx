@@ -31,8 +31,10 @@ const EditCallSheetContent = () => {
     nearest_hospital_address: data?.nearest_hospital_address,
     nearest_police_station: data?.nearest_police_station,
     nearest_fire_station: data?.nearest_fire_station,
+    breakfast: data?.breakfast,
+    lunch: data?.lunch,
+    dinner: data?.dinner,
 
-    events: data?.events,
     call_time: data?.call_time,
 
     additional_notes: data?.additional_notes,

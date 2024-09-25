@@ -1,6 +1,5 @@
 import { USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const registerUser = async (data: {
   email: string;
@@ -29,7 +28,7 @@ export const registerUser = async (data: {
 };
 
 export const userSignIn = async ({ email, password }: { email: string; password: string }) => {
-  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
+  const res = await fetch(`${USER_API}/api/accounts/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -53,27 +52,8 @@ export const userLogout = () => {
   return null;
 };
 
-export const verifyToken = async (token: RequestCookie | undefined) => {
-  try {
-    const res = await fetch(`${USER_API}/auth/jwt/verify/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token: token?.value }),
-    });
-    if (res.ok) {
-      return res.json;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    return false;
-  }
-};
-
 export const getUserDetails = async (token: string) => {
-  const res = await fetch(`${USER_API}/auth/users/me/`, {
+  const res = await fetch(`${USER_API}/api/accounts/api/user/me/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
