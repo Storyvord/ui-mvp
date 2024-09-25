@@ -85,9 +85,9 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
           <Image className="w-[30px]" src={"/circle-expand.svg"} width={50} height={10} alt="" />
         </button>
       </div>
-      <div className="flex flex-grow overflow-y-scroll ">
+      <div className="flex flex-grow overflow-hidden relative">
         {openHistory && !expanded && (
-          <div className="absolute left-0 w-[60%] h-[100%] overflow-y-scroll">
+          <div className="absolute left-0 w-[60%] h-[calc(70vh_-_7rem)] overflow-y-scroll">
             <ChatbotSidebar
               data={prevSessions}
               setCurrentSession={setCurrentSession}
@@ -97,7 +97,7 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
           </div>
         )}
         {openHistory && expanded && (
-          <div className="w-[40%] h-[70vh] overflow-y-scroll">
+          <div className="w-[40%] overflow-y-scroll">
             <ChatbotSidebar
               data={prevSessions}
               setCurrentSession={setCurrentSession}
