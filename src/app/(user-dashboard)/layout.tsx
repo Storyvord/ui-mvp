@@ -18,6 +18,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const token = Cookies.get("accessToken");
+
   const { data: userDetails, isLoading } = useGetUserDetails();
 
   return (
