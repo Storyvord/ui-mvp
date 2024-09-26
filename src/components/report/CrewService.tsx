@@ -26,7 +26,6 @@ const fetchCrewData = async (project_id: string): Promise<CrewData> => {
     }))
   };
 
-  console.log(transformedData);
   return transformedData;
 };
 

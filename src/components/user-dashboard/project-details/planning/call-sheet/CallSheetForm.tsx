@@ -48,7 +48,6 @@ const CallSheetForm = ({
   }, [form, defaultValue]);
 
   const onSubmit = (data: ShootFormType) => {
-    console.log(data);
     submitHandler(data);
   };
 
