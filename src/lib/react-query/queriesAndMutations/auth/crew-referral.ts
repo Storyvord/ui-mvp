@@ -15,8 +15,5 @@ export const useRegisterCrewWithReferral = () => {
     onSuccess: (data) => {
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

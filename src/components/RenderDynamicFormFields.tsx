@@ -1,22 +1,38 @@
-import RenderFormFields from "@/components/RenderFormFields";
+import RenderFormFields, { FormFieldConfig } from "@/components/RenderFormFields";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React from "react";
-import { useFieldArray } from "react-hook-form";
+import { ArrayPath, FieldArray, FieldValues, useFieldArray, UseFormReturn } from "react-hook-form";
 import { BsTrash } from "react-icons/bs";
 
-const RenderDynamicFormFields = ({ form, title, name, formFields, defaultValue }: any) => {
+type Props<TFormValues extends FieldValues> = {
+  form: UseFormReturn<TFormValues>; // react-hook-form's useForm instance
+  title?: string;
+  name: ArrayPath<TFormValues>;
+  formFields: FormFieldConfig<TFormValues>[]; // Array of form field configurations
+  defaultValue:
+    | FieldArray<TFormValues, ArrayPath<TFormValues>>
+    | FieldArray<TFormValues, ArrayPath<TFormValues>>[];
+  className?: string;
+};
+
+const RenderDynamicFormFields = <TFormValues extends FieldValues>({
+  form,
+  title,
+  name,
+  formFields,
+  defaultValue,
+  className = "",
+}: Props<TFormValues>) => {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: name,
   });
   return (
     <>
-      <h3 className=" text-center font-semibold text-xl underline">{title}</h3>
+      {title && <h3 className=" text-center font-semibold text-xl underline">{title}</h3>}
       {fields.map((field, index) => (
-        <div
-          key={field.id}
-          className="border p-4 rounded-md mb-4 relative grid grid-cols-1 sm:grid-cols-2 gap-2"
-        >
+        <div key={field.id} className={cn("rounded-md mb-2 relative", className)}>
           <RenderFormFields
             form={form}
             formFields={formFields.map((fieldConfig: any) => ({
