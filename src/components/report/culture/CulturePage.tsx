@@ -1,21 +1,29 @@
-import { useProjectCulture } from '@/lib/react-query/queriesAndMutations'
-import { FC, useState } from 'react'
-import CultureCard from './components/CultureCard'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import CultureLoading from './components/CultureLoading'
+import { useProjectCulture } from "@/lib/react-query/queriesAndMutations";
+import { FC, useState } from "react";
+import CultureCard from "./components/CultureCard";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import CultureLoading from "./components/CultureLoading";
 
 interface CulturePageProps {
-  project_id: string
+  project_id: string;
 }
 
-const CulturePage: FC<CulturePageProps> = ({project_id}) => {
+const CulturePage: FC<CulturePageProps> = ({ project_id }) => {
+  // const {data: projectCulture, isPending, error} = useProjectCulture(project_id)
 
-  const {data: projectCulture, isPending, error} = useProjectCulture(project_id)
-
-  const [selectedLocation, setSelectedLocation] = useState("all")
+  const [selectedLocation, setSelectedLocation] = useState("all");
   return (
-    <div className='w-full mt-2'>
-      {
+    <div className="w-full mt-2 text-center">
+      Culture Details
+      {/* {
         isPending ? <CultureLoading/> : 
         error ? <p className='text-center text-gray-700'>Something went wrong</p> :
         (
@@ -47,9 +55,9 @@ const CulturePage: FC<CulturePageProps> = ({project_id}) => {
             }
           </div>
         )
-      }
+      } */}
     </div>
-  )
-}
+  );
+};
 
-export default CulturePage
+export default CulturePage;

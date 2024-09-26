@@ -1,26 +1,33 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useProjectLogistics } from '@/lib/react-query/queriesAndMutations'
-import {FC, useState} from 'react'
-import LogisticsLoading from './components/LogisticsLoading'
-import { Card } from '@/components/ui/card'
-import HotelCard from './components/HotelCard'
-import FlightCard from './components/FlightCard'
-import TaxiCard from './components/TaxiCard'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useProjectLogistics } from "@/lib/react-query/queriesAndMutations";
+import { FC, useState } from "react";
+import LogisticsLoading from "./components/LogisticsLoading";
+import { Card } from "@/components/ui/card";
+import HotelCard from "./components/HotelCard";
+import FlightCard from "./components/FlightCard";
+import TaxiCard from "./components/TaxiCard";
 
 interface CulturePageProps {
-  project_id: string
+  project_id: string;
 }
 
+const LogisticsPage: FC<CulturePageProps> = ({ project_id }) => {
+  // const {data: projectLogistics, isLoading, error} = useProjectLogistics(project_id)
 
-const LogisticsPage: FC<CulturePageProps> = ({project_id}) => {
-
-  const {data: projectLogistics, isLoading, error} = useProjectLogistics(project_id)
-
-  const [selectedLocation, setSelectedLocation] = useState("all")
+  const [selectedLocation, setSelectedLocation] = useState("all");
 
   return (
-    <div className="w-full">
-      <Select onValueChange={(value)=>setSelectedLocation(value)} value={selectedLocation || "all"}>
+    <div className="w-full text-center mt-3">
+      Logistics Details
+      {/* <Select onValueChange={(value)=>setSelectedLocation(value)} value={selectedLocation || "all"}>
           <SelectTrigger className="w-full xsm:w-44 py-2 mb-2 px-4 border border-gray-300 rounded-lg bg-[#111827] text-white transition-colors duration-300">
             <SelectValue placeholder="Select a role" />
           </SelectTrigger>
@@ -83,9 +90,9 @@ const LogisticsPage: FC<CulturePageProps> = ({project_id}) => {
             ))
           }
         </div>)
-      }
+      } */}
     </div>
-  )
-}
+  );
+};
 
-export default LogisticsPage
+export default LogisticsPage;
