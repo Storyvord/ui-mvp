@@ -44,7 +44,6 @@ const RoomForm = ({ createRoom, isLoading, isError, open, onClose, crewList }: R
     defaultValues: { name: "", description: "", accessRight: [] },
   });
   const onSubmit = (data: RoomFormData) => {
-    console.log(data)
     createRoom(data);
   };
 

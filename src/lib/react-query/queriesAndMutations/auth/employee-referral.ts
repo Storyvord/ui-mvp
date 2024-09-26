@@ -20,8 +20,5 @@ export const useRegisterEmployeeWithReferral = () => {
     onSuccess: (data) => {
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

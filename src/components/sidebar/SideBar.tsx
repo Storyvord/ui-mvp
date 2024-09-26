@@ -16,7 +16,6 @@ import { useSelectedLayoutSegment } from "next/navigation";
 const SideBar = () => {
   const { isSideBarOpen } = useSideBarControl();
   const segment = useSelectedLayoutSegment();
-  console.log(segment);
 
   const ProjectDetailsMenu = projectdetailsItems.map((details) => (
     <div key={details.title} className="flex flex-col gap-1">

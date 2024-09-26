@@ -1,11 +1,8 @@
-"use client";
-import { useParams } from "next/navigation";
+import PremiumFeaturePage from "@/components/PremiumFeaturePage";
 import React from "react";
 
-const Budget = () => {
-  const { id: projectId } = useParams<{ id: string }>();
-
-  return <div>Budget</div>;
+const page = () => {
+  return <PremiumFeaturePage />;
 };
 
-export default Budget;
+export default page;

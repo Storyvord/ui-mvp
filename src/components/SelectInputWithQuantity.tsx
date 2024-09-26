@@ -1,7 +1,7 @@
 "use client";
 import React, { memo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import { PlusIcon, MinusIcon } from "@radix-ui/react-icons";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -10,41 +10,55 @@ import { Badge } from "@/components/ui/badge";
 // Define the type for the options used in the Select component
 type OptionType = { value: string; label: string } | null;
 
+// Define a unique identifier for each item
+interface SelectedItem {
+  id: string; // Unique identifier
+  title: string;
+  quantity: number;
+}
+
 interface SelectableFieldsProps {
   fieldName: string; // The name of the field in the form
   options: { value: string; label: string }[]; // Options for the Select component
   form: UseFormReturn<any>; // The react-hook-form instance
 }
 
+// Utility to generate unique IDs
+const generateUniqueId = (): string => {
+  return Math.random().toString(36).substr(2, 9);
+};
+
 // Component for rendering a select input with quantity controls
 const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, options, form }) => {
   // State to manage custom names for dynamically added items
-  const [customNames, setCustomNames] = useState<{ [key: number]: string }>({});
+  const [customNames, setCustomNames] = useState<{ [id: string]: string }>({});
 
   // Handle removing an item from the list
-  const handleRemove = (index: number) => {
-    const currentValue = form.getValues(fieldName) || [];
-    currentValue.splice(index, 1); // Remove item at the specified index
-    form.setValue(fieldName, [...currentValue]);
+  const handleRemove = (id: string) => {
+    const currentValue: SelectedItem[] = form.getValues(fieldName) || [];
+    const updatedValue = currentValue.filter((item) => item.id !== id);
+    form.setValue(fieldName, updatedValue);
 
     // Remove custom name entry if it exists
-    const updatedCustomNames = { ...customNames };
-    delete updatedCustomNames[index];
-    setCustomNames(updatedCustomNames);
+    if (customNames[id]) {
+      const updatedCustomNames = { ...customNames };
+      delete updatedCustomNames[id];
+      setCustomNames(updatedCustomNames);
+    }
   };
 
   // Render selected fields with quantity controls
   const renderSelectedFields = () => {
-    const currentValues = form.getValues(fieldName) || [];
-    return currentValues.map((item: { title: string; quantity: number }, index: number) => {
+    const currentValues: SelectedItem[] = form.getValues(fieldName) || [];
+    return currentValues.map((item: SelectedItem) => {
       // Check if the title is custom (i.e., not in the options list)
-      const isCustomTitle = !options.some((crew) => crew.value === item.title);
+      const isCustomTitle = !options.some((option) => option.value === item.title);
 
       return (
-        <Badge key={index} className="rounded-md py-1 bg-slate-900 hover:bg-slate-900">
+        <Badge key={item.id} className="rounded-md py-1 bg-slate-900 hover:bg-slate-900">
           <FormField
             control={form.control}
-            name={`${fieldName}.${index}.quantity`}
+            name={`${fieldName}.${currentValues.findIndex((val) => val.id === item.id)}.quantity`}
             render={({ field }) => (
               <FormItem className="flex justify-between w-full items-center gap-2">
                 {/* Render input for custom titles */}
@@ -52,11 +66,15 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                   <input
                     placeholder="Enter name"
                     className="font-sans font-bold w-full bg-slate-900 border-b-2 border-slate-700 focus:outline-none focus:border-slate-500 p-2 text-[0.9rem] text-white"
-                    value={customNames[index] || item.title}
+                    value={customNames[item.id] || item.title}
                     onChange={(e) => {
                       const newName = e.target.value;
-                      setCustomNames({ ...customNames, [index]: newName });
-                      form.setValue(`${fieldName}.${index}.title`, newName);
+                      setCustomNames((prev) => ({ ...prev, [item.id]: newName }));
+                      // Update the title in the form state
+                      const updatedItems = currentValues.map((val) =>
+                        val.id === item.id ? { ...val, title: newName } : val
+                      );
+                      form.setValue(fieldName, updatedItems);
                     }}
                   />
                 ) : (
@@ -71,9 +89,12 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                       onClick={() => {
                         const newQuantity = item.quantity - 1;
                         if (newQuantity <= 0) {
-                          handleRemove(index); // Remove item if quantity goes below 1
+                          handleRemove(item.id); // Remove item if quantity goes below 1
                         } else {
-                          form.setValue(`${fieldName}.${index}.quantity`, newQuantity);
+                          const updatedItems = currentValues.map((val) =>
+                            val.id === item.id ? { ...val, quantity: newQuantity } : val
+                          );
+                          form.setValue(fieldName, updatedItems);
                         }
                       }}
                     >
@@ -84,9 +105,13 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                     <button
                       type="button"
                       className="p-1 bg-green-800 text-white rounded hover:bg-green-700"
-                      onClick={() =>
-                        form.setValue(`${fieldName}.${index}.quantity`, item.quantity + 1)
-                      }
+                      onClick={() => {
+                        const newQuantity = item.quantity + 1;
+                        const updatedItems = currentValues.map((val) =>
+                          val.id === item.id ? { ...val, quantity: newQuantity } : val
+                        );
+                        form.setValue(fieldName, updatedItems);
+                      }}
                     >
                       <PlusIcon className="h-4 w-4" />
                     </button>
@@ -113,16 +138,26 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
               {...field}
               options={[...options, { value: "Others", label: "Others" }]} // Add an "Others" option for custom entries
               placeholder={`Select required ${fieldName}...`}
-              onChange={(selected) => {
+              onChange={(selected: SingleValue<OptionType>) => {
                 const selectedOption = selected as OptionType;
-                const currentValue = field.value || [];
+                const currentValue: SelectedItem[] = field.value || [];
 
                 if (selectedOption && typeof selectedOption.value === "string") {
+                  // Prevent adding duplicate standard options
+                  if (
+                    selectedOption.value !== "Others" &&
+                    currentValue.some((item) => item.title === selectedOption.value)
+                  ) {
+                    // Option already selected; you might want to notify the user
+                    return;
+                  }
+
                   // Create a unique entry for "Others" to allow multiple custom entries
-                  const newEntry = {
+                  const newEntry: SelectedItem = {
+                    id: generateUniqueId(),
                     title:
                       selectedOption.value === "Others"
-                        ? `Others-${currentValue.length}` // Make each "Others" entry unique
+                        ? `Others-${currentValue.length + 1}` // Make each "Others" entry unique
                         : selectedOption.value,
                     quantity: 1,
                   };
@@ -133,7 +168,12 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
               }}
               onBlur={field.onBlur}
               value={null} // Ensure no selected value shows up in the select input
-              controlShouldRenderValue={false} // Prevent showing the selected value in the control
+              // react-select props to improve user experience
+              isClearable
+              isSearchable
+              // Ensure multiple selection isn't allowed via the Select component itself
+              // since we're handling it manually
+              isMulti={false}
             />
           </FormControl>
           {/* Render selected fields if there are any */}

@@ -48,7 +48,6 @@ const CallSheetForm = ({
   }, [form, defaultValue]);
 
   const onSubmit = (data: ShootFormType) => {
-    console.log(data);
     submitHandler(data);
   };
 
@@ -66,28 +65,21 @@ const CallSheetForm = ({
             <section className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
               <RenderFormFields form={form} formFields={formFields.slice(0, 10)} />
             </section>
+
             {/* Render fields dynamically */}
-
-            {/* <RenderDynamicFormFields
-              form={form}
-              title="Event Details"
-              name="events"
-              formFields={formFields.slice(10, 13)}
-              defaultValue={defaultValues.events[0]}
-            /> */}
-
             <RenderDynamicFormFields
               form={form}
               title="Add People"
               name="call_time"
               formFields={formFields.slice(10, 16)}
               defaultValue={defaultValues.call_time[0]}
+              className="border p-4 grid grid-cols-1 sm:grid-cols-2 gap-2"
             />
 
             <section className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
               <RenderFormFields form={form} formFields={formFields.slice(16, 18)} />
             </section>
-            <RenderFormFields form={form} formFields={formFields.slice(18)} />
+            {/* <RenderFormFields form={form} formFields={formFields.slice(18)} /> */}
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
