@@ -1,5 +1,6 @@
-import Project from "@/components/user-dashboard/dashboard/project/Project";
 import React from "react";
+import Posting from "@/components/user-dashboard/dashboard/posting/Posting";
+import Project from "@/components/user-dashboard/dashboard/project/Project";
 
 const page = () => {
   return (
@@ -8,6 +9,7 @@ const page = () => {
       <div className=" grid grid-cols-4 gap-3">
         <section className="col-span-3 h-full py-3">
           <Project />
+          <Posting/>
         </section>
         <section className=" border h-full"></section>
       </div>
