@@ -22,7 +22,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <div className="w-full min-h-screen bg-[#eceff180] relative">
         {userDetails && token && !isPending ? (
           <>
-            <div className="font-sans">
+            <div className="">
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
             <Toaster />

@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 
-import NavBar from "@/components/navbar/NavBar";
+import Navbar from "@/components/user-dashboard/dashboard/Navbar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,8 +8,8 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="w-full min-h-screen bg-[#eceff180] relative">
-      <NavBar />
+    <div className="max-w-[1440px] mx-auto min-h-screen bg-[#eceff180] relative">
+      <Navbar />
       {children}
     </div>
   );
