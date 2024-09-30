@@ -113,3 +113,174 @@ textarea:disabled,
 select:disabled {
   @apply opacity-disabled;
 }
+
+
+
+
+/* src/GoogleCalendarStyle.css */
+
+/* 1. Overall Calendar Container */
+.my-calendar-container {
+  font-family: 'Roboto', sans-serif;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 2. Header Customization */
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f1f3f4; /* Google-like light gray */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rbc-toolbar-label {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #202124; /* Dark text */
+}
+
+.rbc-btn-group .rbc-btn {
+  background-color: #ffffff;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.rbc-btn-group .rbc-btn:hover {
+  background-color: #f1f3f4;
+  color: #202124;
+}
+
+.rbc-toolbar-select {
+  margin-left: 10px;
+}
+
+/* 3. Navigation Buttons */
+.rbc-toolbar .rbc-btn-group:first-child .rbc-btn {
+  margin-right: 5px;
+}
+
+.rbc-toolbar .rbc-btn-group:last-child .rbc-btn {
+  margin-left: 5px;
+}
+
+/* 4. Week and Day Views */
+.rbc-time-view {
+  background-color: #ffffff;
+}
+
+.rbc-time-gutter {
+  background-color: #f9f9f9;
+  border-right: 1px solid #e0e0e0;
+}
+
+.rbc-time-content {
+  background-color: #ffffff;
+}
+
+/* 5. Event Styling */
+.rbc-event {
+  background-color: #1a73e8; /* Google Blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.rbc-event:hover {
+  background-color: #1669c1;
+}
+
+/* 6. Month View */
+.rbc-month-view {
+  background-color: #ffffff;
+}
+
+.rbc-header {
+  background-color: #f1f3f4; /* Light gray background */
+  color: #202124; /* Dark text */
+  border-bottom: 1px solid #e0e0e0; /* Border below header */
+  text-align: center;
+}
+
+.rbc-day-bg {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0;
+}
+
+.rbc-day {
+  background-color: #ffffff !important;
+  color: #202124; /* Dark text */
+}
+
+.rbc-today {
+  background-color: #e8f0fe !important; /* Light blue for today */
+}
+
+.rbc-selected {
+  background-color: #3b82f6 !important; /* Blue background */
+  color: white !important;
+}
+
+/* 7. Toolbar Buttons */
+.rbc-toolbar button {
+  background-color: #3b82f6; /* Blue background */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+}
+
+/* 8. Customize Time Slots */
+.rbc-time-slot {
+  background-color: #f9fafb !important; /* Light gray background */
+}
+
+/* 9. Customize Scrollbar (Optional) */
+.rbc-calendar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.rbc-calendar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* 10. Make the Calendar Responsive */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rbc-toolbar-select {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .rbc-toolbar-label {
+    font-size: 1rem;
+  }
+
+  .rbc-btn-group .rbc-btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+}
