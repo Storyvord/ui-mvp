@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -21,10 +22,13 @@ const Navbar = () => {
     <>
       <h2 className=" text-md font-semibold sm:mt-3 mt-1">{item.title}</h2>
       {item.items.map((item) => (
-        <span className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md sm:p-2 p-1 ">
+        <Link
+          href={`/dashboard/${item.link}`}
+          className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md sm:p-2 p-1 "
+        >
           <item.icon />
           <h3> {item.text} </h3>
-        </span>
+        </Link>
       ))}
     </>
   ));
