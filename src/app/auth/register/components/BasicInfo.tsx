@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-unescaped-entities */
 import { Card } from '@/components/ui/card'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ProducerIcon from "@/assets/producer.svg";
 import CrewIcon from "@/assets/crew.svg";
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,14 +14,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export default function BasicInfo() {
 
-    const [isChecked, setIsChecked] = useState<string>('');
+    const photoRef = useRef(null)
+    const [fileData, setFileData] = useState(null)
 
-    const handleCheck = (type: any) => {
-        setIsChecked(type);
+    const showOpenFileDialog = () => {
+        photoRef.current.click()
+    }
+
+    const onChangeFile = (e: any) => {
+        setFileData(e.target.files[0])
     }
     
-    console.log(isChecked, 'isChecked')
-
   return (
     <div>
         <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Let's get to know you better!</h3>
@@ -87,10 +91,23 @@ export default function BasicInfo() {
             </div>
             <div className="w-full mt-5">
                 <Label className="font-poppins font-normal text-[#666666] text-base">Profile Photo</Label>
-                <Input type="file" placeholder='Please Enter About'
+                {fileData ?
+                <div>
+                    <Image src={fileData ? URL.createObjectURL(fileData) : null} width={140} height={140} />
+                    <p className="text-sm font-normal text-[#111111] font-poppins underline pt-1" onClick={() => showOpenFileDialog()}>Change</p>
+                    <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => onChangeFile(e)}
+                        className="hidden"
+                        ref={photoRef}
+                    />
+                </div>:
+                <Input type="file" placeholder='Please Enter About' onChange={(e) => onChangeFile(e)}
                     className="mt-1 font-poppins h-14 rounded-xl border-[#66666659]
                     file:mr-4 file:py-2 file:px-4 text-[#333] file:rounded-full file:border-0 file:text-sm file:font-normal file:bg-[#D7D7D7]"
                 />
+                }
             </div>
         </div>
         <div className='flex justify-end mt-10 mb-10'>
