@@ -32,6 +32,7 @@ export default function CreateProject() {
     const [fileData, setFileData] = useState(null);
     const [sliderValue, setSliderValue] = useState<number>(33);
     const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
+    const [showAll, setShowAll] = useState(false);
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -45,7 +46,12 @@ export default function CreateProject() {
         setSelectedContent(item);
     };
 
+    const handleShowMore = () => {
+        setShowAll(!showAll);
+    };
+
     console.log(selectedContent, 'sliderValue')
+    const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
     
   return (
     <div>
@@ -61,15 +67,8 @@ export default function CreateProject() {
                 </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Content Type</Label>
-                    <div className='mt-1 flex justify-between items-center gap-x-4'>
-                        <Slider value={[sliderValue]} max={100} step={1} onValueChange={handleSliderChange} />
-                        <p className='text-base font-poppins font-normal text-[#666666] border-[#66666659] border-[1px] rounded-xl px-6 py-3'>${sliderValue}</p>
-                    </div>
-                </div>
-                <div className="w-full mt-5">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Budget</Label>
                     <div className='mt-1 flex items-center gap-x-2 gap-y-3 flex-wrap'>
-                        {initialContentData?.map((item, index) => {
+                        {displayedContent?.map((item, index) => {
                             return (
                                 <p className={`${selectedContent?.id === item.id ? 'bg-[#333333]' : ''} rounded-lg bg-[#C9C9C9] px-4 py-2 text-center text-[#fff] text-base font-normal font-poppins cursor-pointer`} key={index}
                                     onClick={() => handleSelectContent(item)}
@@ -78,6 +77,21 @@ export default function CreateProject() {
                                 </p>
                             )
                         })}
+                    </div>
+                    <div className="mt-3">
+                        <Button
+                        className="text-sm font-poppins h-auto font-normal text-[#333333] underline cursor-pointer bg-[transparent] hover:bg-[transparent] px-0 py-0"
+                        onClick={handleShowMore}
+                        >
+                        {showAll ? 'Show Less' : 'Show More'}
+                        </Button>
+                    </div>
+                </div>
+                <div className="w-full mt-5">
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Budget</Label>
+                    <div className='mt-1 flex justify-between items-center gap-x-4'>
+                        <Slider value={[sliderValue]} max={100} step={1} onValueChange={handleSliderChange} />
+                        <p className='text-base font-poppins font-normal text-[#666666] border-[#66666659] border-[1px] rounded-xl px-6 py-3'>${sliderValue}</p>
                     </div>
                 </div>
                 <div className="w-full mt-5">
