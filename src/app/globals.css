@@ -120,3 +120,37 @@
   transform: translate(-50%, -50%);
   padding: 0px 15px;
 }
+.phone-input{
+  border-width: 1px;
+  border-color: #66666659;
+  border-radius: .75rem;
+  height: 3.8rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: .75rem;
+  margin-top: .25rem;
+}
+.phone-input input{
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  width: 100%;
+  color: #333;
+  border-left: 1px solid #66666659;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  margin-left: .5rem;
+}
+.phone-input input:focus{
+  outline: none;
+}
+.phone-input .PhoneInputCountry .PhoneInputCountrySelectArrow{
+  width: 8px;
+  height: 8px;
+  margin-left: 10px;
+  margin-top: -4px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}

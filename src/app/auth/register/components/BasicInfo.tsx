@@ -1,21 +1,19 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-unescaped-entities */
-import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
-import ProducerIcon from "@/assets/producer.svg";
-import CrewIcon from "@/assets/crew.svg";
-import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 export default function BasicInfo() {
 
-    const photoRef = useRef(null)
-    const [fileData, setFileData] = useState(null)
+    const photoRef = useRef(null);
+    const [fileData, setFileData] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState('+44');
 
     const showOpenFileDialog = () => {
         photoRef.current.click()
@@ -24,6 +22,8 @@ export default function BasicInfo() {
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
     }
+
+    console.log(phoneNumber, 'phoneNumber')
     
   return (
     <div>
@@ -38,9 +38,17 @@ export default function BasicInfo() {
             </div>
             <div className="w-full mt-5">
               <Label className="font-poppins font-normal text-[#666666] text-base">Phone Number</Label>
-              <Input type="text" placeholder='Please Enter Your Phone Number'
+              {/* <Input type="text" placeholder='Please Enter Your Phone Number'
                 className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
-              />
+              /> */}
+              <PhoneInput
+                placeholder="Please Enter Your Phone Number"
+                value={phoneNumber}
+                international
+                onChange={setPhoneNumber}
+                defaultCountry="GB"
+                className="phone-input"
+            />
             </div>
             <div className="w-full mt-2 text-right">
               <Button disabled className="font-poppins font-normal text-[#fff] rounded-[50px] text-base px-3 py-2 h-auto" type="submit">Get OTP</Button>
