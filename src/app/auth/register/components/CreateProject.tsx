@@ -7,11 +7,18 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
+import Image from 'next/image';
+import ArrowIcon from "@/assets/arrow-down.svg";
 
 interface ContentItem {
     id: number;
     name: string;
 }
+
+interface SelectedItem {
+    name: string;
+    count: number;
+  }
 
 const initialContentData: ContentItem[] = [
     { id: 1, name: 'Content 1' },
@@ -33,6 +40,12 @@ export default function CreateProject() {
     const [sliderValue, setSliderValue] = useState<number>(33);
     const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
     const [showAll, setShowAll] = useState(false);
+    const [crewData, setCrewData] = useState<string[]>(['Producer', 'Director', 'Camera', 'Tripod']);
+    const [equipmentData, setEquipmentData] = useState<string[]>(['Light', 'Dark', 'System']);
+    const [selectedCrew, setSelectedCrew] = useState<SelectedItem[]>([]);
+    const [selectedEquipment, setSelectedEquipment] = useState<SelectedItem[]>([]);
+    const [crewDropdownOpen, setCrewDropdownOpen] = useState(false);
+    const [equipmentDropdownOpen, setEquipmentDropdownOpen] = useState(false);
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -48,6 +61,76 @@ export default function CreateProject() {
 
     const handleShowMore = () => {
         setShowAll(!showAll);
+    };
+
+    const handleSelect = (itemName: string, isCrew: boolean) => {
+        if (isCrew) {
+            const selectedItemExists = selectedCrew.some(item => item.name === itemName);
+            if (!selectedItemExists) {
+                setSelectedCrew([...selectedCrew, { name: itemName, count: 1 }]);
+                setCrewData(crewData.filter(crew => crew !== itemName)); // Remove selected item from dropdown
+            }
+        } else {
+            const selectedItemExists = selectedEquipment.some(item => item.name === itemName);
+            if (!selectedItemExists) {
+                setSelectedEquipment([...selectedEquipment, { name: itemName, count: 1 }]);
+                setEquipmentData(equipmentData.filter(equip => equip !== itemName)); // Remove selected item from dropdown
+            }
+        }
+    };
+    
+    const handleIncrement = (name: string, isCrew: boolean) => {
+        const selectedItems = isCrew ? selectedCrew : selectedEquipment;
+        const setSelectedItems = isCrew ? setSelectedCrew : setSelectedEquipment;
+        setSelectedItems(
+          selectedItems.map(item =>
+            item.name === name ? { ...item, count: item.count + 1 } : item
+          )
+        );
+    };
+
+    const handleDecrement = (name: string, isCrew: boolean) => {
+        if (isCrew) {
+            // Handle decrement for crew members
+            setSelectedCrew(prevItems => {
+                const updatedItems = prevItems.map(item =>
+                    item.name === name && item.count > 0 ? { ...item, count: item.count - 1 } : item
+                );
+    
+                // Check if the item count is 0
+                const itemCount = updatedItems.find(item => item.name === name)?.count;
+                if (itemCount === 0) {
+                    // Add back to crewData if count is 0
+                    setCrewData(prevCrew => [...prevCrew, name]);
+                    return updatedItems.filter(item => item.count > 0); // Remove item with count 0
+                }
+                return updatedItems;
+            });
+        } else {
+            // Handle decrement for equipment
+            setSelectedEquipment(prevItems => {
+                const updatedItems = prevItems.map(item =>
+                    item.name === name && item.count > 0 ? { ...item, count: item.count - 1 } : item
+                );
+    
+                // Check if the item count is 0
+                const itemCount = updatedItems.find(item => item.name === name)?.count;
+                if (itemCount === 0) {
+                    // Add back to equipmentData if count is 0
+                    setEquipmentData(prevEquip => [...prevEquip, name]);
+                    return updatedItems.filter(item => item.count > 0); // Remove item with count 0
+                }
+                return updatedItems;
+            });
+        }
+    };
+    
+    const toggleDropdown = (isCrew: boolean) => {
+        if (isCrew) {
+          setCrewDropdownOpen(!crewDropdownOpen);
+        } else {
+          setEquipmentDropdownOpen(!equipmentDropdownOpen);
+        }
     };
 
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
@@ -95,16 +178,38 @@ export default function CreateProject() {
                 </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Crew</Label>
-                    <Select>
-                        <SelectTrigger className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus:ring-offset-0 focus:ring-0 focus-visible:ring-offset-0 focus-visible:ring-[transparent]">
-                            <SelectValue placeholder="Please Select Required Crew Members" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="light">Light</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="dark">Dark</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="system">System</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div className='relative'>
+                        <div
+                            className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[1px] border-[#66666659] p-[15px] cursor-pointer flex justify-between items-center"
+                            onClick={() => toggleDropdown(true)}
+                        >
+                            <span>Please Select Crew Members</span>
+                            <Image src={ArrowIcon} alt='arrow' />
+                        </div>
+                        {crewDropdownOpen && (
+                            <div className="bg-white border-[1px] border-[#66666659] rounded-xl shadow-lg mt-1 p-3 h-[190px] overflow-y-scroll">
+                                {crewData.map((crew, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => handleSelect(crew, true)}
+                                        className="cursor-pointer p-2 hover:bg-gray-200 rounded-md text-base font-normal text-[#111111] font-poppins"
+                                    >
+                                        {crew}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="mt-3 flex flex-wrap gap-3">
+                            {selectedCrew.map(item => (
+                                <div key={item.name} className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins p-3 flex items-center gap-2">
+                                    <span>{item.name}</span>
+                                    <button onClick={() => handleIncrement(item.name, true)} className="text-[#fff] px-2">+</button>
+                                    <span className="bg-[#fff] text-[#333333] px-3 rounded-lg">{item.count}</span>
+                                    <button onClick={() => handleDecrement(item.name, true)} className="text-[#fff] px-2">-</button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="md:w-6/12">
@@ -129,7 +234,7 @@ export default function CreateProject() {
                 </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Equipment</Label>
-                    <Select>
+                    {/* <Select>
                         <SelectTrigger className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus:ring-offset-0 focus:ring-0 focus-visible:ring-offset-0 focus-visible:ring-[transparent]">
                             <SelectValue placeholder="Please Select Required Equipments" />
                         </SelectTrigger>
@@ -138,7 +243,39 @@ export default function CreateProject() {
                             <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="dark">Dark</SelectItem>
                             <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="system">System</SelectItem>
                         </SelectContent>
-                    </Select>
+                    </Select> */}
+                    <div className='relative'>
+                        <div
+                            className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[1px] border-[#66666659] p-[15px] cursor-pointer flex justify-between items-center"
+                            onClick={() => toggleDropdown(false)}
+                        >
+                            <span>Please Select Equipment</span>
+                            <Image src={ArrowIcon} alt='arrow' />
+                        </div>
+                        {equipmentDropdownOpen && (
+                            <div className="bg-white border-[1px] border-[#66666659] rounded-xl shadow-lg mt-1 p-3 h-[190px] overflow-y-scroll">
+                                {equipmentData.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => handleSelect(item, false)}
+                                        className="cursor-pointer p-2 hover:bg-gray-200 rounded-md text-base font-normal text-[#111111] font-poppins"
+                                    >
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="mt-3 flex flex-wrap gap-3">
+                            {selectedEquipment.map(item => (
+                                <div key={item.name} className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins p-3 flex items-center gap-2">
+                                    <span>{item.name}</span>
+                                    <button onClick={() => handleIncrement(item.name, false)} className="text-[#fff] px-2">+</button>
+                                    <span className="bg-[#fff] text-[#333333] px-3 rounded-lg">{item.count}</span>
+                                    <button onClick={() => handleDecrement(item.name, false)} className="text-[#fff] px-2">-</button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
