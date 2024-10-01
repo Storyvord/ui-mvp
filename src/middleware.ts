@@ -6,7 +6,7 @@ import { verifyToken } from "./lib/api/auth/auth";
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const publicPaths = ["/", "/auth/sign-in", "/auth/sign-up",  "/auth/forget-password", "/auth/referral/crew", "/auth/referral/employee"];
+  const publicPaths = ["/", "/auth/sign-in", "/auth/sign-up",  "/auth/forget-password", "/auth/register", "/auth/referral/crew", "/auth/referral/employee"];
   const restrictedCrewPaths = ["/crew", "/crew/home"];
   const restrictedClientPaths = ["/dashboard", "/dashboard/home", "/project-details"];
 

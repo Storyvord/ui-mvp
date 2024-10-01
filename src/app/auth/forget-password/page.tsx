@@ -28,7 +28,7 @@ const ForgetPassword = () => {
         </div>
       </div>
       <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
-        <div className="w-full md:px-24 px-5 py-4">
+        <div className="w-full px-5 py-4 lg:px-24 md:px-8 sm:px-8">
           <div className="md:hidden block cursor-pointer mb-10" onClick={() => router.push("/")}>
             <Image src={Logo} alt="app-logo" />
           </div>

@@ -28,6 +28,10 @@ const SignUp = () => {
     setShowConfirmPassword(!showConfirmPassword)
   }
 
+  const handleSignUp = () => {
+    router.push("/auth/register")
+  }
+
   return (
     <section className="flex md:h-screen h-full justify-between">
       <div className="md:w-6/12 md:block hidden">
@@ -45,7 +49,7 @@ const SignUp = () => {
         </div>
       </div>
       <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
-        <div className="w-full md:px-24 px-5 py-4">
+        <div className="w-full px-5 py-4 lg:px-24 md:px-8 sm:px-8">
           <div className="md:hidden block cursor-pointer mb-10" onClick={() => router.push("/")}>
             <Image src={Logo} alt="app-logo" />
           </div>
@@ -88,10 +92,10 @@ const SignUp = () => {
             <div className="flex items-center space-x-3 mt-4">
                 <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
                 <p className="font-poppins font-normal text-[#666666] text-sm" >
-                    By creating an account, you agree to our Terms of use and Privacy Policy 
+                  By creating an account, you agree to our Terms of use and Privacy Policy 
                 </p>
             </div>
-            <Button className="mt-6 w-full" type="submit">Create an account</Button>
+            <Button className="mt-6 w-full" type="submit" onClick={handleSignUp}>Create an account</Button>
             <div className="relative my-6">
               <div className="border border-[#66666659]" />
               <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">OR</p>
