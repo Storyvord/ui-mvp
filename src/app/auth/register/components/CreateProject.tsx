@@ -1,22 +1,37 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-unescaped-entities */
-import { Card } from '@/components/ui/card'
-import Image from 'next/image'
-import React, { useRef, useState } from 'react'
-import ProducerIcon from "@/assets/producer.svg";
-import CrewIcon from "@/assets/crew.svg";
-import { Checkbox } from '@/components/ui/checkbox';
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import { Textarea } from '@/components/ui/textarea';
+
+interface ContentItem {
+    id: number;
+    name: string;
+}
+
+const initialContentData: ContentItem[] = [
+    { id: 1, name: 'Content 1' },
+    { id: 2, name: 'Content 2' },
+    { id: 3, name: 'Content 3' },
+    { id: 4, name: 'Content 4' },
+    { id: 5, name: 'Content 5' },
+    { id: 6, name: 'Content 6' },
+    { id: 7, name: 'Content 7' },
+    { id: 8, name: 'Content 8' },
+    { id: 9, name: 'Content 9' },
+    { id: 10, name: 'Content 10' },
+    { id: 11, name: 'Content 11' },
+  ];
 
 export default function CreateProject() {
 
     const [fileData, setFileData] = useState(null);
     const [sliderValue, setSliderValue] = useState<number>(33);
+    const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -26,7 +41,11 @@ export default function CreateProject() {
         setSliderValue(value[0]);
     };
 
-    console.log([sliderValue], 'sliderValue')
+    const handleSelectContent = (item: ContentItem) => {
+        setSelectedContent(item);
+    };
+
+    console.log(selectedContent, 'sliderValue')
     
   return (
     <div>
@@ -41,10 +60,24 @@ export default function CreateProject() {
                     />
                 </div>
                 <div className="w-full mt-5">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Budget</Label>
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Content Type</Label>
                     <div className='mt-1 flex justify-between items-center gap-x-4'>
                         <Slider value={[sliderValue]} max={100} step={1} onValueChange={handleSliderChange} />
                         <p className='text-base font-poppins font-normal text-[#666666] border-[#66666659] border-[1px] rounded-xl px-6 py-3'>${sliderValue}</p>
+                    </div>
+                </div>
+                <div className="w-full mt-5">
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Budget</Label>
+                    <div className='mt-1 flex items-center gap-x-2 gap-y-3 flex-wrap'>
+                        {initialContentData?.map((item, index) => {
+                            return (
+                                <p className={`${selectedContent?.id === item.id ? 'bg-[#333333]' : ''} rounded-lg bg-[#C9C9C9] px-4 py-2 text-center text-[#fff] text-base font-normal font-poppins cursor-pointer`} key={index}
+                                    onClick={() => handleSelectContent(item)}
+                                >
+                                    {item.name}
+                                </p>
+                            )
+                        })}
                     </div>
                 </div>
                 <div className="w-full mt-5">
@@ -77,13 +110,13 @@ export default function CreateProject() {
             <div className="md:w-6/12">
                 <div className="w-full">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Project Brief</Label>
-                    <Input type="text" placeholder='Please Enter Project Description'
+                    <Textarea placeholder='Please Enter Project Description'
                     className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                     />
                 </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Additional details</Label>
-                    <Input type="text" placeholder='Please Enter Additional details'
+                    <Textarea placeholder='Please Enter Additional details'
                     className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                     />
                 </div>
