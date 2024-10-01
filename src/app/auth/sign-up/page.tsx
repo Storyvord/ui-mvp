@@ -1,90 +1,32 @@
 "use client";
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/app-logo.svg";
-import { FormFieldConfig } from "@/types";
-import { z } from "zod";
-import { signUpFormSchema } from "@/lib/validation/auth";
-import CustomForm from "@/components/CustomForm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/components/ui/use-toast";
-import { useRegisterUser } from "@/lib/react-query/queriesAndMutations/auth/auth";
-import Link from "next/link";
+import Banner from "@/assets/login-image.jpg";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button";
 import GoogleIcon from "@/assets/google.svg";
 import AppleIcon from "@/assets/apple.svg";
-import Banner from "@/assets/signup-image.jpg";
+import HideIcon from "@/assets/hide-eye.svg";
+import ShowIcon from "@/assets/show.svg";
+import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const userTypeOptions = [
-  { value: "client", label: "client" },
-  { value: "crew", label: "crew" },
-];
-type FormSchemaType = z.infer<typeof signUpFormSchema>;
-
-const formFields: FormFieldConfig<FormSchemaType>[] = [
-  {
-    name: "email",
-    label: "Email",
-    type: "email",
-    placeholder: "Enter your email",
-  },
-  // {
-  //   name: "userType",
-  //   label: "User Type",
-  //   type: "select",
-  //   options: userTypeOptions,
-  // },
-  {
-    name: "password",
-    label: "Password",
-    type: "password",
-    placeholder: "Enter password",
-    note: 'Use 8 or more characters with a mix of letters, numbers & symbols',
-  },
-  {
-    name: "confirmPassword",
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Enter confirm password",
-    note: 'Use 8 or more characters with a mix of letters, numbers & symbols',
-  },
-  {
-    name: "agreePolicy",
-    label: '',
-    title: "By creating an account, you agree to our Terms of use and Privacy Policy ",
-    type: "checkbox",
-  },
-];
-
-interface SignUpFormData {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  userType: string;
-  agreePolicy: boolean;
-}
-
-const SignUp: React.FC = () => {
+const SignUp = () => {
+  
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter();
-  const { toast } = useToast();
 
-  const form = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpFormSchema),
-  });
-  const { mutateAsync: registerUser, isLoading, isError, error } = useRegisterUser();
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
 
-  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
-    const { email, userType, password, confirmPassword } = data;
-    const res = await registerUser({ email, userType, password, confirmPassword });
-    if (res) {
-      toast({
-        title: "Your account has been created",
-      });
-      router.push("/auth/sign-in");
-    }
-  };
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword)
+  }
 
   return (
     <section className="flex md:h-screen h-full justify-between">
@@ -107,22 +49,50 @@ const SignUp: React.FC = () => {
           <div className="md:hidden block cursor-pointer mb-10" onClick={() => router.push("/")}>
             <Image src={Logo} alt="app-logo" />
           </div>
-          <h3 className="text-3xl leading-[3rem] font-medium text-[#111111] font-poppins">Create an account</h3>
+          <h3 className="text-3xl leading-[3rem] font-medium text-[#111111] font-poppins md:text-left text-center">Create an account</h3>
           <p className="text-base font-normal text-[#111111] font-poppins">
             Already have an account? {' '}
             <Link href='/auth/sign-in' className="underline">Log in</Link>
           </p>
-          <div className="mt-2">
-            <CustomForm
-              form={form}
-              formFields={formFields}
-              onSubmit={onSubmit}
-              isLoading={isLoading}
-              isError={isError}
-              error={error}
-              // buttonLabel={'Create an account'}
-            />
-            <div className="relative my-7">
+          <form className="mt-4">
+            <div className="">
+              <Label className="font-poppins font-normal text-[#666666] text-base">Email Address</Label>
+              <Input type="text"
+                className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
+              />
+            </div>
+            <div className="mt-3">
+              <Label className="font-poppins font-normal text-[#666666] text-base">Password</Label>
+              <div className="relative">
+                <Input type={showPassword ? 'text' : "password"}
+                  className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
+                />
+                <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility()}>
+                  <Image src={showPassword ? ShowIcon : HideIcon} alt="eye-password" />
+                </div>
+              </div>
+              <p className="text-sm font-normal text-[#666666] font-poppins mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+            </div>
+            <div className="mt-3">
+              <Label className="font-poppins font-normal text-[#666666] text-base">Confirm Password</Label>
+              <div className="relative">
+                <Input type={showConfirmPassword ? 'text' : "password"}
+                  className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
+                />
+                <div className="absolute right-4 top-4 cursor-pointer" onClick={() => toggleConfirmPasswordVisibility()}>
+                  <Image src={showConfirmPassword ? ShowIcon : HideIcon} alt="eye-password" />
+                </div>
+              </div>
+              <p className="text-sm font-normal text-[#666666] font-poppins mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+            </div>
+            <div className="flex items-center space-x-3 mt-4">
+                <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
+                <p className="font-poppins font-normal text-[#666666] text-sm" >
+                    By creating an account, you agree to our Terms of use and Privacy Policy 
+                </p>
+            </div>
+            <Button className="mt-6 w-full" type="submit">Create an account</Button>
+            <div className="relative my-6">
               <div className="border border-[#66666659]" />
               <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">OR</p>
             </div>
@@ -134,7 +104,7 @@ const SignUp: React.FC = () => {
               <Image className="mr-2 h-6 w-6" src={AppleIcon} alt="apple-icon" />
               Continue with Apple
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </section>
