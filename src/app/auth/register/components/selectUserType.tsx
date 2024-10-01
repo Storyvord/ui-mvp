@@ -1,9 +1,7 @@
-import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import ProducerIcon from "@/assets/producer.svg";
 import CrewIcon from "@/assets/crew.svg";
-import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
