@@ -67,13 +67,13 @@ export default function CreateProject() {
             const selectedItemExists = selectedCrew.some(item => item.name === itemName);
             if (!selectedItemExists) {
                 setSelectedCrew([...selectedCrew, { name: itemName, count: 1 }]);
-                setCrewData(crewData.filter(crew => crew !== itemName)); // Remove selected item from dropdown
+                setCrewData(crewData.filter((crew) => crew !== itemName)); // Remove selected item from dropdown
             }
         } else {
             const selectedItemExists = selectedEquipment.some(item => item.name === itemName);
             if (!selectedItemExists) {
                 setSelectedEquipment([...selectedEquipment, { name: itemName, count: 1 }]);
-                setEquipmentData(equipmentData.filter(equip => equip !== itemName)); // Remove selected item from dropdown
+                setEquipmentData(equipmentData.filter((equip) => equip !== itemName)); // Remove selected item from dropdown
             }
         }
     };
@@ -91,8 +91,8 @@ export default function CreateProject() {
     const handleDecrement = (name: string, isCrew: boolean) => {
         if (isCrew) {
             // Handle decrement for crew members
-            setSelectedCrew(prevItems => {
-                const updatedItems = prevItems.map(item =>
+            setSelectedCrew(selectedCrew => {
+                const updatedItems = selectedCrew.map(item =>
                     item.name === name && item.count > 0 ? { ...item, count: item.count - 1 } : item
                 );
     
@@ -100,15 +100,15 @@ export default function CreateProject() {
                 const itemCount = updatedItems.find(item => item.name === name)?.count;
                 if (itemCount === 0) {
                     // Add back to crewData if count is 0
-                    setCrewData(prevCrew => [...prevCrew, name]);
+                    setCrewData([...crewData, name]);
                     return updatedItems.filter(item => item.count > 0); // Remove item with count 0
                 }
                 return updatedItems;
             });
         } else {
             // Handle decrement for equipment
-            setSelectedEquipment(prevItems => {
-                const updatedItems = prevItems.map(item =>
+            setSelectedEquipment(selectedEquipment => {
+                const updatedItems = selectedEquipment.map(item =>
                     item.name === name && item.count > 0 ? { ...item, count: item.count - 1 } : item
                 );
     
@@ -116,7 +116,7 @@ export default function CreateProject() {
                 const itemCount = updatedItems.find(item => item.name === name)?.count;
                 if (itemCount === 0) {
                     // Add back to equipmentData if count is 0
-                    setEquipmentData(prevEquip => [...prevEquip, name]);
+                    setEquipmentData([...equipmentData, name]);
                     return updatedItems.filter(item => item.count > 0); // Remove item with count 0
                 }
                 return updatedItems;
@@ -133,6 +133,7 @@ export default function CreateProject() {
     };
 
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
+    console.log(selectedCrew, 'selectedCrew')
     
   return (
     <div>
