@@ -50,7 +50,6 @@ export default function CreateProject() {
         setShowAll(!showAll);
     };
 
-    console.log(selectedContent, 'sliderValue')
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
     
   return (
@@ -80,8 +79,8 @@ export default function CreateProject() {
                     </div>
                     <div className="mt-3">
                         <Button
-                        className="text-sm font-poppins h-auto font-normal text-[#333333] underline cursor-pointer bg-[transparent] hover:bg-[transparent] px-0 py-0"
-                        onClick={handleShowMore}
+                            className="text-sm font-poppins h-auto font-normal text-[#333333] underline cursor-pointer bg-[transparent] hover:bg-[transparent] px-0 py-0"
+                            onClick={handleShowMore}
                         >
                         {showAll ? 'Show Less' : 'Show More'}
                         </Button>
