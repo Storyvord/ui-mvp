@@ -6,6 +6,7 @@ import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import ArrowIcon from "@/assets/arrow-down.svg";
+import AddShootDetailsDialog from './AddShootDetailsDialog';
 
 interface ContentItem {
     id: number;
@@ -43,6 +44,7 @@ export default function CreateProject() {
     const [selectedEquipment, setSelectedEquipment] = useState<SelectedItem[]>([]);
     const [crewDropdownOpen, setCrewDropdownOpen] = useState(false);
     const [equipmentDropdownOpen, setEquipmentDropdownOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -58,6 +60,14 @@ export default function CreateProject() {
 
     const handleShowMore = () => {
         setShowAll(!showAll);
+    };
+
+    const handleOpenDialog = () => {    
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
     };
 
     const handleSelect = (itemName: string, isCrew: boolean) => {
@@ -268,8 +278,9 @@ export default function CreateProject() {
             </div>
         </div>
         <div className='flex justify-end mt-10 mb-10'>
-            <Button className='w-44 font-poppins' type="submit">Add Shoot Details</Button>
+            <Button className='w-44 font-poppins' type="submit" onClick={handleOpenDialog}>Add Shoot Details</Button>
         </div>
+        <AddShootDetailsDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog} />
     </div>
   )
 }
