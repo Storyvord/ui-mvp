@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/app-logo.svg";
-import { BasicInfo, SelectUserType } from "./components";
+import { BasicInfo, CreateProject, SelectUserType } from "./components";
 
 const Register = () => {
   const router = useRouter();
@@ -79,9 +79,7 @@ const Register = () => {
                <BasicInfo />
             )}
             {step === 3 && (
-               <div onClick={() => { markStepAsCompleted(3); handleSubmit();}}>
-                    vnvnmfgmnefgfmnfjd
-                </div>
+              <CreateProject />
             )}
         </>
       </div>
