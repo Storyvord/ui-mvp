@@ -94,7 +94,7 @@ export default function BasicInfo() {
                 {fileData ?
                 <div>
                     <Image src={fileData ? URL.createObjectURL(fileData) : null} width={140} height={140} />
-                    <p className="text-sm font-normal text-[#111111] font-poppins underline pt-1" onClick={() => showOpenFileDialog()}>Change</p>
+                    <p className="text-sm font-normal text-[#111111] font-poppins underline pt-1 cursor-pointer" onClick={() => showOpenFileDialog()}>Change</p>
                     <Input
                         type="file"
                         accept="image/*"

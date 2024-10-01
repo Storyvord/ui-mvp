@@ -106,6 +106,27 @@ export default function CreateProject() {
                         </SelectContent>
                     </Select>
                 </div>
+            </div>
+            <div className="md:w-6/12">
+                <div className="w-full">
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Project Brief</Label>
+                    <Textarea placeholder='Please Enter Project Description'
+                    className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent] h-[89px]"
+                    />
+                </div>
+                <div className="w-full mt-5">
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Additional details</Label>
+                    <Textarea placeholder='Please Enter Additional details'
+                    className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent] h-[89px]"
+                    />
+                </div>
+                <div className="w-full mt-5">
+                    <Label className="font-poppins font-normal text-[#666666] text-base">Upload Document <span className="text-xs">(If any)</span></Label>
+                    <Input type="file" placeholder='Please Enter About' onChange={(e) => onChangeFile(e)}
+                        className="mt-1 font-poppins h-14 rounded-xl border-[#66666659]
+                        file:mr-4 file:py-2 file:px-4 text-[#333] file:rounded-full file:border-0 file:text-sm file:font-normal file:bg-[#D7D7D7]"
+                    />
+                </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Equipment</Label>
                     <Select>
@@ -120,43 +141,9 @@ export default function CreateProject() {
                     </Select>
                 </div>
             </div>
-            <div className="md:w-6/12">
-                <div className="w-full">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Project Brief</Label>
-                    <Textarea placeholder='Please Enter Project Description'
-                    className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
-                    />
-                </div>
-                <div className="w-full mt-5">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Additional details</Label>
-                    <Textarea placeholder='Please Enter Additional details'
-                    className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
-                    />
-                </div>
-                <div className="w-full mt-5">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Upload Document <span className="text-xs">(If any)</span></Label>
-                    <Input type="file" placeholder='Please Enter About' onChange={(e) => onChangeFile(e)}
-                        className="mt-1 font-poppins h-14 rounded-xl border-[#66666659]
-                        file:mr-4 file:py-2 file:px-4 text-[#333] file:rounded-full file:border-0 file:text-sm file:font-normal file:bg-[#D7D7D7]"
-                    />
-                </div>
-                <div className="w-full mt-5">
-                    <Label className="font-poppins font-normal text-[#666666] text-base">Shoot Loaction</Label>
-                    <Select>
-                        <SelectTrigger className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus:ring-offset-0 focus:ring-0 focus-visible:ring-offset-0 focus-visible:ring-[transparent]">
-                            <SelectValue placeholder="Please Select Shoot Loaction" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="light">Light</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="dark">Dark</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="system">System</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
         </div>
         <div className='flex justify-end mt-10 mb-10'>
-            <Button className='w-44 font-poppins' type="submit">Next</Button>
+            <Button className='w-44 font-poppins' type="submit">Add Shoot Details</Button>
         </div>
     </div>
   )
