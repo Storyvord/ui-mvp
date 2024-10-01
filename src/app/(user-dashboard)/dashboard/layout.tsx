@@ -8,9 +8,9 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="max-w-[2000px] mx-auto min-h-screen relative">
+    <div className="max-w-[2000px] mx-auto relative">
       <Navbar />
-      {children}
+      <main className=" relative pt-16 ">{children}</main>
     </div>
   );
 };

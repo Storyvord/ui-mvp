@@ -40,7 +40,7 @@ const Project = () => {
           <h1 className=" text-xl">Your Projects</h1>
         </span>
         <Link href="/dashboard/new-project">
-          <Button className=" md:hidden flex gap-2">
+          <Button className=" md:hidden flex gap-2" size="sm">
             <img src="/icons/plus-2.svg" alt="" /> New Project
           </Button>
         </Link>
