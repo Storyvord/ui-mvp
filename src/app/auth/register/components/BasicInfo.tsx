@@ -11,17 +11,21 @@ import 'react-phone-number-input/style.css';
 
 export default function BasicInfo() {
 
-    const photoRef = useRef(null);
-    const [fileData, setFileData] = useState(null);
-    const [phoneNumber, setPhoneNumber] = useState('+44');
+    const photoRef = useRef<HTMLInputElement | null>(null);
+    const [fileData, setFileData] = useState<File | null>(null);
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>('+44');
 
     const showOpenFileDialog = () => {
-        photoRef.current.click()
-    }
+        if (photoRef.current) {
+            photoRef.current.click();
+        }
+    };
 
-    const onChangeFile = (e: any) => {
-        setFileData(e.target.files[0])
-    }
+    const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFileData(e.target.files[0]);
+        }
+    };
 
     console.log(phoneNumber, 'phoneNumber')
     
@@ -38,9 +42,6 @@ export default function BasicInfo() {
             </div>
             <div className="w-full mt-5">
               <Label className="font-poppins font-normal text-[#666666] text-base">Phone Number</Label>
-              {/* <Input type="text" placeholder='Please Enter Your Phone Number'
-                className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
-              /> */}
               <PhoneInput
                 placeholder="Please Enter Your Phone Number"
                 value={phoneNumber}
@@ -54,7 +55,7 @@ export default function BasicInfo() {
               <Button disabled className="font-poppins font-normal text-[#fff] rounded-[50px] text-base px-3 py-2 h-auto" type="submit">Get OTP</Button>
             </div>
             <div className="w-full mt-2">
-              <Label className="font-poppins font-normal text-[#666666] text-base">OTP Verify</Label>
+              `<Label className="font-poppins font-normal text-[#666666] text-base">OTP Verify</Label>
               <Input type="text" placeholder='Please Enter OTP'
                 className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
               />
@@ -100,21 +101,21 @@ export default function BasicInfo() {
             <div className="w-full mt-5">
                 <Label className="font-poppins font-normal text-[#666666] text-base">Profile Photo</Label>
                 {fileData ?
-                <div>
-                    <Image src={fileData ? URL.createObjectURL(fileData) : null} width={140} height={140} />
-                    <p className="text-sm font-normal text-[#111111] font-poppins underline pt-1 cursor-pointer" onClick={() => showOpenFileDialog()}>Change</p>
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => onChangeFile(e)}
-                        className="hidden"
-                        ref={photoRef}
+                    <div>
+                        <Image src={URL.createObjectURL(fileData)} width={140} height={140} alt="Profile Photo" />
+                        <p className="text-sm font-normal text-[#111111] font-poppins underline pt-1 cursor-pointer" onClick={() => showOpenFileDialog()}>Change</p>
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => onChangeFile(e)}
+                            className="hidden"
+                            ref={photoRef}
+                        />
+                    </div>:
+                    <Input type="file" placeholder='Please Enter About' onChange={(e) => onChangeFile(e)}
+                        className="mt-1 font-poppins h-14 rounded-xl border-[#66666659]
+                        file:mr-4 file:py-2 file:px-4 text-[#333] file:rounded-full file:border-0 file:text-sm file:font-normal file:bg-[#D7D7D7]"
                     />
-                </div>:
-                <Input type="file" placeholder='Please Enter About' onChange={(e) => onChangeFile(e)}
-                    className="mt-1 font-poppins h-14 rounded-xl border-[#66666659]
-                    file:mr-4 file:py-2 file:px-4 text-[#333] file:rounded-full file:border-0 file:text-sm file:font-normal file:bg-[#D7D7D7]"
-                />
                 }
             </div>
         </div>
