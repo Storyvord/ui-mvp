@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
+import { userLogout } from "@/lib/api/auth/auth";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -46,7 +47,7 @@ const Navbar = () => {
     </>
   );
 
-  const profile = ["Profile", "Settings", "Subscription", "Logout"].map((item) => (
+  const profile = ["Profile", "Settings", "Subscription"].map((item) => (
     <p
       key={item}
       className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2"
@@ -111,7 +112,15 @@ const Navbar = () => {
             <DropdownMenuTrigger className=" flex items-center gap-2 cursor-pointer">
               <img src={"/profile.png"} alt="profile" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>{profile}</DropdownMenuContent>
+            <DropdownMenuContent>
+              {profile}
+              <button
+                onClick={() => userLogout()}
+                className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2"
+              >
+                Logout
+              </button>
+            </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
@@ -148,7 +157,12 @@ const Navbar = () => {
             <h3 className=" p-2 bg-gray-100 rounded-md">Profile</h3>
             <h3 className=" p-2 bg-gray-100 rounded-md">Settings</h3>
             <h3 className=" p-2 bg-gray-100 rounded-md">Subscriptions</h3>
-            <button className=" w-full border rounded-md mt-12 cursor-pointer">Logout</button>
+            <button
+              onClick={() => userLogout()}
+              className=" w-full border rounded-md mt-12 cursor-pointer"
+            >
+              Logout
+            </button>
           </div>
         )}
       </section>
