@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
