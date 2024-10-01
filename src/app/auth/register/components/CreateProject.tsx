@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
@@ -81,8 +80,8 @@ export default function CreateProject() {
     
     const handleIncrement = (name: string, isCrew: boolean) => {
         const selectedItems = isCrew ? selectedCrew : selectedEquipment;
-        const setSelectedItems = isCrew ? setSelectedCrew : setSelectedEquipment;
-        setSelectedItems(
+        const currentItems = isCrew ? setSelectedCrew : setSelectedEquipment;
+        currentItems(
           selectedItems.map(item =>
             item.name === name ? { ...item, count: item.count + 1 } : item
           )
@@ -234,16 +233,6 @@ export default function CreateProject() {
                 </div>
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Equipment</Label>
-                    {/* <Select>
-                        <SelectTrigger className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus:ring-offset-0 focus:ring-0 focus-visible:ring-offset-0 focus-visible:ring-[transparent]">
-                            <SelectValue placeholder="Please Select Required Equipments" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="light">Light</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="dark">Dark</SelectItem>
-                            <SelectItem className="text-base font-normal text-[#111111] font-poppins" value="system">System</SelectItem>
-                        </SelectContent>
-                    </Select> */}
                     <div className='relative'>
                         <div
                             className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[1px] border-[#66666659] p-[15px] cursor-pointer flex justify-between items-center"
