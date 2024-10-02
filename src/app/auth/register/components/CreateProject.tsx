@@ -141,7 +141,7 @@ export default function CreateProject() {
     };
 
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
-    console.log(selectedCrew, 'selectedCrew')
+    console.log(selectedContent, 'selectedContent')
     
   return (
     <div>
@@ -160,7 +160,9 @@ export default function CreateProject() {
                     <div className='mt-1 flex items-center gap-x-2 gap-y-3 flex-wrap'>
                         {displayedContent?.map((item, index) => {
                             return (
-                                <p className={`${selectedContent?.id === item.id ? 'bg-[#333333]' : ''} rounded-lg bg-[#C9C9C9] px-4 py-2 text-center text-[#fff] text-base font-normal font-poppins cursor-pointer`} key={index}
+                                <p className={`rounded-lg px-4 py-2 text-center text-[#fff] text-base font-normal font-poppins cursor-pointer ${
+                                    selectedContent?.id === item.id ? 'bg-[#333333]' : 'bg-[#C9C9C9]'
+                                  }`} key={index}
                                     onClick={() => handleSelectContent(item)}
                                 >
                                     {item.name}
