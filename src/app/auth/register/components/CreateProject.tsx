@@ -45,6 +45,11 @@ export default function CreateProject() {
     const [crewDropdownOpen, setCrewDropdownOpen] = useState(false);
     const [equipmentDropdownOpen, setEquipmentDropdownOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [isChecked, setIsChecked] = useState<string>('indoor');
+
+    const handleCheck = (value: string) => {
+        setIsChecked(value);
+    }
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -282,7 +287,9 @@ export default function CreateProject() {
         <div className='flex justify-end mt-10 mb-10'>
             <Button className='w-44 font-poppins' type="submit" onClick={handleOpenDialog}>Add Shoot Details</Button>
         </div>
-        <AddShootDetailsDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog} />
+        <AddShootDetailsDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog}
+            isChecked={isChecked} handleCheck={handleCheck}
+        />
     </div>
   )
 }
