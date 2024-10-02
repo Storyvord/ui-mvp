@@ -226,9 +226,9 @@ export const CallSheetFormSchema = z.object({
   nearest_hospital_address: z.string().optional(),
   nearest_police_station: z.string().optional(),
   nearest_fire_station: z.string().optional(),
-  breakfast: timeSchema,
-  lunch: timeSchema,
-  dinner: timeSchema,
+  breakfast: z.string().optional(),
+  lunch: z.string().optional(),
+  dinner: z.string().optional(),
 
   // Department Instructions
   call_time: z.array(
