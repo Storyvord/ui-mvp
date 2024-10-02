@@ -68,9 +68,9 @@ const MyCalendarPage = () => {
   };
 
   const handleDeleteEvent = async (eventId: number) => {
-    await deleteEvent({ projectId, eventId });
-    if (!deleteEventError) {
-      setOpenFormDialog(false);
+    const res = await deleteEvent({ projectId, eventId });
+    if (res.ok) {
+      setOpenEventDialog(false);
     }
   };
 

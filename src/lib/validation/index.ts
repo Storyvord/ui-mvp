@@ -108,11 +108,11 @@ export const announcementFormSchema = z.object({
   expirationDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Invalid date format",
   }),
-  file: z
-    .custom<FileList | null>((val) => val === null || val instanceof FileList, {
-      message: "Invalid file type",
-    })
-    .nullable(),
+  // file: z
+  //   .custom<FileList | null>((val) => val === null || val instanceof FileList, {
+  //     message: "Invalid file type",
+  //   })
+  //   .nullable(),
 });
 
 export const calenderFormSchema = z
@@ -226,9 +226,9 @@ export const CallSheetFormSchema = z.object({
   nearest_hospital_address: z.string().optional(),
   nearest_police_station: z.string().optional(),
   nearest_fire_station: z.string().optional(),
-  breakfast: timeSchema,
-  lunch: timeSchema,
-  dinner: timeSchema,
+  breakfast: z.string().optional(),
+  lunch: z.string().optional(),
+  dinner: z.string().optional(),
 
   // Department Instructions
   call_time: z.array(

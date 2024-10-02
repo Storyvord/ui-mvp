@@ -33,18 +33,21 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
     type: "time",
     placeholder: "Breakfast time",
     label: "Breakfast Time",
+    optional: true
   },
   {
     name: "lunch",
     type: "time",
     placeholder: "Lunch time",
     label: "Lunch Time",
+    optional: true
   },
   {
     name: "dinner",
     type: "time",
     placeholder: "Dinner time",
     label: "Dinner Time",
+    optional: true
   },
 
   // Department Instructions (Dynamic)
@@ -119,9 +122,9 @@ export const defaultValues: ShootFormType = {
   nearest_hospital_address: "",
   nearest_police_station: "",
   nearest_fire_station: "",
-  breakfast: "",
-  lunch: "",
-  dinner: "",
+  breakfast: undefined,
+  lunch: undefined,
+  dinner: undefined,
 
   // Department Instructions (Dynamic)
   call_time: [
