@@ -18,7 +18,7 @@ interface AddShootDetailsDialogProps {
 export default function AddShootDetailsDialog({ openDialog, handleCloseDialog, isChecked, handleCheck }: AddShootDetailsDialogProps) {
   return (
     <Dialog open={openDialog} onOpenChange={handleCloseDialog}>
-        <DialogContent className="max-w-2xl mx-auto">
+        <DialogContent className="max-w-xl lg:max-w-2xl md:max-w-2xl mx-auto">
             <DialogHeader>
                 <DialogTitle className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Almost there!</DialogTitle>
                 <DialogDescription className='text-xs lg:text-base md:text-base font-poppins text-center font-normal text-[#666666] mt-2'>Now, let's finalise your shoot details</DialogDescription>
@@ -37,27 +37,27 @@ export default function AddShootDetailsDialog({ openDialog, handleCloseDialog, i
                         </SelectContent>
                     </Select>
                 </div>
-                <div className='flex justify-between gap-x-8 mt-5'>
-                    <div className="md:w-6/12">
+                <div className='flex justify-between gap-x-5 md:gap-x-8 lg:gap-x-8 mt-5'>
+                    <div className="md:w-6/12 w-6/12">
                         <Label className="font-poppins font-normal text-[#666666] text-base">Tentative start date</Label>
                         <DatePicker />
                     </div>
-                    <div className="md:w-6/12">
+                    <div className="md:w-6/12 w-6/12">
                         <Label className="font-poppins font-normal text-[#666666] text-base">Tentative end date</Label>
                         <DatePicker />
                     </div>
                 </div>
                 <div className='mt-5'>
                     <Label className="font-poppins font-normal text-[#666666] text-base">Shoot Mode</Label>
-                    <div className='flex justify-between gap-x-8 mt-2'>
-                        <RadioGroup className='flex items-center space-x-1 md:w-6/12 border-[1px] rounded-xl border-[#66666659] px-3 py-4'>
+                    <div className='flex justify-between gap-x-5 md:gap-x-8 lg:gap-x-8 mt-1'>
+                        <RadioGroup className='flex items-center space-x-1 md:w-6/12 w-6/12 border-[1px] rounded-xl border-[#66666659] px-3 py-4'>
                             <RadioGroupItem id="indoor" value="indoor" className='data-[state=checked]:border-[#333333] data-[state=checked]:text-[#333333]'
                                 checked={isChecked === 'indoor'} 
                                 onClick={() => handleCheck('indoor')}
                             />
                             <Label className="font-poppins font-normal text-[#666666] text-sm cursor-pointer" htmlFor="indoor">Indoor</Label>
                         </RadioGroup>
-                        <RadioGroup className='flex items-center space-x-1 md:w-6/12  border-[1px] rounded-xl border-[#66666659] px-3 py-4'>
+                        <RadioGroup className='flex items-center space-x-1 md:w-6/12 w-6/12 border-[1px] rounded-xl border-[#66666659] px-3 py-4'>
                             <RadioGroupItem id="outdoor" value="outdoor" className='data-[state=checked]:border-[#333333] data-[state=checked]:text-[#333333]'
                                 checked={isChecked === 'outdoor'} onClick={() => handleCheck('outdoor')}
                             />
