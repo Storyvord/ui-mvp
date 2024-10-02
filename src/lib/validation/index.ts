@@ -108,11 +108,11 @@ export const announcementFormSchema = z.object({
   expirationDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Invalid date format",
   }),
-  file: z
-    .custom<FileList | null>((val) => val === null || val instanceof FileList, {
-      message: "Invalid file type",
-    })
-    .nullable(),
+  // file: z
+  //   .custom<FileList | null>((val) => val === null || val instanceof FileList, {
+  //     message: "Invalid file type",
+  //   })
+  //   .nullable(),
 });
 
 export const calenderFormSchema = z

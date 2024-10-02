@@ -31,11 +31,11 @@ const announcementFormFields: AnnouncementFormFieldConfig[] = [
     label: "Expiration Date",
     type: "date",
   },
-  {
-    name: "file",
-    label: "File",
-    type: "file",
-  },
+  // {
+  //   name: "file",
+  //   label: "File",
+  //   type: "file",
+  // },
 ];
 type AnnouncementFormProps = {
   form: any;
