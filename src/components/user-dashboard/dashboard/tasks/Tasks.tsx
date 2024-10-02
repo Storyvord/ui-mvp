@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import ShowTasks from "./ShowTasks";
 
 const Tasks = () => {
   return (
@@ -13,16 +14,13 @@ const Tasks = () => {
           <img src="/icons/plus-2.svg" alt="" /> Add Task
         </Button>
       </header>
-      <div className=" bg-white rounded-xl mt-2 p-3">
-        <div className=" bg-gray-100 p-1 flex justify-between items-center mt-2 cursor-pointer rounded-md">
-          <p>Task Name</p>
-          <p className=" px-2 py-1 rounded-md bg-gray-200 text-green-500 font-semibold">Status</p>
-        </div>
-        <div className=" bg-gray-100 p-1 flex justify-between items-center mt-2 cursor-pointer rounded-md">
-          <p>Task Name</p>
-          <p className=" px-2 py-1 rounded-md bg-gray-200 text-green-500 font-semibold">Status</p>
-        </div>
-      </div>
+      <ShowTasks />
+      {/* <CreateTask
+        setFormOpen={setFormOpen}
+        formOpen={formOpen}
+        handleSubmission={createTask}
+        crewList={employeeList}
+      /> */}
     </div>
   );
 };
