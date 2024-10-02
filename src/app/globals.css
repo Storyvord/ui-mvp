@@ -113,3 +113,4 @@ textarea:disabled,
 select:disabled {
   @apply opacity-disabled;
 }
+

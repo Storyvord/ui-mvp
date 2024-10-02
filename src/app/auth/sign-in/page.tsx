@@ -56,7 +56,7 @@ const SignIn = () => {
           if (userDetails.user_type === "client") {
             Cookies.set("isClient", "true");
             setIsLoading(false);
-            router.push("/dashboard/home");
+            router.push("/dashboard");
           } else if (userDetails.user_type === "crew") {
             Cookies.set("isClient", "false");
             setIsLoading(false);
