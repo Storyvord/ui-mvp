@@ -15,7 +15,6 @@ import ShowIcon from "@/assets/show.svg";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signinFormSchema } from "@/lib/validation/auth";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import { getUserDetails } from "@/lib/api/auth/auth";
