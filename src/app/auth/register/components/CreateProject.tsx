@@ -16,7 +16,14 @@ interface ContentItem {
 interface SelectedItem {
     name: string;
     count: number;
-  }
+}
+
+interface ShootDetails {
+    shootLocation: string;
+    startDate: string;
+    endDate: string;
+    mode: string;
+}
 
 const initialContentData: ContentItem[] = [
     { id: 1, name: 'Content 1' },
@@ -45,11 +52,13 @@ export default function CreateProject() {
     const [crewDropdownOpen, setCrewDropdownOpen] = useState(false);
     const [equipmentDropdownOpen, setEquipmentDropdownOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-    const [isChecked, setIsChecked] = useState<string>('indoor');
-
-    const handleCheck = (value: string) => {
-        setIsChecked(value);
-    }
+    const [allShootDetails, setAllShootDetails] = useState<ShootDetails[]>([]);
+    const [shootDetails, setShootDetails] = useState<ShootDetails>({
+        shootLocation: '',
+        startDate: '',
+        endDate: '',
+        mode: 'indoor',
+    });
 
     const onChangeFile = (e: any) => {
         setFileData(e.target.files[0])
@@ -145,8 +154,25 @@ export default function CreateProject() {
         }
     };
 
+    const handleAddOtherLocation = () => {
+        if (shootDetails.shootLocation && shootDetails.startDate && shootDetails.endDate) {
+            setAllShootDetails([...allShootDetails, shootDetails]);
+            setShootDetails({
+                shootLocation: '',
+                startDate: '',
+                endDate: '',
+                mode: 'indoor',
+            });
+        }
+    };
+
+    const handleInputChange = (field: string, value: string) => {
+        setShootDetails((prev) => ({ ...prev, [field]: value }));
+    };
+
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
     console.log(selectedContent, 'selectedContent')
+    console.log(shootDetails, 'addShootDetails')
     
   return (
     <div>
@@ -287,8 +313,15 @@ export default function CreateProject() {
         <div className='flex justify-end mt-10 mb-10'>
             <Button className='w-44 font-poppins' type="submit" onClick={handleOpenDialog}>Add Shoot Details</Button>
         </div>
-        <AddShootDetailsDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog}
-            isChecked={isChecked} handleCheck={handleCheck}
+        <AddShootDetailsDialog
+            openDialog={openDialog}
+            handleCloseDialog={handleCloseDialog}
+            // isChecked={isChecked}
+            // handleCheck={handleCheck}
+            shootDetails={shootDetails}
+            allShootDetails={allShootDetails}
+            handleInputChange={handleInputChange}
+            handleAddOtherLocation={handleAddOtherLocation}
         />
     </div>
   )

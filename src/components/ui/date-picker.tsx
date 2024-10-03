@@ -14,8 +14,18 @@ import {
 import CalendarIcon from "@/assets/calendar.svg";
 import Image from "next/image";
 
-export function DatePicker() {
+interface DatePickerProps {
+  onChange: (date: Date | undefined) => void;
+  value?: Date;
+}
+
+export function DatePicker({ onChange, value }: DatePickerProps) {
   const [date, setDate] = React.useState<Date>();
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    onChange(selectedDate);
+  };
 
   return (
     <Popover>
@@ -35,7 +45,7 @@ export function DatePicker() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleDateSelect}
           initialFocus
         />
       </PopoverContent>
