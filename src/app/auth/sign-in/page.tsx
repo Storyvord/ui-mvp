@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/app-logo.svg";
+import Cookies from "js-cookie";
 import Banner from "@/assets/login-image.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
@@ -12,15 +13,54 @@ import AppleIcon from "@/assets/apple.svg";
 import HideIcon from "@/assets/hide-eye.svg";
 import ShowIcon from "@/assets/show.svg";
 import Link from "next/link";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { signinFormSchema } from "@/lib/validation/auth";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import { getUserDetails } from "@/lib/api/auth/auth";
+import Loader from "@/components/Loader";
+
+interface SignInFormData {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
 
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter();
+  const { mutateAsync: loginUser, isLoading } = useUserSignIn();
+  const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
+    resolver: zodResolver(signinFormSchema),
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
+
+  const onSubmit: SubmitHandler<SignInFormData> = async (data: { email: string; password: string; }) => {
+    try {
+      const res = await loginUser(data);
+      if (res) {
+        const token: any = Cookies.get("accessToken");
+        const userDetails = await getUserDetails(token);
+        if (userDetails) {
+          localStorage.setItem("user-details", JSON.stringify(userDetails));
+          if (userDetails.user_type === "client") {
+            Cookies.set("isClient", "true");
+            router.push("/dashboard/home");
+          } else if (userDetails.user_type === "crew") {
+            Cookies.set("isClient", "false");
+            router.push("/crew/home");
+          }
+        }
+      }
+    } catch (err) {
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+    }
+  };
 
   return (
     <section className="flex md:h-screen h-full justify-between">
@@ -48,19 +88,21 @@ const SignIn = () => {
             Don’t have an ccount? {' '}
             <Link href='/auth/sign-up' className="underline">Sign up</Link>
           </p>
-          <form className="mt-10">
+          <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
               <Label className="font-poppins font-normal text-[#666666] text-base">Your email</Label>
-              <Input type="text"
+              <Input type="email" {...register("email", { required: "Email is required" })}
                 className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
               />
+              {errors.email && <span className="text-red-500 font-poppins text-sm">{errors.email.message}</span>}
             </div>
             <div className="mt-6">
               <Label className="font-poppins font-normal text-[#666666] text-base">Your Password</Label>
               <div className="relative">
-                <Input type={showPassword ? 'text' : "password"}
+                <Input type={showPassword ? 'text' : "password"} {...register("password", { required: "Password is required" })}
                   className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                 />
+                {errors.password && <span className="text-red-500 font-poppins text-sm">{errors.password.message}</span>}
                 <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility()}>
                   <Image src={showPassword ? ShowIcon : HideIcon} alt="eye-password" />
                 </div>
@@ -69,7 +111,7 @@ const SignIn = () => {
             <div className="mt-2 text-right">
                 <Link href='/auth/forget-password' className="underline text-base font-normal text-[#111111] font-poppins">Forget your password</Link>
             </div>
-            <Button className="mt-6 w-full" type="submit">Log in</Button>
+            <Button className="mt-6 w-full" type="submit">{isLoading ? <Loader /> : 'Log in'}</Button>
             <div className="relative my-10">
               <div className="border border-[#66666659]" />
               <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">OR</p>
