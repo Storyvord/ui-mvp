@@ -64,7 +64,7 @@ const Project = () => {
             </span>
           </Link>
           {onGoingProjects.map((project) => (
-            <Link href={`/project-details/${project.project_id}`}>
+            <Link key={project.project_id} href={`/project-details/${project.project_id}`}>
               <ProjectCard key={project.project_id} name={project.name} status={project.status} />
             </Link>
           ))}
