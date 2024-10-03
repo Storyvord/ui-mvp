@@ -4,15 +4,15 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const registerUser = async (data: {
   email: string;
-  userType: string;
+  // userType: string;
   password: string;
   confirmPassword: string;
 }) => {
   const signUpUserData = {
-    user_type: data.userType,
+    // user_type: data.userType,
     email: data.email,
     password: data.password,
-    re_password: data.password,
+    re_password: data.confirmPassword,
   };
   const res = await fetch(`${USER_API}/auth/users/`, {
     method: "POST",

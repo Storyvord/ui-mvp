@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/app-logo.svg";
@@ -13,12 +13,60 @@ import HideIcon from "@/assets/hide-eye.svg";
 import ShowIcon from "@/assets/show.svg";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpFormSchema } from "@/lib/validation/auth";
+import { useRegisterUser } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import { useToast } from "@/components/ui/use-toast";
+import Loader from "@/components/Loader";
+
+interface SignUpFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  // userType: string;
+  agreePolicy: boolean;
+}
 
 const SignUp = () => {
   
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter();
+  const { toast } = useToast();
+
+  const { mutateAsync: registerUser, isLoading } = useRegisterUser();
+  const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpFormSchema),
+  });
+
+  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+    // console.log("Form Data Submitted:", data);
+    const { email, password, confirmPassword } = data;
+    try {
+      const res = await registerUser({ email, password, confirmPassword });
+      if (res) {
+        toast({
+          title: "Your account has been created",
+        });
+        router.push("/auth/register");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Registration error:", error);
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      } else {
+        console.error("Registration error:", error);
+        toast({
+          title: "An unknown error occurred.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -26,10 +74,6 @@ const SignUp = () => {
 
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword)
-  }
-
-  const handleSignUp = () => {
-    router.push("/auth/register")
   }
 
   return (
@@ -58,35 +102,38 @@ const SignUp = () => {
             Already have an account? {' '}
             <Link href='/auth/sign-in' className="underline">Log in</Link>
           </p>
-          <form className="mt-4">
+          <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
               <Label className="font-poppins font-normal text-[#666666] text-base">Email Address</Label>
-              <Input type="text"
+              <Input type="text" {...register("email", { required: "Email is required" })}
                 className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
               />
+              {errors.email && <p className="text-red-500 font-poppins text-sm">{errors.email.message}</p>}
             </div>
             <div className="mt-3">
               <Label className="font-poppins font-normal text-[#666666] text-base">Password</Label>
               <div className="relative">
-                <Input type={showPassword ? 'text' : "password"}
+                <Input type={showPassword ? 'text' : "password"} {...register("password")}
                   className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                 />
                 <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility()}>
                   <Image src={showPassword ? ShowIcon : HideIcon} alt="eye-password" />
                 </div>
               </div>
+              {errors.password && <p className="text-red-500 font-poppins text-sm">{errors.password.message}</p>}
               <p className="text-sm font-normal text-[#666666] font-poppins mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</p>
             </div>
             <div className="mt-3">
               <Label className="font-poppins font-normal text-[#666666] text-base">Confirm Password</Label>
               <div className="relative">
-                <Input type={showConfirmPassword ? 'text' : "password"}
+                <Input type={showConfirmPassword ? 'text' : "password"} {...register("confirmPassword")}
                   className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                 />
                 <div className="absolute right-4 top-4 cursor-pointer" onClick={() => toggleConfirmPasswordVisibility()}>
                   <Image src={showConfirmPassword ? ShowIcon : HideIcon} alt="eye-password" />
                 </div>
               </div>
+              {errors.confirmPassword && <p className="text-red-500 font-poppins text-sm">{errors.confirmPassword.message}</p>}
               <p className="text-sm font-normal text-[#666666] font-poppins mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</p>
             </div>
             <div className="flex items-center space-x-3 mt-4">
@@ -95,7 +142,7 @@ const SignUp = () => {
                   By creating an account, you agree to our Terms of use and Privacy Policy 
                 </p>
             </div>
-            <Button className="mt-6 w-full" type="submit" onClick={handleSignUp}>Create an account</Button>
+            <Button className="mt-6 w-full" type="submit" disabled={isLoading}>{isLoading ? <Loader /> : 'Create an account'}</Button>
             <div className="relative my-6">
               <div className="border border-[#66666659]" />
               <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">OR</p>

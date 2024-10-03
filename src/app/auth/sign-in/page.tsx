@@ -93,7 +93,7 @@ const SignIn = () => {
               <Input type="email" {...register("email", { required: "Email is required" })}
                 className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
               />
-              {errors.email && <span className="text-red-500 font-poppins text-sm">{errors.email.message}</span>}
+              {/* {errors.email && <span className="text-red-500 font-poppins text-sm">{errors.email.message}</span>} */}
             </div>
             <div className="mt-6">
               <Label className="font-poppins font-normal text-[#666666] text-base">Your Password</Label>
@@ -110,7 +110,7 @@ const SignIn = () => {
             <div className="mt-2 text-right">
                 <Link href='/auth/forget-password' className="underline text-base font-normal text-[#111111] font-poppins">Forget your password</Link>
             </div>
-            <Button className="mt-6 w-full" type="submit">{isLoading ? <Loader /> : 'Log in'}</Button>
+            <Button className="mt-6 w-full" type="submit" disabled={isLoading}>{isLoading ? <Loader /> : 'Log in'}</Button>
             <div className="relative my-10">
               <div className="border border-[#66666659]" />
               <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">OR</p>

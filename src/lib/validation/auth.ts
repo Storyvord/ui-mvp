@@ -5,7 +5,7 @@ const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za
 export const signUpFormSchema = z
   .object({
     email: z.string().min(1, "Email is required").email("Invalid email address"),
-    userType: z.string().min(1, "User type required"),
+    // userType: z.string().min(1, "User type required"),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters long")
