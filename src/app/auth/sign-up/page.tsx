@@ -24,7 +24,6 @@ interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
-  // userType: string;
   agreePolicy: boolean;
 }
 
@@ -32,6 +31,7 @@ const SignUp = () => {
   
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -42,6 +42,13 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     // console.log("Form Data Submitted:", data);
+    if (!isChecked) {
+      toast({
+        title: "You must agree to Terms of use and Privacy Policy",
+        variant: "destructive",
+      });
+      return;
+    }
     const { email, password, confirmPassword } = data;
     try {
       const res = await registerUser({ email, password, confirmPassword });
@@ -75,6 +82,8 @@ const SignUp = () => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword)
   }
+
+  console.log(isChecked, 'checked')
 
   return (
     <section className="flex md:h-screen h-full justify-between">
@@ -137,7 +146,10 @@ const SignUp = () => {
               <p className="text-sm font-normal text-[#666666] font-poppins mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</p>
             </div>
             <div className="flex items-center space-x-3 mt-4">
-                <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
+                <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]"
+                  checked={isChecked}
+                  onClick={() => setIsChecked(!isChecked)}
+                />
                 <p className="font-poppins font-normal text-[#666666] text-sm" >
                   By creating an account, you agree to our Terms of use and Privacy Policy 
                 </p>
