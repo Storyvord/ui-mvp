@@ -83,8 +83,6 @@ const SignUp = () => {
     setShowConfirmPassword(!showConfirmPassword)
   }
 
-  console.log(isChecked, 'checked')
-
   return (
     <section className="flex md:h-screen h-full justify-between">
       <div className="md:w-6/12 md:block hidden">
