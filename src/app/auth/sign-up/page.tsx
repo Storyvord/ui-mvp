@@ -56,7 +56,7 @@ const SignUp = () => {
         toast({
           title: "Your account has been created",
         });
-        router.push("/auth/register");
+        router.push("/auth/onboard");
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
