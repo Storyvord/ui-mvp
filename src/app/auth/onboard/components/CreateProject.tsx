@@ -156,7 +156,8 @@ export default function CreateProject() {
 
     const handleAddOtherLocation = () => {
         if (shootDetails.shootLocation && shootDetails.startDate && shootDetails.endDate) {
-            setAllShootDetails([...allShootDetails, shootDetails]);
+            const newLocation = { ...shootDetails }; // Get the current values
+            setAllShootDetails([...allShootDetails, newLocation]);
             setShootDetails({
                 shootLocation: '',
                 startDate: '',

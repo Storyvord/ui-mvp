@@ -55,6 +55,7 @@ export default function AddShootDetailsDialog(
             </DialogHeader>
             <div className='lg:px-10 md:px-4'>
                 {allShootDetails?.map((shoot: any, index: number) => {
+                    console.log(shoot, 'shoot')
                     return (
                         <div className='flex justify-between gap-x-5 md:gap-x-8 lg:gap-x-8 mt-5' key={index}>
                             <div>
@@ -63,11 +64,11 @@ export default function AddShootDetailsDialog(
                             </div>
                             <div>
                                 <p className="font-poppins font-normal text-[#666666] text-base text-center mb-1">Start Date</p>
-                                <p className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins py-2 px-2  text-center">{moment(shoot.startDate).format('DD/MM/YYYY')}</p>
+                                <p className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins py-2 px-2  text-center">{shoot.startDate}</p>
                             </div>
                             <div>
                                 <p className="font-poppins font-normal text-[#666666] text-base text-center mb-1">End Date</p>
-                                <p className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins py-2 px-2  text-center">{moment(shoot.endDate).format('DD/MM/YYYY')}</p>
+                                <p className="bg-[#333333] rounded-lg text-[#fff] text-base font-normal font-poppins py-2 px-2  text-center">{shoot.endDate}</p>
                             </div>
                             <div>
                                 <p className="font-poppins font-normal text-[#666666] text-base text-center mb-1">Shoot mode</p>
@@ -78,7 +79,7 @@ export default function AddShootDetailsDialog(
                 })}
                 <div className="w-full mt-5">
                     <Label className="font-poppins font-normal text-[#666666] text-base">Shoot Location</Label>
-                    <Select onValueChange={(value: string) => handleInputChange('shootLocation', value)} defaultValue={shootDetails.shootLocation ?? ''}>
+                    <Select onValueChange={(value: string) => handleInputChange('shootLocation', value)} value={shootDetails.shootLocation}>
                         <SelectTrigger className="mt-1 text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus:ring-offset-0 focus:ring-0 focus-visible:ring-offset-0 focus-visible:ring-[transparent]">
                             <SelectValue placeholder="Please Select Shoot Location" />
                         </SelectTrigger>
@@ -92,11 +93,11 @@ export default function AddShootDetailsDialog(
                 <div className='flex justify-between gap-x-5 md:gap-x-8 lg:gap-x-8 mt-5'>
                     <div className="md:w-6/12 w-6/12">
                         <Label className="font-poppins font-normal text-[#666666] text-base">Tentative start date</Label>
-                        <DatePicker onChange={handleDateChange('startDate')} value={parseDate(shootDetails.startDate ?? undefined)}  />
+                        <DatePicker onChange={handleDateChange('startDate')} value={parseDate(shootDetails.startDate)}  />
                     </div>
                     <div className="md:w-6/12 w-6/12">
                         <Label className="font-poppins font-normal text-[#666666] text-base">Tentative end date</Label>
-                        <DatePicker onChange={handleDateChange('endDate')} value={parseDate(shootDetails.endDate) ?? undefined} />
+                        <DatePicker onChange={handleDateChange('endDate')} value={parseDate(shootDetails.endDate)} />
                     </div>
                 </div>
                 <div className='mt-5'>
