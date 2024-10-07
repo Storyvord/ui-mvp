@@ -14,11 +14,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <div className="w-full min-h-screen bg-[#eceff180] relative">
       <SideBarContextProvider>
         <ProjectContextProvider>
-          <SideBar />
-          <div className="lg:ml-72 ">
-            <NavBar />
-            {children}
-          </div>
+          <main className="max-w-[2000px] mx-auto min-h-screen">
+            <SideBar />
+            <div className="lg:ml-72 ">
+              <NavBar />
+              {children}
+            </div>
+          </main>
         </ProjectContextProvider>
       </SideBarContextProvider>
     </div>
