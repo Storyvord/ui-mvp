@@ -20,7 +20,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const Navbar = () => {
+const ProjectDetailsNavBar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const { data: projects, isPending, isError } = useGetProjects();
   const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
@@ -88,31 +88,7 @@ const Navbar = () => {
   ));
 
   return (
-    <nav className=" bg-white p-2 flex justify-between fixed w-full max-w-[2000] top-0 z-50">
-      <section className=" flex items-center gap-4 xl:gap-16 sm:ml-8">
-        <Link href="/dashboard">
-          <Image
-            className=" w-[125px] sm:w-[170px]"
-            src={"/logo.svg"}
-            width={50}
-            height={10}
-            alt="storyvord-logo"
-          />
-        </Link>
-        <div className="hidden lg:flex gap-4 border p-2 rounded-lg h-10">
-          <Image
-            className="w-[30px]"
-            src={"/icons/search.svg"}
-            width={50}
-            height={10}
-            alt="search"
-          />
-          <input
-            className=" border-l-2 pl-4 focus:border-l-2 focus:outline-none"
-            placeholder="Search or type"
-          />
-        </div>
-      </section>
+    <nav className=" bg-white p-2 flex justify-end w-full">
       <section className=" flex items-center gap-3 sm:gap-10">
         <DropdownMenu>
           <DropdownMenuTrigger className="sm:flex items-center gap-4 cursor-pointer hidden">
@@ -130,7 +106,7 @@ const Navbar = () => {
           <DropdownMenuContent className="p-4">{companyInformation}</DropdownMenuContent>
         </DropdownMenu>
 
-        <Link href="dashboard/message">
+        <Link href="/dashboard/message">
           <img
             className="w-[20px] sm:w-[24px] cursor-pointer"
             src={"/icons/message.svg"}
@@ -221,4 +197,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default ProjectDetailsNavBar;
