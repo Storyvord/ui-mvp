@@ -29,12 +29,12 @@ const SideBar = () => {
         </Link>
       </div>
       <div className="m-4">
-        <ul className="mb-1 flex flex-col gap-1">
+        {/* <ul className="mb-1 flex flex-col gap-1">
           <li className=" flex items-center hover:text-text-color-1 pl-4">
             <img src="/icons/dashboard-icon.svg" alt="" />
             <SideBarButton text="dashboard" link="home" root="dashboard" />
           </li>
-        </ul>
+        </ul> */}
 
         {projectdetailsItems.map((details) => (
           <div key={details.title} className="flex flex-col gap-1">
