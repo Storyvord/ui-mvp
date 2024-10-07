@@ -12,6 +12,11 @@ import {
 
 import LoadingPage from "@/components/projectdetails/LoadingPage";
 import ProjectDetailsUI from "@/components/projectdetails/ProjectDetailsUI";
+import Image from "next/image";
+import CalendarSection from "@/components/user-dashboard/dashboard/calendar/CalendarSection";
+import Tasks from "@/components/user-dashboard/project-details/tasks/Tasks";
+import ShootingSchedule from "@/components/user-dashboard/project-details/shootingSchedule/ShootingSchedule";
+import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
 
 // Define available project statuses for selection
 const projectStatuses = [
@@ -32,7 +37,7 @@ const ProjectDetails: React.FC = () => {
   // Get the project ID from the URL parameters
   const { id: projectId } = useParams<{ id: string }>();
   const router = useRouter();
-  
+
   // Get the function to set the project in global context
   const { setProject } = useProjectControl();
 
@@ -87,15 +92,38 @@ const ProjectDetails: React.FC = () => {
 
   // Render the UI component for displaying project details
   return (
-    <ProjectDetailsUI
-      projectDetails={projectDetails}
-      selectedStatus={selectedStatus}
-      deletingProject={deletingProject}
-      projectStatuses={projectStatuses}
-      handleChangeStatus={handleChangeStatus}
-      handleDeleteProject={handleDeleteProject}
-      handleEditForm={handleEditForm}
-    />
+    <>
+      {/* <ProjectDetailsUI
+        projectDetails={projectDetails}
+        selectedStatus={selectedStatus}
+        deletingProject={deletingProject}
+        projectStatuses={projectStatuses}
+        handleChangeStatus={handleChangeStatus}
+        handleDeleteProject={handleDeleteProject}
+        handleEditForm={handleEditForm}
+      /> */}
+      <main className=" sm:p-4">
+        <h1 className=" text-xl md:text-2xl font-semibold text-gray-700">
+          {" "}
+          {projectDetails?.name}
+        </h1>
+        <div className=" relative mt-12 p-2 rounded-lg">
+          <button className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md">
+            <Image src="/icons/ai.svg" alt="icons" width={20} height={20} />
+            Get AI Suggestions
+          </button>
+          <button className="rounded-t-lg rounded-br-lg absolute -top-8 left-40 shadow-lg shadow-gray-400 bg-gradient-to-r from-[#22CB67] to-[#092579] text-white font-semibold p-2 text-lg">
+            It's Free
+          </button>
+        </div>
+        <section className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <Tasks />
+          <ShootingSchedule />
+          <WhatsGoingOn />
+        </section>
+        <CalendarSection />
+      </main>
+    </>
   );
 };
 
