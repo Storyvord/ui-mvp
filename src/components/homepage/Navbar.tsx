@@ -20,7 +20,7 @@ const Navbar = () => {
       </div>
 
       {userDetails ? (
-        <Link href="/dashboard/home" className="text-white text-md font-josefin font-[15px]">
+        <Link href="/dashboard" className="text-white text-md font-josefin font-[15px]">
           Dashboard
         </Link>
       ) : (
