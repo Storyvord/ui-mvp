@@ -6,10 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
+import { useParams } from "next/navigation";
 
 const SideBar = () => {
   const { isSideBarOpen } = useSideBarControl();
   const { setProject } = useProjectControl();
+  const { id: projectId } = useParams();
 
   return (
     <aside
@@ -28,13 +30,22 @@ const SideBar = () => {
           />
         </Link>
       </div>
-      <div className="m-4">
-        {/* <ul className="mb-1 flex flex-col gap-1">
-          <li className=" flex items-center hover:text-text-color-1 pl-4">
-            <img src="/icons/dashboard-icon.svg" alt="" />
-            <SideBarButton text="dashboard" link="home" root="dashboard" />
-          </li>
-        </ul> */}
+      <div className="mx-4 -mt-6">
+        <Link
+          href="/dashboard"
+          className=" flex items-center gap-4 py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+        >
+          <Image src="/icons/left-arrow.svg" alt="" width={17} height={17} />
+          Dashboard
+        </Link>
+
+        <Link
+          href={`/project-details/${projectId}`}
+          className=" flex items-center gap-4 border rounded-lg py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+        >
+          <Image src="/icons/dashboard-icon.svg" alt="" width={17} height={17} />
+          Project Details
+        </Link>
 
         {projectdetailsItems.map((details) => (
           <div key={details.title} className="flex flex-col gap-1">
