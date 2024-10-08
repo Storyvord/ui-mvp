@@ -93,7 +93,7 @@ const ProjectDetails: React.FC = () => {
   // Render the UI component for displaying project details
   return (
     <>
-      {/* <ProjectDetailsUI
+      <ProjectDetailsUI
         projectDetails={projectDetails}
         selectedStatus={selectedStatus}
         deletingProject={deletingProject}
@@ -101,7 +101,7 @@ const ProjectDetails: React.FC = () => {
         handleChangeStatus={handleChangeStatus}
         handleDeleteProject={handleDeleteProject}
         handleEditForm={handleEditForm}
-      /> */}
+      />
       <main className=" sm:p-4">
         <h1 className=" text-xl md:text-2xl font-semibold text-gray-700">
           {" "}
