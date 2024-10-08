@@ -34,6 +34,7 @@ jobs:
           else
             echo "Unknown branch ($BRANCH_NAME), exiting."
             exit 1
+          fi
         shell: bash
 
       - name: Build And Deploy
