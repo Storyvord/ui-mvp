@@ -60,11 +60,21 @@ const SignIn = () => {
         // }
       }
     } catch (error) {
-      toast({
-        title: error.message,
-        variant: "destructive",
-      });
-      console.log(error, 'error')
+      // Check if error is an instance of Error
+      if (error instanceof Error) {
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+        console.log(error.message, 'error message');
+      } else {
+        // Handle unknown error case
+        toast({
+          title: "An unexpected error occurred",
+          variant: "destructive",
+        });
+        console.log('Unknown error', error);
+      }
     }
   };
 
