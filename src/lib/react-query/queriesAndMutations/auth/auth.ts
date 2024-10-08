@@ -20,7 +20,7 @@ export const useUserSignIn = () => {
   return useMutation({
     mutationFn: userSignIn,
     onSuccess: (data) => {
-      Cookies.set("accessToken", data.access);
+      Cookies.set("accessToken", data?.data?.access_token);
 
       queryClient.invalidateQueries({
         queryKey: ["ongoingProjects"],

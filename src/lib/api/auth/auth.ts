@@ -31,8 +31,8 @@ export const registerUser = async (data: {
 };
 
 export const userSignIn = async ({ email, password }: { email: string; password: string }) => {
-  const res = await fetch(`${USER_API}/auth/jwt/create/`, {
-  // const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/login/`, {
+  // const res = await fetch(`${USER_API}/auth/jwt/create/`, {
+  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import { getUserDetails } from "@/lib/api/auth/auth";
 import Loader from "@/components/Loader";
+import { toast } from "@/components/ui/use-toast";
 
 interface SignInFormData {
   email: string;
@@ -42,22 +43,28 @@ const SignIn = () => {
     try {
       const res = await loginUser(data);
       if (res) {
-        const token: any = Cookies.get("accessToken");
-        const userDetails = await getUserDetails(token);
-        if (userDetails) {
-          localStorage.setItem("user-details", JSON.stringify(userDetails));
-          if (userDetails.user_type === "client") {
-            Cookies.set("isClient", "true");
-            router.push("/dashboard/home");
-          } else if (userDetails.user_type === "crew") {
-            Cookies.set("isClient", "false");
-            router.push("/crew/home");
-          }
-        }
+        console.log(res, 'response')
+        localStorage.setItem("email", res?.data?.email);
+        router.push("/auth/onboard");
+        // const token: any = Cookies.get("accessToken");
+        // const userDetails = await getUserDetails(token);
+        // if (userDetails) {
+        //   localStorage.setItem("user-details", JSON.stringify(userDetails));
+        //   if (userDetails.user_type === "client") {
+        //     Cookies.set("isClient", "true");
+        //     router.push("/dashboard/home");
+        //   } else if (userDetails.user_type === "crew") {
+        //     Cookies.set("isClient", "false");
+        //     router.push("/crew/home");
+        //   }
+        // }
       }
-    } catch (err) {
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
+    } catch (error) {
+      toast({
+        title: error.message,
+        variant: "destructive",
+      });
+      console.log(error, 'error')
     }
   };
 

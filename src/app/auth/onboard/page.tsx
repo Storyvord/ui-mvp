@@ -41,6 +41,8 @@ const Register = () => {
     );
   };
 
+  const getName = localStorage.getItem("email") || '';
+
   console.log(completedSteps, 'completedSteps')
 
   return (
@@ -72,7 +74,7 @@ const Register = () => {
         <>
             {step === 1 && (
                 // <div onClick={() => { markStepAsCompleted(1); nextStep();}}>
-                    <SelectUserType />
+                    <SelectUserType getName={getName} />
                 // </div>
             )}
             {step === 2 && (

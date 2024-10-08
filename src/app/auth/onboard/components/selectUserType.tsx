@@ -5,7 +5,11 @@ import CrewIcon from "@/assets/crew.svg";
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-export default function SelectUserType() {
+interface SelectUserTypeProps {
+    getName: string;
+}
+
+export default function SelectUserType({ getName }: SelectUserTypeProps) {
 
     const [isChecked, setIsChecked] = useState<string>('');
 
@@ -17,8 +21,8 @@ export default function SelectUserType() {
 
   return (
     <div>
-        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Create an account Your account is all set up, [Name]!</h3>
-        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>How would you like to get started with Storyvrod?</h3>
+        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Create an account Your account is all set up, [{getName}]!</h3>
+        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>How would you like to get started with Storyvord?</h3>
         <p className='text-xs lg:text-base md:text-base font-poppins text-center font-normal text-[#666666] mt-2 underline'>Please select your user type to continue.</p>
         <div className='flex justify-between lg:px-36 md:px-4 mt-14 gap-x-16 flex-col md:flex-row lg:flex-row gap-y-6'>
             <div className={`${isChecked === 'producer' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
