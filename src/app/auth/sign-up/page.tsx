@@ -54,7 +54,7 @@ const SignUp = () => {
       const res = await registerUser({ email, password, confirmPassword, agreePolicy: isChecked });
       if (res) {
         toast({
-          title: "Your account has been created",
+          title: res?.message,
         });
         // router.push("/auth/onboard");
         router.push("/auth/sign-in");
