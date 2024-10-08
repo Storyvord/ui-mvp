@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const BudgetPage = () => {
-  return (
-    <div>BudgetPage</div>
-  )
-}
+  return <div className=" text-center mt3">BudgetPage</div>;
+};
 
-export default BudgetPage
+export default BudgetPage;

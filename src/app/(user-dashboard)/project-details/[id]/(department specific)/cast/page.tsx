@@ -1,7 +1,8 @@
+import PremiumFeaturePage from "@/components/PremiumFeaturePage";
 import React from "react";
 
 const page = () => {
-  return <div>page</div>;
+  return <PremiumFeaturePage />;
 };
 
 export default page;

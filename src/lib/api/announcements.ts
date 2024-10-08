@@ -20,7 +20,7 @@ export const CreateAnnouncement = async (announcementData: Announcements) => {
 
 export const deleteAnnouncement = async (id: number) => {
   return customFetch(`${USER_API}/api/announcement/announcements/${id}/`, {
-    method: "POST",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
