@@ -74,7 +74,7 @@ const Register = () => {
         <>
             {step === 1 && (
                 // <div onClick={() => { markStepAsCompleted(1); nextStep();}}>
-                    <SelectUserType getName={getName} />
+                  <SelectUserType getName={getName} />
                 // </div>
             )}
             {step === 2 && (
