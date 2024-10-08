@@ -88,24 +88,17 @@ const ProjectDetailsNavBar = () => {
   ));
 
   return (
-    <nav className=" bg-white p-2 flex justify-end w-full">
+    <nav className=" bg-white p-2 flex justify-between w-full">
+      <Link href="/dashboard">
+        <Image
+          className="w-[170px] block md:hidden"
+          src={"/logo.svg"}
+          width={50}
+          height={10}
+          alt="storyvord-logo"
+        />
+      </Link>
       <section className=" flex items-center gap-3 sm:gap-10">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="sm:flex items-center gap-4 cursor-pointer hidden">
-            <h1>Project Name</h1>
-            <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>{projectList}</DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger className=" sm:flex items-center gap-4 cursor-pointer hidden">
-            <h1>Org Name</h1>
-            <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="p-4">{companyInformation}</DropdownMenuContent>
-        </DropdownMenu>
-
         <Link href="/dashboard/message">
           <img
             className="w-[20px] sm:w-[24px] cursor-pointer"
@@ -134,7 +127,6 @@ const ProjectDetailsNavBar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
         {/* mobile menu */}
         <button
           onClick={() => setToggleMenu(!toggleMenu)}
@@ -149,26 +141,6 @@ const ProjectDetailsNavBar = () => {
         </button>
         {toggleMenu && (
           <div className=" absolute z-50 bg-white top-14 left-0 w-full min-h-[95vh] sm:hidden p-3 space-y-4 pt-8">
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" p-2 bg-gray-100 border-none rounded-md">
-                  Project
-                </AccordionTrigger>
-                <AccordionContent onClick={handleMenuItemClick} className=" px-4">
-                  {projectList}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" p-2 bg-gray-100 rounded-md">
-                  Org Name
-                </AccordionTrigger>
-                <AccordionContent onClick={handleMenuItemClick} className=" px-4">
-                  {companyInformation}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
             <h3 className=" p-2 bg-gray-100 rounded-md">
               <Link onClick={handleMenuItemClick} href="/dashboard/profile">
                 Profile
