@@ -6,23 +6,25 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from '@/components/ui/use-toast';
 import { useSelectUserType } from '@/lib/react-query/queriesAndMutations/onBoard/onBoard';
+import Loader from '@/components/Loader';
 
 interface SelectUserTypeProps {
     getName: string;
+    onSuccessUserType: () => void;
 }
 
-export default function SelectUserType({ getName }: SelectUserTypeProps) {
+export default function SelectUserType({ getName, onSuccessUserType }: SelectUserTypeProps) {
 
-    const [isChecked, setIsChecked] = useState<string>('');
+    const [selectedUserType, setSelectedUserType] = useState<string>('');
 
-    const { mutateAsync: postUserType } = useSelectUserType();
+    const { mutateAsync: postUserType, isLoading } = useSelectUserType();
 
     const handleCheck = (type: any) => {
-        setIsChecked(type);
+        setSelectedUserType(type);
     }
 
     const handleNext = async () => {
-        if (!isChecked) {
+        if (!selectedUserType) {
             toast({
               title: "Please Select User Type",
               variant: "destructive",
@@ -30,10 +32,11 @@ export default function SelectUserType({ getName }: SelectUserTypeProps) {
             return;
         }
         try {
-          const userType = isChecked;
+          const userType = selectedUserType;
           const res = await postUserType(userType);
           if (res) {
             console.log(res, 'response')
+            onSuccessUserType();
             toast({
                 title: res?.message,
             });
@@ -57,7 +60,7 @@ export default function SelectUserType({ getName }: SelectUserTypeProps) {
         }
       };
     
-    console.log(isChecked, 'isChecked')
+    console.log(selectedUserType, 'selectedUserType')
 
   return (
     <div>
@@ -65,11 +68,11 @@ export default function SelectUserType({ getName }: SelectUserTypeProps) {
         <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>How would you like to get started with Storyvord?</h3>
         <p className='text-xs lg:text-base md:text-base font-poppins text-center font-normal text-[#666666] mt-2 underline'>Please select your user type to continue.</p>
         <div className='flex justify-between lg:px-36 md:px-4 mt-14 gap-x-16 flex-col md:flex-row lg:flex-row gap-y-6'>
-            <div className={`${isChecked === 'client' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
+            <div className={`${selectedUserType === 'client' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
                 <div className='flex justify-end'>
                     <RadioGroup>
                         <RadioGroupItem value="client" className='data-[state=checked]:border-[#22CB67] data-[state=checked]:text-[#22CB67]'
-                            checked={isChecked === 'client'} onChange={() => handleCheck('client')}
+                            checked={selectedUserType === 'client'} onChange={() => handleCheck('client')}
                         />
                     </RadioGroup>
                 </div>
@@ -81,11 +84,11 @@ export default function SelectUserType({ getName }: SelectUserTypeProps) {
                     </div>
                 </div>
             </div>
-            <div className={`${isChecked === 'crew' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
+            <div className={`${selectedUserType === 'crew' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
                 <div className='flex justify-end'>
                     <RadioGroup>
                         <RadioGroupItem value="crew" className='data-[state=checked]:border-[#22CB67] data-[state=checked]:text-[#22CB67]'
-                            checked={isChecked === 'crew'} onChange={() => handleCheck('crew')}
+                            checked={selectedUserType === 'crew'} onChange={() => handleCheck('crew')}
                         />
                     </RadioGroup>
                 </div>
@@ -98,7 +101,7 @@ export default function SelectUserType({ getName }: SelectUserTypeProps) {
             </div>
         </div>
         <div className='flex justify-end mt-10 mb-10'>
-            <Button className='w-44' type="submit" onClick={handleNext}>Next</Button>
+            <Button className='w-44' onClick={handleNext} type="submit" disabled={isLoading}>{isLoading ? <Loader /> : 'Next'}</Button>
         </div>
     </div>
   )

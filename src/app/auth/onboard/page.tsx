@@ -28,6 +28,11 @@ const Register = () => {
     console.log('Form submitted!');
   }
 
+  const onSuccessUserType = () => {
+    markStepAsCompleted(1); // Mark step 1 as completed
+    nextStep(); // Move to the next step
+  };
+
   const StepLabel = ({ children, onClick }: {
     children: React.ReactNode;
     active: boolean;
@@ -54,8 +59,8 @@ const Register = () => {
         <div className="flex items-center justify-between mb-6 lg:mb-14 md:mb-14 px-0 lg:px-36 md:px-16">
             <StepLabel active={step === 1} completed={completedSteps.includes(1)} onClick={() => goToStep(1)}>
                 <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
-                    <div className={`${step === 1 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>1</div>
-                    <h5 className={`${step === 1 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Select User Type</h5>
+                    <div className={`${step === 1 || completedSteps.includes(1) ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>1</div>
+                    <h5 className={`${step === 1 || completedSteps.includes(1) ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Select User Type</h5>
                 </div>
             </StepLabel>
             <StepLabel active={step === 2} completed={completedSteps.includes(2)} onClick={() => goToStep(2)}>
@@ -73,12 +78,12 @@ const Register = () => {
         </div>
         <>
             {step === 1 && (
-                // <div onClick={() => { markStepAsCompleted(1); nextStep();}}>
-                  <SelectUserType getName={getName} />
-                // </div>
+              // <div onClick={() => { markStepAsCompleted(1); nextStep();}}>
+                <SelectUserType getName={getName} onSuccessUserType={onSuccessUserType} />
+              // </div>
             )}
             {step === 2 && (
-               <BasicInfo />
+              <BasicInfo />
             )}
             {step === 3 && (
               <CreateProject />
