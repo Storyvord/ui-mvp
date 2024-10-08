@@ -51,7 +51,7 @@ const SignUp = () => {
     }
     const { email, password, confirmPassword } = data;
     try {
-      const res = await registerUser({ email, password, confirmPassword });
+      const res = await registerUser({ email, password, confirmPassword, agreePolicy: isChecked });
       if (res) {
         toast({
           title: "Your account has been created",

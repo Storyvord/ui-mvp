@@ -1,4 +1,4 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
@@ -7,14 +7,16 @@ export const registerUser = async (data: {
   // userType: string;
   password: string;
   confirmPassword: string;
+  agreePolicy: boolean;
 }) => {
   const signUpUserData = {
     // user_type: data.userType,
     email: data.email,
     password: data.password,
-    re_password: data.confirmPassword,
+    confirm_password: data.confirmPassword,
+    terms_accepted: data.agreePolicy
   };
-  const res = await fetch(`${USER_API}/auth/users/`, {
+  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,6 +32,7 @@ export const registerUser = async (data: {
 
 export const userSignIn = async ({ email, password }: { email: string; password: string }) => {
   const res = await fetch(`${USER_API}/auth/jwt/create/`, {
+  // const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
