@@ -44,7 +44,7 @@ const SignIn = () => {
       const res = await loginUser(data);
       if (res) {
         console.log(res, 'response')
-        localStorage.setItem("email", res?.data?.email);
+        // localStorage.setItem("email", res?.data?.email);
         if (res?.data?.user_type === 1 && res?.data?.user_stage === '2') {
           router.push("/dashboard/home");
         } else if (res?.data?.user_type === 1 && res?.data?.user_stage === '1') {

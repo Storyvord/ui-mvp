@@ -86,3 +86,16 @@ export const getUserDetails = async (token: string) => {
   }
   return await res.json();
 };
+
+export const getUserProfile = async () => {
+  const token = Cookies.get("accessToken");
+  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/getprofile/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user details");
+  }
+  return res.json();
+};

@@ -1,14 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/app-logo.svg";
 import { BasicInfo, CreateProject, SelectUserType } from "./components";
+import { useGetUserProfile } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import { toast } from "@/components/ui/use-toast";
 
 const Register = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const { data: userProfile } = useGetUserProfile();
+  console.log("User Profile Data:", userProfile);
 
   const prevStep = () => {
     if (step > 1){
@@ -45,8 +49,6 @@ const Register = () => {
     );
   };
 
-  const getName = localStorage.getItem("email") || '';
-
   console.log(completedSteps, 'completedSteps')
 
   return (
@@ -62,7 +64,7 @@ const Register = () => {
         </div>
         <>
           {step === 1 && (
-            <SelectUserType getName={getName} onSuccessStep={onSuccessStep} />
+            <SelectUserType userProfile={userProfile} onSuccessStep={onSuccessStep} />
           )}
           {step === 2 && (
             <BasicInfo prevStep={prevStep} />

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProducerIcon from "@/assets/producer.svg";
 import CrewIcon from "@/assets/crew.svg";
 import { Button } from '@/components/ui/button';
@@ -9,18 +9,20 @@ import { useSelectUserType } from '@/lib/react-query/queriesAndMutations/onBoard
 import Loader from '@/components/Loader';
 
 interface SelectUserTypeProps {
-    getName: string;
+    userProfile: any;
     onSuccessStep: () => void;
 }
 
 const userTypeOptions = [
     {
+      userType: 1,
       type: 'client',
       icon: ProducerIcon,
       title: 'Producers',
       description: '(Individual or Production company)',
     },
     {
+      userType: 2,
       type: 'crew',
       icon: CrewIcon,
       title: 'Crew',
@@ -28,10 +30,20 @@ const userTypeOptions = [
     },
 ];
 
-export default function SelectUserType({ getName, onSuccessStep }: SelectUserTypeProps) {
+export default function SelectUserType({ userProfile, onSuccessStep }: SelectUserTypeProps) {
 
     const [selectedUserType, setSelectedUserType] = useState<string>('');
     const { mutateAsync: postUserType, isLoading } = useSelectUserType();
+
+    useEffect(() => {
+        if (userProfile) {
+          const user_type = userProfile.data.user.user_type;
+          const matchedUserType = userTypeOptions.find((option) => option.userType === user_type)?.type;
+          if (matchedUserType) {
+            setSelectedUserType(matchedUserType);
+          }
+        }
+    }, [userProfile]);
 
     const handleCheck = (type: string) => {
         setSelectedUserType(type);
@@ -78,7 +90,7 @@ export default function SelectUserType({ getName, onSuccessStep }: SelectUserTyp
 
   return (
     <div>
-        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Create an account Your account is all set up, [{getName}]!</h3>
+        <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>Create an account Your account is all set up, [{userProfile?.data?.user?.email}]!</h3>
         <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>How would you like to get started with Storyvord?</h3>
         <p className='text-xs lg:text-base md:text-base font-poppins text-center font-normal text-[#666666] mt-2 underline'>Please select your user type to continue.</p>
         <div className='flex justify-between lg:px-36 md:px-4 mt-14 gap-x-16 flex-col md:flex-row lg:flex-row gap-y-6'>

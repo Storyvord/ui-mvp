@@ -1,4 +1,4 @@
-import { getUserDetails, registerUser, userSignIn } from "@/lib/api/auth/auth";
+import { getUserDetails, getUserProfile, registerUser, userSignIn } from "@/lib/api/auth/auth";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Cookies from "js-cookie";
 
@@ -48,5 +48,12 @@ export const useGetUserDetails = () => {
     enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
     cacheTime: 0, // Disable caching
     staleTime: 0, // Data is always considered stale
+  });
+};
+
+export const useGetUserProfile = () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
   });
 };
