@@ -25,6 +25,10 @@ interface ShootDetails {
     mode: string;
 }
 
+interface CreateProjectProps {
+    prevStep: () => void;
+}
+
 const initialContentData: ContentItem[] = [
     { id: 1, name: 'Content 1' },
     { id: 2, name: 'Content 2' },
@@ -39,7 +43,7 @@ const initialContentData: ContentItem[] = [
     { id: 11, name: 'Content 11' },
   ];
 
-export default function CreateProject() {
+export default function CreateProject({ prevStep }: CreateProjectProps) {
 
     const [fileData, setFileData] = useState(null);
     const [sliderValue, setSliderValue] = useState<number>(33);
@@ -170,6 +174,14 @@ export default function CreateProject() {
     const handleInputChange = (field: string, value: string) => {
         setShootDetails((prev) => ({ ...prev, [field]: value }));
     };
+
+    const handleBack = () => {
+        prevStep();
+    };
+    
+    const handleSkip = () => {
+        console.log('skip')
+    }
 
     const displayedContent = showAll ? initialContentData : initialContentData.slice(0, 8);
     console.log(selectedContent, 'selectedContent')
@@ -312,6 +324,8 @@ export default function CreateProject() {
             </div>
         </div>
         <div className='flex justify-end mt-10 mb-10'>
+            <Button className='w-44' type="submit" onClick={handleSkip}>Skip</Button>
+            <Button className='w-44' type="submit" onClick={handleBack}>Back</Button>
             <Button className='w-44 font-poppins' type="submit" onClick={handleOpenDialog}>Add Shoot Details</Button>
         </div>
         <AddShootDetailsDialog

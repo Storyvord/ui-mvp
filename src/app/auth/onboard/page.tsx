@@ -70,7 +70,7 @@ const Register = () => {
             <BasicInfo prevStep={prevStep} onSuccessStep={onSuccessStep} />
           )}
           {step === 3 && (
-            <CreateProject />
+            <CreateProject prevStep={prevStep} />
           )}
         </>
       </div>
