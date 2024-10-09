@@ -15,6 +15,7 @@ import Loader from '@/components/Loader';
 
 interface BasicInfoProps {
     prevStep: () => void;
+    onSuccessStep: () => void;
 }
 
 interface PersonalDetailsData {
@@ -45,7 +46,7 @@ const countryData = [
     }
 ]
 
-export default function BasicInfo({ prevStep }: BasicInfoProps) {
+export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
 
     const photoRef = useRef<HTMLInputElement | null>(null);
     const [fileData, setFileData] = useState<File | null>(null);
@@ -97,8 +98,7 @@ export default function BasicInfo({ prevStep }: BasicInfoProps) {
             toast({
               title: res?.message,
             });
-            // router.push("/auth/onboard");
-            // router.push("/auth/sign-in");
+            onSuccessStep();
           }
         } catch (error: unknown) {
           if (error instanceof Error) {

@@ -67,7 +67,7 @@ const Register = () => {
             <SelectUserType userProfile={userProfile} onSuccessStep={onSuccessStep} />
           )}
           {step === 2 && (
-            <BasicInfo prevStep={prevStep} />
+            <BasicInfo prevStep={prevStep} onSuccessStep={onSuccessStep} />
           )}
           {step === 3 && (
             <CreateProject />
