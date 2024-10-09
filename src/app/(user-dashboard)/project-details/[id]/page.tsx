@@ -113,7 +113,7 @@ const ProjectDetails: React.FC = () => {
             Get AI Suggestions
           </button>
           <button className="rounded-t-lg rounded-br-lg absolute -top-8 left-40 shadow-lg shadow-gray-400 bg-gradient-to-r from-[#22CB67] to-[#092579] text-white font-semibold p-2 text-lg">
-            It's Free
+            It&apos;s Free
           </button>
         </div>
         <section className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">

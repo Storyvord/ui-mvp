@@ -119,14 +119,14 @@ const CrewProfile = () => {
         <section>
           <h3 className=" text-center text-lg font-semibold mt-16">Why AI Suggesting this crew.</h3>
           <p className=" p-4 border border-green-500 rounded-lg mt-4 bg-gradient-to-r from-green-500 to-gray-900 text-transparent bg-clip-text">
-            Based on the details you've provided for your project, our AI has analyzed key factors
-            such as the project's genre, budget, shooting locations, and production scale to suggest
-            the most suitable crew members. Each recommendation is tailored to meet your project's
-            specific needs, ensuring you have professionals with the right expertise. For example,
-            if your project involves complex action sequences, our AI may prioritize experienced
-            stunt coordinators and cinematographers with a history in high-paced environments.
-            Similarly, for dialogue-heavy scenes, it might suggest sound designers and editors
-            skilled in balancing audio for clarity and emotion.
+            Based on the details you&apos;ve provided for your project, our AI has analyzed key
+            factors such as the project&apos;s genre, budget, shooting locations, and production
+            scale to suggest the most suitable crew members. Each recommendation is tailored to meet
+            your project&apos;s specific needs, ensuring you have professionals with the right
+            expertise. For example, if your project involves complex action sequences, our AI may
+            prioritize experienced stunt coordinators and cinematographers with a history in
+            high-paced environments. Similarly, for dialogue-heavy scenes, it might suggest sound
+            designers and editors skilled in balancing audio for clarity and emotion.
           </p>
         </section>
       </main>
