@@ -17,7 +17,7 @@ export const useGetCrewList = (projectId: string) => {
   });
 };
 
-export const useGetCrewFullProfile = (crewId: number) => {
+export const useGetCrewFullProfile = (crewId: string) => {
   return useQuery({
     queryKey: ["getCrewFullProfile", crewId],
     queryFn: () => getCrewFullProfile(crewId),

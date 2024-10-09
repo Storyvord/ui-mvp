@@ -41,42 +41,6 @@ const ProjectDetailsNavBar = () => {
     }
   }, [projects]);
 
-  const companyInformation = companySettingsMenuItems.slice(0, 3).map((item) => (
-    <>
-      <h2 className=" text-md font-semibold sm:mt-3 mt-1">{item.title}</h2>
-      {item.items.map((item) => (
-        <Link
-          href={`/dashboard/${item.link}`}
-          className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md sm:p-2 p-1 "
-        >
-          <item.icon />
-          <h3> {item.text} </h3>
-        </Link>
-      ))}
-    </>
-  ));
-
-  const projectList = (
-    <>
-      {isError && <p className=" text-sm text-red-600">Failed to get projects</p>}
-      {onGoingProjects.map((project) => (
-        <Link
-          href={`/project-details/${project.project_id}`}
-          key={project.project_id}
-          className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2"
-        >
-          <img className="w-[20px]" src={"/icons/camera.svg"} alt="notification" />
-          <p className=" ml-4 line-clamp-1"> {project.name} </p>
-        </Link>
-      ))}
-
-      <span className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2">
-        <img className="w-[20px]" src={"/icons/back.svg"} alt="notification" />
-        <p className=" ml-4"> Past Projects </p>
-      </span>
-    </>
-  );
-
   const profile = ["profile", "settings", "subscriptions"].map((item) => (
     <Link
       href={`/dashboard/${item}`}
