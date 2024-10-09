@@ -8,7 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
-export default function BasicInfo() {
+interface BasicInfoProps {
+    prevStep: () => void;
+}
+
+export default function BasicInfo({ prevStep }: BasicInfoProps) {
 
     const photoRef = useRef<HTMLInputElement | null>(null);
     const [fileData, setFileData] = useState<File | null>(null);
@@ -24,6 +28,10 @@ export default function BasicInfo() {
         if (e.target.files) {
             setFileData(e.target.files[0]);
         }
+    };
+
+    const handleBack = () => {
+        prevStep();
     };
 
     console.log(phoneNumber, 'phoneNumber')
@@ -118,7 +126,8 @@ export default function BasicInfo() {
                 }
             </div>
         </div>
-        <div className='flex justify-end mt-10 mb-10'>
+        <div className='flex justify-end mt-10 mb-10 gap-x-4'>
+            <Button className='w-44' type="submit" onClick={handleBack}>Back</Button>
             <Button className='w-44 font-poppins' type="submit">Next</Button>
         </div>
     </div>

@@ -45,19 +45,15 @@ const SignIn = () => {
       if (res) {
         console.log(res, 'response')
         localStorage.setItem("email", res?.data?.email);
-        router.push("/auth/onboard");
-        // const token: any = Cookies.get("accessToken");
-        // const userDetails = await getUserDetails(token);
-        // if (userDetails) {
-        //   localStorage.setItem("user-details", JSON.stringify(userDetails));
-        //   if (userDetails.user_type === "client") {
-        //     Cookies.set("isClient", "true");
-        //     router.push("/dashboard/home");
-        //   } else if (userDetails.user_type === "crew") {
-        //     Cookies.set("isClient", "false");
-        //     router.push("/crew/home");
-        //   }
-        // }
+        if (res?.data?.user_type === 1 && res?.data?.user_stage === '2') {
+          router.push("/dashboard/home");
+        } else if (res?.data?.user_type === 1 && res?.data?.user_stage === '1') {
+          router.push("/auth/onboard");
+        } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '2') {
+          router.push("/crew/home");
+        } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '1') {
+          router.push("/auth/onboard");
+        }
       }
     } catch (error) {
       // Check if error is an instance of Error

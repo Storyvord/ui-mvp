@@ -10,12 +10,12 @@ const Register = () => {
   const [step, setStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
-  const nextStep = () => {
-    setStep(step + 1);
+  const prevStep = () => {
+    setStep(step - 1);
   };
 
-  const goToStep = (stepNumber: number) => {
-    setStep(stepNumber);
+  const nextStep = () => {
+    setStep(step + 1);
   };
 
   const markStepAsCompleted = (stepNumber: number) => {
@@ -24,23 +24,19 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log('Form submitted!');
-  }
-
   const onSuccessUserType = () => {
     markStepAsCompleted(1); // Mark step 1 as completed
     nextStep(); // Move to the next step
   };
 
-  const StepLabel = ({ children, onClick }: {
+  const StepLabel = ({ children }: {
     children: React.ReactNode;
     active: boolean;
     completed: boolean;
-    onClick: () => void;
+    // onClick: () => void;
   }) => {
     return (
-        <div className="w-4/12" onClick={onClick}>
+        <div className="w-4/12">
           {children}
         </div>
     );
@@ -57,37 +53,35 @@ const Register = () => {
         </div>
       <div className="w-full mt-8">
         <div className="flex items-center justify-between mb-6 lg:mb-14 md:mb-14 px-0 lg:px-36 md:px-16">
-            <StepLabel active={step === 1} completed={completedSteps.includes(1)} onClick={() => goToStep(1)}>
-                <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
-                    <div className={`${step === 1 || completedSteps.includes(1) ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>1</div>
-                    <h5 className={`${step === 1 || completedSteps.includes(1) ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Select User Type</h5>
-                </div>
+            <StepLabel active={step === 1} completed={completedSteps.includes(1)}>
+              <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
+                <div className={`${step === 1 || completedSteps.includes(1) ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>1</div>
+                <h5 className={`${step === 1 || completedSteps.includes(1) ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Select User Type</h5>
+              </div>
             </StepLabel>
-            <StepLabel active={step === 2} completed={completedSteps.includes(2)} onClick={() => goToStep(2)}>
-                <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
-                    <div className={`${step === 2 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>2</div>
-                    <h5 className={`${step === 2 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Provide your basic info</h5>
-                </div>
+            <StepLabel active={step === 2} completed={completedSteps.includes(2)}>
+              <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
+                <div className={`${step === 2 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>2</div>
+                <h5 className={`${step === 2 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Provide your basic info</h5>
+              </div>
             </StepLabel>
-            <StepLabel active={step === 3} completed={completedSteps.includes(3)} onClick={() => goToStep(3)}>
-                <div className="flex flex-col items-center justify-center cursor-pointer">
-                    <div className={`${step === 3 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>3</div>
-                    <h5 className={`${step === 3 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Create your Project</h5>
-                </div>
+            <StepLabel active={step === 3} completed={completedSteps.includes(3)}>
+              <div className="flex flex-col items-center justify-center cursor-pointer">
+                <div className={`${step === 3 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>3</div>
+                <h5 className={`${step === 3 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Create your Project</h5>
+              </div>
             </StepLabel>
         </div>
         <>
-            {step === 1 && (
-              // <div onClick={() => { markStepAsCompleted(1); nextStep();}}>
-                <SelectUserType getName={getName} onSuccessUserType={onSuccessUserType} />
-              // </div>
-            )}
-            {step === 2 && (
-              <BasicInfo />
-            )}
-            {step === 3 && (
-              <CreateProject />
-            )}
+          {step === 1 && (
+            <SelectUserType getName={getName} onSuccessUserType={onSuccessUserType} />
+          )}
+          {step === 2 && (
+            <BasicInfo prevStep={prevStep} />
+          )}
+          {step === 3 && (
+            <CreateProject />
+          )}
         </>
       </div>
     </section>

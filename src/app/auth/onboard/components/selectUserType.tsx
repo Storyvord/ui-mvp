@@ -13,6 +13,21 @@ interface SelectUserTypeProps {
     onSuccessUserType: () => void;
 }
 
+const userTypeOptions = [
+    {
+      type: 'client',
+      icon: ProducerIcon,
+      title: 'Producers',
+      description: '(Individual or Production company)',
+    },
+    {
+      type: 'crew',
+      icon: CrewIcon,
+      title: 'Crew',
+      description: '',
+    },
+];
+
 export default function SelectUserType({ getName, onSuccessUserType }: SelectUserTypeProps) {
 
     const [selectedUserType, setSelectedUserType] = useState<string>('');
@@ -68,37 +83,35 @@ export default function SelectUserType({ getName, onSuccessUserType }: SelectUse
         <h3 className='lg:text-2xl md:text-2xl text-sm font-poppins text-center font-medium text-[#333333]'>How would you like to get started with Storyvord?</h3>
         <p className='text-xs lg:text-base md:text-base font-poppins text-center font-normal text-[#666666] mt-2 underline'>Please select your user type to continue.</p>
         <div className='flex justify-between lg:px-36 md:px-4 mt-14 gap-x-16 flex-col md:flex-row lg:flex-row gap-y-6'>
-            <div className={`${selectedUserType === 'client' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
-                <div className='flex justify-end'>
-                    <RadioGroup>
-                        <RadioGroupItem value="client" className='data-[state=checked]:border-[#22CB67] data-[state=checked]:text-[#22CB67]'
-                            checked={selectedUserType === 'client'} onChange={() => handleCheck('client')}
-                        />
-                    </RadioGroup>
-                </div>
-                <div className='flex items-end justify-between pt-12' onClick={() => handleCheck('client')}>
-                    <Image src={ProducerIcon} alt="producer-icon" />
-                    <div>
-                        <h6 className='text-base font-poppins text-center font-bold text-[#333333]'>Producers</h6>
-                        <p className='text-base font-poppins text-center font-medium text-[#333333]'>(Individual or Production company)</p>
+            {userTypeOptions.map((item, index) => (
+                <div
+                    key={index}
+                    className={`${selectedUserType === item.type 
+                    ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" 
+                    : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}
+                    onClick={() => handleCheck(item.type)}
+                >
+                    <div className='flex justify-end'>
+                        <RadioGroup>
+                            <RadioGroupItem 
+                                value={item.type} 
+                                className='data-[state=checked]:border-[#22CB67] data-[state=checked]:text-[#22CB67]'
+                                checked={selectedUserType === item.type}
+                                onChange={() => handleCheck(item.type)}
+                            />
+                        </RadioGroup>
+                    </div>
+                    <div className='flex items-end justify-between pt-12'>
+                        <Image src={item.icon} alt={`${item.type}-icon`} />
+                        <div>
+                            <h6 className='text-base font-poppins text-center font-bold text-[#333333]'>{item.title}</h6>
+                            {item.description && (
+                                <p className='text-base font-poppins text-center font-medium text-[#333333]'>{item.description}</p>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={`${selectedUserType === 'crew' ? "border-[#22CB67] shadow-[0_4px_4px_0px_rgba(34,203,103,0.25)]" : "border-[#66666659]"} md:w-6/12 rounded-xl border px-3 pt-3 cursor-pointer`}>
-                <div className='flex justify-end'>
-                    <RadioGroup>
-                        <RadioGroupItem value="crew" className='data-[state=checked]:border-[#22CB67] data-[state=checked]:text-[#22CB67]'
-                            checked={selectedUserType === 'crew'} onChange={() => handleCheck('crew')}
-                        />
-                    </RadioGroup>
-                </div>
-                <div className='flex items-end pt-12' onClick={() => handleCheck('crew')}>
-                    <Image src={CrewIcon} alt="producer-icon" />
-                    <div className='w-full'>
-                        <h6 className='text-base font-poppins text-center font-bold text-[#333333] mb-3'>Crew</h6>
-                    </div>
-                </div>
-            </div>
+            ))}
         </div>
         <div className='flex justify-end mt-10 mb-10'>
             <Button className='w-44' onClick={handleNext} type="submit" disabled={isLoading}>{isLoading ? <Loader /> : 'Next'}</Button>
