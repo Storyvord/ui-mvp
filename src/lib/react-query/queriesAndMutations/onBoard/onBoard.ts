@@ -22,9 +22,9 @@ export const usePostPesonalDetails = () => {
     return useMutation({
         mutationFn: postPersonalDetails,
         onSuccess: (data) => {
-        queryClient.invalidateQueries({
-            queryKey: ["userProfile"],
-        });
+        // queryClient.invalidateQueries({
+        //     queryKey: ["userProfile"],
+        // });
             return data;
         },
         onError: (error) => {
