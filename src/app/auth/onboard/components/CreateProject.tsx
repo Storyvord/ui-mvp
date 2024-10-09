@@ -323,7 +323,7 @@ export default function CreateProject({ prevStep }: CreateProjectProps) {
                 </div>
             </div>
         </div>
-        <div className='flex justify-end mt-10 mb-10'>
+        <div className='flex justify-end mt-10 mb-10 gap-x-4'>
             <Button className='w-44' type="submit" onClick={handleSkip}>Skip</Button>
             <Button className='w-44' type="submit" onClick={handleBack}>Back</Button>
             <Button className='w-44 font-poppins' type="submit" onClick={handleOpenDialog}>Add Shoot Details</Button>
