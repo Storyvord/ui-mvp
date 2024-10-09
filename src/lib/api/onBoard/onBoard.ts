@@ -30,7 +30,7 @@ export const postPersonalDetails = async (data: any) => {
     });
     if (!res.ok) {
         const errorData = await res.json(); // Extract error message from response
-        throw new Error(errorData?.user_type[0]);
+        throw new Error(errorData?.non_field_errors[0]);
     }
     return res.json();
 };

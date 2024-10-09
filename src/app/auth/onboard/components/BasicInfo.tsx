@@ -102,13 +102,13 @@ export default function BasicInfo({ prevStep }: BasicInfoProps) {
           }
         } catch (error: unknown) {
           if (error instanceof Error) {
-            console.error("Registration error:", error);
+            console.error("Personal Details error:", error);
             toast({
               title: error.message,
               variant: "destructive",
             });
           } else {
-            console.error("Registration error:", error);
+            console.error("Personal Details error:", error);
             toast({
               title: "An unknown error occurred.",
               variant: "destructive",
