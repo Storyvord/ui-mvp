@@ -11,34 +11,37 @@ const Register = () => {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
   const prevStep = () => {
-    setStep(step - 1);
-  };
-
-  const nextStep = () => {
-    setStep(step + 1);
-  };
-
-  const markStepAsCompleted = (stepNumber: number) => {
-    if (!completedSteps.includes(stepNumber)) {
-      setCompletedSteps([...completedSteps, stepNumber]);
+    if (step > 1){
+      setStep(step - 1);
     }
   };
 
-  const onSuccessUserType = () => {
-    markStepAsCompleted(1); // Mark step 1 as completed
-    nextStep(); // Move to the next step
+  const nextStep = () => {
+    if (!completedSteps.includes(step)) {
+      setCompletedSteps([...completedSteps, step]);
+    }
+    setStep(step + 1);
   };
 
-  const StepLabel = ({ children }: {
-    children: React.ReactNode;
-    active: boolean;
-    completed: boolean;
-    // onClick: () => void;
-  }) => {
+  const onSuccessStep = () => {
+    nextStep(); 
+  };
+
+  const StepIndicator = ({ stepNumber, label }: { stepNumber: number, label: string }) => {
+    const isActive = step === stepNumber;
+    const isCompleted = completedSteps.includes(stepNumber);
+
     return (
-        <div className="w-4/12">
-          {children}
+      <div className="w-4/12">
+        <div className={`flex flex-col items-center justify-center cursor-pointer relative ${stepNumber === 3 ? '' : "after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]"}`}>
+          <div className={`w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2  ${isActive || isCompleted ? "bg-[#22CB67]" : "bg-[#666666]"}`}>
+            {stepNumber}
+          </div>
+          <h5 className={`text-xs lg:text-base md:text-base font-poppins font-normal ${isActive || isCompleted ? "text-[#333333]" : "text-[#666666]"}`}>
+            {label}
+          </h5>
         </div>
+      </div>
     );
   };
 
@@ -53,28 +56,13 @@ const Register = () => {
         </div>
       <div className="w-full mt-8">
         <div className="flex items-center justify-between mb-6 lg:mb-14 md:mb-14 px-0 lg:px-36 md:px-16">
-            <StepLabel active={step === 1} completed={completedSteps.includes(1)}>
-              <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
-                <div className={`${step === 1 || completedSteps.includes(1) ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>1</div>
-                <h5 className={`${step === 1 || completedSteps.includes(1) ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Select User Type</h5>
-              </div>
-            </StepLabel>
-            <StepLabel active={step === 2} completed={completedSteps.includes(2)}>
-              <div className="flex flex-col items-center justify-center cursor-pointer relative after:content-[''] after:w-10/12 after:border-[#999999] after:border after:absolute after:left-[50%] after:top-[4px] after:mx-[12px] lg:after:mx-[28px] md:after:mx-[28px]">
-                <div className={`${step === 2 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>2</div>
-                <h5 className={`${step === 2 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Provide your basic info</h5>
-              </div>
-            </StepLabel>
-            <StepLabel active={step === 3} completed={completedSteps.includes(3)}>
-              <div className="flex flex-col items-center justify-center cursor-pointer">
-                <div className={`${step === 3 ? "bg-[#22CB67]" : "bg-[#666666]"} w-5 h-5 leading-5 rounded-full text-center text-xs font-poppins font-normal text-[#fff] mb-2`}>3</div>
-                <h5 className={`${step === 3 ? "text-[#333333]" : "text-[#666666]"} text-xs lg:text-base md:text-base font-poppins font-normal`}>Create your Project</h5>
-              </div>
-            </StepLabel>
+          <StepIndicator stepNumber={1} label="Select User Type" />
+          <StepIndicator stepNumber={2} label="Provide your basic info" />
+          <StepIndicator stepNumber={3} label="Create your Project" />
         </div>
         <>
           {step === 1 && (
-            <SelectUserType getName={getName} onSuccessUserType={onSuccessUserType} />
+            <SelectUserType getName={getName} onSuccessStep={onSuccessStep} />
           )}
           {step === 2 && (
             <BasicInfo prevStep={prevStep} />

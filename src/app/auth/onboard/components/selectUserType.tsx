@@ -10,7 +10,7 @@ import Loader from '@/components/Loader';
 
 interface SelectUserTypeProps {
     getName: string;
-    onSuccessUserType: () => void;
+    onSuccessStep: () => void;
 }
 
 const userTypeOptions = [
@@ -28,13 +28,12 @@ const userTypeOptions = [
     },
 ];
 
-export default function SelectUserType({ getName, onSuccessUserType }: SelectUserTypeProps) {
+export default function SelectUserType({ getName, onSuccessStep }: SelectUserTypeProps) {
 
     const [selectedUserType, setSelectedUserType] = useState<string>('');
-
     const { mutateAsync: postUserType, isLoading } = useSelectUserType();
 
-    const handleCheck = (type: any) => {
+    const handleCheck = (type: string) => {
         setSelectedUserType(type);
     }
 
@@ -51,7 +50,7 @@ export default function SelectUserType({ getName, onSuccessUserType }: SelectUse
           const res = await postUserType(userType);
           if (res) {
             console.log(res, 'response')
-            onSuccessUserType();
+            onSuccessStep();
             toast({
                 title: res?.message,
             });
