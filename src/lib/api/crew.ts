@@ -17,7 +17,7 @@ export const getInvitedCrewList = async (projectId: string) => {
   });
 };
 
-export const getCrewFullProfile = async (crewId: number) => {
+export const getCrewFullProfile = async (crewId: string) => {
   return customFetch(`${USER_API}/api/crew/crew-list/${crewId}/`, {
     method: "GET",
   });
