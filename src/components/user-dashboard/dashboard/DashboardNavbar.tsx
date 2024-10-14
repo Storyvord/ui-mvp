@@ -89,11 +89,11 @@ const DashboardNavbar = () => {
   ));
 
   return (
-    <nav className=" bg-white p-2 flex justify-between fixed w-full max-w-[2000] top-0 z-50">
+    <nav className=" bg-white p-2 flex justify-between fixed w-full max-w-[2000] top-0 z-50 shadow-sm">
       <section className=" flex items-center gap-4 xl:gap-16 sm:ml-8">
         <Link href="/dashboard">
           <Image
-            className=" w-[125px] sm:w-[170px]"
+            className=" w-[125px] sm:w-[150px]"
             src={"/logo.svg"}
             width={50}
             height={10}
