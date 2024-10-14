@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Select from "react-select";
+import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -47,16 +48,26 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   handleEditForm,
 }) => {
   return (
-    <div className="flex flex-col gap-2 py-2 w-full h-auto px-4">
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger className=" text-xl md:text-2xl font-semibold text-gray-700">
-            Project Details
+    <div className="flex py-2 w-full h-auto px-4">
+      <Accordion type="single" collapsible defaultValue="project-details" className=" w-full">
+        <AccordionItem value="project-details">
+          <AccordionTrigger className=" font-semibold text-gray-700 flex md:gap-4 gap-0">
+            <h1 className=" flex-grow text-start text-md md:text-xl ">{projectDetails?.name}</h1>
+            <div className=" flex items-center gap-2 border-2 border-black p-2 rounded-md md:text-md text-sm">
+              Project Details
+              <Image
+                src="/icons/project-eye.svg"
+                alt="icon"
+                width={25}
+                height={25}
+                className=" md:w-6 w-4 md:h-6 h-4"
+              />
+            </div>
           </AccordionTrigger>
-          <AccordionContent className=" px-4">
-            <Card className="relative w-full h-full bg-white shadow-lg rounded-xl overflow-auto pt-2">
+          <AccordionContent>
+            <Card className="relative w-full h-full bg-white shadow-none rounded-md overflow-auto pt-2">
               <CardHeader className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between sm:space-y-0">
-                <div className="flex gap-2 items-center justify-between sm:justify-end">
+                <div className="flex gap-2 items-center justify-between w-full">
                   <div className="flex items-center gap-2">
                     <div>
                       {projectDetails?.status === "CANCELLED" && (
@@ -108,9 +119,6 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     </PopoverContent>
                   </Popover>
                 </div>
-                <CardTitle className="sm:text-3xl font-bold text-gray-900 dark:text-white float-left">
-                  {projectDetails?.name}
-                </CardTitle>
               </CardHeader>
 
               <CardContent className="font-sans p-0 flex flex-col gap-2 mt-4">
