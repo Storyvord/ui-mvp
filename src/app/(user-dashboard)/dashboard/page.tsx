@@ -24,7 +24,7 @@ const page = () => {
           <Posting />
           <CalendarSection />
         </section>
-        <section className=" h-full pl-1">
+        <section className=" h-full pl-1 space-y-6">
           <Tasks />
           <MyNetwork />
         </section>

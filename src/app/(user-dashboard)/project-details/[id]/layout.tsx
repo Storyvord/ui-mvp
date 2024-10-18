@@ -16,7 +16,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <ProjectContextProvider>
           <main className="max-w-[2000px] mx-auto min-h-screen">
             <ProjectDetailsNavBar />
-            <div className="md:ml-72 md:pt-16 pt-32">
+            <div className="md:ml-60 lg:ml-72 md:pt-16 pt-32">
               <SideBar />
               {children}
             </div>
