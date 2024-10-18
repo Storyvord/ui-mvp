@@ -76,6 +76,10 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        iconButton: {
+          DEFAULT: "hsl(var(--iconButton))",
+          foreground: "hsl(var(--iconButton-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -106,6 +110,7 @@ const config = {
 
         "Josefin-Sans": ["Josefin Sans"],
         jacquard: ["Jacquard 12"],
+        poppins: ["Poppins", "sans-serif"],
       },
       boxShadow: {},
       screens: {
