@@ -48,7 +48,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   handleEditForm,
 }) => {
   return (
-    <div className="flex py-2 w-full h-auto px-4">
+    <div className="flex w-full h-auto px-4">
       <Accordion type="single" collapsible defaultValue="project-details" className=" w-full">
         <AccordionItem value="project-details">
           <AccordionTrigger className=" font-semibold text-gray-700 flex md:gap-4 gap-0">
