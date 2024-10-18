@@ -309,22 +309,21 @@ export const crew_data = [
 export const defaultFormValues = {
   projectName: "",
   contentType: "",
-  budget: 5000,
+  budget: 500,
   description: "",
-  additionalDetails: "",
   locationDetails: [
     {
       location: "",
       start_date: "",
       end_date: "",
-      permits: false,
+      permits: true,
       mode_of_shooting: undefined,
     },
   ],
-  uploadedDocument: "",
-  ai_suggestions: true,
-  crew: {},
-  equipment: {},
+  uploadedDocument: [],
+  aiSuggestions: true,
+  crew: [],
+  equipment: [],
 };
 
 export const tempTaskList = [
@@ -458,27 +457,27 @@ export const companySettingsMenuItems = [
     title: "General",
     items: [
       {
-        link: "/employees",
+        link: "employees",
         icon: IoIosPeople,
         text: "Employees & Staff",
       },
       {
-        link: "/address-book",
+        link: "address-book",
         icon: ImAddressBook,
         text: "Address Book",
       },
       {
-        link: "/company-files",
+        link: "company-files",
         icon: IoMdFolder,
         text: "Company Files",
       },
       {
-        link: "/company-tasks",
+        link: "company-tasks",
         icon: FaTasks,
         text: "Company Tasks",
       },
       {
-        link: "/activity-logs",
+        link: "activity-logs",
         icon: RxActivityLog,
         text: "Activity Logs",
       },
@@ -488,17 +487,17 @@ export const companySettingsMenuItems = [
     title: "planning",
     items: [
       {
-        link: "/company-calendar",
+        link: "company-calendar",
         icon: SlCalender,
         text: "Company Calendar",
       },
       {
-        link: "/timesheets",
+        link: "timesheets",
         icon: IoMdStopwatch,
-        text: "TimeSheets",
+        text: "Time Sheets",
       },
       {
-        link: "/resource-planning",
+        link: "resource-planning",
         icon: GrResources,
         text: "Resource Planning",
       },
@@ -508,22 +507,22 @@ export const companySettingsMenuItems = [
     title: "database",
     items: [
       {
-        link: "/actor-database",
+        link: "actor-database",
         icon: MdNaturePeople,
         text: "Actor Database",
       },
       {
-        link: "/location-database",
+        link: "location-database",
         icon: MdLocationPin,
         text: "Location Database",
       },
       {
-        link: "/costume-database",
+        link: "costume-database",
         icon: PiCoatHanger,
         text: "Costume Database",
       },
       {
-        link: "/prop-database",
+        link: "prop-database",
         icon: CiShoppingTag,
         text: "Prop Database",
       },
@@ -533,12 +532,12 @@ export const companySettingsMenuItems = [
     title: "administrative",
     items: [
       {
-        link: "/settings",
+        link: "settings",
         icon: IoMdSettings,
         text: "Settings",
       },
       {
-        link: "/subscriptions",
+        link: "subscriptions",
         icon: MdSubscriptions,
         text: "Subscriptions",
       },

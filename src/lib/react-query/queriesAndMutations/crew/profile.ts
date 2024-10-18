@@ -22,7 +22,7 @@ import {
   updatePortfolio,
   updateSocialLink,
 } from "@/lib/api/crew/profile";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateProfile = () => {
   const queryClient = useQueryClient();
@@ -33,9 +33,6 @@ export const useCreateProfile = () => {
         queryKey: ["getProfile"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -50,9 +47,6 @@ export const useCreatePortfolio = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -65,9 +59,6 @@ export const useCreateEducation = () => {
         queryKey: ["getEducation"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -82,9 +73,6 @@ export const useCreateSocialLink = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -97,9 +85,6 @@ export const useCreateEndorsement = () => {
         queryKey: ["getEndorsement"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -114,9 +99,6 @@ export const useCreateCredit = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -126,9 +108,6 @@ export const useGetProfile = () => {
   return useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
-    onSuccess: (data) => {
-      JSON.stringify(localStorage.setItem("crew-profile-id", data?.id));
-    },
   });
 };
 export const useGetPortfolio = () => {
@@ -174,9 +153,6 @@ export const useUpdatePortfolio = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -189,9 +165,6 @@ export const useUpdateEducation = () => {
         queryKey: ["getEducation"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -206,9 +179,6 @@ export const useUpdateSocialLink = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -221,9 +191,6 @@ export const useUpdateEndorsement = () => {
         queryKey: ["getEndorsement"],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };
@@ -238,9 +205,6 @@ export const useUpdateCredit = () => {
       });
       return data;
     },
-    onError: (error) => {
-      return;
-    },
   });
 };
 
@@ -254,9 +218,6 @@ const useDeleteResource = (deleteFn: (id: number) => Promise<any>, queryKey: str
         queryKey: [queryKey],
       });
       return data;
-    },
-    onError: (error) => {
-      return;
     },
   });
 };

@@ -61,7 +61,7 @@ const CrewPageClient: React.FC<CrewPageClientProps> = ({ crewRequirements }) => 
           <Search searchTerm={searchTerm} onSearchTermChange={setSearchTerm} />
         </div>
       </div>
-      <div className="flex flex-wrap -mx-4 justify-center">
+      {/* <div className="flex flex-wrap -mx-4 justify-center">
         {selectedRole === "all"
           ? filteredCrewData.map((data, index) => (
               data.crewMembers.map((crewMember: CrewMember, i: number) => (
@@ -78,7 +78,7 @@ const CrewPageClient: React.FC<CrewPageClientProps> = ({ crewRequirements }) => 
               ))
             ))
         }
-      </div>
+      </div> */}
     </div>
   );
 };

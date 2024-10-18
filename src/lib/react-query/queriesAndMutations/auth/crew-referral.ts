@@ -1,5 +1,6 @@
 import { getReferralCrewData, registerCrewWithReferral } from "@/lib/api/auth/crew-referral";
-import { useMutation, useQuery } from "react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+
 
 export const useGetReferralCrewData = (referralCode: string) => {
   return useQuery({
@@ -13,9 +14,6 @@ export const useRegisterCrewWithReferral = () => {
     mutationFn: registerCrewWithReferral,
     onSuccess: (data) => {
       return data;
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };

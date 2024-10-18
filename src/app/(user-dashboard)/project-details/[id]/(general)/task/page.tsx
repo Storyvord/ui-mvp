@@ -4,31 +4,33 @@ import CreateTask from "@/components/tasks/CreateTask";
 import TaskCard from "@/components/tasks/TaskCard";
 import TaskNavbar from "@/components/tasks/TaskNavbar";
 import ToolBar from "@/components/tasks/ToolBar";
-import {
-  useCompleteTask,
-  useCreateNewTask,
-  useDeleteTask,
-  useGetTasks,
-  useTaskCompletionApproval,
-} from "@/lib/react-query/queriesAndMutations";
 import { taskFormType, taskType } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import TaskSkeleton from "@/components/TaskSkeleton";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
 import { useToast } from "@/components/ui/use-toast";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
+import {
+  useCreateNewTask,
+  useGetTasks,
+  useDeleteTask,
+  useCompleteTask,
+  useTaskCompletionApproval,
+} from "@/lib/react-query/queriesAndMutations/tasks";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
-  const { data: tasksList, isLoading: isLoadingTask } = useGetTasks(params.id);
+  const { data: tasksList, isPending: isLoadingTask } = useGetTasks(params.id);
   const { mutateAsync: createNewTaskMutation } = useCreateNewTask();
   const { mutateAsync: deleteTaskMutation } = useDeleteTask();
   const { mutateAsync: completeTaskMutation } = useCompleteTask();
-  const { mutateAsync: taskApprovalMutation, isLoading:isLoadingApprovedTask } = useTaskCompletionApproval();
-  const { data: crew_list } = useGetOnBoardedCrewList(params.id);
-  const crewList = crew_list?.map((crew: Crew) => ({
-    value: crew.id,
-    label: crew.profile.name,
-  }));
+  const { mutateAsync: taskApprovalMutation, isPending: isLoadingApprovedTask } =
+    useTaskCompletionApproval();
+  const { data: crew_list } = useGetCrewList(params.id);
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();

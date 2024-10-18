@@ -1,8 +1,9 @@
+import PremiumFeaturePage from '@/components/PremiumFeaturePage'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>costume database</div>
+    <PremiumFeaturePage />
   )
 }
 

@@ -1,94 +1,42 @@
 import { USER_API } from "@/constant/constant";
-import Cookies from "js-cookie";
+import { customFetch } from "../api";
 
-export const sentInvitationToEmployee = async (employee_email: string) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${USER_API}/api/referral/company/invite/`, {
+export const sentInvitationToEmployee = async (formData: any) => {
+  return customFetch(`${USER_API}/api/referral/company/invite/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ employee_email }),
+    body: JSON.stringify(formData),
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to create project");
-  }
-
-  return res.json();
 };
 
 export const getOnBoardedEmployeeList = async () => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(
-    `${USER_API}/api/company/employees/
-`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to get crew");
-  }
-
-  return res.json();
+  return customFetch(`${USER_API}/api/company/employees/`, {
+    method: "GET",
+  });
 };
 
-export const getCompanyInvitations = async () => {
-  const token = Cookies.get("accessToken");
-  try {
-    const res = await fetch(`${USER_API}/api/referral/company/invitations/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch invitations details");
-    }
-
-    return res.json();
-  } catch (err) {
-    console.log(err);
-  }
+export const getReceivedInvitationsList = async () => {
+  return customFetch(`${USER_API}/api/referral/company/invitations/`, {
+    method: "GET",
+  });
 };
+export const getSendInvitationsList = async () => {
+  return customFetch(`${USER_API}/api/referral/company/client/employee-invitations/`, {
+    method: "GET",
+  });
+};
+
 
 export const acceptCompanyInvitation = async (referralCode: string) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(
-    `${USER_API}/api/referral/company/invitations/accept/?referral_code=${referralCode}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to accept invitation");
-  }
-
-  return res.json();
+  return customFetch(`${USER_API}/api/referral/company/invitations/accept/?referral_code=${referralCode}`, {
+    method: "GET",
+  });
 };
 
 export const rejectCompanyInvitation = async (referralCode: string) => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(
-    `${USER_API}/api/referral/company/invitations/reject/?referral_code=${referralCode}/`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to reject invitation");
-  }
-
-  return res.json();
+  return customFetch(`${USER_API}/api/referral/company/invitations/reject/?referral_code=${referralCode}`, {
+    method: "GET",
+  });
 };

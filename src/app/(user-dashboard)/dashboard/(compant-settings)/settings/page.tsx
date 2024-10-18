@@ -92,7 +92,7 @@ const defaultValues = {
 
 const CompanySettings = () => {
   const { data } = useGetCompanySettings();
-  const { mutateAsync, isLoading, isError } = useUpdateCompanySettings();
+  const { mutateAsync, isPending, isError } = useUpdateCompanySettings();
 
   const form = useForm<CompanySettings>({
     resolver: zodResolver(companySettingsSchema),
@@ -129,7 +129,7 @@ const CompanySettings = () => {
         form={form}
         formFields={companySettingsFormField}
         onSubmit={onSubmit}
-        isLoading={isLoading}
+        isLoading={isPending}
         isError={isError}
       />
     </div>

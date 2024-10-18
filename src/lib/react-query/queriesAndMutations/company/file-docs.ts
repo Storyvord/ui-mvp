@@ -5,7 +5,7 @@ import {
   getCompanyFileDocumentRooms,
   uploadCompanyFile,
 } from "@/lib/api/company/file-docs";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetCompanyFileDocumentRooms = () => {
   return useQuery({
@@ -23,9 +23,6 @@ export const useCreateCompanyFileDocumentRoom = () => {
         queryKey: ["getCompanyFileDocumentRooms"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error submitting create create company room form:", error);
     },
   });
 };
@@ -47,9 +44,6 @@ export const useUploadCompanyFile = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error uploading company file:", error);
-    },
   });
 };
 
@@ -62,9 +56,6 @@ export const useDeleteCompanyFile = () => {
         queryKey: ["getAllCompanyFiles"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error("Error deleting company file:", error);
     },
   });
 };

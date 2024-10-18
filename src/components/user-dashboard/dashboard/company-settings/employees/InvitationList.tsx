@@ -6,6 +6,7 @@ type Invitation = {
   employee_email: string;
   referral_code: string;
   status: string;
+  client_profile: { firstName: string };
 };
 type Props = {
   getInvitationsList: Invitation[];
@@ -25,7 +26,9 @@ const InvitationList = ({ getInvitationsList, acceptInvitation, rejectInvitation
                 key={invitation.id}
                 className=" flex flex-col gap-4 mt-2 p-2 bg-white rounded-md shadow-md sm:flex-row sm:items-center sm:justify-between"
               >
-                <p>{invitation?.referral_code}</p>
+                <p>
+                  <b> {invitation?.client_profile.firstName}</b> invite you
+                </p>
                 <span className=" flex gap-3">
                   <Button size="sm" onClick={() => acceptInvitation(invitation.referral_code)}>
                     Accept

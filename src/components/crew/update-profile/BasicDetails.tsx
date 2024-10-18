@@ -105,7 +105,7 @@ type Props = {
 const BasicDetails = ({ openDialog, setOpenDialog }: Props) => {
   const { toast } = useToast();
   const { data: profileData } = useGetProfile();
-  const { mutateAsync, isLoading, isError } = useCreateProfile();
+  const { mutateAsync, isPending, isError } = useCreateProfile();
 
   const form = useForm({
     resolver: zodResolver(profileFormValidationSchema),
@@ -142,7 +142,7 @@ const BasicDetails = ({ openDialog, setOpenDialog }: Props) => {
             form={form}
             formFields={profileFormFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
           />
         </div>

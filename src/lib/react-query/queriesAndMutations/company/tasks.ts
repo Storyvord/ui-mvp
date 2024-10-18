@@ -7,7 +7,7 @@ import {
   getCompanyEmployeeTasks,
   companyTaskCompletionRequest,
 } from "@/lib/api/company/tasks";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useGetCompanyTasks = () => {
   return useQuery({
@@ -33,9 +33,6 @@ export const useCreateNewCompanyTask = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error("Error from getTasks ::", error);
-    },
   });
 };
 
@@ -47,9 +44,6 @@ export const useDeleteCompanyTask = () => {
       queryClient.invalidateQueries({
         queryKey: ["getCompanyTasks"],
       });
-    },
-    onError: (error) => {
-      console.error("Error in deleting project:", error);
     },
   });
 };
@@ -64,9 +58,6 @@ export const useUpdateCompanyTask = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
@@ -80,9 +71,6 @@ export const useCompanyTaskCompletionApproval = () => {
       });
       return data;
     },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
@@ -95,9 +83,6 @@ export const useCompanyTaskCompletionRequest = () => {
         queryKey: ["getCompanyEmployeeTasks"],
       });
       return data;
-    },
-    onError: (error) => {
-      console.error(error);
     },
   });
 };

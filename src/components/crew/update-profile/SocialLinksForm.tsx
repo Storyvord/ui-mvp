@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SocialLinkFormType, FormFieldConfig } from "@/types/crew";
@@ -8,8 +8,8 @@ import {
   useCreateSocialLink,
   useUpdateSocialLink,
   useGetSocialLink,
+  useGetProfile,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
-import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomForm from "@/components/CustomForm";
@@ -34,10 +34,14 @@ type Props = {
 };
 
 const SocialLinksForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { data: profileData } = useGetProfile();
+  const [crewProfileId, setCrewProfileId] = useState();
+  useEffect(() => {
+    setCrewProfileId(profileData?.id);
+  }, [profileData]);
   const { toast } = useToast();
 
-  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
-  const { mutateAsync, isLoading, isError } = useCreateSocialLink();
+  const { mutateAsync, isPending, isError } = useCreateSocialLink();
   const { mutateAsync: updateSocialLink } = useUpdateSocialLink();
   const { data } = useGetSocialLink();
 
@@ -69,7 +73,7 @@ const SocialLinksForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
       }
       setOpenDialog(false);
     } else {
-      const res = await mutateAsync({ ...data, crew: crewProfileId });
+      const res = await mutateAsync({ ...data, crew: crewProfileId || 0 });
       if (res) {
         form.reset();
         toast({
@@ -91,7 +95,7 @@ const SocialLinksForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
             form={form}
             formFields={socialLinksFormFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
           />
         </div>

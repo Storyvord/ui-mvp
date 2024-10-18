@@ -1,30 +1,36 @@
-import React, { FC } from "react";
-import SideBar from "@/components/sidebar/SideBar";
-import NavBar from "@/components/navbar/NavBar";
-import { Toaster } from "@/components/ui/toaster"
+"use client";
+import { FC, ReactNode, Suspense } from "react";
+import Cookies from "js-cookie";
 
-import SideBarContextProvider from "@/context/SideBarContext";
 import UserContextProvider from "@/context/UserContext";
-import ProjectContextProvider from "@/context/ProjectContext";
+import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
+
+import Chatbot from "@/components/chat/Chatbot";
+import { Toaster } from "@/components/ui/toaster";
+import Loading from "../loading";
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
+  const token = Cookies.get("accessToken");
+  const { data: userDetails, isPending } = useGetUserDetails();
+
   return (
     <UserContextProvider>
       <div className="w-full min-h-screen bg-[#eceff180] relative">
-        <SideBarContextProvider>
-          <ProjectContextProvider>
-            <SideBar />
-            <div className="lg:ml-72 font-sans">
-              <NavBar />
-              {children}
+        {userDetails && token && !isPending ? (
+          <>
+            <div className="">
+              <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
-              <Toaster />
-          </ProjectContextProvider>
-        </SideBarContextProvider>
+            <Toaster />
+            <Chatbot />
+          </>
+        ) : (
+          <Loading />
+        )}
       </div>
     </UserContextProvider>
   );

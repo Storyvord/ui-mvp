@@ -1,9 +1,8 @@
-import React from 'react'
+import PremiumFeaturePage from "@/components/PremiumFeaturePage";
+import React from "react";
 
 const page = () => {
-  return (
-    <div>time sheet</div>
-  )
-}
+  return <PremiumFeaturePage />;
+};
 
-export default page
+export default page;

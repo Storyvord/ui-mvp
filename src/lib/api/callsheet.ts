@@ -1,80 +1,53 @@
-
-import { CallSheet } from "@/app/(user-dashboard)/project-details/[id]/(planning)/call-sheets/types";
-import { NEW_API_URL } from "@/constant/constant";
-import Cookies from "js-cookie";
-
+import { ShootFormType } from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
+import { USER_API } from "@/constant/constant";
+import { customFetch } from "./api";
 
 // Create a call sheet
-export const createCallSheet = async (callSheetData: any) => {
-    const token = Cookies.get("accessToken");
-    console.log("Token:", token);
-  console.log("CallSheetData:", callSheetData);
-
-    const res = await fetch(`${NEW_API_URL}/api/callsheets/callsheets/`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-       
-      },
-      body: JSON.stringify(callSheetData),
-    });
-  
-    if (!res.ok) {
-      throw new Error("Failed to create call sheet");
-    }
-  
-    return res.json();
-  };
-  
-  // get call sheet data
-  export const getCallSheet = async (callsheet_id: number) => {
-    const token = Cookies.get("accessToken");
-   const response = await fetch(`${NEW_API_URL}/api/callsheets/callsheets/${callsheet_id}/`,{
+export const createCallSheet = async ({
+  formData,
+  projectId,
+}: {
+  formData: ShootFormType;
+  projectId: string;
+}) => {
+  return customFetch(`${USER_API}/api/callsheets/${projectId}/`, {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
-   })
-   if(!response.ok){
-    throw new Error(`Network response was not ok. Status: ${response.status}`)
-   }
- 
-  return response.json()
-  }
-  
-  // Delete a call sheet
-  export const deleteCallSheet = async (callSheet_id: number) => {
-    const token = Cookies.get("accessToken");
-    const res = await fetch(`${NEW_API_URL}/api/callsheets/callsheets/${callSheet_id}/`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  
-    if (!res.ok) {
-      throw new Error(`Failed to delete call sheet. Status: ${res.status}`);
-    }
-  
-    return res.json();
-  };
-  
-  // Edit a call sheet
-  export const editCallSheet = async ({callSheet_id, callSheet_data,}: {callSheet_id: number; callSheet_data: CallSheet;}) => {
-    const token = Cookies.get("accessToken");
-    const response = await fetch(`${NEW_API_URL}/api/callsheets/callsheets/${callSheet_id}/`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(callSheet_data),
-    });
-  
-    if (!response.ok) {
-      throw new Error(`Failed to Update call sheet. Status: ${response.status}`);
-    }
-  
-    return response.json();
-  };
-  
+    body: JSON.stringify(formData),
+  });
+};
+
+export const editCallSheet = async ({ id, formData }: { id: number; formData: ShootFormType }) => {
+  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+};
+
+// get call sheet data
+export const getCallSheets = async (projectId: string) => {
+  return customFetch(`${USER_API}/api/callsheets/${projectId}/`, {
+    method: "GET",
+  });
+};
+
+export const getCallSheetDetails = async (id: number) => {
+  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+    method: "GET",
+  });
+};
+
+// Delete a call sheet
+export const deleteCallSheet = async (id: number) => {
+  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

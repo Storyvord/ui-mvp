@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 import { useParams } from "next/navigation";
 import Select, { MultiValue } from "react-select";
-import { Crew } from "./user-dashboard/project-details/planning/crew/crewHire/CrewList";
 import { Button } from "./ui/button";
 import Loader from "./Loader";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 type OptionType = {
   value: string;
@@ -20,11 +19,13 @@ const AccessRights = ({ handleSubmit, isLoading }: Props) => {
   const { id: projectId }: { id: string } = useParams();
   const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
 
-  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
-  const crewList = crew_list?.map((crew: Crew) => ({
-    value: crew.email,
-    label: crew.email,
-  }));
+  const { data: crew_list } = useGetCrewList(projectId);
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; crew_email: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.crew_email,
+    })
+  );
 
   const handleSubmitAccessRightsForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,15 +1,15 @@
 "use client";
-import { DynamicForm } from "@/components/DynamicForm";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateEducation,
   useGetEducation,
+  useGetProfile,
   useUpdateEducation,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { educationFormValidationSchema } from "@/lib/validation/crew";
 import { EducationFormType, FormFieldConfig } from "@/types/crew";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomForm from "@/components/CustomForm";
@@ -46,10 +46,15 @@ type Props = {
 };
 
 const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { data: profileData } = useGetProfile();
+  const [crewProfileId, setCrewProfileId] = useState();
+  useEffect(() => {
+    setCrewProfileId(profileData?.id);
+  }, [profileData]);
+  
   const { toast } = useToast();
 
-  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
-  const { mutateAsync, isLoading, isError } = useCreateEducation();
+  const { mutateAsync, isPending, isError } = useCreateEducation();
   const { mutateAsync: updateEducation } = useUpdateEducation();
   const { data } = useGetEducation();
 
@@ -59,8 +64,6 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
     resolver: zodResolver(educationFormValidationSchema),
     defaultValues,
   });
-
-  console.log(fieldId);
 
   // Reset form values when editableData changes
   useEffect(() => {
@@ -86,7 +89,7 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
       }
       setOpenDialog(false);
     } else {
-      const res = await mutateAsync({ ...data, crew: crewProfileId });
+      const res = await mutateAsync({ ...data, crew: crewProfileId || 0 });
       if (res) {
         form.reset();
         toast({
@@ -108,7 +111,7 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
             form={form}
             formFields={educationFormFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
           />
         </div>

@@ -6,7 +6,6 @@ export const useRegisterUser = () => {
   return useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
-      console.log(data);
       return data;
     },
     onError: (error) => {
@@ -21,13 +20,13 @@ export const useUserSignIn = () => {
     mutationFn: userSignIn,
     onSuccess: (data) => {
       Cookies.set("accessToken", data?.data?.access_token);
-
       queryClient.invalidateQueries({
-        queryKey: ["ongoingProjects"],
+        queryKey: ["getProjects"],
       });
       queryClient.invalidateQueries({
         queryKey: ["userDetails"],
       });
+      return data;
     },
     onError: (error) => {
       console.error(error);

@@ -1,227 +1,130 @@
 "use client";
 
-import React, { useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  useCompleteProject,
-  useDeleteProject,
-  useGetProjectDetails,
-} from "@/lib/react-query/queriesAndMutations";
-import SelectedCrew from "@/components/projectdetails/SelectedCrew";
-import LoadingPage from "@/components/projectdetails/LoadingPage";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { MdDelete } from "react-icons/md";
-import { GrStatusGood } from "react-icons/gr";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useRouter } from "next/navigation";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useProjectControl } from "@/context/ProjectContext";
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
-const ProjectPage = ({ params }: { params: { id: string } }) => {
+import { useProjectControl } from "@/context/ProjectContext";
+import {
+  useDeleteProject,
+  useEditProjectStatus,
+  useGetProjectDetails,
+} from "@/lib/react-query/queriesAndMutations/project";
+
+import LoadingPage from "@/components/projectdetails/LoadingPage";
+import ProjectDetailsUI from "@/components/projectdetails/ProjectDetailsUI";
+import Image from "next/image";
+import CalendarSection from "@/components/user-dashboard/dashboard/calendar/CalendarSection";
+import Tasks from "@/components/user-dashboard/project-details/tasks/Tasks";
+import ShootingSchedule from "@/components/user-dashboard/project-details/shootingSchedule/ShootingSchedule";
+import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
+
+// Define available project statuses for selection
+const projectStatuses = [
+  { value: "COMPLETED", label: "COMPLETED" },
+  { value: "CANCELLED", label: "CANCELLED" },
+  { value: "PAUSED", label: "PAUSED" },
+  { value: "PRE_PRODUCTION", label: "PRE_PRODUCTION" },
+  { value: "POST_PRODUCTION", label: "POST_PRODUCTION" },
+  { value: "RELEASED", label: "RELEASED" },
+];
+
+const ProjectDetails: React.FC = () => {
+  // State to manage the selected project status
+  const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string } | null>(
+    null
+  );
+
+  // Get the project ID from the URL parameters
+  const { id: projectId } = useParams<{ id: string }>();
+  const router = useRouter();
+
+  // Get the function to set the project in global context
+  const { setProject } = useProjectControl();
+
+  // Fetch project details, handle loading and error states
   const {
     data: projectDetails,
-    isLoading: projectDetailsLoading,
-    error,
-  } = useGetProjectDetails(params.id);
+    isPending: projectDetailsLoading,
+    isError,
+  } = useGetProjectDetails(projectId);
 
-  
-  const {setProject} =useProjectControl()
+  // Mutation hook for deleting a project
+  const { mutateAsync: deleteProject, isPending: deletingProject } = useDeleteProject();
 
+  // Mutation hook for editing project status
+  const { mutateAsync: editProjectStatus } = useEditProjectStatus(projectId);
+
+  // Set the project in the global state when project details are loaded
   useEffect(() => {
-    setProject({id: projectDetails?.project_id, name:projectDetails?.name })
-  }, [projectDetails, setProject])
-  
+    if (projectDetails) {
+      setProject({ id: projectDetails?.project_id, name: projectDetails?.name });
+    }
+  }, [projectDetails, setProject]);
 
-  const { mutateAsync: deleteProject, isLoading: deletingProject } =
-    useDeleteProject();
-
-  const { mutateAsync: completeProject, isLoading: completingProject } =
-    useCompleteProject(params.id);
-
-  const router = useRouter();
+  // Handle project deletion, redirect to home after successful deletion
   const handleDeleteProject = async () => {
-    await deleteProject({ project_id: params.id });
+    await deleteProject({ project_id: projectId });
     router.push("/dashboard/home");
   };
 
-  const handleCompleteProject = async () => {
-    await completeProject({ project_id: params.id });
-    // setProjectStatus("COMPLETED");
+  // Handle status change for the project
+  const handleChangeStatus = (selectedOption: any) => {
+    setSelectedStatus(selectedOption); // Update local state with the selected status
+
+    // Call mutation to update project status in the backend
+    editProjectStatus({ status: selectedOption.value, projectId });
   };
 
+  // Navigate to the edit form for the current project
+  const handleEditForm = () => {
+    router.push(`/dashboard/edit-project/?projectId=${projectId}`);
+  };
+
+  // Show loading page while project details are being fetched
   if (projectDetailsLoading) {
     return <LoadingPage />;
   }
 
-  if (error) {
-    return (
-      <div className="w-full text-center text-red-700 ">
-        Failed to fetch project details
-      </div>
-    );
+  // Display error message if fetching project details fails
+  if (isError) {
+    return <div className="w-full text-center text-red-700">Failed to fetch project details</div>;
   }
 
+  // Render the UI component for displaying project details
   return (
-    <div className="flex flex-col items-center gap-2 py-2 w-full h-auto px-4">
-      <Card className="relative w-full h-full bg-white shadow-lg rounded-xl overflow-auto pt-2">
-        <CardHeader className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between sm:space-y-0">
-          <div className="flex gap-2 items-end justify-between sm:justify-end">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <div>
-                  <MdDelete className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 hover:text-red-400 cursor-pointer" />
-                </div>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    the project and remove your project data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button
-                    onClick={handleDeleteProject}
-                    className={`${deletingProject ? "disabled" : ""}`}
-                  >
-                    {deletingProject ? "Deleting..." : "Delete"}
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <div className="flex items-center gap-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger
-                    disabled={projectDetails?.status === "COMPLETED"}
-                  >
-                    <div onClick={handleCompleteProject}>
-                      {completingProject ? (
-                        <ReloadIcon className="h-5 w-5 animate-spin text-bold text-gray-500" />
-                      ) : (
-                        <GrStatusGood
-                          className={`w-5 h-5 sm:w-6 sm:h-6 cursor-pointer ${
-                            projectDetails?.status === "COMPLETED"
-                              ? "text-green-500"
-                              : "text-gray-500"
-                          }`}
-                        />
-                      )}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent
-                    className={`${
-                      projectDetails?.status === "COMPLETED" ? "hidden" : ""
-                    } bg-transparent shadow-none border-none`}
-                  >
-                    <p className="text-sm text-green-500 bold">
-                      Mark Project As Completed
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <div>
-                {projectDetails?.status === "INITIATED" && (
-                  <div className="text-sm sm:text-base text-gray-500 font-bold">
-                    INITIALIZED
-                  </div>
-                )}
-                {projectDetails?.status === "COMPLETED" && (
-                  <div className="text-sm sm:text-base text-green-500 font-bold">
-                    COMPLETED
-                  </div>
-                )}
-                {projectDetails?.status === "PLANNING" && (
-                  <div className="text-sm sm:text-base text-yellow-500 font-bold">
-                    PLANNING
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <CardTitle className="sm:text-3xl font-bold text-gray-900 dark:text-white float-left">
-            {projectDetails?.name}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="font-sans p-0 flex flex-col gap-2 mt-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Content Type:
-            </h2>
-            <p className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.content_type}
-            </p>
-          </div>
-          <div>
-            <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Description
-            </h2>
-            <CardDescription className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.brief}
-            </CardDescription>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Budget:
-            </h2>
-            <p className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.budget_amount}
-            </p>
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Location:{" "}
-            </h2>
-            {projectDetails?.location_details?.length > 0 && (
-              <div className="text-base text-gray-600 dark:text-gray-200 flex">
-                {projectDetails?.location_details.map((item: any) => (
-                  <p key={item.location}>{item.location}, &nbsp;</p>
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Additional Details
-            </h2>
-            <CardDescription className="text-base text-gray-600 dark:text-gray-200">
-              {projectDetails?.additional_details}
-            </CardDescription>
-          </div>
-        </CardContent>
-      </Card>
-      <div className="w-full h-auto mt-5">
-        {/* <SelectedCrew
-          project_id={projectDetails?.project_id}
-          status={projectDetails?.status}
-        /> */}
-      </div>
-    </div>
+    <>
+      <ProjectDetailsUI
+        projectDetails={projectDetails}
+        selectedStatus={selectedStatus}
+        deletingProject={deletingProject}
+        projectStatuses={projectStatuses}
+        handleChangeStatus={handleChangeStatus}
+        handleDeleteProject={handleDeleteProject}
+        handleEditForm={handleEditForm}
+      />
+      <main className=" sm:p-4">
+        <h1 className=" text-xl md:text-2xl font-semibold text-gray-700">
+          {" "}
+          {projectDetails?.name}
+        </h1>
+        <div className=" relative mt-12 p-2 rounded-lg">
+          <button className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md">
+            <Image src="/icons/ai.svg" alt="icons" width={20} height={20} />
+            Get AI Suggestions
+          </button>
+          <button className="rounded-t-lg rounded-br-lg absolute -top-8 left-40 shadow-lg shadow-gray-400 bg-gradient-to-r from-[#22CB67] to-[#092579] text-white font-semibold p-2 text-lg">
+            It&apos;s Free
+          </button>
+        </div>
+        <section className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <Tasks />
+          <ShootingSchedule />
+          <WhatsGoingOn />
+        </section>
+        <CalendarSection />
+      </main>
+    </>
   );
 };
 
-export default ProjectPage;
+export default ProjectDetails;

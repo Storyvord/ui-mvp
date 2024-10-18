@@ -54,6 +54,7 @@ const SignIn = () => {
         } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '1') {
           router.push("/auth/onboard");
         }
+        setIsLoading(false);
       }
     } catch (error) {
       // Check if error is an instance of Error

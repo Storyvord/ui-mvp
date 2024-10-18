@@ -1,5 +1,5 @@
-import { getOnBoardedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
-import { useMutation, useQuery } from "react-query";
+import { getCrewFullProfile, getInvitedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 export const useSentInvitationToCrew = () => {
   return useMutation({
@@ -7,15 +7,19 @@ export const useSentInvitationToCrew = () => {
     onSuccess: (data) => {
       return data;
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };
 
-export const useGetOnBoardedCrewList = (projectId: string) => {
+export const useGetCrewList = (projectId: string) => {
   return useQuery({
-    queryKey:["getOnBoardedCrewList"],
-    queryFn:() => getOnBoardedCrewList(projectId)
-  })
-}
+    queryKey: ["getInvitedCrewList", projectId],
+    queryFn: () => getInvitedCrewList(projectId),
+  });
+};
+
+export const useGetCrewFullProfile = (crewId: string) => {
+  return useQuery({
+    queryKey: ["getCrewFullProfile", crewId],
+    queryFn: () => getCrewFullProfile(crewId),
+  });
+};

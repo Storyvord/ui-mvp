@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
-import { DynamicForm } from "@/components/DynamicForm";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateEndorsement,
   useGetEndorsement,
+  useGetProfile,
   useUpdateEndorsement,
 } from "@/lib/react-query/queriesAndMutations/crew/profile";
 import { endorsementFormValidationSchema } from "@/lib/validation/crew";
@@ -41,10 +41,15 @@ type Props = {
 };
 
 const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
+  const { data: profileData } = useGetProfile();
+  const [crewProfileId, setCrewProfileId] = useState();
+  useEffect(() => {
+    setCrewProfileId(profileData?.id);
+  }, [profileData]);
+
   const { toast } = useToast();
 
-  const crewProfileId = JSON.parse(localStorage.getItem("crew-profile-id") || "");
-  const { mutateAsync, isLoading, isError } = useCreateEndorsement();
+  const { mutateAsync, isPending, isError } = useCreateEndorsement();
   const { mutateAsync: updateEndorsement } = useUpdateEndorsement();
   const { data: endorsementData } = useGetEndorsement();
 
@@ -77,7 +82,7 @@ const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
       }
       setOpenDialog(false);
     } else {
-      const res = await mutateAsync({ ...data, crew: crewProfileId });
+      const res = await mutateAsync({ ...data, crew: crewProfileId || 0 });
       if (res) {
         form.reset();
         toast({
@@ -100,7 +105,7 @@ const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
             form={form}
             formFields={endorsementFormFields}
             onSubmit={onSubmit}
-            isLoading={isLoading}
+            isLoading={isPending}
             isError={isError}
           />
         </div>

@@ -92,91 +92,76 @@ const CustomForm = <TFormValues extends FieldValues>({
                     {/* <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span> */}
                   </FormLabel>
                   <FormControl>
-                    {type === "file" ? (
-                      <Input
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files.length > 0) {
-                            field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
-                          }
-                        }}
-                      />
-                    ) : type === "text" ||
-                      type === "number" ||
-                      type === "email" ||
-                      type === "date" ||
-                      type === "datetime-local" ? (
-                      <Input
-                        type={type}
-                        // placeholder={placeholder}
-                        {...field}
-                        value={field.value as string} // Ensure value is string
-                        disabled={fieldConfig.disabled}
-                        className="text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
-                      />
-                    ) : type === "password" ? (
-                      <div className=" relative">
+                    <>
+                      {type === "file" && (
                         <Input
-                          type={showPasswords[name] ? "text" : "password"}
-                          // placeholder={placeholder}
+                          type="file"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files.length > 0) {
+                              field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
+                            }
+                          }}
+                        />
+                      )}
+                      {(type === "text" ||
+                        type === "email" ||
+                        type === "number" ||
+                        type === "date" ||
+                        type === "datetime-local") && (
+                        <Input
+                          type={type}
+                          placeholder={placeholder}
                           {...field}
                           value={field.value as string} // Ensure value is string
                           disabled={fieldConfig.disabled}
-                          className="text-base font-normal text-[#111111] font-poppins h-14 rounded-xl border-[#66666659] focus-visible:ring-offset-0 focus-visible:ring-[transparent]"
                         />
-                        {/* {!showPasswords[name] ? (
-                          <FaRegEyeSlash
-                            onClick={() => togglePasswordVisibility(name)}
-                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                      )}
+                      {type === "password" && (
+                        <div className=" relative">
+                          <Input
+                            type={showPasswords[name] ? "text" : "password"}
+                            placeholder={placeholder}
+                            {...field}
+                            value={field.value as string} // Ensure value is string
+                            disabled={fieldConfig.disabled}
                           />
-                        ) : (
-                          <FaRegEye
-                            onClick={() => togglePasswordVisibility(name)}
-                            className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
-                          />
-                        )} */}
-                        {!showPasswords[name] ? (
-                          <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility(name)}>
-                            <Image src={HideIcon} alt="eye-password" />
-                          </div>
-                        ) : (
-                          <div className="absolute right-4 top-4 cursor-pointer" onClick={() => togglePasswordVisibility(name)}>
-                            <Image src={ShowIcon} alt="eye-password" />
-                          </div>
-                        )}
-                        <p className="font-poppins font-normal text-[#666666] text-sm" >
-                          {note}
-                        </p>
-                      </div>
-                    ) : type === "textarea" ? (
-                      <Textarea
-                        placeholder={placeholder}
-                        {...field}
-                        value={field.value as string}
-                      />
-                    ) : type === "checkbox" ? (
-                      // <Checkbox
-                      //   className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]"
-                      //   checked={field.value as boolean}
-                      //   onCheckedChange={field.onChange}
-                      // />
-                      <div className="flex items-center space-x-3 mt-4">
-                        <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
-                        <p className="font-poppins font-normal text-[#666666] text-sm" >
-                          {title}
-                        </p>
-                      </div>
-                    ) : type === "select" ? (
-                      <SelectInput
-                        control={form.control}
-                        name={name}
-                        options={fieldConfig.options || []}
-                        isMulti={fieldConfig.isMulti}
-                        placeholder={placeholder}
-                      />
-                    ) : type === "link" ? (
-                      <a href={routeTo} className="block text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">{title}</a>
-                    ) : null}
+                          {!showPasswords[name] ? (
+                            <FaRegEyeSlash
+                              onClick={() => togglePasswordVisibility(name)}
+                              className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                            />
+                          ) : (
+                            <FaRegEye
+                              onClick={() => togglePasswordVisibility(name)}
+                              className=" absolute right-2 top-1/4 text-gray-500 cursor-pointer"
+                            />
+                          )}
+                        </div>
+                      )}{" "}
+                      {type === "textarea" && (
+                        <Textarea
+                          placeholder={placeholder}
+                          {...field}
+                          value={field.value as string}
+                        />
+                      )}
+                      {type === "checkbox" && (
+                        <Checkbox
+                          className=" ml-3"
+                          checked={field.value as boolean}
+                          onCheckedChange={field.onChange}
+                        />
+                      )}
+                      {type === "select" && (
+                        <SelectInput
+                          control={form.control}
+                          name={name}
+                          options={fieldConfig.options || []}
+                          isMulti={fieldConfig.isMulti}
+                          placeholder={placeholder}
+                        />
+                      )}
+                    </>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -13,8 +13,7 @@ import {
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
-import { useGetOnBoardedCrewList } from "@/lib/react-query/queriesAndMutations/crew";
-import { Crew } from "@/components/user-dashboard/project-details/planning/crew/crewHire/CrewList";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
 
 const localizer = momentLocalizer(moment);
 
@@ -29,19 +28,21 @@ const MyCalendarPage = () => {
   const { data: events } = useGetAllCalenderEvents(projectId);
   const {
     mutateAsync: createCalenderEvent,
-    isLoading: createEventLoading,
+    isPending: createEventLoading,
     isError: createEventError,
   } = useCreateCalenderEvents();
   const {
     mutateAsync: deleteEvent,
-    isLoading: deleteEventLoading,
+    isPending: deleteEventLoading,
     isError: deleteEventError,
   } = useDeleteEvent();
-  const { data: crew_list } = useGetOnBoardedCrewList(projectId);
-  const crewList = crew_list?.map((crew: Crew) => ({
-    value: crew.id,
-    label: crew.profile.name,
-  }));
+  const { data: crew_list } = useGetCrewList(projectId);
+  const crewList = crew_list?.accepted.map(
+    (crew: { invited_user: { id: number }; firstName: string }) => ({
+      value: crew.invited_user?.id,
+      label: crew.firstName,
+    })
+  );
 
   const [formDefaultValue, setFormDefaultValue] = useState({
     start: "",
@@ -81,7 +82,6 @@ const MyCalendarPage = () => {
     }));
     setTransformEvents(transformEvents);
   }, [events]);
-  console.log(transformEvents)
 
   return (
     <div className="h-auto bg-white p-4">
