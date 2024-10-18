@@ -6,7 +6,7 @@ import Tasks from "@/components/user-dashboard/dashboard/tasks/Tasks";
 import MyNetwork from "@/components/user-dashboard/dashboard/network/MyNetwork";
 import CalendarSection from "@/components/user-dashboard/dashboard/calendar/CalendarSection";
 
-const page = () => {
+const Dashboard = () => {
   const componentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Dashboard;
