@@ -51,12 +51,12 @@ const CrewProfile = () => {
     <>
       <Link
         href={`/project-details/${projectId}/crew`}
-        className="text-xl font-semibold md:px-8 mt-3 flex gap-3 text-gray-700"
+        className="text-xl font-semibold md:px-8 px-2 mt-3 flex gap-3 text-gray-700"
       >
         <Image src="/icons/left-arrow.svg" alt="language-icon" width={15} height={15} /> Crew
       </Link>
-      <main className=" relative md:px-8 px-3 md:p-4 grid md:grid-cols-5 grid-cols-1 gap-4">
-        <section className=" mt-4 md:col-span-3">
+      <main className=" relative md:px-8 px-3 md:p-4 gap-4">
+        <section className=" mt-4 md:w-3/5 ">
           <div className=" flex justify-between">
             <div className="flex items-center gap-2 sm:flex-row sm:items-start">
               {profile?.image && (
@@ -250,18 +250,20 @@ const CrewProfile = () => {
             <ReviewCard />
           </div>
         </section>
-        <section className=" md:col-span-2 hidden md:block">
+        <section className="hidden md:block fixed w-1/4 right-8 top-20">
           <h3 className=" text-center text-lg font-semibold mt-16">Why AI Suggesting this crew.</h3>
-          <p className=" p-4 border border-green-500 rounded-lg mt-4 bg-gradient-to-r from-green-500 to-gray-900 text-transparent bg-clip-text">
-            Based on the details you&apos;ve provided for your project, our AI has analyzed key
-            factors such as the project&apos;s genre, budget, shooting locations, and production
-            scale to suggest the most suitable crew members. Each recommendation is tailored to meet
-            your project&apos;s specific needs, ensuring you have professionals with the right
-            expertise. For example, if your project involves complex action sequences, our AI may
-            prioritize experienced stunt coordinators and cinematographers with a history in
-            high-paced environments. Similarly, for dialogue-heavy scenes, it might suggest sound
-            designers and editors skilled in balancing audio for clarity and emotion.
-          </p>
+          <div className=" mt-4 max-h-[400px] overflow-y-scroll  border border-green-500">
+            <p className="  px-4 py-2 bg-gradient-to-r from-green-500 to-gray-900 text-transparent bg-clip-text">
+              Based on the details you&apos;ve provided for your project, our AI has analyzed key
+              factors such as the project&apos;s genre, budget, shooting locations, and production
+              scale to suggest the most suitable crew members. Each recommendation is tailored to
+              meet your project&apos;s specific needs, ensuring you have professionals with the
+              right expertise. For example, if your project involves complex action sequences, our
+              AI may prioritize experienced stunt coordinators and cinematographers with a history
+              in high-paced environments.
+            </p>
+          </div>
+
           <Link
             href={`/dashboard/message/?receiverId=${profile?.id}&name=${profile?.name}`}
             className=" mt-4 flex justify-between cursor-pointer rounded-2xl shadow-xl bg-white p-2"

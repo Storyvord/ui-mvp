@@ -103,11 +103,7 @@ const ProjectDetails: React.FC = () => {
         handleEditForm={handleEditForm}
       />
       <main className=" sm:p-4">
-        <h1 className=" text-xl md:text-2xl font-semibold text-gray-700">
-          {" "}
-          {projectDetails?.name}
-        </h1>
-        <div className=" relative mt-12 p-2 rounded-lg">
+        <div className=" relative mt-6 p-2 rounded-lg">
           <button className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md">
             <Image src="/icons/ai.svg" alt="icons" width={20} height={20} />
             Get AI Suggestions
