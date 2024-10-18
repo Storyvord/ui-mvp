@@ -1,13 +1,29 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getDay, startOfWeek, parse, format, isWithinInterval, addDays } from "date-fns";
+import {
+  getDay,
+  startOfWeek,
+  parse,
+  format,
+  isWithinInterval,
+  addDays,
+  parseISO,
+  toDate,
+} from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Calendar, dateFnsLocalizer, Event as RBCEvent } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { Button } from "@/components/ui/button";
-import { DatePickerWithRange } from "./DatePickerWithRange";
+import DatePickerWithRange from "./DatePickerWithRange";
+import AddEvent from "./AddEvent";
+import {
+  useCreateCompanyCalenderEvents,
+  useGetCompanyCalenderEvents,
+} from "@/lib/react-query/queriesAndMutations/company/calender";
+import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import { CalenderFormFieldType } from "@/types";
 
 interface Event extends RBCEvent {
   description?: string;
@@ -21,7 +37,7 @@ const locales = {
 const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }), // Sunday
+  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }),
   getDay,
   locales,
 });
@@ -29,15 +45,15 @@ const localizer = dateFnsLocalizer({
 const allEvents: Event[] = [
   {
     title: "Meeting with Team",
-    start: new Date(2024, 9, 1, 10, 0),
-    end: new Date(2024, 9, 1, 12, 0),
+    start: new Date(2024, 9, 14, 10, 0),
+    end: new Date(2024, 9, 14, 12, 0),
     description: "Discuss project milestones and deadlines.",
     type: "meeting",
   },
   {
     title: "Project Deadline",
-    start: new Date(2024, 10, 25, 17, 0),
-    end: new Date(2024, 10, 25, 17, 0),
+    start: new Date(2024, 9, 15, 8, 0),
+    end: new Date(2024, 9, 15, 12, 0),
     description: "Final submission of the project.",
     type: "deadline",
   },
@@ -49,7 +65,41 @@ const CalendarSection = () => {
     to: addDays(new Date(), 7),
   });
 
-  const [myEventsList, setMyEventsList] = useState<Event[]>([]);
+  const [myEventsList, setMyEventsList] = useState<Event[]>(allEvents);
+  const [currentDate, setCurrentDate] = useState<Date>(new Date()); // Keep track of the current date
+  const [openFormDialog, setOpenFormDialog] = useState(false);
+  const [transformEvents, setTransformEvents] = useState();
+  const [formDefaultValue, setFormDefaultValue] = useState({
+    start: "",
+    end: "",
+    title: "",
+    description: "",
+    location: "",
+    participants: [],
+  });
+
+  const { data: events } = useGetCompanyCalenderEvents();
+  const {
+    mutateAsync: createCalenderEvent,
+    isPending: createEventLoading,
+    isError: createEventError,
+  } = useCreateCompanyCalenderEvents();
+  const { data: employee_list } = useGetSendInvitationsList();
+  const employeeList = employee_list?.accepted.map(
+    (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
+      value: employee.invited_user.id,
+      label: employee.firstName || employee.employee_email,
+    })
+  );
+
+  useEffect(() => {
+    const transformEvents = events?.map((event: any) => ({
+      ...event,
+      start: toDate(parseISO(event.start)), // Parse the ISO string and convert it to Date
+      end: toDate(parseISO(event.end)), // Parse the ISO string and convert it to Date
+    }));
+    setTransformEvents(transformEvents);
+  }, [events]);
 
   useEffect(() => {
     if (selectedRange && selectedRange.from && selectedRange.to) {
@@ -69,8 +119,19 @@ const CalendarSection = () => {
     setSelectedRange(range);
   };
 
-  const currentDate = selectedRange?.from || new Date();
+  const handleNavigate = (date: Date) => {
+    setCurrentDate(date); // Update the current date
+  };
 
+  const handleCreateEvent = async (formData: CalenderFormFieldType) => {
+    return;
+    // const transformData = {
+    //   ...formData,
+    //   participants: formData.participants,
+    // };
+    // const res = await createCalenderEvent(transformData);
+    // if (res) setOpenFormDialog(false);
+  };
   return (
     <div className="mt-8">
       <header className="flex justify-between items-center">
@@ -78,7 +139,7 @@ const CalendarSection = () => {
           <img src="/icons/calendar.svg" alt="Calendar Icon" />
           <h1 className="text-xl">Calendar</h1>
         </span>
-        <Button className="flex gap-2">
+        <Button onClick={() => setOpenFormDialog(true)} className="flex gap-2">
           <img src="/icons/plus-2.svg" alt="Add Icon" /> Add Event
         </Button>
       </header>
@@ -88,22 +149,28 @@ const CalendarSection = () => {
           <h2 className=" text-lg mb-2 font-semibold text-gray-700">My Schedule</h2>
           <Calendar
             localizer={localizer}
-            events={myEventsList}
+            events={transformEvents}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}
             defaultView="week"
-            // views={["week", "day", "agenda"]}
-            date={currentDate}
-            onNavigate={(date, view) => {
-              // Optionally handle navigation if needed
-            }}
-            onSelectEvent={(event) => {
-              alert(`Event: ${event.title}\nDescription: ${event.description}`);
-            }}
+            date={currentDate} // Use the currentDate state
+            onNavigate={handleNavigate} // Handle navigation to update current date
+            selectable // Make slots selectable
+            // onSelectSlot={handleSelectSlot} //
+            // onSelectEvent={handleSelectEvent}
           />
         </div>
       </main>
+      <AddEvent
+        openDialog={openFormDialog}
+        setOpenDialog={setOpenFormDialog}
+        formDefaultValue={formDefaultValue}
+        createCalenderEvent={handleCreateEvent}
+        isLoading={createEventLoading}
+        isError={createEventError}
+        crewList={employeeList}
+      />
     </div>
   );
 };
