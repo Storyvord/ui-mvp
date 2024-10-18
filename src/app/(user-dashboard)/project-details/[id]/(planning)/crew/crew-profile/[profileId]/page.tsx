@@ -104,31 +104,24 @@ const CrewProfile = () => {
           <Carousel className=" mt-4 sm:p-3">
             <CarouselContent>
               <CarouselItem>
-                <Image
-                  className=" w-full h-[400px] object-cover"
-                  src="/portfolio-1.png"
-                  alt="portfolio"
-                  quality={100}
-                  width={90}
-                  height={90}
-                />
+                <Image src="/portfolio-1.jpg" alt="portfolio" width={700} height={400} />
               </CarouselItem>
               <CarouselItem>
                 <Image
                   className=" w-full h-[400px] object-cover"
                   src="/portfolio-1.png"
                   alt="portfolio"
-                  width={90}
-                  height={90}
+                  width={700}
+                  height={400}
                 />
               </CarouselItem>
               <CarouselItem>
                 <Image
                   className=" w-full h-[400px] object-cover"
-                  src="/portfolio-1.png"
+                  src="/portfolio-1.jpg"
                   alt="portfolio"
-                  width={90}
-                  height={90}
+                  width={700}
+                  height={400}
                 />
               </CarouselItem>
             </CarouselContent>
@@ -211,13 +204,13 @@ const CrewProfile = () => {
             <Carousel>
               <CarouselContent>
                 <CarouselItem className=" lg:basis-1/2">
-                  <CrewCard />
+                  <CrewCard name="Robert" profile="/profile-5.png" />
                 </CarouselItem>
                 <CarouselItem className=" lg:basis-1/2">
-                  <CrewCard />
+                  <CrewCard name="Luci" profile="/profile-4.png" />
                 </CarouselItem>
                 <CarouselItem className=" lg:basis-1/2">
-                  <CrewCard />
+                  <CrewCard name="Mia" profile="/profile-3.png" />
                 </CarouselItem>
               </CarouselContent>
               <CarouselPrevious className="left-4 w-12 h-12" />
