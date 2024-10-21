@@ -33,7 +33,8 @@ const userTypeOptions = [
 export default function SelectUserType({ userProfile, onSuccessStep }: SelectUserTypeProps) {
 
     const [selectedUserType, setSelectedUserType] = useState<string>('');
-    const { mutateAsync: postUserType, isLoading } = useSelectUserType();
+    const [isLoading, setIsLoading] = useState(false)
+    const { mutateAsync: postUserType } = useSelectUserType();
 
     useEffect(() => {
         if (userProfile) {
@@ -58,6 +59,7 @@ export default function SelectUserType({ userProfile, onSuccessStep }: SelectUse
             return;
         }
         try {
+          setIsLoading(true);
           const userType = selectedUserType;
           const res = await postUserType(userType);
           if (res) {
@@ -68,6 +70,7 @@ export default function SelectUserType({ userProfile, onSuccessStep }: SelectUse
             });
           }
         } catch (error) {
+          setIsLoading(false);
           // Check if error is an instance of Error
           if (error instanceof Error) {
             toast({
@@ -84,6 +87,7 @@ export default function SelectUserType({ userProfile, onSuccessStep }: SelectUse
             console.log('Unknown error', error);
           }
         }
+        setIsLoading(false);
       };
     
     console.log(selectedUserType, 'selectedUserType')

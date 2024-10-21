@@ -51,7 +51,8 @@ export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
     const photoRef = useRef<HTMLInputElement | null>(null);
     const [fileData, setFileData] = useState<File | null>(null);
     const [phoneNumber, setPhoneNumber] = useState<string | undefined>('+44');
-    const { mutateAsync: postPersonalDetails, isLoading } = usePostPesonalDetails();
+    const [isLoading, setIsLoading] = useState(false)
+    const { mutateAsync: postPersonalDetails } = usePostPesonalDetails();
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<PersonalDetailsData>();
     const selectedCountry = watch("country");
     
@@ -93,6 +94,7 @@ export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
             },
         }
         try {
+            setIsLoading(true);
           const res = await postPersonalDetails(formData);
           if (res) {
             toast({
@@ -101,6 +103,7 @@ export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
             onSuccessStep();
           }
         } catch (error: unknown) {
+            setIsLoading(false);
           if (error instanceof Error) {
             console.error("Personal Details error:", error);
             toast({
@@ -115,6 +118,7 @@ export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
             });
           }
         }
+        setIsLoading(false);
     };    
   return (
     <div>

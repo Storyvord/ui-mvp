@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postPersonalDetails, postUserType } from "@/lib/api/onBoard/onBoard";
 
 export const useSelectUserType = () => {

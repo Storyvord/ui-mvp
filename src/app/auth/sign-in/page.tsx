@@ -29,8 +29,9 @@ interface SignInFormData {
 const SignIn = () => {
 
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
-  const { mutateAsync: loginUser, isLoading } = useUserSignIn();
+  const { mutateAsync: loginUser } = useUserSignIn();
   const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
     resolver: zodResolver(signinFormSchema),
   });
@@ -41,16 +42,18 @@ const SignIn = () => {
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data: { email: string; password: string; }) => {
     try {
+      setIsLoading(true);
       const res = await loginUser(data);
       if (res) {
         console.log(res, 'response')
-        // localStorage.setItem("email", res?.data?.email);
+        /// user_type === 1 => client
+        /// user_type === 2 => crew
         if (res?.data?.user_type === 1 && res?.data?.user_stage === '2') {
-          router.push("/dashboard/home");
+          router.push("/dashboard");
         } else if (res?.data?.user_type === 1 && res?.data?.user_stage === '1') {
           router.push("/auth/onboard");
         } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '2') {
-          router.push("/crew/home");
+          router.push("/crew");
         } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '1') {
           router.push("/auth/onboard");
         }
