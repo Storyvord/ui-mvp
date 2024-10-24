@@ -246,3 +246,13 @@ export const CallSheetFormSchema = z.object({
   production_notes: z.string().optional(),
   // allowed_users: z.union([z.number(), z.array(z.number())]).optional(),
 });
+
+export const scriptValidationSchema = z.object({
+  title: z.string().min(2, "Title is required"),
+  set: z.string().min(2, "Set is required"),
+  environment: z.string().min(2, "Environment is required"),
+  scriptDay: z.string().min(2, "Script day is required"),
+  point: z.string().min(2, "point is required"),
+  description: z.string().min(1, "Description is required"),
+  note: z.string().optional(),
+});
