@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,41 +12,14 @@ import { Form } from "@/components/ui/form";
 import Loader from "@/components/Loader";
 
 import { formFields } from "@/constant/formFields/createShots";
-
-export const shotValidationSchema = z.object({
-  shotId: z.string().min(2, "Shot ID is required"),
-  subject: z.string().min(2, "Subject is required"),
-  visual: z.string().min(2, "Visual is required"),
-  audio: z.string().min(1, "Audio is required"),
-  imageAndProduction: z
-    .union([
-      z.string(),
-      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
-        message: "Document cannot be an empty ArrayBuffer",
-      }),
-      z.instanceof(File).refine(
-        (file) =>
-          (file.type === "image/jpeg" ||
-            file.type === "image/png" ||
-            file.type === "application/pdf" ||
-            file.type === "application/msword" || // For .doc files
-            file.type ===
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-            file.type === "text/plain") && // For .txt files
-          file.size > 0, // Ensure the file is not empty
-        {
-          message:
-            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
-        }
-      ),
-    ])
-    .optional(),
-});
+import { shotValidationSchema } from "@/lib/validation";
+import CreateShootInformation from "./CreateShootInformation";
 
 type Props = { openDialog: boolean; setOpenDialog: (openDialog: boolean) => void };
 export type ShotsFormType = z.infer<typeof shotValidationSchema>;
 
 const CreateShots = ({ openDialog, setOpenDialog }: Props) => {
+  const [openShootInformation, setOpenShootInformation] = useState(false);
   const form = useForm({
     resolver: zodResolver(shotValidationSchema),
     defaultValues: {
@@ -69,11 +44,11 @@ const CreateShots = ({ openDialog, setOpenDialog }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent className=" lg:w-[1000px] w-[95%] p-0">
+      <DialogContent className=" lg:w-[800px] w-[95%] p-0">
         <DialogHeader className=" w-full p-4 bg-gray-200 rounded-tr-lg rounded-tl-lg">
           <DialogTitle>Create Shot</DialogTitle>
         </DialogHeader>
-        <section className=" px-4 pb-4 -mt-4 max-h-[80vh] overflow-y-auto">
+        <section className=" px-6 lg:px-16 pb-4 -mt-4 max-h-[80vh] overflow-y-auto">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -87,24 +62,42 @@ const CreateShots = ({ openDialog, setOpenDialog }: Props) => {
                   <br />
                 </p>
               )}
-              <section className=" flex justify-end mt-2 gap-4">
-                <Button type="button" onClick={() => setOpenDialog(false)} variant="ghost">
-                  Cancel
-                </Button>
-                {isEdit ? (
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? <Loader /> : "Update"}
+              <section className=" flex justify-between mt-2 gap-4">
+                <div>
+                  <p className=" text-sm text-gray-400">More Options</p>
+                  <Button
+                    type="button"
+                    onClick={() => setOpenShootInformation(true)}
+                    className=" flex items-center gap-2 border"
+                    variant="ghost"
+                  >
+                    <Image src="/icons/camera-2.svg" alt="icon" width={20} height={20} />
+                    Shoot Information
                   </Button>
-                ) : (
-                  <Button type="submit" disabled={isLoading} className="">
-                    {isLoading ? <Loader /> : "Save"}
+                </div>
+                <div>
+                  <Button type="button" onClick={() => setOpenDialog(false)} variant="ghost">
+                    Cancel
                   </Button>
-                )}
+                  {isEdit ? (
+                    <Button type="submit" disabled={isLoading}>
+                      {isLoading ? <Loader /> : "Update"}
+                    </Button>
+                  ) : (
+                    <Button type="submit" disabled={isLoading} className="">
+                      {isLoading ? <Loader /> : "Save"}
+                    </Button>
+                  )}
+                </div>
               </section>
             </form>
           </Form>
         </section>
       </DialogContent>
+      <CreateShootInformation
+        openDialog={openShootInformation}
+        setOpenDialog={setOpenShootInformation}
+      />
     </Dialog>
   );
 };
