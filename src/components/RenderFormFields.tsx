@@ -102,7 +102,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       type === "datetime-local") && (
                       <Input
                         type={type}
-                        className=" rounded-lg"
+                        className=" rounded-lg border-gray-300 focus:border-none"
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is a string for these input types

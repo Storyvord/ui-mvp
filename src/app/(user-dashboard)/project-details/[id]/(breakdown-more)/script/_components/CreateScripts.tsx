@@ -45,7 +45,7 @@ const CreateScripts = ({ openDialog, setOpenDialog }: Props) => {
         <DialogHeader className=" w-full p-4 bg-gray-200 rounded-tr-lg rounded-tl-lg">
           <DialogTitle>Create Script</DialogTitle>
         </DialogHeader>
-        <section className=" px-4 pb-4 -mt-4 max-h-[80vh] overflow-y-auto">
+        <section className=" px-6 lg:px-16 pb-4 -mt-4 max-h-[80vh] overflow-y-auto">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
