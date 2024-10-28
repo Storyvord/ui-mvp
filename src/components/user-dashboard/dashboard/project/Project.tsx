@@ -90,6 +90,9 @@ const Project = () => {
               </p>
             </span>
           </Link>
+          {onGoingProjects?.length === 0 && (
+            <p className=" my-auto md:pl-12 text-gray-500">No project found</p>
+          )}
           {onGoingProjects.map((project) => (
             <Link key={project.project_id} href={`/project-details/${project.project_id}`}>
               <ProjectCard key={project.project_id} name={project.name} status={project.status} />

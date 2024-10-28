@@ -64,7 +64,7 @@ const ProjectDetails: React.FC = () => {
   // Handle project deletion, redirect to home after successful deletion
   const handleDeleteProject = async () => {
     await deleteProject({ project_id: projectId });
-    router.push("/dashboard/home");
+    router.push("/dashboard");
   };
 
   // Handle status change for the project
