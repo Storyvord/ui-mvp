@@ -5,7 +5,7 @@ import CreateScenes from "./_components/CreateScenes";
 import ButtonGroup from "./_components/ButtonGroup";
 import Navbar from "./_components/Navbar";
 
-const page = () => {
+const Scenes = () => {
   const [createScenesDialog, setCreateScenesDialog] = useState(false);
   const [uploadScenesDialog, setUploadScenesDialog] = useState(false);
 
@@ -40,4 +40,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Scenes;
