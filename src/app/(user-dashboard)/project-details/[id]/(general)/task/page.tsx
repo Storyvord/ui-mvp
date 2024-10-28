@@ -62,6 +62,8 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       completion_requested: false,
       project: params.id,
       assigned_to: task.assigned_to,
+      file: null,
+      link_task: null,
       requester: null,
     };
 
@@ -127,9 +129,9 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <div className="px-4">
+    <div className="px-4 w-full">
+      <h1 className=" text-2xl text-gray-800 font-semibold py-5">Tasks</h1>
       <TaskNavbar taskFilter={taskFilter} setTaskFilter={setTaskFilter} />
-      <hr></hr>
       <ToolBar
         searchFilter={searchFilter}
         setSearchFilter={setSearchFilter}
@@ -147,9 +149,9 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       {isLoadingTask ? (
         <TaskSkeleton />
       ) : (
-        <div className="w-full mt-4 flex flex-col gap-2">
+        <div className="w-full mt-4 flex flex-col gap-2 justify-center items-center">
           {sortedTasks.length === 0 ? (
-            <p className="text-center text-gray-500">No tasks found</p>
+            <p className="text-center text-gray-500 ">No tasks found</p>
           ) : (
             sortedTasks.map((task) => (
               <TaskCard

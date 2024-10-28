@@ -137,6 +137,8 @@ export type taskType = {
   assigned_to: number;
   requester: number | null;
   created_by: number;
+  file: string | File | null;
+  link_task: string | File | null;
 };
 
 export type taskFormType = z.infer<typeof taskFormSchema>;

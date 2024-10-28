@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadio
 import { Input } from '@/components/ui/input'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { ArrowDownAZIcon, SearchIcon} from 'lucide-react'
+import { FaSearch, FaSortAmountDown } from "react-icons/fa";
 import { FC, useState} from 'react'
 
 interface ToolBarProps {
@@ -25,25 +26,22 @@ const ToolBar: FC<ToolBarProps> = ({sortBy, handleSort, setFormOpen, formOpen, s
   return (
     <div className='flex flex-wrap w-full justify-between mt-4'>
         <div>
-            <Button variant="outline" className='flex flex-row' onClick={()=>setFormOpen(!formOpen)}>
+            <button className='flex flex-row items-center text-white rounded-md bg-green-500  py-2 px-3 hover:bg-green-600' onClick={()=>setFormOpen(!formOpen)}>
                 <PlusIcon />
-                <span className='font-semibold ml-2'>Create Task</span>
-            </Button>
+                <span className=' ml-2'>Create New Task</span>
+            </button> 
         </div>
         <div className='flex gap-2'>
-            <div className='flex'>
-                {isSearchVisible && (
-                    <Input autoFocus type="text" className='w-[100px] focus-visible:ring-0 focus-visible:ring-offset-0 '  value={searchFilter} onChange={(e)=>setSearchFilter(e.target.value)}/>
-                )}
-                <Button variant="outline" size="icon" className='focus-visible:ring-0' onClick={handleSearchClick}>
-                    <SearchIcon className='w-5 h-5'/>
-                </Button>
+            <div className='flex gap-0'>
+                <SearchIcon className=' p-2 h-10 w-10 text-gray-500 border-2 border-r-0 border-gray-900 bg-transparent rounded-l-lg'/>
+                <input autoFocus type="text" placeholder='Search' className=' focus:outline-none text-gray-800 hover:text-gray-700 bg-transparent rounded-r-lg px-3 border-2 border-l-0 border-gray-900' value={searchFilter} onChange={(e)=>setSearchFilter(e.target.value)}/>
             </div>
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon" className='focus-visible:ring-0 focus-visible:ring-offset-0'>
-                        <ArrowDownAZIcon />
+                    <Button variant="outline" size="icon" className='focus:outline-none bg-transparent flex items-center font-semibold gap-2 py-2 px-3 w-auto rounded-md text-gray-500 hover:text-gray-700 border-2 border-gray-900'>
+                        <FaSortAmountDown />
+                        <span>Sort By</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-30">
