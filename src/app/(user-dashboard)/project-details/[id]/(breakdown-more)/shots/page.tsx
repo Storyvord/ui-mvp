@@ -12,7 +12,7 @@ const page = () => {
     <div className=" w-full p-4">
       <h2 className="hidden md:block text-xl font-semibold">Shots</h2>
       <p className=" text-center md:mt-8">
-        Design shots to map out your project's visual flow. Include key details like composition,
+        Design shots to map out your project&apos;s visual flow. Include key details like composition,
         movement, and framing to bring your creative vision to life.
       </p>
       <section className=" flex justify-center items-center mt-36 gap-6">
