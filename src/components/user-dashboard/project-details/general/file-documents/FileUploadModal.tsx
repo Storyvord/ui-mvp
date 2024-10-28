@@ -49,7 +49,7 @@ const FileUploadModal = ({
   };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle>Select File</DialogTitle>
         </DialogHeader>

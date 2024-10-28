@@ -1,47 +1,25 @@
 "use client";
-
-import { companySettingsMenuItems, projectdetailsItems } from "@/constant/constant";
+import { projectdetailsItems } from "@/constant/constant";
 import { useProjectControl } from "@/context/ProjectContext";
 import { useSideBarControl } from "@/context/SideBarContext";
 import Image from "next/image";
 import Link from "next/link";
-import ProjectButtonGroup from "./components/ProjectButtonGroup";
 import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
-import { GiFilmProjector } from "react-icons/gi";
-import { HiHome, HiBanknotes } from "react-icons/hi2";
-import { MdOutlineMessage } from "react-icons/md";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const SideBar = () => {
   const { isSideBarOpen } = useSideBarControl();
-  const segment = useSelectedLayoutSegment();
-
-  const ProjectDetailsMenu = projectdetailsItems.map((details) => (
-    <div key={details.title} className="flex flex-col gap-1">
-      <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">{details.title}</h1>
-      {details.items.map((item) => (
-        <li key={item.text} className="list-none">
-          <SideBarButton
-            Icon={item.icon}
-            link={item.link}
-            root="project-details"
-            text={item.text}
-          />
-        </li>
-      ))}
-    </div>
-  ));
-
   const { setProject } = useProjectControl();
+  const { id: projectId } = useParams();
 
   return (
     <aside
-      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 lg:translate-x-0 border border-blue-gray-100`}
+      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-60 lg:w-72 transition-transform duration-300 md:translate-x-0 border border-blue-gray-100`}
     >
       <div className="relative">
         <SideBarCloseButton />
-        <Link className=" mt-4" href="/">
+        <Link className=" mt-4" href="/dashboard">
           <Image
             onClick={() => setProject({ id: "", name: "" })}
             className=" mx-auto w-[150px] pt-4 mb-8 "
@@ -52,53 +30,38 @@ const SideBar = () => {
           />
         </Link>
       </div>
-      <div className="m-4">
-        <ul className="mb-1 flex flex-col gap-1">
-          <li>
-            <SideBarButton Icon={HiHome} text="dashboard" link="home" root="dashboard" />
-            <span>
-              <SideBarButton
-                Icon={MdOutlineMessage}
-                text="message"
-                link="message"
-                root="dashboard"
-              />
-            </span>
-          </li>
-          <li>
-            <SideBarButton
-              Icon={HiBanknotes}
-              text="Create Project"
-              link="new-project"
-              root="dashboard"
-            />
-          </li>
-          {segment === "dashboard" &&
-            companySettingsMenuItems.map((details) => (
-              <div key={details.title} className="flex flex-col gap-1">
-                <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">{details.title}</h1>
-                {details.items.map((item) => (
-                  <li key={item.text} className="list-none">
-                    <SideBarButton
-                      Icon={item.icon}
-                      link={item.link}
-                      root="dashboard"
-                      text={item.text}
-                    />
-                  </li>
-                ))}
-              </div>
+      <div className="mx-4 -mt-6">
+        <Link
+          href="/dashboard"
+          className=" flex items-center gap-4 py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+        >
+          <Image src="/icons/left-arrow.svg" alt="" width={17} height={17} />
+          Dashboard
+        </Link>
+
+        <Link
+          href={`/project-details/${projectId}`}
+          className=" flex items-center gap-4 border rounded-lg py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+        >
+          <Image src="/icons/dashboard-icon.svg" alt="" width={17} height={17} />
+          Project Details
+        </Link>
+
+        {projectdetailsItems.map((details) => (
+          <div key={details.title} className="flex flex-col gap-1">
+            <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">{details.title}</h1>
+            {details.items.map((item) => (
+              <li key={item.text} className="list-none">
+                <SideBarButton
+                  Icon={item.icon}
+                  link={item.link}
+                  root="project-details"
+                  text={item.text}
+                />
+              </li>
             ))}
-        </ul>
-        <ProjectButtonGroup>
-          <SideBarButton
-            Icon={GiFilmProjector}
-            text="Project Details"
-            link=""
-            root="project-details"
-          />
-          {ProjectDetailsMenu}
-        </ProjectButtonGroup>
+          </div>
+        ))}
       </div>
     </aside>
   );

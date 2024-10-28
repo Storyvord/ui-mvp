@@ -10,7 +10,7 @@ const tabs = ["Crew Hire", "Open Position", "Crew Search"];
 const Crew = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   return (
-    <div>
+    <div className=" mt-4">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs}></Tabs>
       <section className=" w-full p-4">
         {activeTab === tabs[0] && <CrewHire />}

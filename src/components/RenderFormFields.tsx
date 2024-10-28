@@ -78,7 +78,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
             render={({ field }) => (
               <FormItem className="mt-4">
                 {/* Form label with required indicator if field is not optional */}
-                <FormLabel className="font-sans font-bold text-gray-800 text-md">
+                <FormLabel className="font-sans text-gray-800 text-md">
                   {label}
                   <span className="text-red-500 ml-1 text-sm">
                     {fieldConfig?.optional ? "" : "*"}
@@ -93,14 +93,6 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                         onChange={field.onChange}
                         isMulti={fieldConfig.isMulti}
                       />
-                      // <Input
-                      //   type="file"
-                      //   onChange={(e) => {
-                      //     if (e.target.files && e.target.files.length > 0) {
-                      //       field.onChange(e.target.files[0]); // Pass the first file in the FileList to react-hook-form
-                      //     }
-                      //   }}
-                      // />
                     )}
                     {(type === "text" ||
                       type === "email" ||
@@ -110,6 +102,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       type === "datetime-local") && (
                       <Input
                         type={type}
+                        className=" rounded-lg border-gray-300 focus:border-none"
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is a string for these input types

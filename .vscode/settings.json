@@ -4,5 +4,6 @@
   "docwriter.progress.trackMethods": true,
   "docwriter.progress.trackClasses": false,
   "docwriter.progress.trackTypes": true,
-  "docwriter.hotkey.mac": "⌘ + ."
+  "docwriter.hotkey.mac": "⌘ + .",
+  "cSpell.words": ["setis"]
 }
