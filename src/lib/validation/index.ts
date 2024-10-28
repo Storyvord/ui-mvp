@@ -109,20 +109,26 @@ export const announcementFormSchema = z.object({
   file: z
     .union([
       z.string(),
-      z.instanceof(ArrayBuffer),
+      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+        message: "Document cannot be an empty ArrayBuffer",
+      }),
       z.instanceof(File).refine(
         (file) =>
-          file.type === "image/jpeg" ||
-          file.type === "image/png" ||
-          file.type === "application/pdf" ||
-          file.type === "application/msword" || // For .doc files
-          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-          file.type === "text/plain", // For .txt files
+          (file.type === "image/jpeg" ||
+            file.type === "image/png" ||
+            file.type === "application/pdf" ||
+            file.type === "application/msword" || // For .doc files
+            file.type ===
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+            file.type === "text/plain") && // For .txt files
+          file.size > 0, // Ensure the file is not empty
         {
-          message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted",
+          message:
+            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
         }
       ),
     ])
+    .optional()
     .nullable(),
 });
 
@@ -307,7 +313,6 @@ export const shotValidationSchema = z.object({
     ])
     .optional(),
 });
-
 
 export const shootInformationValidationSchema = z.object({
   size: z.string().min(1, "Size is required"),

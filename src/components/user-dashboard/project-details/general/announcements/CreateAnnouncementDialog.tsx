@@ -52,7 +52,6 @@ export const announcementFormDefaultValues = {
   recipients: "",
   title: "",
   message: "",
-  file: null,
 };
 type Props = {
   openDialog: boolean;
