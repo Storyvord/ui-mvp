@@ -49,7 +49,7 @@ const RoomForm = ({ createRoom, isLoading, isError, open, onClose, crewList }: R
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle>Create Room</DialogTitle>
         </DialogHeader>

@@ -87,7 +87,7 @@ const CrewHire = () => {
       />
       <CrewList data={crewList} isLoading={isLoadingCrewList} />
       <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-        <DialogContent>
+        <DialogContent className="lg:w-[800px] w-[95%]">
           <DialogHeader>
             <DialogTitle> Invite </DialogTitle>
             <CustomForm
