@@ -267,3 +267,62 @@ export const scriptValidationSchema = z.object({
   description: z.string().min(1, "Description is required"),
   note: z.string().optional(),
 });
+
+export const scenesValidationSchema = z.object({
+  scenesNumber: z.string().min(2, "Title is required"),
+  set: z.string().min(2, "Set is required"),
+  environment: z.string().min(2, "Environment is required"),
+  scriptDay: z.string().min(2, "Script day is required"),
+  point: z.string().min(2, "point is required"),
+  description: z.string().min(1, "Description is required"),
+  note: z.string().optional(),
+});
+
+export const shotValidationSchema = z.object({
+  shotId: z.string().min(2, "Shot ID is required"),
+  subject: z.string().min(2, "Subject is required"),
+  visual: z.string().min(2, "Visual is required"),
+  audio: z.string().min(1, "Audio is required"),
+  imageAndProduction: z
+    .union([
+      z.string(),
+      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+        message: "Document cannot be an empty ArrayBuffer",
+      }),
+      z.instanceof(File).refine(
+        (file) =>
+          (file.type === "image/jpeg" ||
+            file.type === "image/png" ||
+            file.type === "application/pdf" ||
+            file.type === "application/msword" || // For .doc files
+            file.type ===
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+            file.type === "text/plain") && // For .txt files
+          file.size > 0, // Ensure the file is not empty
+        {
+          message:
+            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+        }
+      ),
+    ])
+    .optional(),
+});
+
+
+export const shootInformationValidationSchema = z.object({
+  size: z.string().min(1, "Size is required"),
+  type: z.string().min(1, "Type is required"),
+  moment: z.string().min(1, "Moment is required"),
+  equipment: z.string().min(1, "Equipment is required"),
+  vfx: z.string().min(1, "VFX is required"),
+  camera: z.string().min(1, "Camera is required"),
+  lens: z.string().min(1, "Lens is required"),
+  frameRate: z.string().min(1, "Frame Rate is required"),
+  specialEquipment: z.string().min(1, "Special Equipment is required"),
+  sound: z.string().min(1, "Sound is required"),
+  lighting: z.string().min(1, "Lighting is required"),
+  position: z.string().min(1, "Position is required"),
+  setupId: z.string().min(1, "Setup ID is required"),
+  unit: z.string().min(1, "Unit is required"),
+  note: z.string().optional().nullable(),
+});
