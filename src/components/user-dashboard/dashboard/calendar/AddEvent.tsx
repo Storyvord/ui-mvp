@@ -66,7 +66,7 @@ const AddEvent = ({
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogContent className="p-4 font-sans">
+      <DialogContent className="lg:w-[800px] w-[95%] p-4 font-sans">
         <DialogTitle className=" text-lg">Add New Event</DialogTitle>
         <DialogDescription>Please fill out the details for your new event.</DialogDescription>
         <div className=" max-h-[80vh] overflow-y-auto px-2">

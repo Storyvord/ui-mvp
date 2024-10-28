@@ -26,7 +26,7 @@ const OpenPositionDialog: React.FC<Props> = ({ openDialog, setOpenDialog }) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle> Create Open Position</DialogTitle>
         </DialogHeader>

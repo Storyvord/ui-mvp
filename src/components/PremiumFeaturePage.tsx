@@ -59,14 +59,14 @@ const PremiumFeaturePage = () => {
         Contact Us
       </button>
       <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-        <DialogContent>
+        <DialogContent className="lg:w-[800px] w-[95%] ">
           <DialogHeader>
             <DialogTitle>Contact Us</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-5 justify-center flex flex-col"
+              className="space-y-5 justify-center flex flex-col lg:px-4"
             >
               <RenderFormFields form={form} formFields={formFields} />
 

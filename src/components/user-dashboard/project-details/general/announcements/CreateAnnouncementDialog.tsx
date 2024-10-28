@@ -52,7 +52,6 @@ export const announcementFormDefaultValues = {
   recipients: "",
   title: "",
   message: "",
-  file: null,
 };
 type Props = {
   openDialog: boolean;
@@ -87,7 +86,7 @@ const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent className=" w-[1200px] p-0">
+      <DialogContent className=" w-[95%] lg:w-[1200px] p-0">
         <DialogHeader className=" w-full p-4 bg-gray-200 rounded-tr-lg rounded-tl-lg max-h-16">
           <DialogTitle>Announcement details</DialogTitle>
         </DialogHeader>
@@ -95,19 +94,20 @@ const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className=" justify-center flex flex-col p-0 px-4 lg:pr-10"
+              className=" justify-center flex flex-col p-0 lg:px-4 lg:pr-10"
             >
-              <section className=" grid grid-cols-3 gap-4">
+              <section className=" grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border-r border-black/20">
-                  <div className=" p-4 border-b border-black/20">
+                  <div className=" p-1 lg:p-4 border-b border-black/20">
                     <h3 className=" text-md font-semibold">Select Department</h3>
                     <p className=" text-sm text-gray-500">
                       Please select recipients from crew or mailing lists.
                     </p>
                   </div>
+                  <p className=" text-center text-sm text-gray-500 mt-4">No Department found</p>
                 </div>
 
-                <div className=" col-span-2">
+                <div className=" md:col-span-2">
                   <RenderFormFields form={form} formFields={announcementFormFields} />
                 </div>
               </section>

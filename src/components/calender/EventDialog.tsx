@@ -36,7 +36,7 @@ const EventDialog = ({
   return (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="font-sans max-h-[85vh] overflow-auto">
+        <DialogContent className="font-sans max-h-[85vh] overflow-auto lg:w-[700px] w-[95%]">
           <DialogTitle className="text-2xl">{event.title}</DialogTitle>
           <div className="text-gray-700 text-[18px]">
             <h5>
