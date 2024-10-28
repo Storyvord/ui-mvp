@@ -103,15 +103,26 @@ export const ClientProfileUpdateSchema = z.object({
 });
 
 export const announcementFormSchema = z.object({
+  recipients: z.string().min(1, "Recipients is required"),
   title: z.string().min(1, "Title is required"),
   message: z.string().min(1, "Message is required"),
-  expirationDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Invalid date format",
-  }),
   file: z
-    .custom<FileList | null>((val) => val === null || val instanceof FileList, {
-      message: "Invalid file type",
-    })
+    .union([
+      z.string(),
+      z.instanceof(ArrayBuffer),
+      z.instanceof(File).refine(
+        (file) =>
+          file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "application/pdf" ||
+          file.type === "application/msword" || // For .doc files
+          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+          file.type === "text/plain", // For .txt files
+        {
+          message: "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted",
+        }
+      ),
+    ])
     .nullable(),
 });
 
