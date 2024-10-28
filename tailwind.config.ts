@@ -26,6 +26,9 @@ const config = {
           "linear-gradient(90deg, #012284 0%, #08477E 23%, #1AA36E 73%, #25D865 100%)",
       },
       colors: {
+        "bg-color-2": "rgba(245, 245, 245, 1)",
+        "text-color-1": "rgba(17, 17, 17, 1)",
+        "text-color-2": "rgba(17, 17, 17, 0.5)",
         shark: {
           950: "#212529",
         },

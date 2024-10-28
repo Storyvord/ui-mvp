@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface CustomFileInputProps {
   value: File | File[] | null;
-  onChange: (value: File | File[]) => void;
+  onChange: (value: File | File[] | null) => void;
   isMulti?: boolean;
   error?: any;
 }
@@ -35,7 +35,7 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
       } else {
         onChange(files[0]);
       }
-      e.target.value = "";
+      e.target.value = ""; // Reset input
     }
   };
 
@@ -44,6 +44,9 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
       const updatedFiles = [...value];
       updatedFiles.splice(index, 1);
       onChange(updatedFiles);
+    } else if (!isMulti && value) {
+      // Handle single file removal
+      onChange(null);
     }
   };
 
@@ -69,6 +72,7 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
               <Badge key={index} variant="secondary" className="flex items-center space-x-1">
                 <span>{file.name}</span>
                 <Button
+                  type="button"
                   variant="ghost"
                   size="icon"
                   onClick={() => handleRemoveFile(index)}
@@ -88,6 +92,7 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
             <>
               <span className="text-sm text-gray-700">{(value as File).name}</span>
               <Button
+                type="button"
                 variant="ghost"
                 size="icon"
                 onClick={() => handleRemoveFile(0)}

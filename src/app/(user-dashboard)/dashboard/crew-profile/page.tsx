@@ -12,7 +12,7 @@ import Loader from "@/components/Loader";
 
 const ProfilePageContent = () => {
   const searchParams = useSearchParams();
-  const crewId = Number(searchParams.get("crewId"));
+  const crewId = searchParams.get("crewId");
   const [profileData, setProfileData] = useState();
   const [portfolioData, setPortfolioData] = useState([]);
   const [educationData, setEducationData] = useState([]);
@@ -20,7 +20,7 @@ const ProfilePageContent = () => {
   const [endorsementData, setEndorsementData] = useState([]);
   const [creditsData, setCreditsData] = useState([]);
 
-  const { data: crewProfile } = useGetCrewFullProfile(crewId);
+  const { data: crewProfile } = useGetCrewFullProfile(crewId || "");
 
   useEffect(() => {
     setProfileData(crewProfile?.at(0)?.crew_profile);
