@@ -96,41 +96,45 @@ const CreateTask: FC<CreateTaskProps> = ({
             <div className="flex flex-col">
               <label className="mt-3 mb-2 font-sans font-bold text-gray-800 text-md">More Options</label>
               <div className="flex space-x-4">
-                <label className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
+                <label htmlFor="deadline" className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
                   <AiOutlineCalendar />
                   <span>Deadline</span>
                   <input
-                    type="file"
+                    type="datetime-local"
+                    id="deadline"
+                    name="deadline"
+                    // value="2024-11-01T17:30"
                     className="hidden"
                     onChange={(e) => {
-                      const file = e.target.files ? e.target.files[0] : null;
-                      // console.log("Selected Deadline File:", file);
+                      const dateTime = e.target.value;
                     }}
                   />
                 </label>
 
-                <label className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
+                <label htmlFor="file" className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
                   <AiOutlineFile />
                   <span>File</span>
                   <input
                     type="file"
+                    id="file"
+                    name="file"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files ? e.target.files[0] : null;
-                      // console.log("Selected File:", file);
                     }}
                   />
                 </label>
 
-                <label className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
+                <label htmlFor="link_task" className="flex items-center space-x-2 px-3 py-2 border rounded-md text-gray-700 hover:bg-gray-100 transition cursor-pointer">
                   <AiOutlineLink />
                   <span>Link Task</span>
                   <input
                     type="file"
+                    id="link_task"
+                    name="link_task"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files ? e.target.files[0] : null;
-                      // console.log("Selected Link Task File:", file);
                     }}
                   />
                 </label>
