@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import CreateScripts from "./_components/CreateScripts";
 import UploadScripts from "./_components/UploadScripts";
 
-const page = () => {
+const Script = () => {
   const [createScriptDialog, setCreateScriptDialog] = useState(false);
   const [uploadScriptDialog, setUploadScriptDialog] = useState(false);
   return (
@@ -34,4 +34,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Script;

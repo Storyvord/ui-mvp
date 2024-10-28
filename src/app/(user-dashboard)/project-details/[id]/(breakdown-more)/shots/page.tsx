@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import CreateShots from "./_components/CreateShots";
 
-const page = () => {
+const Shots = () => {
   const [createScriptDialog, setCreateScriptDialog] = useState(false);
   const [uploadScriptDialog, setUploadScriptDialog] = useState(false);
   return (
@@ -29,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Shots;
