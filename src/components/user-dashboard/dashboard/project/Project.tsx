@@ -58,7 +58,7 @@ const Project = () => {
   };
 
   return (
-    <section>
+    <section className=" group">
       <header className="flex justify-between">
         <span className="flex items-center gap-3 mb-4">
           <img src="/icons/project-2.svg" alt="" />
@@ -102,7 +102,7 @@ const Project = () => {
       </main>
 
       {showArrows && (
-        <div className="flex justify-between">
+        <div className=" invisible group-hover:visible flex justify-between">
           <Button onClick={handleScrollLeft} className="px-4 py-2" variant="ghost">
             <Image src="/icons/left-arrow.svg" alt="left arrow" width={12} height={12} />
           </Button>

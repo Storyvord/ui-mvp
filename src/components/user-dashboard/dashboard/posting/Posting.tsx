@@ -3,7 +3,7 @@ import React from "react";
 
 const Posting = () => {
   return (
-    <div className=" mt-8">
+    <div className=" mt-4">
       <span className=" flex items-center gap-3 mb-4">
         <img width={30} src="/send.svg" alt="" />
         <h1 className=" text-xl">Posting</h1>

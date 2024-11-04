@@ -143,7 +143,7 @@ const CalendarSection = () => {
           <img src="/icons/plus-2.svg" alt="Add Icon" /> Add Event
         </Button>
       </header>
-      <main className="flex md:flex-row flex-col md:items-start gap-3 mt-4">
+      <main className="flex xl:flex-row flex-col md:items-start gap-3 mt-4">
         <DatePickerWithRange onSelectRange={handleSelectRange} />
         <div className="bg-white px-4 py-2 rounded-xl border flex-1">
           <h2 className=" text-lg mb-2 font-semibold text-gray-700">My Schedule</h2>
