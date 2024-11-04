@@ -56,11 +56,11 @@ const ProjectDetailsNavBar = () => {
   ));
 
   return (
-    <header className=" bg-white p-2  w-full fixed top-0 z-50 md:shadow-sm">
-      <nav className="flex justify-between">
+    <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm">
+      <nav className="flex justify-between w-full mx-auto max-w-[2000]">
         <Link href="/dashboard">
           <Image
-            className="w-[125px] md:ml-8"
+            className="w-[125px] md:ml-8 md:hidden"
             src={"/logo.svg"}
             width={50}
             height={10}
@@ -109,7 +109,7 @@ const ProjectDetailsNavBar = () => {
             )}
           </button>
           {toggleMenu && (
-            <div className=" absolute z-50 bg-white top-10 left-0 w-full min-h-[95vh] sm:hidden p-3 space-y-4 pt-8">
+            <div className=" absolute z-50 bg-white top-12 left-0 w-full min-h-[95vh] sm:hidden p-3 space-y-4 pt-8">
               <h3 className=" p-2 bg-gray-100 rounded-md">
                 <Link onClick={handleMenuItemClick} href="/dashboard/profile">
                   Profile
