@@ -32,10 +32,11 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
   const { toast } = useToast();
 
-  const { mutateAsync: registerUser, isLoading } = useRegisterUser();
+  const { mutateAsync: registerUser } = useRegisterUser();
   const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
   });
@@ -51,15 +52,18 @@ const SignUp = () => {
     }
     const { email, password, confirmPassword } = data;
     try {
+      setIsLoading(true);
       const res = await registerUser({ email, password, confirmPassword, agreePolicy: isChecked });
       if (res) {
         toast({
-          title: res?.message,
+          title: `${res?.message}, Verification Link sent to your Email, Please Verify Your Email `,
         });
+        setIsLoading(false);
         // router.push("/auth/onboard");
         router.push("/auth/sign-in");
       }
     } catch (error: unknown) {
+      setIsLoading(false);
       if (error instanceof Error) {
         console.error("Registration error:", error);
         toast({

@@ -21,7 +21,7 @@ export const useUserSignIn = () => {
     onSuccess: (data) => {
       console.log(data, 'ddddd')
       Cookies.set("accessToken", data?.data?.access_token);
-      Cookies.set("userType", data?.data?.user_type === 1 ? "client" : "crew");
+      Cookies.set("isClient", data?.data?.user_type === 1 ? "true" : "false");
       queryClient.invalidateQueries({
         queryKey: ["getProjects"],
       });

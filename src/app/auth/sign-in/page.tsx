@@ -52,6 +52,8 @@ const SignIn = () => {
           router.push("/dashboard");
         } else if (res?.data?.user_type === 1 && res?.data?.user_stage === '1') {
           router.push("/auth/onboard");
+        } else if (!res?.data?.user_type && res?.data?.user_stage === '0') {
+          router.push("/auth/onboard");
         } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '2') {
           router.push("/crew");
         } else if (res?.data?.user_type === 2 && res?.data?.user_stage === '1') {
@@ -60,6 +62,7 @@ const SignIn = () => {
         setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       // Check if error is an instance of Error
       if (error instanceof Error) {
         toast({

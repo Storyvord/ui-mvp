@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { usePostPesonalDetails } from '@/lib/react-query/queriesAndMutations/onBoard/onBoard';
 import { toast } from '@/components/ui/use-toast';
 import Loader from '@/components/Loader';
+import { countryName } from '@/constant/countryName';
 
 interface BasicInfoProps {
     prevStep: () => void;
@@ -160,14 +161,14 @@ export default function BasicInfo({ prevStep, onSuccessStep }: BasicInfoProps) {
                             <SelectValue placeholder="Please Select Your Country" />
                         </SelectTrigger>
                         <SelectContent>
-                            {countryData.map((country) => (
-                            <SelectItem
-                                key={country.id}
-                                value={country.name}
-                                className="text-base font-normal text-[#111111] font-poppins"
-                            >
-                                {country.name}
-                            </SelectItem>
+                            {countryName.map((country) => (
+                                <SelectItem
+                                    key={country.value}
+                                    value={country.value}
+                                    className="text-base font-normal text-[#111111] font-poppins"
+                                >
+                                    {country.label}
+                                </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
