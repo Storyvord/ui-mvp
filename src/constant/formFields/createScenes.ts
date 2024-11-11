@@ -1,8 +1,13 @@
-import { ScenesFormType } from "@/app/(user-dashboard)/project-details/[id]/(breakdown-more)/scenes/_components/CreateScenes";
-import { FormFieldConfig } from "@/components/RenderFormFields";
+import { ScenesFormType } from "@/components/user-dashboard/project-details/breakdown-more/scenes/CreateScenes";
+import { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 
 export const formFields: FormFieldConfig<ScenesFormType>[] = [
-  { name: "scenesNumber", type: "text", placeholder: "Please enter scenes number", label: "Scenes Number" },
+  {
+    name: "scenesNumber",
+    type: "text",
+    placeholder: "Please enter scenes number",
+    label: "Scenes Number",
+  },
 
   {
     name: "set",

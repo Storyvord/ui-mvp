@@ -1,6 +1,6 @@
 import { ShotsInformationFormType } from "@/app/(user-dashboard)/project-details/[id]/(breakdown-more)/shots/_components/CreateShootInformation";
 import { ShotsFormType } from "@/app/(user-dashboard)/project-details/[id]/(breakdown-more)/shots/_components/CreateShots";
-import { FormFieldConfig } from "@/components/RenderFormFields";
+import { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 
 export const formFields: FormFieldConfig<ShotsFormType>[] = [
   { name: "shotId", type: "text", placeholder: "Title", label: "Shot ID" },

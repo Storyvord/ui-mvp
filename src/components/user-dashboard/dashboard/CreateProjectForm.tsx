@@ -11,7 +11,7 @@ import { projectFormSchema } from "@/lib/validation";
 import { useCreateProject } from "@/lib/react-query/queriesAndMutations/project";
 import { convertToBase64 } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
-import RenderFormFields, { FormFieldConfig } from "@/components/RenderFormFields";
+import RenderFormFields, { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
 import { BsTrash } from "react-icons/bs";

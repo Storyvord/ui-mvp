@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { FormFieldConfig } from "@/types";
 import { signUpFormSchema } from "@/lib/validation/auth";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { useRegisterUser } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import Logo from "@/assets/logo.png";
 

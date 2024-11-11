@@ -9,8 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
-import SelectInputWithQuantity from "@/components/SelectInputWithQuantity";
-import SelectInput from "@/components/SelectInput";
+import SelectInputWithQuantity from "@/components/form-component/SelectInputWithQuantity";
+import SelectInput from "@/components/form-component/SelectInput";
 import CustomFileInput from "./CustomFileInput";
 
 // Define the configuration for each form field, specifying the field's type, label, and other properties

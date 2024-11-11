@@ -5,21 +5,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import RenderFormFields from "@/components/RenderFormFields";
+import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Form } from "@/components/ui/form";
 import Loader from "@/components/Loader";
 
-import { formFields } from "@/constant/formFields/createScenes";
-import { scenesValidationSchema } from "@/lib/validation";
+import { scriptValidationSchema } from "@/lib/validation";
+import { formFields } from "@/constant/formFields/createScript";
 
 type Props = { openDialog: boolean; setOpenDialog: (openDialog: boolean) => void };
-export type ScenesFormType = z.infer<typeof scenesValidationSchema>;
+export type ScriptFormType = z.infer<typeof scriptValidationSchema>;
 
-const CreateScenes = ({ openDialog, setOpenDialog }: Props) => {
+const CreateScripts = ({ openDialog, setOpenDialog }: Props) => {
   const form = useForm({
-    resolver: zodResolver(scenesValidationSchema),
+    resolver: zodResolver(scriptValidationSchema),
     defaultValues: {
-      scenesNumber: "",
+      title: "",
       set: "",
       environment: "",
       scriptDay: "",
@@ -33,8 +33,8 @@ const CreateScenes = ({ openDialog, setOpenDialog }: Props) => {
   const isError = false;
   const isEdit = false;
 
-  const onSubmit = (data: ScenesFormType) => {
-    console.log(data);
+  const onSubmit = (data: ScriptFormType) => {
+    alert("Form submitted...");
     //api call
     form.reset();
   };
@@ -43,7 +43,7 @@ const CreateScenes = ({ openDialog, setOpenDialog }: Props) => {
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
       <DialogContent className=" lg:w-[1000px] w-[95%] p-0">
         <DialogHeader className=" w-full p-4 bg-gray-200 rounded-tr-lg rounded-tl-lg">
-          <DialogTitle>Create Scenes</DialogTitle>
+          <DialogTitle>Create Script</DialogTitle>
         </DialogHeader>
         <section className=" px-6 lg:px-16 pb-4 -mt-4 max-h-[80vh] overflow-y-auto">
           <Form {...form}>
@@ -85,4 +85,4 @@ const CreateScenes = ({ openDialog, setOpenDialog }: Props) => {
   );
 };
 
-export default CreateScenes;
+export default CreateScripts;

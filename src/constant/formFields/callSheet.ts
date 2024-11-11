@@ -1,4 +1,4 @@
-import { FormFieldConfig } from "@/components/RenderFormFields";
+import { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 import { ShootFormType } from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
 
 export const formFields: FormFieldConfig<ShootFormType>[] = [
@@ -33,21 +33,21 @@ export const formFields: FormFieldConfig<ShootFormType>[] = [
     type: "time",
     placeholder: "Breakfast time",
     label: "Breakfast Time",
-    optional: true
+    optional: true,
   },
   {
     name: "lunch",
     type: "time",
     placeholder: "Lunch time",
     label: "Lunch Time",
-    optional: true
+    optional: true,
   },
   {
     name: "dinner",
     type: "time",
     placeholder: "Dinner time",
     label: "Dinner Time",
-    optional: true
+    optional: true,
   },
 
   // Department Instructions (Dynamic)

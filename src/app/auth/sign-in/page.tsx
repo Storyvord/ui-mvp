@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { signinFormSchema } from "@/lib/validation/auth";
 import { FormFieldConfig } from "@/types";
 import { z } from "zod";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import { getUserDetails } from "@/lib/api/auth/auth";

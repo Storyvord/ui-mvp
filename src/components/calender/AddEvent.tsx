@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { calenderFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import CustomForm from "../CustomForm";
+import CustomForm from "../form-component/CustomForm";
 import { CalenderFormFieldType, FormFieldConfig } from "@/types";
 
 const formFields: FormFieldConfig<CalenderFormFieldType>[] = [
