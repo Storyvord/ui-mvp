@@ -1,9 +1,8 @@
 "use client";
+import ButtonGroup from "@/components/user-dashboard/project-details/breakdown-more/scenes/ButtonGroup";
+import CreateScenes from "@/components/user-dashboard/project-details/breakdown-more/scenes/CreateScenes";
+import Navbar from "@/components/user-dashboard/project-details/breakdown-more/scenes/Navbar";
 import React, { useState } from "react";
-
-import CreateScenes from "./_components/CreateScenes";
-import ButtonGroup from "./_components/ButtonGroup";
-import Navbar from "./_components/Navbar";
 
 const Scenes = () => {
   const [createScenesDialog, setCreateScenesDialog] = useState(false);

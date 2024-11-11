@@ -7,11 +7,11 @@ import { z } from "zod";
 
 import { CallSheetFormSchema } from "@/lib/validation";
 
-import RenderFormFields from "@/components/RenderFormFields";
+import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
 import { defaultValues, formFields } from "@/constant/formFields/callSheet";
-import RenderDynamicFormFields from "@/components/RenderDynamicFormFields";
+import RenderDynamicFormFields from "@/components/form-component/RenderDynamicFormFields";
 
 export type ShootFormType = z.infer<typeof CallSheetFormSchema>;
 

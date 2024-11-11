@@ -1,6 +1,7 @@
 "use client";
 import { useGetCompanyTasks } from "@/lib/react-query/queriesAndMutations/company/tasks";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -26,7 +27,7 @@ const ShowTasks = () => {
         </div>
       ))}
       <Link href="/dashboard/company-tasks" className=" grid place-content-end cursor-pointer">
-        <img src="/icons/right-arrow.svg" alt="arrow" width={30} className=" mt-3" />
+        <Image height={30} width={30} src="/icons/right-arrow.svg" alt="arrow" className=" mt-3" />
       </Link>
     </div>
   );

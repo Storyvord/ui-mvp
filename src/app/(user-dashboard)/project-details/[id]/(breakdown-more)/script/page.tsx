@@ -3,8 +3,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import CreateScripts from "./_components/CreateScripts";
-import UploadScripts from "./_components/UploadScripts";
+import CreateScripts from "@/components/user-dashboard/project-details/breakdown-more/script/CreateScripts";
+import UploadScripts from "@/components/user-dashboard/project-details/breakdown-more/script/UploadScripts";
 
 const Script = () => {
   const [createScriptDialog, setCreateScriptDialog] = useState(false);

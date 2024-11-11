@@ -52,9 +52,11 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
       <Accordion type="single" collapsible defaultValue="project-details" className=" w-full">
         <AccordionItem value="project-details">
           <AccordionTrigger className=" font-semibold text-gray-700 flex md:gap-4 gap-0">
-            <h1 className=" flex-grow text-start text-md md:text-xl ">{projectDetails?.name}</h1>
-            <div className=" flex items-center gap-2 border-2 border-black p-2 rounded-md md:text-md text-sm">
-              Project Details
+            <h1 className=" flex-grow text-start text-md md:text-xl hidden md:block ">
+              {projectDetails?.name}
+            </h1>
+            <div className=" flex items-center gap-2 md:border-2 md:border-black md:p-2 rounded-md md:text-md text-sm">
+              <h1 className="hidden md:flex"> Project Details</h1>
               <Image
                 src="/icons/project-eye.svg"
                 alt="icon"

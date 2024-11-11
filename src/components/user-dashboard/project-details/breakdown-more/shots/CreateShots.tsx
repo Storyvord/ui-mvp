@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import RenderFormFields from "@/components/RenderFormFields";
+import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Form } from "@/components/ui/form";
 import Loader from "@/components/Loader";
 

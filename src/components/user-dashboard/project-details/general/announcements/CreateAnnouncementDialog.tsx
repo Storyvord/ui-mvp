@@ -12,11 +12,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useCreateAnnouncement } from "@/lib/react-query/queriesAndMutations/announcements";
-import RenderFormFields from "@/components/RenderFormFields";
+import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
 import { Form } from "@/components/ui/form";
-import { FormFieldConfig } from "@/components/RenderFormFields";
+import { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 
 import { announcementFormSchema } from "@/lib/validation";
 

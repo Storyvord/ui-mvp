@@ -13,6 +13,19 @@ const nextConfig = {
       { protocol: "https", hostname: "storyvordblob.blob.core.windows.net", pathname: "**" },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)", // Applies to all routes
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'none'",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

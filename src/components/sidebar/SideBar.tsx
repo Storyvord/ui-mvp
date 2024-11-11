@@ -19,7 +19,7 @@ const SideBar = () => {
     >
       <div className="relative">
         <SideBarCloseButton />
-        <Link className=" mt-4" href="/dashboard">
+        <Link className=" mt-4" href={`/project-details/${projectId}`}>
           <Image
             onClick={() => setProject({ id: "", name: "" })}
             className=" mx-auto w-[150px] pt-4 mb-8 "

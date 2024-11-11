@@ -16,7 +16,7 @@ import InvitationList from "@/components/user-dashboard/dashboard/company-settin
 import { FormFieldConfig } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { z } from "zod";
 
 const validationSchema = z.object({

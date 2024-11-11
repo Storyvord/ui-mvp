@@ -58,15 +58,15 @@ const Project = () => {
   };
 
   return (
-    <section>
+    <section className=" group">
       <header className="flex justify-between">
         <span className="flex items-center gap-3 mb-4">
-          <img src="/icons/project-2.svg" alt="" />
+          <Image height={27} width={27} src="/icons/project-2.svg" alt="plus-icon" />
           <h1 className="text-xl">Your Projects</h1>
         </span>
         <Link href="/dashboard/new-project">
           <Button className="md:hidden flex gap-2" size="sm">
-            <img src="/icons/plus-2.svg" alt="" /> New Project
+            <Image height={27} width={27} src="/icons/plus-2.svg" alt="plus-icon" /> New Project
           </Button>
         </Link>
       </header>
@@ -81,7 +81,7 @@ const Project = () => {
             href="/dashboard/new-project"
             className="w-80 border rounded-2xl p-4 bg-white hidden md:flex flex-col gap-4 cursor-pointer"
           >
-            <img width={30} src="/icons/plus.svg" alt="plus icon" />
+            <Image height={27} width={27} src="/icons/plus.svg" alt="plus icon" />
             <span>
               <h2 className="font-semibold text-lg mb-1">Create New Project</h2>
               <p>
@@ -102,7 +102,7 @@ const Project = () => {
       </main>
 
       {showArrows && (
-        <div className="flex justify-between">
+        <div className=" invisible group-hover:visible flex justify-between">
           <Button onClick={handleScrollLeft} className="px-4 py-2" variant="ghost">
             <Image src="/icons/left-arrow.svg" alt="left arrow" width={12} height={12} />
           </Button>
