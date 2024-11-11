@@ -7,6 +7,7 @@ import CreateTask from "@/components/tasks/CreateTask";
 import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import { useCreateNewCompanyTask } from "@/lib/react-query/queriesAndMutations/company/tasks";
 import { useToast } from "@/components/ui/use-toast";
+import Image from "next/image";
 
 const Tasks = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -43,11 +44,11 @@ const Tasks = () => {
     <div className=" p-2">
       <header className=" flex justify-between items-center">
         <span className=" flex gap-2 items-center">
-          <img src="/icons/task.svg" alt="" />
+          <Image height={20} width={20} src="/icons/task.svg" alt="plus-icon" />
           <h1 className=" text-lg">My Task</h1>
         </span>
         <Button onClick={() => setFormOpen(true)} className=" flex gap-2">
-          <img src="/icons/plus-2.svg" alt="" /> Add Task
+          <Image height={20} width={20} src="/icons/plus-2.svg" alt="plus-icon" /> Add Task
         </Button>
       </header>
       <ShowTasks />

@@ -24,6 +24,7 @@ import {
 } from "@/lib/react-query/queriesAndMutations/company/calender";
 import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import { CalenderFormFieldType } from "@/types";
+import Image from "next/image";
 
 interface Event extends RBCEvent {
   description?: string;
@@ -136,11 +137,11 @@ const CalendarSection = () => {
     <div className="mt-8">
       <header className="flex justify-between items-center">
         <span className="flex gap-2 items-center">
-          <img src="/icons/calendar.svg" alt="Calendar Icon" />
+          <Image width={27} height={27} src="/icons/calendar.svg" alt="Calendar Icon" />
           <h1 className="text-xl">Calendar</h1>
         </span>
         <Button onClick={() => setOpenFormDialog(true)} className="flex gap-2">
-          <img src="/icons/plus-2.svg" alt="Add Icon" /> Add Event
+          <Image width={25} height={25} src="/icons/plus-2.svg" alt="Add Icon" /> Add Event
         </Button>
       </header>
       <main className="flex xl:flex-row flex-col md:items-start gap-3 mt-4">

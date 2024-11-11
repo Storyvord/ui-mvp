@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useGetCompanyTasks } from "@/lib/react-query/queriesAndMutations/company/tasks";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const ShowTasks = () => {
   const { data: tasksList, isPending, isError } = useGetCompanyTasks();
@@ -26,7 +27,7 @@ const ShowTasks = () => {
         </div>
       ))}
       <Link href="#" className=" grid place-content-end cursor-pointer">
-        <img src="/icons/right-arrow.svg" alt="arrow" width={30} className=" mt-3" />
+        <Image height={25} width={25} src="/icons/right-arrow.svg" alt="arrow" className=" mt-3" />
       </Link>
     </div>
   );

@@ -4,7 +4,6 @@ import { useSelectedLayoutSegments } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-import { companySettingsMenuItems } from "@/constant/constant";
 import { userLogout } from "@/lib/api/auth/auth";
 import { Project as ProjectType } from "@/types/project";
 import { useGetProjects } from "@/lib/react-query/queriesAndMutations/project";
@@ -56,7 +55,7 @@ const ProjectDetailsNavBar = () => {
   ));
 
   return (
-    <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm">
+    <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm pr-4">
       <nav className="flex justify-between w-full mx-auto max-w-[2000]">
         <Link href="/dashboard">
           <Image
@@ -69,13 +68,17 @@ const ProjectDetailsNavBar = () => {
         </Link>
         <section className=" flex items-center gap-3 sm:gap-10">
           <Link href="/dashboard/message">
-            <img
+            <Image
+              width={20}
+              height={20}
               className="w-[20px] sm:w-[24px] cursor-pointer"
               src={"/icons/message.svg"}
               alt="message"
             />
           </Link>
-          <img
+          <Image
+            width={20}
+            height={20}
             className="w-[20px] sm:w-[24px] cursor-pointer"
             src={"/icons/notification.svg"}
             alt="notification"
@@ -83,7 +86,7 @@ const ProjectDetailsNavBar = () => {
           <div className=" hidden sm:flex">
             <DropdownMenu>
               <DropdownMenuTrigger className=" flex items-center gap-2 cursor-pointer">
-                <img src={"/profile.png"} alt="profile" />
+                <Image width={40} height={40} src={"/profile.png"} alt="profile" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {profile}
@@ -101,11 +104,23 @@ const ProjectDetailsNavBar = () => {
             onClick={() => setToggleMenu(!toggleMenu)}
             className=" flex sm:hidden cursor-pointer gap-3 items-center"
           >
-            <img src={"/profile.png"} className="w-[35]" alt="profile" />
+            <Image width={35} height={35} src={"/profile.png"} className="w-[35]" alt="profile" />
             {toggleMenu ? (
-              <img className="w-[12px]" src={"/icons/up-arrow.svg"} alt="notification" />
+              <Image
+                width={12}
+                height={12}
+                className="w-[12px]"
+                src={"/icons/up-arrow.svg"}
+                alt="notification"
+              />
             ) : (
-              <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
+              <Image
+                width={20}
+                height={20}
+                className="w-[12px]"
+                src={"/icons/down-arrow.svg"}
+                alt="notification"
+              />
             )}
           </button>
           {toggleMenu && (
