@@ -140,7 +140,7 @@ const ProjectDetailsNavBar = () => {
           <button onClick={toggle}>
             <Image src="/icons/menu.svg" alt="language-icon" width={20} height={20} />
           </button>
-          <h3>{project?.name}</h3>
+          <h3 className=" line-clamp-2">{project?.name}</h3>
         </div>
         <Button className="bg-gray-100 mt-2 capitalize min-w-20" variant="ghost">
           {segments.length === 0 ? "Project Details" : segments[1]}
