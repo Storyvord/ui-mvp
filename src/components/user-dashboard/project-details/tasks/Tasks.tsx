@@ -14,7 +14,7 @@ const Tasks = () => {
         <header className=" flex justify-between items-center px-4">
           <Image src="/icons/todo.svg" alt="" width={20} height={20} />
           <Button className=" flex gap-2 bg-gray-100 text-black">
-            <img src="/icons/plus.svg" alt="" /> Add Task
+            <Image height={25} width={25} src="/icons/plus.svg" alt="" /> Add Task
           </Button>
         </header>
         <ShowTasks />

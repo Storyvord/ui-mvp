@@ -69,7 +69,7 @@ export default function Chatbot() {
       });
       setConversation(localConversations);
     }
-  }, [sessionsDetails]);
+  }, [sessionsDetails, currentSession]);
 
   // Handle sending messages
   const sendMessage = (question: string) => {

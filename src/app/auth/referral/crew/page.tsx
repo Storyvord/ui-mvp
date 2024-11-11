@@ -7,7 +7,7 @@ import { FormFieldConfig } from "@/types";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 
 import { useToast } from "@/components/ui/use-toast";
 import { employeeRegistrationFormSchema } from "@/lib/validation/auth";

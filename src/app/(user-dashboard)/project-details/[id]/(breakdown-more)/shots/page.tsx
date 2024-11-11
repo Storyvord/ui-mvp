@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import CreateShots from "./_components/CreateShots";
+import CreateShots from "@/components/user-dashboard/project-details/breakdown-more/shots/CreateShots";
 
 const Shots = () => {
   const [createScriptDialog, setCreateScriptDialog] = useState(false);
@@ -12,8 +12,8 @@ const Shots = () => {
     <div className=" w-full p-4">
       <h2 className="hidden md:block text-xl font-semibold">Shots</h2>
       <p className=" text-center md:mt-8">
-        Design shots to map out your project&apos;s visual flow. Include key details like composition,
-        movement, and framing to bring your creative vision to life.
+        Design shots to map out your project&apos;s visual flow. Include key details like
+        composition, movement, and framing to bring your creative vision to life.
       </p>
       <section className=" flex justify-center items-center mt-36 gap-6">
         <Button

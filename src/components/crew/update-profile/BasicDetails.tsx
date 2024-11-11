@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateProfile,

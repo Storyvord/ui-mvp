@@ -1,4 +1,4 @@
-import RenderFormFields, { FormFieldConfig } from "@/components/RenderFormFields";
+import RenderFormFields, { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import React from "react";

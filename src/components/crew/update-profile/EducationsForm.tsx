@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 
 const educationFormFields: FormFieldConfig<EducationFormType>[] = [
   {
@@ -51,7 +51,7 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   useEffect(() => {
     setCrewProfileId(profileData?.id);
   }, [profileData]);
-  
+
   const { toast } = useToast();
 
   const { mutateAsync, isPending, isError } = useCreateEducation();

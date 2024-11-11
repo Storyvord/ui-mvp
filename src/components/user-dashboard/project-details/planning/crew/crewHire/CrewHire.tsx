@@ -10,7 +10,7 @@ import {
 import CrewList from "./CrewList";
 import { FormFieldConfig } from "@/types";
 import { z } from "zod";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 

@@ -8,7 +8,6 @@ const Location = () => {
           className=" sm:absolute hidden sm:flex justify-evenly sm:bg-gradient-to-b from-[#092579] to-[#25D765] h-full w-[40%] md:w-[37%] lg:w-[33%]
          lg:ml-[150px] top-0 bottom-0 -z-10"
         >
-          {/* <img src="https://storyvord.com/img/line2.png" alt="" className='' /> */}
           <div className=" bg-gray-100 bg-opacity-10 w-0.5 min-h-[100%]"></div>
           <div className=" bg-gray-100 bg-opacity-10 w-0.5 min-h-[100%]"></div>
         </div>

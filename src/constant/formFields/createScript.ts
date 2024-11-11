@@ -1,5 +1,5 @@
-import { ScriptFormType } from "@/app/(user-dashboard)/project-details/[id]/(breakdown-more)/script/_components/CreateScripts";
-import { FormFieldConfig } from "@/components/RenderFormFields";
+import { ScriptFormType } from "@/components/user-dashboard/project-details/breakdown-more/script/CreateScripts";
+import { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 
 export const formFields: FormFieldConfig<ScriptFormType>[] = [
   { name: "title", type: "text", placeholder: "Title", label: "Title" },

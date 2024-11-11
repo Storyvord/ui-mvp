@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { z } from "zod";
 import { FormFieldConfig } from "@/types";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { updateProfileSchema } from "@/lib/validation";

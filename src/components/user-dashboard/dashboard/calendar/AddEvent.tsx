@@ -5,7 +5,7 @@ import { calenderFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CalenderFormFieldType, FormFieldConfig } from "@/types";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 
 const formFields: FormFieldConfig<CalenderFormFieldType>[] = [
   { name: "title", label: "Title", type: "text", placeholder: "Enter event title" },

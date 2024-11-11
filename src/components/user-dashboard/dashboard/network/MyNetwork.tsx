@@ -12,7 +12,7 @@ const MyNetwork = () => {
           <h1 className=" text-lg">My Network</h1>
         </span>
         <Button className=" flex gap-2">
-          <Image width={17} height={17} src="/icons/plus-2.svg" alt="" /> Add
+          <Image width={20} height={20} src="/icons/plus-2.svg" alt="" /> Add
         </Button>
       </header>
       <main>
