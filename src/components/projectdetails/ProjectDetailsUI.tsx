@@ -57,13 +57,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
             </h1>
             <div className=" flex items-center gap-2 md:border-2 md:border-black md:p-2 rounded-md md:text-md text-sm">
               <h1 className="hidden md:flex"> Project Details</h1>
-              <Image
-                src="/icons/project-eye.svg"
-                alt="icon"
-                width={25}
-                height={25}
-                className=" md:w-6 w-4 md:h-6 h-4"
-              />
+              <Image src="/icons/project-eye.svg" alt="icon" width={20} height={20} />
             </div>
           </AccordionTrigger>
           <AccordionContent>

@@ -45,7 +45,7 @@ const Tasks = () => {
       <header className=" flex justify-between items-center">
         <span className=" flex gap-2 items-center">
           <Image height={20} width={20} src="/icons/task.svg" alt="plus-icon" />
-          <h1 className=" text-lg">My Task</h1>
+          <h1 className=" text-lg md:text-lg">My Task</h1>
         </span>
         <Button onClick={() => setFormOpen(true)} className=" flex gap-2">
           <Image height={20} width={20} src="/icons/plus-2.svg" alt="plus-icon" /> Add Task

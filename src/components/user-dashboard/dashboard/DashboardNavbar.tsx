@@ -137,7 +137,7 @@ const DashboardNavbar = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger className=" sm:flex items-center gap-4 cursor-pointer hidden">
-            <h1>Org Name</h1>
+            <h1>Org</h1>
             <Image
               width={20}
               height={20}
@@ -187,7 +187,7 @@ const DashboardNavbar = () => {
           onClick={() => setToggleMenu(!toggleMenu)}
           className=" flex sm:hidden cursor-pointer gap-3 items-center"
         >
-          <Image width={20} height={20} src={"/profile.png"} className="w-[35]" alt="profile" />
+          <Image width={30} height={30} src={"/profile.png"} alt="profile" />
           {toggleMenu ? (
             <Image
               width={15}

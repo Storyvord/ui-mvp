@@ -138,7 +138,7 @@ const CalendarSection = () => {
       <header className="flex justify-between items-center">
         <span className="flex gap-2 items-center">
           <Image width={27} height={27} src="/icons/calendar.svg" alt="Calendar Icon" />
-          <h1 className="text-xl">Calendar</h1>
+          <h1 className="text-lg md:text-xl">Calendar</h1>
         </span>
         <Button onClick={() => setOpenFormDialog(true)} className="flex gap-2">
           <Image width={25} height={25} src="/icons/plus-2.svg" alt="Add Icon" /> Add Event
@@ -147,7 +147,7 @@ const CalendarSection = () => {
       <main className="flex xl:flex-row flex-col md:items-start gap-3 mt-4">
         <DatePickerWithRange onSelectRange={handleSelectRange} />
         <div className="bg-white px-4 py-2 rounded-xl border flex-1">
-          <h2 className=" text-lg mb-2 font-semibold text-gray-700">My Schedule</h2>
+          <h2 className=" text-md md:text-lg mb-2 font-semibold text-gray-700">My Schedule</h2>
           <Calendar
             localizer={localizer}
             events={transformEvents}

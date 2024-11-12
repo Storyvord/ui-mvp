@@ -62,7 +62,7 @@ const Project = () => {
       <header className="flex justify-between">
         <span className="flex items-center gap-3 mb-4">
           <Image height={27} width={27} src="/icons/project-2.svg" alt="plus-icon" />
-          <h1 className="text-xl">Your Projects</h1>
+          <h1 className=" text-lg md:text-xl">Your Projects</h1>
         </span>
         <Link href="/dashboard/new-project">
           <Button className="md:hidden flex gap-2" size="sm">
