@@ -7,7 +7,7 @@ const Posting = () => {
     <div className=" mt-4">
       <span className=" flex items-center gap-3 mb-4">
         <Image height={27} width={27} src="/send.svg" alt="posting" />
-        <h1 className=" text-xl">Posting</h1>
+        <h1 className=" text-lg md:text-xl">Posting</h1>
       </span>
       <Link
         href="/dashboard/new-project"

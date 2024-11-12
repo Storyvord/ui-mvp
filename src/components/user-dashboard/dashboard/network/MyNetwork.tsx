@@ -9,7 +9,7 @@ const MyNetwork = () => {
       <header className=" flex justify-between items-center">
         <span className=" flex gap-2 items-center">
           <Image width={25} height={25} src="/icons/network.svg" alt="" />
-          <h1 className=" text-lg">My Network</h1>
+          <h1 className=" text-lg md:text-lg">My Network</h1>
         </span>
         <Button className=" flex gap-2">
           <Image width={20} height={20} src="/icons/plus-2.svg" alt="" /> Add
