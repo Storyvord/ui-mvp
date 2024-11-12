@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSelectedLayoutSegments } from "next/navigation";
+import { useParams, useSelectedLayoutSegments } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 const ProjectDetailsNavBar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
+  const { id: projectId } = useParams();
 
   const { data: projects, isPending, isError } = useGetProjects();
 
@@ -57,7 +58,7 @@ const ProjectDetailsNavBar = () => {
   return (
     <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm pr-4">
       <nav className="flex justify-between w-full mx-auto max-w-[2000]">
-        <Link href="/dashboard">
+        <Link href={`/project-details/${projectId}`}>
           <Image
             className="w-[125px] md:ml-8 md:hidden"
             src={"/logo.svg"}
@@ -151,15 +152,15 @@ const ProjectDetailsNavBar = () => {
         </section>
       </nav>
       <section className=" mt-1 block md:hidden">
-        <div className=" flex gap-3">
+        <h3 className=" line-clamp-2">{project?.name}</h3>
+        <div className=" flex gap-3 items-center">
           <button onClick={toggle}>
             <Image src="/icons/menu.svg" alt="language-icon" width={20} height={20} />
           </button>
-          <h3 className=" line-clamp-2">{project?.name}</h3>
+          <Button className="bg-gray-100 mt-2 capitalize min-w-20" variant="ghost">
+            {segments.length === 0 ? "Project Details" : segments[1]}
+          </Button>
         </div>
-        <Button className="bg-gray-100 mt-2 capitalize min-w-20" variant="ghost">
-          {segments.length === 0 ? "Project Details" : segments[1]}
-        </Button>
       </section>
     </header>
   );
