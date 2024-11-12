@@ -15,7 +15,11 @@ export const ChatResponse: React.FC<ChatResponseProps> = ({
 }) => {
   return (
     <div className="flex w-10/12 ">
-      <div className="grid place-items-center bg-gray-300 rounded-full mr-2 w-[3rem] h-[3rem] p-2"></div>
+      <div className="grid place-items-center bg-gray-300 rounded-full mr-2 w-[3rem] h-[3rem] p-2 ">
+        <span className=" text-xl bg-gradient-to-r from-green-500 to-gray-900 text-transparent bg-clip-text">
+          AI
+        </span>
+      </div>
 
       {isLoading && showLoading && <Loader />}
 

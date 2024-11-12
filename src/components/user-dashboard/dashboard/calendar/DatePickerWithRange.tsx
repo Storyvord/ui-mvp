@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { addDays } from "date-fns";
+import { addDays, startOfWeek, endOfWeek } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 
 interface DatePickerWithRangeProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -10,8 +10,8 @@ interface DatePickerWithRangeProps extends React.HTMLAttributes<HTMLDivElement> 
 
 const DatePickerWithRange = ({ onSelectRange, className, ...props }: DatePickerWithRangeProps) => {
   const [date, setDate] = React.useState<any | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
+    from: startOfWeek(new Date(), { weekStartsOn: 0 }), // (Sunday)
+    to: endOfWeek(new Date(), { weekStartsOn: 0 }), //(Saturday)
   });
 
   // Handle date selection

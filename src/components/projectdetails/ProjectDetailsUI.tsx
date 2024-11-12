@@ -131,7 +131,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     Budget:
                   </h2>
                   <p className="text-base text-gray-600 dark:text-gray-200">
-                    {projectDetails?.budget_amount}
+                    ${projectDetails?.budget_amount}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">

@@ -9,7 +9,7 @@ const ShowTasks = () => {
   const { data: tasksList, isPending, isError } = useGetCompanyTasks();
 
   return (
-    <div className=" bg-white rounded-xl mt-2 p-3">
+    <div className=" bg-white rounded-xl mt-0 p-3">
       {tasksList?.map((task: any) => (
         <div
           key={task.id}
@@ -26,9 +26,6 @@ const ShowTasks = () => {
           </p>
         </div>
       ))}
-      <Link href="#" className=" grid place-content-end cursor-pointer">
-        <Image height={25} width={25} src="/icons/right-arrow.svg" alt="arrow" className=" mt-3" />
-      </Link>
     </div>
   );
 };
