@@ -79,7 +79,9 @@ const DashboardNavbar = () => {
 
       <span className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2">
         <Image width={20} height={20} className="w-[20px]" src={"/icons/back.svg"} alt="icon" />
-        <p className=" ml-4"> Past Projects </p>
+        <Link href="#past-project" className=" ml-4">
+          Past Projects
+        </Link>
       </span>
     </>
   );

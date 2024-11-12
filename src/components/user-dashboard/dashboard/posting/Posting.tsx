@@ -10,7 +10,7 @@ const Posting = () => {
         <h1 className=" text-lg md:text-xl">Posting</h1>
       </span>
       <Link
-        href="/dashboard/new-project"
+        href="#"
         className=" w-80 border rounded-2xl p-4 bg-white flex flex-col gap-4 cursor-pointer"
       >
         <Image height={27} width={27} src="/icons/plus.svg" alt="plus-icon" />

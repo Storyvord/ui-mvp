@@ -15,7 +15,7 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-60 lg:w-72 transition-transform duration-300 md:translate-x-0 border border-blue-gray-100`}
+      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-60 xl:w-72 transition-transform duration-300 md:translate-x-0 border border-blue-gray-100`}
     >
       <div className="relative">
         <SideBarCloseButton />

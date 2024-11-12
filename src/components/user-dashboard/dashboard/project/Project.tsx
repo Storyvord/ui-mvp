@@ -7,28 +7,10 @@ import { useGetProjects } from "@/lib/react-query/queriesAndMutations/project";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const Project = () => {
-  const { data: projects } = useGetProjects();
-  const [pastProjects, setPastProjects] = useState<ProjectType[]>([]);
-  const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
+const Project = ({ onGoingProjects }: { onGoingProjects: any }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null); // Main container reference
   const scrollContentRef = useRef<HTMLDivElement>(null); // Inner div reference for project cards
   const [showArrows, setShowArrows] = useState(false); // State to toggle arrows
-
-  useEffect(() => {
-    if (projects) {
-      const filteredPastProjects = projects.filter((project: ProjectType) =>
-        ["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
-      );
-      const filteredOngoingProjects = projects.filter(
-        (project: ProjectType) =>
-          !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
-      );
-
-      setPastProjects(filteredPastProjects);
-      setOngoingProjects(filteredOngoingProjects);
-    }
-  }, [projects]);
 
   useEffect(() => {
     // Check if scrollable content is wider than the container
@@ -93,9 +75,14 @@ const Project = () => {
           {onGoingProjects?.length === 0 && (
             <p className=" my-auto md:pl-12 text-gray-500">No project found</p>
           )}
-          {onGoingProjects.map((project) => (
+          {onGoingProjects.map((project: any) => (
             <Link key={project.project_id} href={`/project-details/${project.project_id}`}>
-              <ProjectCard key={project.project_id} name={project.name} status={project.status} />
+              <ProjectCard
+                key={project.project_id}
+                name={project.name}
+                status={project.status}
+                location={project.location_details[0].location}
+              />
             </Link>
           ))}
         </div>

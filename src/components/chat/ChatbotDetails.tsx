@@ -53,7 +53,7 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
       className={
         expanded
           ? "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  flex flex-col w-[85vw] h-[85vh] rounded-lg bg-white overflow-hidden border border-gray-300"
-          : "flex flex-col w-[30vw] h-[70vh] rounded-lg bg-white overflow-hidden border border-gray-300"
+          : "flex flex-col w-[90vw] md:w-[60vw] xl:w-[30vw] h-[70vh] rounded-lg bg-white overflow-hidden border border-gray-300"
       }
     >
       {/* Header */}

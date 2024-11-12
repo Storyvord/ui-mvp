@@ -17,6 +17,7 @@ import CalendarSection from "@/components/user-dashboard/dashboard/calendar/Cale
 import Tasks from "@/components/user-dashboard/project-details/tasks/Tasks";
 import ShootingSchedule from "@/components/user-dashboard/project-details/shootingSchedule/ShootingSchedule";
 import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
+import { useToast } from "@/components/ui/use-toast";
 
 // Define available project statuses for selection
 const projectStatuses = [
@@ -33,6 +34,7 @@ const ProjectDetails: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string } | null>(
     null
   );
+  const { toast } = useToast();
 
   // Get the project ID from the URL parameters
   const { id: projectId } = useParams<{ id: string }>();
@@ -63,8 +65,15 @@ const ProjectDetails: React.FC = () => {
 
   // Handle project deletion, redirect to home after successful deletion
   const handleDeleteProject = async () => {
+    if (projectId === "302e14ea-3fbd-413b-af5e-924f72a1b00a") {
+      toast({
+        title: "You can't delete this project",
+        description: "as this is a Test project ",
+      });
+      return;
+    }
     await deleteProject({ project_id: projectId });
-    router.push("/dashboard");
+    router.replace("/dashboard");
   };
 
   // Handle status change for the project

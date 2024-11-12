@@ -13,6 +13,7 @@ import {
 import { Project } from "@/types/project";
 import LoadingSkeleton from "./LoadingSkeleton";
 import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   projects: Project[];
@@ -29,9 +30,13 @@ const PastProjects = ({ projects, isLoading, isError }: Props) => {
     return <p className=" mt-1 text-center text-red-500">Failed to get your project</p>;
   }
   return (
-    <Card className="relative mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 overflow-hidden shadow-sm border-blue-gray-100">
-      <div className="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 items-center flex justify-between p-6">
-        <h6 className="block antialiased tracking-normal text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
+    <Card
+      id="past-project"
+      className="relative mt-4 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 overflow-hidden shadow-sm border-blue-gray-100"
+    >
+      <div className="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 items-center flex justify-start gap-4 p-6">
+        <Image width={20} height={20} className="w-[20px]" src={"/icons/back.svg"} alt="icon" />
+        <h6 className="block antialiased tracking-normal text-lg md:text-xl leading-relaxed text-blue-gray-900 mb-1">
           Previous Projects
         </h6>
       </div>
@@ -45,7 +50,7 @@ const PastProjects = ({ projects, isLoading, isError }: Props) => {
                 <TableHead>PROJECT NAME</TableHead>
                 <TableHead>START DATE</TableHead>
                 <TableHead>END DATE</TableHead>
-                <TableHead>BUDGET</TableHead>
+                <TableHead>BUDGET($)</TableHead>
                 <TableHead>LOCATION</TableHead>
                 <TableHead>STATUS</TableHead>
               </TableRow>
