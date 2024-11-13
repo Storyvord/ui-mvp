@@ -22,3 +22,12 @@ export const getCrewFullProfile = async (crewId: string) => {
     method: "GET",
   });
 };
+
+export const searchCrew = async ({ location, service }: { location: string; service: string }) => {
+  return customFetch(
+    `${USER_API}/api/crew/crew-profile/search/?location=${location}&skills=${service}`,
+    {
+      method: "GET",
+    }
+  );
+};
