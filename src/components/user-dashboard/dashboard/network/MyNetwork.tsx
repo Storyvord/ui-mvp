@@ -39,6 +39,26 @@ const MyNetwork = () => {
               />
               <p className=" pr-6">Lucas Fernandez</p>
             </div>
+            <div className=" flex justify-between items-center">
+              <Image
+                src="/profile-6.png"
+                alt="picture"
+                width={50}
+                height={50}
+                className=" rounded-full w-12 h-12"
+              />
+              <p className=" pr-6">Sarah Thompson</p>
+            </div>
+            <div className=" flex justify-between items-center">
+              <Image
+                src="/profile-7.png"
+                alt="picture"
+                width={50}
+                height={50}
+                className=" rounded-full w-12 h-12"
+              />
+              <p className=" pr-6">David Kim</p>
+            </div>
           </section>
           <Link href="/dashboard/employees" className=" grid place-content-end cursor-pointer">
             <Image

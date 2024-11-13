@@ -107,10 +107,24 @@
   background: #6e6e6e;
 }
 
+/* Hide scrollbar for Webkit-based browsers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for other browsers */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 button:disabled,
 input:disabled,
 textarea:disabled,
 select:disabled {
   @apply opacity-disabled;
 }
-

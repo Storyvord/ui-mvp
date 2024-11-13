@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   getDay,
   startOfWeek,
@@ -24,7 +25,6 @@ import {
 } from "@/lib/react-query/queriesAndMutations/company/calender";
 import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
 import { CalenderFormFieldType } from "@/types";
-import Image from "next/image";
 
 interface Event extends RBCEvent {
   description?: string;
@@ -45,18 +45,32 @@ const localizer = dateFnsLocalizer({
 
 const allEvents: Event[] = [
   {
-    title: "Meeting with Team",
-    start: new Date(2024, 9, 14, 10, 0),
-    end: new Date(2024, 9, 14, 12, 0),
-    description: "Discuss project milestones and deadlines.",
-    type: "meeting",
+    title: "Script Read-Through",
+    start: new Date(2024, 10, 11, 9, 0),
+    end: new Date(2024, 10, 11, 11, 0),
+    description: "Full cast script read-through.",
+    type: "rehearsal",
   },
   {
-    title: "Project Deadline",
-    start: new Date(2024, 9, 15, 8, 0),
-    end: new Date(2024, 9, 15, 12, 0),
-    description: "Final submission of the project.",
-    type: "deadline",
+    title: "Location Preparation",
+    start: new Date(2024, 10, 12, 8, 0),
+    end: new Date(2024, 10, 12, 16, 0),
+    description: "Prepare filming location for shoot.",
+    type: "pre-production",
+  },
+  {
+    title: "Equipment Check and Setup",
+    start: new Date(2024, 10, 13, 9, 0),
+    end: new Date(2024, 10, 13, 17, 0),
+    description: "Ensure all filming equipment is working properly.",
+    type: "setup",
+  },
+  {
+    title: "First Day of Shooting",
+    start: new Date(2024, 10, 16, 15, 0),
+    end: new Date(2024, 10, 16, 19, 0),
+    description: "Kick off the first day of shooting.",
+    type: "shooting",
   },
 ];
 
@@ -116,8 +130,11 @@ const CalendarSection = () => {
     }
   }, [selectedRange]);
 
-  const handleSelectRange = (range: Range | undefined) => {
+  const handleSelectRange = (range: any | undefined) => {
     setSelectedRange(range);
+    if (range?.from) {
+      setCurrentDate(range.from as Date); // Navigate to the start of the selected week
+    }
   };
 
   const handleNavigate = (date: Date) => {
@@ -133,6 +150,7 @@ const CalendarSection = () => {
     // const res = await createCalenderEvent(transformData);
     // if (res) setOpenFormDialog(false);
   };
+
   return (
     <div className="mt-8">
       <header className="flex justify-between items-center">
@@ -150,16 +168,14 @@ const CalendarSection = () => {
           <h2 className=" text-md md:text-lg mb-2 font-semibold text-gray-700">My Schedule</h2>
           <Calendar
             localizer={localizer}
-            events={transformEvents}
+            events={allEvents}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 }}
             defaultView="week"
             date={currentDate} // Use the currentDate state
-            onNavigate={handleNavigate} // Handle navigation to update current date
+            onNavigate={handleNavigate} // navigation to update current date
             selectable // Make slots selectable
-            // onSelectSlot={handleSelectSlot} //
-            // onSelectEvent={handleSelectEvent}
           />
         </div>
       </main>
