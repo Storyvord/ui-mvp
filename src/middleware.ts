@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   } else if (isClient === "true") {
     if (isRestrictedCrewPath) {
-      return NextResponse.redirect(new URL("/dashboard/home", request.url));
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   } else if (isClient === "false") {
     if (isRestrictedClientPath) {
