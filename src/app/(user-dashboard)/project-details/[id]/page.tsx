@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { useProjectControl } from "@/context/ProjectContext";
 import {
@@ -12,12 +13,11 @@ import {
 
 import LoadingPage from "@/components/projectdetails/LoadingPage";
 import ProjectDetailsUI from "@/components/projectdetails/ProjectDetailsUI";
-import Image from "next/image";
-import CalendarSection from "@/components/user-dashboard/dashboard/calendar/CalendarSection";
 import Tasks from "@/components/user-dashboard/project-details/tasks/Tasks";
 import ShootingSchedule from "@/components/user-dashboard/project-details/shootingSchedule/ShootingSchedule";
 import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
 import { useToast } from "@/components/ui/use-toast";
+import ProjectDetailsCalendar from "@/components/user-dashboard/project-details/calendar/ProjectDetailsCalendar";
 
 // Define available project statuses for selection
 const projectStatuses = [
@@ -126,7 +126,7 @@ const ProjectDetails: React.FC = () => {
           <ShootingSchedule />
           <WhatsGoingOn />
         </section>
-        <CalendarSection />
+        <ProjectDetailsCalendar />
       </main>
     </>
   );
