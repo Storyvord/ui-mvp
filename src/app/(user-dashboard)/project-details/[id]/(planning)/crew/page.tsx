@@ -8,7 +8,7 @@ import React, { useState } from "react";
 const tabs = ["Crew Hire", "Open Position", "Crew Search"];
 
 const Crew = () => {
-  const [activeTab, setActiveTab] = useState(tabs[1]);
+  const [activeTab, setActiveTab] = useState(tabs[0]);
   return (
     <div className=" mt-4">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} className=" ml-3"></Tabs>
