@@ -1,4 +1,9 @@
-import { getCrewFullProfile, getInvitedCrewList, sentInvitationToCrew } from "@/lib/api/crew";
+import {
+  getCrewFullProfile,
+  getInvitedCrewList,
+  searchCrew,
+  sentInvitationToCrew,
+} from "@/lib/api/crew";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 export const useSentInvitationToCrew = () => {
@@ -21,5 +26,12 @@ export const useGetCrewFullProfile = (crewId: string) => {
   return useQuery({
     queryKey: ["getCrewFullProfile", crewId],
     queryFn: () => getCrewFullProfile(crewId),
+  });
+};
+
+export const useSearchCrew = ({ location, service }: { location: string; service: string }) => {
+  return useQuery({
+    queryKey: ["searchCrew"],
+    queryFn: () => searchCrew({ location, service }),
   });
 };

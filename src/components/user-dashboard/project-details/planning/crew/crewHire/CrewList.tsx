@@ -61,7 +61,7 @@ const CrewList = ({ data, isLoading }: Props) => {
   const currentList = getCurrentList();
   return (
     <>
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} className=" text-sm" />
       {isLoading && <p className="w-full text-center">Loading...</p>}
       <Table className="mt-4 bg-white p-2 ">
         <TableHeader>

@@ -67,6 +67,7 @@ const ProjectDetailsNavBar = () => {
             alt="storyvord-logo"
           />
         </Link>
+
         <section className=" flex items-center gap-3 sm:gap-10">
           <Link href="/dashboard/message">
             <Image

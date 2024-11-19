@@ -60,12 +60,14 @@ const AddEvent = ({
     defaultValues: formDefaultValue,
   });
   const onSubmit = (formData: CalenderFormFieldType) => {
+    console.log(formData);
     createCalenderEvent(formData);
+    // form.reset();
   };
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogContent className=" lg:w-[800px] w-[95%] p-4">
+      <DialogContent className=" lg:w-[800px] w-[95%] p-8">
         <DialogTitle className=" text-lg">Add New Event</DialogTitle>
         <DialogDescription>Please fill out the details for your new event.</DialogDescription>
         <div className=" max-h-[80vh] overflow-y-auto px-2">
