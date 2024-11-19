@@ -86,12 +86,12 @@ export default function Chatbot() {
     <div className="opacity-100">
       <button
         onClick={() => setOpenChat(!openChat)}
-        className="fixed bottom-5 right-5 grid place-items-center border border-gray-400 rounded-sm w-[3rem] h-[3rem] p-1"
+        className="fixed bottom-5 right-5 lg:bottom-10 lg:right-10 grid place-items-center border border-gray-400 shadow-2xl rounded-sm w-[3rem] h-[3rem] p-1 bg-gray-100"
       >
         {creation}
       </button>
       {openChat && (
-        <div className="fixed bottom-20 right-5 z-50 shadow-xl">
+        <div className="fixed bottom-20 lg:bottom-24 right-5 lg:right-10 z-50 shadow-xl">
           <ChatbotDetails
             conversation={conversation}
             sendMessage={sendMessage}
