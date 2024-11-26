@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema } from "@/lib/validation";
-import CustomForm from "../CustomForm";
+import CustomForm from "../form-component/CustomForm";
 
 const formFields: FormFieldConfig<taskFormType>[] = [
   {

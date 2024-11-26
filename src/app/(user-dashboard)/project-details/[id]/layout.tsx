@@ -11,13 +11,13 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="w-full min-h-screen bg-[#eceff180] relative">
+    <div className="w-full min-h-screen md:bg-[#eceff180] bg-white relative">
       <SideBarContextProvider>
         <ProjectContextProvider>
-          <main className="max-w-[2000px] mx-auto min-h-screen">
-            <SideBar />
-            <div className="lg:ml-72 ">
-              <ProjectDetailsNavBar />
+          <main className="max-w-[2000px] mx-auto relative min-h-screen">
+            <ProjectDetailsNavBar />
+            <div className="md:ml-60 xl:ml-72 md:pt-16 pt-40">
+              <SideBar />
               {children}
             </div>
           </main>

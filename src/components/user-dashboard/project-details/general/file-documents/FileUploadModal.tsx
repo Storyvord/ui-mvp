@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadFileFormSchema } from "@/lib/validation";
 import { FormFieldConfig } from "@/types/crew";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UploadFileFormData } from "@/types";
 
@@ -49,7 +49,7 @@ const FileUploadModal = ({
   };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle>Select File</DialogTitle>
         </DialogHeader>

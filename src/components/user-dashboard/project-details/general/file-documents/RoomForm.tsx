@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRoomFormSchema } from "@/lib/validation";
 import { FormFieldConfig, RoomFormData } from "@/types";
@@ -49,7 +49,7 @@ const RoomForm = ({ createRoom, isLoading, isError, open, onClose, crewList }: R
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle>Create Room</DialogTitle>
         </DialogHeader>

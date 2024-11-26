@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { companySettingsSchema } from "@/lib/validation/company";
 import { z } from "zod";
 import { FormFieldConfig } from "@/types";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import {
   useGetCompanySettings,
   useUpdateCompanySettings,

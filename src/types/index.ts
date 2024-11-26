@@ -102,13 +102,13 @@ export type CalenderFormFieldConfig = {
 };
 
 export type CalenderEventType = {
+  start: Date;
+  end: Date;
   id: number;
   title: string;
   description: string | null;
   document: string | null;
   location: string | null;
-  start: string;
-  end: string;
   calender: number;
   participants: number[];
 };

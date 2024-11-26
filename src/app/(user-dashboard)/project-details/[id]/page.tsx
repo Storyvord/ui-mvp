@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { useProjectControl } from "@/context/ProjectContext";
 import {
@@ -12,11 +13,11 @@ import {
 
 import LoadingPage from "@/components/projectdetails/LoadingPage";
 import ProjectDetailsUI from "@/components/projectdetails/ProjectDetailsUI";
-import Image from "next/image";
-import CalendarSection from "@/components/user-dashboard/dashboard/calendar/CalendarSection";
 import Tasks from "@/components/user-dashboard/project-details/tasks/Tasks";
 import ShootingSchedule from "@/components/user-dashboard/project-details/shootingSchedule/ShootingSchedule";
 import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
+import { useToast } from "@/components/ui/use-toast";
+import ProjectDetailsCalendar from "@/components/user-dashboard/project-details/calendar/ProjectDetailsCalendar";
 
 // Define available project statuses for selection
 const projectStatuses = [
@@ -33,6 +34,7 @@ const ProjectDetails: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string } | null>(
     null
   );
+  const { toast } = useToast();
 
   // Get the project ID from the URL parameters
   const { id: projectId } = useParams<{ id: string }>();
@@ -63,8 +65,15 @@ const ProjectDetails: React.FC = () => {
 
   // Handle project deletion, redirect to home after successful deletion
   const handleDeleteProject = async () => {
+    if (projectId === "302e14ea-3fbd-413b-af5e-924f72a1b00a") {
+      toast({
+        title: "You can't delete this project",
+        description: "as this is a Test project ",
+      });
+      return;
+    }
     await deleteProject({ project_id: projectId });
-    router.push("/dashboard/home");
+    router.replace("/dashboard");
   };
 
   // Handle status change for the project
@@ -103,11 +112,7 @@ const ProjectDetails: React.FC = () => {
         handleEditForm={handleEditForm}
       />
       <main className=" sm:p-4">
-        <h1 className=" text-xl md:text-2xl font-semibold text-gray-700">
-          {" "}
-          {projectDetails?.name}
-        </h1>
-        <div className=" relative mt-12 p-2 rounded-lg">
+        <div className=" relative mt-6 p-2 rounded-lg">
           <button className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md">
             <Image src="/icons/ai.svg" alt="icons" width={20} height={20} />
             Get AI Suggestions
@@ -116,12 +121,12 @@ const ProjectDetails: React.FC = () => {
             It&apos;s Free
           </button>
         </div>
-        <section className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <section className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           <Tasks />
           <ShootingSchedule />
           <WhatsGoingOn />
         </section>
-        <CalendarSection />
+        <ProjectDetailsCalendar />
       </main>
     </>
   );

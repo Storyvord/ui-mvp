@@ -1,5 +1,5 @@
 "use client";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { addressBookFormSchema } from "@/lib/validation/company";
 import { FormFieldConfig } from "@/types";
@@ -94,7 +94,7 @@ const AddressBookForm = ({
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className="lg:w-[800px] w-[95%]">
         <DialogHeader>
           <DialogTitle>External Contact</DialogTitle>
         </DialogHeader>

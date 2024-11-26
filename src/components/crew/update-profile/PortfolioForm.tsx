@@ -13,7 +13,7 @@ import {
 import { convertToBase64 } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 
 const portfolioFormFields: FormFieldConfig<PortfolioFormData>[] = [
   {

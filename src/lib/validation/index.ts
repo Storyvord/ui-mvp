@@ -103,15 +103,32 @@ export const ClientProfileUpdateSchema = z.object({
 });
 
 export const announcementFormSchema = z.object({
+  recipients: z.string().min(1, "Recipients is required"),
   title: z.string().min(1, "Title is required"),
   message: z.string().min(1, "Message is required"),
-  expirationDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Invalid date format",
-  }),
   file: z
-    .custom<FileList | null>((val) => val === null || val instanceof FileList, {
-      message: "Invalid file type",
-    })
+    .union([
+      z.string(),
+      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+        message: "Document cannot be an empty ArrayBuffer",
+      }),
+      z.instanceof(File).refine(
+        (file) =>
+          (file.type === "image/jpeg" ||
+            file.type === "image/png" ||
+            file.type === "application/pdf" ||
+            file.type === "application/msword" || // For .doc files
+            file.type ===
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+            file.type === "text/plain") && // For .txt files
+          file.size > 0, // Ensure the file is not empty
+        {
+          message:
+            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+        }
+      ),
+    ])
+    .optional()
     .nullable(),
 });
 
@@ -226,9 +243,9 @@ export const CallSheetFormSchema = z.object({
   nearest_hospital_address: z.string().optional(),
   nearest_police_station: z.string().optional(),
   nearest_fire_station: z.string().optional(),
-  breakfast: timeSchema,
-  lunch: timeSchema,
-  dinner: timeSchema,
+  breakfast: z.string().optional(),
+  lunch: z.string().optional(),
+  dinner: z.string().optional(),
 
   // Department Instructions
   call_time: z.array(
@@ -245,4 +262,72 @@ export const CallSheetFormSchema = z.object({
   additional_notes: z.string().optional(),
   production_notes: z.string().optional(),
   // allowed_users: z.union([z.number(), z.array(z.number())]).optional(),
+});
+
+export const scriptValidationSchema = z.object({
+  title: z.string().min(2, "Title is required"),
+  set: z.string().min(2, "Set is required"),
+  environment: z.string().min(2, "Environment is required"),
+  scriptDay: z.string().min(2, "Script day is required"),
+  point: z.string().min(2, "point is required"),
+  description: z.string().min(1, "Description is required"),
+  note: z.string().optional(),
+});
+
+export const scenesValidationSchema = z.object({
+  scenesNumber: z.string().min(2, "Title is required"),
+  set: z.string().min(2, "Set is required"),
+  environment: z.string().min(2, "Environment is required"),
+  scriptDay: z.string().min(2, "Script day is required"),
+  point: z.string().min(2, "point is required"),
+  description: z.string().min(1, "Description is required"),
+  note: z.string().optional(),
+});
+
+export const shotValidationSchema = z.object({
+  shotId: z.string().min(2, "Shot ID is required"),
+  subject: z.string().min(2, "Subject is required"),
+  visual: z.string().min(2, "Visual is required"),
+  audio: z.string().min(1, "Audio is required"),
+  imageAndProduction: z
+    .union([
+      z.string(),
+      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
+        message: "Document cannot be an empty ArrayBuffer",
+      }),
+      z.instanceof(File).refine(
+        (file) =>
+          (file.type === "image/jpeg" ||
+            file.type === "image/png" ||
+            file.type === "application/pdf" ||
+            file.type === "application/msword" || // For .doc files
+            file.type ===
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
+            file.type === "text/plain") && // For .txt files
+          file.size > 0, // Ensure the file is not empty
+        {
+          message:
+            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
+        }
+      ),
+    ])
+    .optional(),
+});
+
+export const shootInformationValidationSchema = z.object({
+  size: z.string().min(1, "Size is required"),
+  type: z.string().min(1, "Type is required"),
+  moment: z.string().min(1, "Moment is required"),
+  equipment: z.string().min(1, "Equipment is required"),
+  vfx: z.string().min(1, "VFX is required"),
+  camera: z.string().min(1, "Camera is required"),
+  lens: z.string().min(1, "Lens is required"),
+  frameRate: z.string().min(1, "Frame Rate is required"),
+  specialEquipment: z.string().min(1, "Special Equipment is required"),
+  sound: z.string().min(1, "Sound is required"),
+  lighting: z.string().min(1, "Lighting is required"),
+  position: z.string().min(1, "Position is required"),
+  setupId: z.string().min(1, "Setup ID is required"),
+  unit: z.string().min(1, "Unit is required"),
+  note: z.string().optional().nullable(),
 });

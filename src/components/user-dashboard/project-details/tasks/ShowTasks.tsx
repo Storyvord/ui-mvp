@@ -3,12 +3,13 @@ import React from "react";
 import Link from "next/link";
 import { useGetCompanyTasks } from "@/lib/react-query/queriesAndMutations/company/tasks";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const ShowTasks = () => {
   const { data: tasksList, isPending, isError } = useGetCompanyTasks();
 
   return (
-    <div className=" bg-white rounded-xl mt-2 p-3">
+    <div className=" bg-white rounded-xl mt-0 p-3">
       {tasksList?.map((task: any) => (
         <div
           key={task.id}
@@ -25,9 +26,6 @@ const ShowTasks = () => {
           </p>
         </div>
       ))}
-      <Link href="#" className=" grid place-content-end cursor-pointer">
-        <img src="/icons/right-arrow.svg" alt="arrow" width={30} className=" mt-3" />
-      </Link>
     </div>
   );
 };

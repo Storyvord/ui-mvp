@@ -13,7 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
  */
 export const useGetAllCalenderEvents = (projectId: string) => {
   return useQuery({
-    queryKey: ["getAllCalenderEvents"],
+    queryKey: ["getAllCalenderEvents", projectId],
     queryFn: () => getAllCalenderEvents(projectId),
   });
 };

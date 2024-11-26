@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
-import SelectInput from "@/components/SelectInput";
+import SelectInput from "@/components/form-component/SelectInput";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import HideIcon from "@/assets/hide-eye.svg";
 import ShowIcon from "@/assets/show.svg";

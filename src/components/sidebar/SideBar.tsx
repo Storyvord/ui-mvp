@@ -15,11 +15,11 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-72 transition-transform duration-300 lg:translate-x-0 border border-blue-gray-100`}
+      className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-80"} overflow-y-auto bg-white shadow-sm fixed inset-0 z-50 h-100vh w-60 xl:w-72 transition-transform duration-300 md:translate-x-0 border border-blue-gray-100`}
     >
       <div className="relative">
         <SideBarCloseButton />
-        <Link className=" mt-4" href="/dashboard">
+        <Link className=" mt-4" href={`/project-details/${projectId}`}>
           <Image
             onClick={() => setProject({ id: "", name: "" })}
             className=" mx-auto w-[150px] pt-4 mb-8 "

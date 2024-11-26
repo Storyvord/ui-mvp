@@ -66,14 +66,22 @@ const DashboardNavbar = () => {
           key={project.project_id}
           className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2"
         >
-          <img className="w-[20px]" src={"/icons/camera.svg"} alt="notification" />
+          <Image
+            width={20}
+            height={20}
+            className="w-[20px]"
+            src={"/icons/camera.svg"}
+            alt="camera-icon"
+          />
           <p className=" ml-4 line-clamp-1"> {project.name} </p>
         </Link>
       ))}
 
       <span className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2">
-        <img className="w-[20px]" src={"/icons/back.svg"} alt="notification" />
-        <p className=" ml-4"> Past Projects </p>
+        <Image width={20} height={20} className="w-[20px]" src={"/icons/back.svg"} alt="icon" />
+        <Link href="#past-project" className=" ml-4">
+          Past Projects
+        </Link>
       </span>
     </>
   );
@@ -89,11 +97,11 @@ const DashboardNavbar = () => {
   ));
 
   return (
-    <nav className=" bg-white p-2 flex justify-between fixed w-full max-w-[2000] top-0 z-50">
+    <nav className=" bg-white p-2 flex justify-between fixed w-full mx-auto max-w-[2000] top-0 z-50 shadow-sm">
       <section className=" flex items-center gap-4 xl:gap-16 sm:ml-8">
         <Link href="/dashboard">
           <Image
-            className=" w-[125px] sm:w-[170px]"
+            className=" w-[125px] sm:w-[150px]"
             src={"/logo.svg"}
             width={50}
             height={10}
@@ -118,27 +126,43 @@ const DashboardNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger className="sm:flex items-center gap-4 cursor-pointer hidden">
             <h1>Project Name</h1>
-            <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
+            <Image
+              width={20}
+              height={20}
+              className="w-[12px]"
+              src={"/icons/down-arrow.svg"}
+              alt="notification"
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent>{projectList}</DropdownMenuContent>
         </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger className=" sm:flex items-center gap-4 cursor-pointer hidden">
-            <h1>Org Name</h1>
-            <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
+            <h1>Org</h1>
+            <Image
+              width={20}
+              height={20}
+              className="w-[12px]"
+              src={"/icons/down-arrow.svg"}
+              alt="notification"
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="p-4">{companyInformation}</DropdownMenuContent>
         </DropdownMenu>
 
         <Link href="/dashboard/message">
-          <img
+          <Image
+            width={20}
+            height={20}
             className="w-[20px] sm:w-[24px] cursor-pointer"
             src={"/icons/message.svg"}
             alt="message"
           />
         </Link>
-        <img
+        <Image
+          width={20}
+          height={20}
           className="w-[20px] sm:w-[24px] cursor-pointer"
           src={"/icons/notification.svg"}
           alt="notification"
@@ -146,7 +170,7 @@ const DashboardNavbar = () => {
         <div className=" hidden sm:flex">
           <DropdownMenu>
             <DropdownMenuTrigger className=" flex items-center gap-2 cursor-pointer">
-              <img src={"/profile.png"} alt="profile" />
+              <Image width={40} height={40} src={"/profile.png"} alt="profile" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {profile}
@@ -165,11 +189,23 @@ const DashboardNavbar = () => {
           onClick={() => setToggleMenu(!toggleMenu)}
           className=" flex sm:hidden cursor-pointer gap-3 items-center"
         >
-          <img src={"/profile.png"} className="w-[35]" alt="profile" />
+          <Image width={30} height={30} src={"/profile.png"} alt="profile" />
           {toggleMenu ? (
-            <img className="w-[12px]" src={"/icons/up-arrow.svg"} alt="notification" />
+            <Image
+              width={15}
+              height={15}
+              className="w-[12px]"
+              src={"/icons/up-arrow.svg"}
+              alt="notification"
+            />
           ) : (
-            <img className="w-[12px]" src={"/icons/down-arrow.svg"} alt="notification" />
+            <Image
+              width={15}
+              height={15}
+              className="w-[12px]"
+              src={"/icons/down-arrow.svg"}
+              alt="notification"
+            />
           )}
         </button>
         {toggleMenu && (

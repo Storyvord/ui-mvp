@@ -10,7 +10,7 @@ import {
 import CrewList from "./CrewList";
 import { FormFieldConfig } from "@/types";
 import { z } from "zod";
-import CustomForm from "@/components/CustomForm";
+import CustomForm from "@/components/form-component/CustomForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -87,7 +87,7 @@ const CrewHire = () => {
       />
       <CrewList data={crewList} isLoading={isLoadingCrewList} />
       <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-        <DialogContent>
+        <DialogContent className="lg:w-[800px] w-[95%]">
           <DialogHeader>
             <DialogTitle> Invite </DialogTitle>
             <CustomForm
