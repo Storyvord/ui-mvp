@@ -37,12 +37,24 @@ const SelectInput = <T extends FieldValues>({
           }}
           value={
             isMulti
-              ? options.filter((option) =>
-                  (field.value as string[]).includes(option.value)
-                )
+              ? options.filter((option) => (field.value as string[]).includes(option.value))
               : options.find((option) => option.value === field.value) || null
           }
           placeholder={placeholder}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderRadius: "0.5rem", // Equivalent to 'rounded-lg'
+              borderColor: state.isFocused ? "black" : "#D1D5DB",
+              borderWidth: state.isFocused ? "2px" : "1px",
+              fontFamily: "'Poppins', sans-serif",
+              height: "3rem",
+              boxShadow: state.isFocused ? "0 0 0 2px transparent" : baseStyles.boxShadow,
+              ":hover": {
+                borderColor: "black",
+              },
+            }),
+          }}
         />
       )}
     />

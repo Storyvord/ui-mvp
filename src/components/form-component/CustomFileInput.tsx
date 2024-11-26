@@ -52,7 +52,7 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
 
   return (
     <div className="space-y-2">
-      <Button variant="outline" asChild>
+      <Button variant="outline" asChild className=" h-12">
         <label className="cursor-pointer flex items-center space-x-2 w-full">
           <span>Select {isMulti ? "Files" : "File"}</span>
           <input
@@ -70,7 +70,7 @@ const CustomFileInput: React.FC<CustomFileInputProps> = ({
           {Array.isArray(value) && value.length > 0 ? (
             value.map((file: File, index: number) => (
               <Badge key={index} variant="secondary" className="flex items-center space-x-1">
-                <span>{file.name}</span>
+                <span className=" font-poppins">{file.name}</span>
                 <Button
                   type="button"
                   variant="ghost"

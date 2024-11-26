@@ -174,6 +174,20 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
               // Ensure multiple selection isn't allowed via the Select component itself
               // since we're handling it manually
               isMulti={false}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderRadius: "0.5rem", // Equivalent to 'rounded-lg'
+                  borderColor: state.isFocused ? "black" : "#D1D5DB",
+                  borderWidth: state.isFocused ? "2px" : "1px",
+                  fontFamily: "'Poppins', sans-serif",
+                  height: "3rem",
+                  boxShadow: state.isFocused ? "0 0 0 2px transparent" : baseStyles.boxShadow,
+                  ":hover": {
+                    borderColor: "black",
+                  },
+                }),
+              }}
             />
           </FormControl>
           {/* Render selected fields if there are any */}
