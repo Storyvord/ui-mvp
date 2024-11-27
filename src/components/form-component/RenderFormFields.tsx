@@ -101,7 +101,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       type === "datetime-local") && (
                       <Input
                         type={type}
-                        className=" rounded-lg border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary"
+                        className=" rounded-2xl border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary lg:text-base lg:font-normal"
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is a string for these input types
@@ -113,6 +113,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string}
+                        className="lg:text-base lg:font-normal font-poppins"
                       />
                     )}
                     {type === "checkbox" && (
@@ -162,6 +163,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                           {...field}
                           value={field.value as string} // Ensure value is string
                           disabled={fieldConfig.disabled}
+                          className="rounded-2xl border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary lg:text-base lg:font-normal"
                         />
                         {/* Icons to toggle password visibility */}
                         {!showPasswords[name] ? (

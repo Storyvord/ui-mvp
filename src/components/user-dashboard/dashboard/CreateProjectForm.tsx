@@ -5,8 +5,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { BsTrash } from "react-icons/bs";
 
-import { content_type, crew_data, defaultFormValues, equipment_data } from "@/constant/constant";
 import { projectFormSchema } from "@/lib/validation";
 import { useCreateProject } from "@/lib/react-query/queriesAndMutations/project";
 import { convertToBase64 } from "@/lib/utils";
@@ -14,107 +14,22 @@ import { Form } from "@/components/ui/form";
 import RenderFormFields, { FormFieldConfig } from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
-import { BsTrash } from "react-icons/bs";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  defaultValues,
+  CreateProjectFields as formFields,
+} from "@/constant/formFields/createProject";
 
 export type ProjectFormFieldType = z.infer<typeof projectFormSchema>;
 
-const formFields: FormFieldConfig<ProjectFormFieldType>[] = [
-  {
-    name: "projectName",
-    label: "Project Name",
-    type: "text",
-    placeholder: "Project name",
-  },
-  {
-    name: "contentType",
-    label: "Content Type",
-    type: "select",
-    options: content_type,
-    placeholder: "Select content type",
-  },
-  {
-    name: "budget",
-    label: "Budget",
-    type: "slider",
-    placeholder: "Enter budget",
-    minValue: 0.5,
-    maxValue: 200,
-  },
-  {
-    name: "crew",
-    label: "Crew",
-    type: "selectWithQuantity",
-    options: crew_data,
-    placeholder: "Select crew",
-  },
-  {
-    name: "equipment",
-    label: "Equipment",
-    type: "selectWithQuantity",
-    options: equipment_data,
-    placeholder: "Select equipment",
-  },
-  {
-    name: "description",
-    label: "Description",
-    type: "textarea",
-    placeholder: "Project description (minimum 100 words)",
-  },
-  {
-    name: "uploadedDocument",
-    label: "Upload Document",
-    type: "file",
-    placeholder: "Upload document",
-    isMulti: true,
-    optional: true,
-  },
-  {
-    name: "aiSuggestions",
-    label: "AI Suggestions",
-    type: "checkbox",
-  },
-  {
-    name: "locationDetails.0.location",
-    label: "Location",
-    type: "text",
-    placeholder: "Enter location",
-  },
-  {
-    name: "locationDetails.0.start_date",
-    label: "Start Date",
-    type: "date",
-    placeholder: "Select start date",
-  },
-  {
-    name: "locationDetails.0.end_date",
-    label: "End Date",
-    type: "date",
-    placeholder: "Select end date",
-  },
-  {
-    name: "locationDetails.0.mode_of_shooting",
-    label: "Mode of Shooting",
-    type: "select",
-    options: [
-      { value: "indoor", label: "Indoor" },
-      { value: "outdoor", label: "Outdoor" },
-      { value: "both", label: "Both" },
-    ],
-    placeholder: "Select mode of shooting",
-  },
-  {
-    name: "locationDetails.0.permits",
-    label: "I need Filming Permit",
-    type: "checkbox",
-  },
-];
 type Props = {
   isEdit?: boolean;
   projectDetails?: ProjectFormFieldType;
   handleEditProject?: (projectData: any) => void;
   isLoadingEditProject?: boolean;
   isErrorEditProject?: boolean;
+  prevStep?: () => void;
+  handleSkipOnBoard?: () => void;
 };
 const CreateProjectForm = ({
   isEdit,
@@ -122,11 +37,13 @@ const CreateProjectForm = ({
   handleEditProject,
   isLoadingEditProject,
   isErrorEditProject,
+  prevStep,
+  handleSkipOnBoard,
 }: Props) => {
   const { toast } = useToast();
   const form = useForm<ProjectFormFieldType>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues: defaultFormValues,
+    defaultValues,
   });
 
   // useEffect to reset form values when data changes
@@ -168,16 +85,19 @@ const CreateProjectForm = ({
     const documents = await Promise.all(base64Documents || []);
 
     const transformedFormData = {
-      location_details: locationDetails,
-      selected_crew: crew,
-      equipment: equipment,
-      name: projectName,
-      brief: description,
-      additional_details: description,
-      budget_currency: "$",
-      budget_amount: budget,
-      content_type: contentType,
-      documents,
+      project_details: {
+        name: projectName,
+        content_type: contentType,
+        brief: description,
+        additional_details: description,
+      },
+      project_requirement: {
+        budget_currency: "$",
+        budget: budget,
+        crew_requirements: crew,
+        equipment_requirements: equipment,
+      },
+      shooting_details: locationDetails,
     };
     if (isEdit && handleEditProject) {
       handleEditProject(transformedFormData);
@@ -186,7 +106,11 @@ const CreateProjectForm = ({
         const project = await createProjectMutation(transformedFormData);
         if (project) {
           toast({ title: "Project has been successfully created" });
-          router.push(`/project-details/${project.project_id}`);
+          if (prevStep) {
+            router.push("/dashboard");
+          } else {
+            router.push(`/project-details/${project.project_id}`);
+          }
         }
       } catch (e) {
         toast({ title: "Failed to create Project", variant: "destructive" });
@@ -199,7 +123,7 @@ const CreateProjectForm = ({
       <h1 className="text-center md:mt-1 md:mb-6 sm:text-3xl text-xl font-semibold">
         {isEdit ? `Edit (${projectDetails?.projectName}) Project` : "Create a new Project"}
       </h1>
-      <div className="w-full shadow-md space-y-8 mx-auto max-w-[650px] mt-4 lg:mt-6 lg:w-3/5 bg-white p-4">
+      <div className="w-full space-y-8 mx-auto max-w-[800px] mt-4 lg:mt-6 lg:w-3/5 bg-white p-4">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -219,14 +143,13 @@ const CreateProjectForm = ({
                   }))}
                 />
                 {fields.length > 1 && (
-                  <Button
+                  <button
                     type="button"
-                    variant="ghost"
-                    className="absolute right-2 top-1 text-red-700 hover:text-red-500"
+                    className="absolute right-2 top-1 text-red-700 hover:text-red-500 mt-2"
                     onClick={() => remove(index)}
                   >
                     <BsTrash className=" w-4 h-4" />
-                  </Button>
+                  </button>
                 )}
               </div>
             ))}
@@ -265,6 +188,20 @@ const CreateProjectForm = ({
             )}
           </form>
         </Form>
+        {prevStep && handleSkipOnBoard && (
+          <div className=" flex justify-between">
+            <Button variant="outline" disabled={isLoadingEditProject} onClick={() => prevStep()}>
+              Back
+            </Button>
+            <Button
+              variant="outline"
+              disabled={isLoadingEditProject}
+              onClick={() => handleSkipOnBoard()}
+            >
+              Skip
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

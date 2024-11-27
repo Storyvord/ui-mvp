@@ -1,8 +1,9 @@
 import { ProjectFormFieldType } from "@/components/user-dashboard/dashboard/CreateProjectForm";
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
+
 export const createProject = async (formData: any) => {
-  return customFetch(`${USER_API}/api/project/projects/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/firstproject/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

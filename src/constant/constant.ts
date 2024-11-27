@@ -306,26 +306,6 @@ export const crew_data = [
   { value: "Time Zone Manager", label: "Time Zone Manager" },
 ];
 
-export const defaultFormValues = {
-  projectName: "",
-  contentType: "",
-  budget: 500,
-  description: "",
-  locationDetails: [
-    {
-      location: "",
-      start_date: "",
-      end_date: "",
-      permits: true,
-      mode_of_shooting: undefined,
-    },
-  ],
-  uploadedDocument: [],
-  aiSuggestions: true,
-  crew: [],
-  equipment: [],
-};
-
 export const tempTaskList = [
   {
     id: 1,

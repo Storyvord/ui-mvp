@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import { useGetUserProfile } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
-  const { data: userDetails } = useGetUserDetails();
+  const { data: userDetails } = useGetUserProfile();
 
   return (
     <nav className="flex items-center justify-between gap-2 relative bg-[#04052e] p-4">

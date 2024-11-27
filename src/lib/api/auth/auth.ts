@@ -13,7 +13,7 @@ export const registerUser = async (data: {
     email: data.email,
     password: data.password,
     confirm_password: data.confirmPassword,
-    terms_accepted: data.agreePolicy
+    terms_accepted: data.agreePolicy,
   };
   const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/register/`, {
     method: "POST",

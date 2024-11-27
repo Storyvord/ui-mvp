@@ -45,7 +45,6 @@ const SignUp = () => {
   });
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
-    // console.log("Form Data Submitted:", data);
     if (!isChecked) {
       toast({
         title: "You must agree to Terms of use and Privacy Policy",
@@ -62,7 +61,6 @@ const SignUp = () => {
           title: `${res?.message}, Verification Link sent to your Email, Please Verify Your Email `,
         });
         setIsLoading(false);
-        // router.push("/auth/onboard");
         router.push("/auth/sign-in");
       }
     } catch (error: unknown) {
@@ -202,11 +200,11 @@ const SignUp = () => {
                 OR
               </p>
             </div>
-            <Button className="w-full" type="submit" variant="iconButton">
+            <Button className="w-full" disabled variant="iconButton">
               <Image className="mr-2 h-6 w-6" src={GoogleIcon} alt="google-icon" />
               Log in with Google
             </Button>
-            <Button className="mt-3 w-full" type="submit" variant="iconButton">
+            <Button className="mt-3 w-full" disabled variant="iconButton">
               <Image className="mr-2 h-6 w-6" src={AppleIcon} alt="apple-icon" />
               Continue with Apple
             </Button>

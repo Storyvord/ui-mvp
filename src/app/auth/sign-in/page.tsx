@@ -1,9 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/assets/app-logo.svg";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
+
+import Logo from "@/assets/app-logo.svg";
 import Banner from "@/assets/login-image.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,12 +15,10 @@ import GoogleIcon from "@/assets/google.svg";
 import AppleIcon from "@/assets/apple.svg";
 import HideIcon from "@/assets/hide-eye.svg";
 import ShowIcon from "@/assets/show.svg";
-import Link from "next/link";
-import { SubmitHandler, useForm } from "react-hook-form";
+
 import { signinFormSchema } from "@/lib/validation/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
-import { getUserDetails } from "@/lib/api/auth/auth";
 import Loader from "@/components/Loader";
 import { toast } from "@/components/ui/use-toast";
 
@@ -51,18 +52,21 @@ const SignIn = () => {
       setIsLoading(true);
       const res = await loginUser(data);
       if (res) {
-        console.log(res, "response");
-        /// user_type === 1 => client
-        /// user_type === 2 => crew
-        if (res?.data?.user_type === 1 && res?.data?.user_stage === "2") {
+        // user_type === 1  Represents a client
+        // user_type === 2  Represents a crew member
+
+        // When the user registers, set userStage to 0
+        // After the user selects a userType, set userStage to 1
+        // Once the user updates their profile, set userStage to 2
+
+        const { user_type, user_stage, steps } = res?.data;
+        if (user_type === 1 && steps) {
+          Cookies.set("isClient", "true");
           router.push("/dashboard");
-        } else if (res?.data?.user_type === 1 && res?.data?.user_stage === "1") {
-          router.push("/auth/onboard");
-        } else if (!res?.data?.user_type && res?.data?.user_stage === "0") {
-          router.push("/auth/onboard");
-        } else if (res?.data?.user_type === 2 && res?.data?.user_stage === "2") {
-          router.push("/crew");
-        } else if (res?.data?.user_type === 2 && res?.data?.user_stage === "1") {
+        } else if (user_type === 2 && steps) {
+          Cookies.set("isClient", "false");
+          router.push("/crew/home");
+        } else if (!steps) {
           router.push("/auth/onboard");
         }
         setIsLoading(false);
@@ -169,11 +173,11 @@ const SignIn = () => {
                 OR
               </p>
             </div>
-            <Button className="w-full" type="submit" variant="iconButton">
+            <Button className="w-full cursor-not-allowed" disabled variant="iconButton">
               <Image className="mr-2 h-6 w-6" src={GoogleIcon} alt="google-icon" />
               Log in with Google
             </Button>
-            <Button className="mt-5 w-full" type="submit" variant="iconButton">
+            <Button className="mt-5 w-full cursor-not-allowed" disabled variant="iconButton">
               <Image className="mr-2 h-6 w-6" src={AppleIcon} alt="apple-icon" />
               Continue with Apple
             </Button>
