@@ -30,6 +30,8 @@ interface ProjectDetailsUIProps {
     equipment: Equipment[];
     brief: string;
   };
+  projectRequirements: any;
+  shootDetails: any;
   selectedStatus: { value: string; label: string } | null;
   deletingProject: boolean;
   projectStatuses: { value: string; label: string }[];
@@ -46,6 +48,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   handleChangeStatus,
   handleDeleteProject,
   handleEditForm,
+  shootDetails,
 }) => {
   return (
     <div className="flex w-full h-auto px-4">
@@ -138,9 +141,9 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                   <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
                     Location:
                   </h2>
-                  {projectDetails?.location_details?.length > 0 && (
+                  {shootDetails?.results?.length > 0 && (
                     <div className="text-base text-gray-600 dark:text-gray-200 flex">
-                      {projectDetails?.location_details.map((item) => (
+                      {shootDetails?.results?.map((item: any) => (
                         <p key={item.location}>{item.location}, &nbsp;</p>
                       ))}
                     </div>

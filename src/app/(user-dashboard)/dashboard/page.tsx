@@ -13,19 +13,19 @@ const Dashboard = () => {
   const { data: projects, isPending, isError } = useGetProjects();
   const [pastProjects, setPastProjects] = useState<ProjectType[]>([]);
   const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
-
+  console.log(projects);
   useEffect(() => {
     if (projects) {
-      const filteredPastProjects = projects.filter((project: ProjectType) =>
+      const filteredPastProjects = projects?.results.filter((project: ProjectType) =>
         ["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
       );
-      const filteredOngoingProjects = projects.filter(
+      const filteredOngoingProjects = projects?.results.filter(
         (project: ProjectType) =>
           !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
       );
 
-      setPastProjects(filteredPastProjects);
-      setOngoingProjects(filteredOngoingProjects);
+      // setPastProjects(filteredPastProjects);
+      setOngoingProjects(projects.results);
     }
   }, [projects]);
 

@@ -10,11 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 
-import {
-  ClientProfileFormDefaultValues,
-  ClientProfileFormFields,
-} from "@/constant/formFields/profile";
-import { ClientProfileSchema, ClientProfileType } from "@/lib/validation/auth";
+import { CrewProfileFormDefaultValues, CrewProfileFormFields } from "@/constant/formFields/profile";
+import { CrewProfileSchema, CrewProfileType } from "@/lib/validation/auth";
 import { useGetUserProfile } from "@/lib/react-query/queriesAndMutations/auth/auth";
 import { usePostPersonalDetails } from "@/lib/react-query/queriesAndMutations/onBoard/onBoard";
 import { convertToBase64 } from "@/lib/utils";
@@ -24,14 +21,14 @@ type Props = {
   onSuccessStep: () => void;
 };
 
-const ClientProfileForm = ({ prevStep, onSuccessStep }: Props) => {
+const CrewProfileForm = ({ prevStep, onSuccessStep }: Props) => {
   const { mutateAsync: postPersonalDetails, isPending, isError, error } = usePostPersonalDetails();
   const { data: userProfile } = useGetUserProfile();
-  const { personal_info, client_profile } = userProfile?.data;
+  const { personal_info, crew_profile } = userProfile?.data;
 
   const form = useForm({
-    resolver: zodResolver(ClientProfileSchema),
-    defaultValues: ClientProfileFormDefaultValues,
+    resolver: zodResolver(CrewProfileSchema),
+    defaultValues: CrewProfileFormDefaultValues,
   });
 
   useEffect(() => {
@@ -43,14 +40,17 @@ const ClientProfileForm = ({ prevStep, onSuccessStep }: Props) => {
         languages: personal_info.languages,
         job_title: personal_info.job_title,
         bio: personal_info.full_name,
-        role: client_profile.role,
-        address: client_profile.address,
-        personalWebsite: client_profile.personalWebsite,
-        drive: client_profile.drive,
+
+        experience: crew_profile.experience,
+        skills: crew_profile.skills,
+        standardRate: crew_profile.standardRate,
+        technicalProficiencies: crew_profile.technicalProficiencies,
+        specializations: crew_profile.specializations,
+        drive: crew_profile.drive,
       });
   }, [form, userProfile]);
 
-  const onSubmit = async (data: ClientProfileType) => {
+  const onSubmit = async (data: CrewProfileType) => {
     if (userProfile?.data?.personal_info?.full_name) {
       toast({
         title: "Profile Update Successful",
@@ -71,10 +71,12 @@ const ClientProfileForm = ({ prevStep, onSuccessStep }: Props) => {
         bio: data?.bio,
         // image: base64Image,
       },
-      client_profile: {
-        role: data.role,
-        address: data.address,
-        personalWebsite: data?.personalWebsite,
+      crew_profile: {
+        experience: data.experience,
+        skills: data.skills,
+        standardRate: data.standardRate,
+        technicalProficiencies: data.technicalProficiencies,
+        specializations: data.specializations,
         drive: data.drive,
       },
     };
@@ -110,7 +112,7 @@ const ClientProfileForm = ({ prevStep, onSuccessStep }: Props) => {
           className="space-y-5 justify-center flex flex-col w-full lg:w-3/5 mx-auto"
         >
           <section>
-            <RenderFormFields form={form} formFields={ClientProfileFormFields} />
+            <RenderFormFields form={form} formFields={CrewProfileFormFields} />
           </section>
 
           {isError && (
@@ -145,4 +147,4 @@ const ClientProfileForm = ({ prevStep, onSuccessStep }: Props) => {
   );
 };
 
-export default ClientProfileForm;
+export default CrewProfileForm;

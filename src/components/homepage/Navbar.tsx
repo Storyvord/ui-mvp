@@ -19,18 +19,20 @@ const Navbar = () => {
         />
       </div>
 
-      {userDetails ? (
-        <Link href="/dashboard" className="text-white text-md font-josefin font-[15px]">
-          Dashboard
-        </Link>
-      ) : (
-        <Link
-          href="/auth/sign-in"
-          className="bg-gradient-to-r from-[#03256c] to-green-500 text-white font-josefin font-[15px] px-4 py-1.5 xsm:px-10 lg:mr-24"
-        >
-          Login
-        </Link>
-      )}
+      <button className="bg-gradient-to-r from-[#03256c] to-green-500 text-white font-josefin font-[15px] px-4 py-1.5 xsm:px-10 lg:mr-24">
+        {/* stage 2 = Onboarding process completed */}
+        {userDetails?.data?.user?.user_stage === "2" && (
+          // user_type === 1  Represents a client
+          // user_type === 2  Represents a crew member
+          <Link href={userDetails?.data?.user?.user_type === 1 ? "/dashboard" : "/crew/home"}>
+            Dashboard
+          </Link>
+        )}
+        {userDetails && userDetails?.data?.user?.user_stage !== "2" && (
+          <Link href="/auth/onboard">Complete Onboarding</Link>
+        )}
+        {!userDetails && <Link href="/auth/sign-in">Login</Link>}
+      </button>
     </nav>
   );
 };

@@ -15,6 +15,12 @@ export const CrewProfileFormFields: FormFieldConfig<CrewProfileType>[] = [
     label: "Contact Number",
   },
   {
+    name: "image",
+    type: "file",
+    label: "Profile Picture",
+    optional: true,
+  },
+  {
     name: "location",
     type: "text",
     placeholder: "Enter your location",

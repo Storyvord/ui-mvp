@@ -27,8 +27,8 @@ import { RxActivityLog } from "react-icons/rx";
 
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
 
-export const USER_API = "https://api-stage.storyvord.com";
-export const NEW_API_URL = "https://api-stage.storyvord.com";
+export const USER_API = "https://api-dev.storyvord.com/api";
+export const NEW_API_URL = "https://api-dev.storyvord.com/api";
 export const NEW_API_URL_V2 = "https://api-dev.storyvord.com/api";
 
 // export const USER_API = "http://0.0.0.0:8000";

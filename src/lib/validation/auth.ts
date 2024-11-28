@@ -67,6 +67,7 @@ export const imageSchema = z
 export const CrewProfileSchema = z.object({
   full_name: z.string().min(1, "Full Name is required"),
   contact_number: z.string().regex(/^\d{10,15}$/, "Contact Number must be 10-15 digits"),
+  image: imageSchema,
   location: z.string().min(1, "Location is required"),
   languages: z.string().min(1, "Languages are required"),
   job_title: z.string().min(1, "Job Title is required"),

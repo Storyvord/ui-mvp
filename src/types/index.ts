@@ -8,7 +8,7 @@ import {
 import { FieldValues, Path } from "react-hook-form";
 
 export type FormFieldConfig<T extends FieldValues> = {
-  name: Path<T> | string;
+  name: Path<T>;
   label: string;
   type:
     | "text"

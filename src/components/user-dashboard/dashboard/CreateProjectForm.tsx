@@ -109,7 +109,7 @@ const CreateProjectForm = ({
           if (prevStep) {
             router.push("/dashboard");
           } else {
-            router.push(`/project-details/${project.project_id}`);
+            router.push(`/project-details/${project.data.project.project_id}`);
           }
         }
       } catch (e) {
