@@ -9,6 +9,9 @@ import {
   useDeleteProject,
   useEditProjectStatus,
   useGetProjectDetails,
+  useGetProjectRequirements,
+  useGetProjects,
+  useGetShootDetails,
 } from "@/lib/react-query/queriesAndMutations/project";
 
 import LoadingPage from "@/components/projectdetails/LoadingPage";
@@ -34,6 +37,7 @@ const ProjectDetails: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string } | null>(
     null
   );
+  const [selectProject, setSelectedProject] = useState();
   const { toast } = useToast();
 
   // Get the project ID from the URL parameters
@@ -44,12 +48,14 @@ const ProjectDetails: React.FC = () => {
   const { setProject } = useProjectControl();
 
   // Fetch project details, handle loading and error states
-  const {
-    data: projectDetails,
-    isPending: projectDetailsLoading,
-    isError,
-  } = useGetProjectDetails(projectId);
-
+  // const {
+  //   data: projectDetails,
+  //   isPending: projectDetailsLoading,
+  //   isError,
+  // } = useGetProjectDetails(projectId);
+  const { data: projectDetails, isPending: projectDetailsLoading, isError } = useGetProjects();
+  const { data: projectRequirements } = useGetProjectRequirements(projectId);
+  const { data: shootDetails } = useGetShootDetails(projectId);
   // Mutation hook for deleting a project
   const { mutateAsync: deleteProject, isPending: deletingProject } = useDeleteProject();
 
@@ -60,6 +66,7 @@ const ProjectDetails: React.FC = () => {
   useEffect(() => {
     if (projectDetails) {
       setProject({ id: projectDetails?.project_id, name: projectDetails?.name });
+      setSelectedProject(projectDetails.results.find((item: any) => item.project_id === projectId));
     }
   }, [projectDetails, setProject]);
 
@@ -104,6 +111,8 @@ const ProjectDetails: React.FC = () => {
     <>
       <ProjectDetailsUI
         projectDetails={projectDetails}
+        projectRequirements={projectRequirements}
+        shootDetails={shootDetails}
         selectedStatus={selectedStatus}
         deletingProject={deletingProject}
         projectStatuses={projectStatuses}

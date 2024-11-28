@@ -37,11 +37,11 @@ const ProjectDetailsNavBar = () => {
   useEffect(() => {
     if (projects) {
       // Filter ongoing projects based on their status
-      const filteredOngoingProjects = projects.filter(
+      const filteredOngoingProjects = projects?.results.filter(
         (project: ProjectType) =>
           !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
       );
-      setOngoingProjects(filteredOngoingProjects);
+      setOngoingProjects(projects);
     }
   }, [projects]);
 

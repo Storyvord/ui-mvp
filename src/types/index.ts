@@ -12,6 +12,7 @@ export type FormFieldConfig<T extends FieldValues> = {
   label: string;
   type:
     | "text"
+    | "link"
     | "password"
     | "number"
     | "email"
@@ -26,6 +27,9 @@ export type FormFieldConfig<T extends FieldValues> = {
   placeholder?: string;
   disabled?: boolean;
   optional?: boolean; // this is for optional fields
+  note?: string;
+  title?: string;
+  routeTo?: string;
 };
 
 interface project {

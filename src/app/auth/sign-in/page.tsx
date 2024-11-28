@@ -1,108 +1,60 @@
 "use client";
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Logo from "@/assets/logo.png";
 import Cookies from "js-cookie";
-import { signinFormSchema } from "@/lib/validation/auth";
-import { FormFieldConfig } from "@/types";
-import { z } from "zod";
-import CustomForm from "@/components/form-component/CustomForm";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { toast } from "@/components/ui/use-toast";
+import SignInForm, { SignInFormData } from "@/components/auth/SignInForm";
 import { useUserSignIn } from "@/lib/react-query/queriesAndMutations/auth/auth";
-import { getUserDetails } from "@/lib/api/auth/auth";
-import Link from "next/link";
+import SideBanner from "@/components/auth/SideBanner";
 
-interface SignInFormData {
-  email: string;
-  password: string;
-}
-
-type FormSchemaType = z.infer<typeof signinFormSchema>;
-
-const formFields: FormFieldConfig<FormSchemaType>[] = [
-  {
-    name: "email",
-    label: "Email",
-    type: "email",
-    placeholder: "Enter your email",
-  },
-  {
-    name: "password",
-    label: "Password",
-    type: "password",
-    placeholder: "Enter password",
-  },
-];
-
-const SignIn = () => {
+const SignInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { mutateAsync: loginUser } = useUserSignIn();
 
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signinFormSchema),
-  });
-  const { mutateAsync: loginUser, error, isError } = useUserSignIn();
-  const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
-    setIsLoading(true);
+  const handleLogin = async (data: SignInFormData) => {
     try {
+      setIsLoading(true);
       const res = await loginUser(data);
-      if (res) {
-        Cookies.set("accessToken", res?.access);
-        const userDetails = await getUserDetails(res.access);
 
-        if (userDetails) {
-          if (userDetails.user_type === "client") {
-            Cookies.set("isClient", "true");
-            setIsLoading(false);
-            router.push("/dashboard");
-          } else if (userDetails.user_type === "crew") {
-            Cookies.set("isClient", "false");
-            setIsLoading(false);
-            router.push("/crew/home");
-          }
-          localStorage.setItem("user-details", JSON.stringify(userDetails));
+      if (res) {
+        // user_type === 1  Represents a client
+        // user_type === 2  Represents a crew member
+
+        // When the user registers, set userStage to 0
+        // After the user selects a userType, set userStage to 1
+        // Once the user updates their profile, set userStage to 2
+
+        const { user_type, user_stage, steps } = res?.data;
+        if (user_type === 1 && steps) {
+          Cookies.set("isClient", "true");
+          router.push("/dashboard");
+        } else if (user_type === 2 && steps) {
+          Cookies.set("isClient", "false");
+          router.push("/crew/home");
+        } else if (!steps) {
+          router.push("/auth/onboard");
         }
-        setIsLoading(false);
       }
-    } catch (err) {
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
+    } catch (error) {
+      toast({
+        title: error instanceof Error ? error.message : "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section className="flex min-h-screen  justify-center bg-white -m-4">
-      <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
-        <Link href="/" className="flex justify-center m-2 cursor-pointer">
-          <Image src={Logo} className=" w-44" alt="Logo" />
-        </Link>
-        <CustomForm
-          form={form}
-          formFields={formFields}
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-        />
-        <div>
-          <div className="mt-4 mb-4 text-center text-sm md:text-normal">
-            <span className=" text-slate-600">
-              Don&apos;t have an account yet?
-              <Link
-                href="/auth/sign-up"
-                className="underline font-semibold ml-1 text-indigo-500 hover:text-indigo-700 cursor-pointer"
-              >
-                Create Account
-              </Link>
-            </span>
-          </div>
-        </div>
+    <section className="flex md:h-screen h-full justify-between">
+      <SideBanner />
+      <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
+        <SignInForm onSubmit={handleLogin} isLoading={isLoading} />
       </div>
     </section>
   );
 };
 
-export default SignIn;
+export default SignInPage;

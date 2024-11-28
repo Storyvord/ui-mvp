@@ -56,7 +56,7 @@ const RenderDynamicFormFields = <TFormValues extends FieldValues>({
       <Button
         type="button"
         variant="outline"
-        className="w-full mt-2 border-green-600"
+        className="w-full mt-2 border-green-600 font-poppins"
         onClick={() => append(defaultValue)}
       >
         Add more

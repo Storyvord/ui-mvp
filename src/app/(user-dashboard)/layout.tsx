@@ -3,7 +3,7 @@ import { FC, ReactNode, Suspense } from "react";
 import Cookies from "js-cookie";
 
 import UserContextProvider from "@/context/UserContext";
-import { useGetUserDetails } from "@/lib/react-query/queriesAndMutations/auth/auth";
+import { useGetUserProfile } from "@/lib/react-query/queriesAndMutations/auth/auth";
 
 import Chatbot from "@/components/chat/Chatbot";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,7 +15,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const token = Cookies.get("accessToken");
-  const { data: userDetails, isPending } = useGetUserDetails();
+  const { data: userDetails, isPending } = useGetUserProfile();
 
   return (
     <UserContextProvider>
@@ -26,7 +26,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
             <Toaster />
-            <Chatbot />
+            {/* <Chatbot /> */}
           </>
         ) : (
           <Loading />

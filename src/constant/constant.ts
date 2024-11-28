@@ -27,8 +27,9 @@ import { RxActivityLog } from "react-icons/rx";
 
 export const API_URL = "https://sv-aibackend.azurewebsites.net";
 
-export const USER_API = "https://api-stage.storyvord.com";
-export const NEW_API_URL = "https://api-stage.storyvord.com";
+export const USER_API = "https://api-dev.storyvord.com/api";
+export const NEW_API_URL = "https://api-dev.storyvord.com/api";
+export const NEW_API_URL_V2 = "https://api-dev.storyvord.com/api";
 
 // export const USER_API = "http://0.0.0.0:8000";
 // export const NEW_API_URL = "http://0.0.0.0:8000";
@@ -304,26 +305,6 @@ export const crew_data = [
   { value: "Venue Coordinator", label: "Venue Coordinator" },
   { value: "Time Zone Manager", label: "Time Zone Manager" },
 ];
-
-export const defaultFormValues = {
-  projectName: "",
-  contentType: "",
-  budget: 500,
-  description: "",
-  locationDetails: [
-    {
-      location: "",
-      start_date: "",
-      end_date: "",
-      permits: true,
-      mode_of_shooting: undefined,
-    },
-  ],
-  uploadedDocument: [],
-  aiSuggestions: true,
-  crew: [],
-  equipment: [],
-};
 
 export const tempTaskList = [
   {

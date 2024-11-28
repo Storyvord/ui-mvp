@@ -80,8 +80,8 @@ const Project = ({ onGoingProjects }: { onGoingProjects: any }) => {
               <ProjectCard
                 key={project.project_id}
                 name={project.name}
-                status={project.status}
-                location={project.location_details[0].location}
+                status={"Ongoing"}
+                location={"N/A"}
               />
             </Link>
           ))}

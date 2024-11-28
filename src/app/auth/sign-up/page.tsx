@@ -1,108 +1,54 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+
 import { useToast } from "@/components/ui/use-toast";
-import { FormFieldConfig } from "@/types";
-import { signUpFormSchema } from "@/lib/validation/auth";
-import CustomForm from "@/components/form-component/CustomForm";
+import SignUpForm from "@/components/auth/SignUpForm";
 import { useRegisterUser } from "@/lib/react-query/queriesAndMutations/auth/auth";
-import Logo from "@/assets/logo.png";
+import SideBanner from "@/components/auth/SideBanner";
 
-const userTypeOptions = [
-  { value: "client", label: "client" },
-  { value: "crew", label: "crew" },
-];
-type FormSchemaType = z.infer<typeof signUpFormSchema>;
-
-const formFields: FormFieldConfig<FormSchemaType>[] = [
-  {
-    name: "email",
-    label: "Email",
-    type: "email",
-    placeholder: "Enter your email",
-  },
-  {
-    name: "userType",
-    label: "User Type",
-    type: "select",
-    options: userTypeOptions,
-  },
-  {
-    name: "password",
-    label: "Password",
-    type: "password",
-    placeholder: "Enter password",
-  },
-  {
-    name: "confirmPassword",
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Enter confirm password",
-  },
-];
-
-interface SignUpFormData {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  userType: string;
-}
-
-const SignUp: React.FC = () => {
+const SignUpPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpFormSchema),
-  });
-  const { mutateAsync: registerUser, isPending, isError, error } = useRegisterUser();
+  const { mutateAsync: registerUser } = useRegisterUser();
 
-  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
-    const { email, userType, password, confirmPassword } = data;
-    const res = await registerUser({ email, userType, password, confirmPassword });
-    if (res) {
+  const handleSignUp = async (data: any, isChecked: boolean) => {
+    if (!isChecked) {
       toast({
-        title: "Your account has been created",
+        title: "You must agree to Terms of use and Privacy Policy",
+        variant: "destructive",
       });
-      router.push("/auth/sign-in");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await registerUser({ ...data, agreePolicy: isChecked });
+      if (res) {
+        toast({
+          title: `${res?.message}, Verification Link sent to your Email, Please Verify Your Email`,
+        });
+        router.push("/auth/sign-in");
+      }
+    } catch (error: unknown) {
+      toast({
+        title: error instanceof Error ? error.message : "An unknown error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <section className="flex min-h-screen  justify-center bg-white -m-4">
-      <div className="w-full m-4 max-w-sm md:mt-10 px-4 sm:px-0">
-        <Link href="/" className="flex justify-center m-2 cursor-pointer">
-          <Image src={Logo} className=" w-44" alt="Logo" />
-        </Link>
-        <div>
-          <CustomForm
-            form={form}
-            formFields={formFields}
-            onSubmit={onSubmit}
-            isLoading={isPending}
-            isError={isError}
-            error={error}
-          />
-          <div className="my-4  text-center">
-            <span className="text-sm text-slate-600">
-              Already have an account?
-              <Link
-                href="/auth/sign-in"
-                className="underline font-semibold ml-1 text-indigo-500 hover:text-indigo-700 cursor-pointer"
-              >
-                Sign-in
-              </Link>
-            </span>
-          </div>
-        </div>
+    <section className="flex md:h-screen h-full justify-between">
+      <SideBanner />
+      <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
+        <SignUpForm onSubmit={handleSignUp} isLoading={isLoading} />
       </div>
     </section>
   );
 };
 
-export default SignUp;
+export default SignUpPage;

@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-
 import SelectInputWithQuantity from "@/components/form-component/SelectInputWithQuantity";
 import SelectInput from "@/components/form-component/SelectInput";
 import CustomFileInput from "./CustomFileInput";
@@ -76,9 +75,9 @@ const RenderFormFields = <TFormValues extends FieldValues>({
             control={form.control}
             name={name}
             render={({ field }) => (
-              <FormItem className="mt-4">
+              <FormItem className="mt-4 font-poppins">
                 {/* Form label with required indicator if field is not optional */}
-                <FormLabel className="font-sans text-gray-800 text-md">
+                <FormLabel className=" text-gray-800 text-md font-poppins">
                   {label}
                   <span className="text-red-500 ml-1 text-sm">
                     {fieldConfig?.optional ? "" : "*"}
@@ -102,7 +101,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       type === "datetime-local") && (
                       <Input
                         type={type}
-                        className=" rounded-lg border-gray-300 focus:border-none"
+                        className=" rounded-2xl border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary lg:text-base lg:font-normal"
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string} // Ensure value is a string for these input types
@@ -114,6 +113,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                         placeholder={placeholder}
                         {...field}
                         value={field.value as string}
+                        className="lg:text-base lg:font-normal font-poppins"
                       />
                     )}
                     {type === "checkbox" && (
@@ -163,6 +163,7 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                           {...field}
                           value={field.value as string} // Ensure value is string
                           disabled={fieldConfig.disabled}
+                          className="rounded-2xl border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary lg:text-base lg:font-normal"
                         />
                         {/* Icons to toggle password visibility */}
                         {!showPasswords[name] ? (

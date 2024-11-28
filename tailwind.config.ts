@@ -76,6 +76,10 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        iconButton: {
+          DEFAULT: "hsl(var(--iconButton))",
+          foreground: "hsl(var(--iconButton-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -106,6 +110,7 @@ const config = {
 
         "Josefin-Sans": ["Josefin Sans"],
         jacquard: ["Jacquard 12"],
+        poppins: ["Poppins", "sans-serif"],
       },
       boxShadow: {},
       screens: {
@@ -117,9 +122,68 @@ const config = {
         xl: "1280px",
         "2xl": "1536px",
       },
+      fontWeight: {
+        thin: "100", // Poppins Thin
+        extralight: "200", // Poppins ExtraLight
+        light: "300", // Poppins Light
+        normal: "400", // Poppins Regular
+        medium: "500", // Poppins Medium
+        semibold: "600", // Poppins SemiBold
+        bold: "700", // Poppins Bold
+        extrabold: "800", // Poppins ExtraBold
+        black: "900", // Poppins Black
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    function ({
+      addUtilities,
+    }: {
+      addUtilities: (utilities: Record<string, any>, variants?: string[]) => void;
+    }) {
+      const newUtilities = {
+        ".font-poppins-thin": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "100",
+        },
+        ".font-poppins-extralight": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "200",
+        },
+        ".font-poppins-light": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "300",
+        },
+        ".font-poppins-normal": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "400",
+        },
+        ".font-poppins-medium": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "500",
+        },
+        ".font-poppins-semibold": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "600",
+        },
+        ".font-poppins-bold": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "700",
+        },
+        ".font-poppins-extrabold": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "800",
+        },
+        ".font-poppins-black": {
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: "900",
+        },
+      };
+
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+    require("tailwindcss-animate"),
+  ],
 } satisfies Config;
 
 export default config;

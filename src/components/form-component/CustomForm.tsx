@@ -16,6 +16,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import SelectInput from "@/components/form-component/SelectInput";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
+import HideIcon from "@/assets/hide-eye.svg";
+import ShowIcon from "@/assets/show.svg";
+import Image from "next/image";
 
 type FormFieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -30,10 +33,14 @@ type FormFieldConfig<T extends FieldValues> = {
     | "date"
     | "file"
     | "datetime-local"
-    | "select";
+    | "select"
+    | "link";
   isMulti?: boolean; // this is only for type select
   options?: { value: string; label: string }[]; // this is only for type select
   placeholder?: string;
+  title?: string;
+  routeTo?: string;
+  note?: string;
   disabled?: boolean;
   optional?: boolean; // this is for optional fields
 };
@@ -45,6 +52,7 @@ type Props<TFormValues extends FieldValues> = {
   isLoading: boolean;
   isError: boolean;
   error?: unknown | any;
+  // buttonLabel: string;
 };
 
 const CustomForm = <TFormValues extends FieldValues>({
@@ -54,6 +62,7 @@ const CustomForm = <TFormValues extends FieldValues>({
   isLoading,
   isError,
   error,
+  // buttonLabel,
 }: Props<TFormValues>) => {
   const [showPasswords, setShowPasswords] = useState<{ [key: string]: boolean }>({});
   const togglePasswordVisibility = (fieldName: string) => {
@@ -66,20 +75,21 @@ const CustomForm = <TFormValues extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 justify-center flex flex-col"
+        // className="space-y-5 justify-center flex flex-col"
+        className="justify-center flex flex-col"
       >
         {formFields.map((fieldConfig) => {
-          const { name, type, label, placeholder } = fieldConfig;
+          const { name, type, label, placeholder, title, routeTo, note } = fieldConfig;
           return (
             <FormField
               key={name}
               control={form.control}
               name={name}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans font-bold text-gray-800 text-md">
+                <FormItem className="mt-4">
+                  <FormLabel className="font-poppins font-normal text-[#666666] text-base">
                     {label}
-                    <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span>
+                    {/* <span className=" text-red-500 ml-1">{fieldConfig?.optional ? "" : "*"}</span> */}
                   </FormLabel>
                   <FormControl>
                     <>
@@ -160,13 +170,20 @@ const CustomForm = <TFormValues extends FieldValues>({
           );
         })}
         {isError && (
-          <p className=" text-center text-sm text-red-600 font-semibold">
+          <p className="text-center text-xs font-semibold text-[#ff0000] font-poppins">
             Failed to submit your form <br /> {error?.message}
           </p>
         )}
-
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? <Loader /> : "Submit"}
+        {/* <Link href='' className="text-base font-normal text-[#111111] font-poppins underline mt-2 text-right">Forget your password</Link> */}
+        {/* <div className="flex items-center space-x-3 mt-4">
+          <Checkbox className="data-[state=checked]:bg-white data-[state=checked]:text-[#111111] data-[state=checked]:border-[#111111] data-[state=checked]:before:text-[#111111] w-5 h-5 rounded-[5]" />
+          <p className="font-poppins font-normal text-[#666666] text-sm" >
+            By creating an account, you agree to our <span className="font-medium text-[#111111] underline cursor-pointer">
+            Terms of use</span> and <span className="font-medium text-[#111111] underline cursor-pointer">Privacy Policy</span>
+          </p>
+        </div> */}
+        <Button className="mt-5" type="submit" disabled={isLoading}>
+          {isLoading ? <Loader /> : 'Submit'}
         </Button>
       </form>
     </Form>

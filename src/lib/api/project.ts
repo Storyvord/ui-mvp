@@ -1,8 +1,9 @@
 import { ProjectFormFieldType } from "@/components/user-dashboard/dashboard/CreateProjectForm";
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
+
 export const createProject = async (formData: any) => {
-  return customFetch(`${USER_API}/api/project/projects/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/firstproject/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,19 +13,35 @@ export const createProject = async (formData: any) => {
 };
 
 export const getProjects = async () => {
-  return customFetch(`${USER_API}/api/project/projects/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/projects/`, {
     method: "GET",
   });
 };
 
 export const getProjectDetails = async ({ project_id }: { project_id: string }) => {
-  return customFetch(`${USER_API}/api/project/projects/${project_id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${project_id}/`, {
     method: "GET",
   });
 };
 
+export const getShootDetails = async (project_id: string) => {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/shooting-details/?project_id=${project_id}`, {
+    method: "GET",
+  });
+};
+
+export const getProjectRequirements = async (project_id: string) => {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/project-requirements/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ project: project_id }),
+  });
+};
+
 export const deleteProject = async ({ project_id }: { project_id: string }) => {
-  return customFetch(`${USER_API}/api/project/projects/${project_id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${project_id}/`, {
     method: "DELETE",
   });
 };
@@ -36,7 +53,7 @@ export const editProject = async ({
   projectData: ProjectFormFieldType;
   projectId: string;
 }) => {
-  return customFetch(`${USER_API}/api/project/projects/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${projectId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +69,7 @@ export const editProjectStatus = async ({
   status: ProjectFormFieldType;
   projectId: string;
 }) => {
-  return customFetch(`${USER_API}/api/project/projects/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${projectId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

@@ -1,5 +1,5 @@
-import { getUserDetails, registerUser, userSignIn } from "@/lib/api/auth/auth";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getUserDetails, getUserProfile, registerUser, userSignIn } from "@/lib/api/auth/auth";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 
 export const useRegisterUser = () => {
@@ -19,6 +19,9 @@ export const useUserSignIn = () => {
   return useMutation({
     mutationFn: userSignIn,
     onSuccess: (data) => {
+      console.log(data, "ddddd");
+      Cookies.set("accessToken", data?.data?.access_token);
+      // Cookies.set("isClient", data?.data?.user_type === 1 ? "true" : "false");
       queryClient.invalidateQueries({
         queryKey: ["getProjects"],
       });
@@ -44,7 +47,14 @@ export const useGetUserDetails = () => {
       return await getUserDetails(token);
     },
     enabled: !!Cookies.get("accessToken"), // Only fetch if token exists
-    // cacheTime: Infinity, // Disable caching
-    staleTime: Infinity, // Data is always considered stale
+    // cacheTime: 0, // Disable caching
+    staleTime: 0, // Data is always considered stale
+  });
+};
+
+export const useGetUserProfile = () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
   });
 };
