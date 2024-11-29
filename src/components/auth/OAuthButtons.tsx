@@ -6,8 +6,8 @@ import AppleIcon from "@/assets/apple.svg";
 const OAuthButtons = () => (
   <>
     <div className="relative my-10">
-      <div className="border border-[#66666659]" />
-      <p className="absolute bg-white separator-text text-xl font-normal text-[#666666] font-poppins">
+      <div className="border border-[#66666659] w-full h-0" />
+      <p className="absolute bg-white px-2 text-xl font-normal text-[#666666] font-poppins left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         OR
       </p>
     </div>
