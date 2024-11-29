@@ -68,7 +68,7 @@ export type CalenderFormType = {
   end: string;
   description?: string;
   location?: string;
-  participants: number[];
+  // participants: number[];
 };
 
 export type CalenderEventTypeWithId = CalenderFormType & {

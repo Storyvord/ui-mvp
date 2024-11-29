@@ -69,7 +69,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     start: "",
     end: "",
     title: "",
-    participants: [] as number[],
+    // participants: [] as number[],
     description: "",
     location: "",
   });
@@ -80,7 +80,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
       start: format(start, "yyyy-MM-dd'T'HH:mm"),
       end: format(end, "yyyy-MM-dd'T'HH:mm"),
       title: "",
-      participants: [],
+      // participants: [],
       description: "",
       location: "",
     });

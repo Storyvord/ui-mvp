@@ -10,13 +10,13 @@ const formFields: FormFieldConfig<CalenderFormFieldType>[] = [
   { name: "title", label: "Title", type: "text", placeholder: "Enter event title" },
   { name: "start", label: "Start", type: "datetime-local" },
   { name: "end", label: "End", type: "datetime-local" },
-  {
-    name: "participants",
-    label: "Participants",
-    type: "select",
-    isMulti: true,
-    options: [{ value: "", label: "" }],
-  },
+  // {
+  //   name: "participants",
+  //   label: "Participants",
+  //   type: "select",
+  //   isMulti: true,
+  //   options: [{ value: "", label: "" }],
+  // },
   {
     name: "location",
     label: "Location",

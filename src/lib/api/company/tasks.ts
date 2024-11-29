@@ -1,9 +1,9 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { taskFormType } from "@/types";
 import { customFetch } from "../api";
 
 export const getCompanyTasks = async () => {
-  return customFetch(`${USER_API}/api/company/tasks/`, {
+  return customFetch(`${USER_API}/tasks/v2/tasks/`, {
     method: "GET",
   });
 };
@@ -14,7 +14,7 @@ export const getCompanyEmployeeTasks = async () => {
   });
 };
 export const createNewCompanyTask = async (taskData: taskFormType) => {
-  return customFetch(`${USER_API}/api/company/tasks/`, {
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export const createNewCompanyTask = async (taskData: taskFormType) => {
 };
 
 export const deleteCompanyTask = async (taskId: number) => {
-  return customFetch(`${USER_API}/api/company/tasks/${taskId}/`, {
+  return customFetch(`${USER_API}/tasks/v2/tasks/${taskId}/`, {
     method: "DELETE",
   });
 };

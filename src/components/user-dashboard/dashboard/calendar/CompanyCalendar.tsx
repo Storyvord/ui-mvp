@@ -71,19 +71,19 @@ const CompanyCalender = ({
   };
 
   // Loading state
-  if (isEventsLoading || isCrewLoading) {
+  if (isEventsLoading) {
     return <div className="text-center mt-10">Loading...</div>;
   }
 
   // Error state
-  if (isEventsError || isCrewError) {
+  if (isEventsError) {
     return <div className="text-center mt-10 text-red-500">Error loading data.</div>;
   }
 
   return (
     <div className="h-screen">
       <CalendarComponent
-        events={events || []}
+        events={events?.data?.user_calendar_events || []}
         calendarType={calendarType}
         crewList={crewList}
         isCreateLoading={isCreateLoading}
