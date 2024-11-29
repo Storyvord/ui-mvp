@@ -7,10 +7,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import SelectInputWithQuantity from "@/components/form-component/SelectInputWithQuantity";
 import SelectInput from "@/components/form-component/SelectInput";
 import CustomFileInput from "./CustomFileInput";
+import PasswordInput from "./PasswordInput";
+import SliderInput from "./SliderInput";
 
 // Define the configuration for each form field, specifying the field's type, label, and other properties
 export type FormFieldConfig<T extends FieldValues> = {
@@ -133,20 +142,12 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       />
                     )}
                     {type === "slider" && (
-                      <div className="flex gap-3">
-                        <Slider
-                          {...field}
-                          min={fieldConfig.minValue}
-                          max={fieldConfig.maxValue}
-                          step={1}
-                          value={[field.value / 1000]} // Slider value adjusted to thousands
-                          onValueChange={(value) => field.onChange(value[0] * 1000)} // Slider step adjusts by 1000
-                        />
-                        <span className="text-black pl-[10px]">
-                          ${form.getValues().budget / 1000}k{" "}
-                          {/* Display current budget value in thousands */}
-                        </span>
-                      </div>
+                      <SliderInput
+                        field={field}
+                        value={field.value as number}
+                        minValue={fieldConfig.minValue}
+                        maxValue={fieldConfig.maxValue}
+                      />
                     )}
                     {type === "selectWithQuantity" && (
                       <SelectInputWithQuantity
@@ -156,33 +157,18 @@ const RenderFormFields = <TFormValues extends FieldValues>({
                       />
                     )}
                     {type === "password" && (
-                      <div className="relative">
-                        <Input
-                          type={showPasswords[name] ? "text" : "password"}
-                          placeholder={placeholder}
-                          {...field}
-                          value={field.value as string} // Ensure value is string
-                          disabled={fieldConfig.disabled}
-                          className="rounded-2xl border-gray-300 focus:border-none h-12 font-poppins focus-visible:ring-primary lg:text-base lg:font-normal"
-                        />
-                        {/* Icons to toggle password visibility */}
-                        {!showPasswords[name] ? (
-                          <FaRegEyeSlash
-                            onClick={() => togglePasswordVisibility(name)}
-                            className="absolute right-2 top-1/4 text-gray-500 cursor-pointer"
-                          />
-                        ) : (
-                          <FaRegEye
-                            onClick={() => togglePasswordVisibility(name)}
-                            className="absolute right-2 top-1/4 text-gray-500 cursor-pointer"
-                          />
-                        )}
-                      </div>
+                      <PasswordInput
+                        name={name}
+                        placeholder={placeholder}
+                        value={field.value as string}
+                        onChange={field.onChange}
+                        disabled={fieldConfig.disabled}
+                      />
                     )}
                   </Fragment>
                 </FormControl>
                 {/* Optional note for additional field instructions */}
-                {fieldConfig.note && <p className="text-sm">{fieldConfig.note}</p>}
+                {fieldConfig.note && <FormDescription>{fieldConfig.note}</FormDescription>}{" "}
                 <FormMessage />
               </FormItem>
             )}
