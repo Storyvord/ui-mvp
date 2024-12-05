@@ -26,7 +26,7 @@ const SignInPage = () => {
         // After the user selects a userType, set userStage to 1
         // Once the user updates their profile, set userStage to 2
 
-        const { user_type, user_stage, steps } = res?.data;
+        const { user_type, steps } = res?.data?.user;
         if (user_type === 1 && steps) {
           Cookies.set("isClient", "true");
           router.push("/dashboard");
