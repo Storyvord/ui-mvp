@@ -35,12 +35,12 @@ const Dashboard = () => {
       <div className=" grid grid-cols-1 md:grid-cols-4">
         <section className="md:col-span-3 h-full py-3 pr-2">
           <Project onGoingProjects={onGoingProjects} />
-          <Posting />
           <DashboardCalendar />
         </section>
         <section className=" h-full pl-1 space-y-6">
           <Tasks />
           <MyNetwork />
+          <Posting />
         </section>
       </div>
       <PastProjects projects={pastProjects} isLoading={isPending} isError={isError} />

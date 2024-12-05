@@ -27,7 +27,7 @@ const DashboardCalendar = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="">
       <header className="flex justify-between items-center">
         <span className="flex gap-2 items-center">
           <Image width={27} height={27} src="/icons/calendar.svg" alt="Calendar Icon" />
