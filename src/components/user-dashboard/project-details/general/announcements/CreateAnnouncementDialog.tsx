@@ -70,7 +70,7 @@ const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }
 
   const onSubmit = async (data: AnnouncementFormType) => {
     const transformData = {
-      title: data.recipients,
+      title: data.title,
       message: data.message,
       project: projectId,
       recipients: [2],

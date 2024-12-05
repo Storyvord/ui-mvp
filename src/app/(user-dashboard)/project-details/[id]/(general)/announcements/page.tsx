@@ -13,6 +13,8 @@ const Announcements = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const { data, isPending } = useGetAllAnnouncements();
 
+  console.log(data);
+
   return (
     <div className=" w-full px-4">
       <h1 className=" text-3xl my-4 underline">Announcements</h1>
