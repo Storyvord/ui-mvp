@@ -17,12 +17,12 @@ export const ChatbotSidebar: React.FC<ChatbotSidebarProps> = ({
   console.log(data);
   return (
     <div className="flex flex-col gap-2 bg-white ">
-      {data?.map((item: Session, key: Key) => (
+      {data?.reverse().map((item: Session, key: Key) => (
         <div className="bg-gray-50 p-3" key={key}>
           <p
             className="font-bold cursor-pointer"
             onClick={() => {
-              setCurrentSession({ id: 2, session_id: "eaa1fce4-a427-4605-aa21-cbdb4e84b755" });
+              setCurrentSession({ id: 2, session_id: item.session_id });
               !expanded && setOpenHistory(false);
             }}
           >
