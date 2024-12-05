@@ -6,8 +6,9 @@ import { Project as ProjectType } from "@/types/project";
 import { useGetProjects } from "@/lib/react-query/queriesAndMutations/project";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Loader from "@/components/Loader";
 
-const Project = ({ onGoingProjects }: { onGoingProjects: any }) => {
+const Project = ({ onGoingProjects, isPending }: { onGoingProjects: any; isPending: boolean }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null); // Main container reference
   const scrollContentRef = useRef<HTMLDivElement>(null); // Inner div reference for project cards
   const [showArrows, setShowArrows] = useState(false); // State to toggle arrows
@@ -72,8 +73,13 @@ const Project = ({ onGoingProjects }: { onGoingProjects: any }) => {
               </p>
             </span>
           </Link>
-          {onGoingProjects?.length === 0 && (
+          {onGoingProjects?.length === 0 && !isPending && (
             <p className=" my-auto md:pl-12 text-gray-500">No project found</p>
+          )}
+          {isPending && (
+            <div className=" my-auto md:pl-12 text-gray-500">
+              <Loader />
+            </div>
           )}
           {onGoingProjects.map((project: any) => (
             <Link key={project.project_id} href={`/project-details/${project.project_id}`}>
