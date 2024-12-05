@@ -1,4 +1,4 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
 export const sentInvitationToCrew = async (formData: any) => {
@@ -12,7 +12,7 @@ export const sentInvitationToCrew = async (formData: any) => {
 };
 
 export const getInvitedCrewList = async (projectId: string) => {
-  return customFetch(`${USER_API}/api/referral/client/crew-invitations/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/memberships/?project_id=${projectId}`, {
     method: "GET",
   });
 };

@@ -41,6 +41,7 @@ const ProjectCalendar = ({
     isPending: isCrewLoading,
     isError: isCrewError,
   } = useGetCrewList(projectId);
+  console.log(crewListData);
 
   // Create calendar event mutation
   const {
@@ -57,12 +58,17 @@ const ProjectCalendar = ({
   } = useDeleteEvent();
 
   // Prepare crew list for the CalendarComponent
-  const crewList = crewListData?.accepted.map(
-    (crew: { invited_user: { id: number }; firstName: string }) => ({
-      value: crew.invited_user?.id,
-      label: crew.firstName,
-    })
-  );
+  // const crewList = crewListData?.accepted.map(
+  //   (crew: { invited_user: { id: number }; firstName: string }) => ({
+  //     value: crew.invited_user?.id,
+  //     label: crew.firstName,
+  //   })
+  // );
+
+  const crewList = crewListData?.results.map((crew: { role: { id: number; name: string } }) => ({
+    value: 111,
+    label: crew.role.name,
+  }));
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
     await createCalenderEvent({ eventData: formData, projectId });
@@ -81,7 +87,7 @@ const ProjectCalendar = ({
       )}
       {(isEventsLoading || isCrewLoading) && <p className="text-center mt-10">Loading...</p>}
       <CalendarComponent
-        events={events || []}
+        events={events?.data || []}
         calendarType={calendarType}
         crewList={crewList}
         isCreateLoading={isCreateLoading}

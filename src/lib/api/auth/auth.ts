@@ -79,3 +79,18 @@ export const getUserProfile = async () => {
   }
   return res.json();
 };
+
+export const getNewAccessToken = async () => {
+  const refreshToken = Cookies.get("refreshToken");
+  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/token/refresh/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refresh: refreshToken }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to refresh access token");
+  }
+  return res.json();
+};
