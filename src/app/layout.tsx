@@ -10,7 +10,7 @@ const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Storyvord",
-  description: "",
+  description: "WE HELP BRANDS AND FILMMAKERS TO SHOOT CONTENT WORLDWIDE",
 };
 
 export default function RootLayout({
