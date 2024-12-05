@@ -87,7 +87,7 @@ export const ChatbotDetails: React.FC<ChatbotDetailsProps> = ({
       </div>
       <div className="flex flex-grow overflow-hidden relative">
         {openHistory && !expanded && (
-          <div className="absolute left-0 w-[60%] h-[calc(70vh_-_7rem)] overflow-y-scroll">
+          <div className="absolute left-0 w-[40%] sm:w-[30%] h-[calc(70vh_-_7rem)] overflow-y-scroll">
             <ChatbotSidebar
               data={prevSessions}
               setCurrentSession={setCurrentSession}
