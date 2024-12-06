@@ -82,7 +82,7 @@ const AddEvent = ({
             ? "Update the event details below."
             : "Please fill out the details for your new event."}
         </DialogDescription>
-        <div className="max-h-[80vh] overflow-y-auto px-2">
+        <div className="max-h-[75vh] overflow-y-auto px-2">
           <CustomForm
             form={form}
             formFields={formFields}
