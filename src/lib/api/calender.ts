@@ -25,6 +25,24 @@ export const createCalenderEvent = async ({
   });
 };
 
+export const editCalenderEvent = async ({
+  projectId,
+  eventId,
+  eventData,
+}: {
+  projectId: string;
+  eventId: number | null;
+  eventData: CalenderFormType;
+}) => {
+  return customFetch(`${NEW_API_URL_V2}/calendar/calendars/${projectId}/events/${eventId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+};
+
 export const deleteCalenderEvent = async ({
   projectId,
   eventId,
@@ -32,7 +50,7 @@ export const deleteCalenderEvent = async ({
   projectId: string;
   eventId: number | null;
 }) => {
-  return customFetch(`${USER_API}/api/calendar/calendars/${projectId}/events/${eventId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/calendar/calendars/${projectId}/events/${eventId}/`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

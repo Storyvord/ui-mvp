@@ -1,19 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { format } from "date-fns";
+import { Edit } from "lucide-react";
+import { CalenderEventType, CalenderFormFieldType } from "@/types";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import AddEvent from "./AddEvent";
 import Loader from "../Loader";
-import { CalenderEventType } from "@/types";
-import { format } from "date-fns";
 
 type Props = {
   openDialog: boolean;
   setOpenDialog: (value: boolean) => void;
   event: CalenderEventType | null;
   deleteEvent?: (eventId: number) => void;
+  editEvent?: (eventId: number, formData: CalenderFormFieldType) => void;
   isLoading?: boolean;
   isError?: boolean;
+  isEditLoading: boolean;
+  isEditError: boolean;
   crewList?: { value: string; label: string }[];
 };
 
@@ -22,11 +27,16 @@ const EventDialog = ({
   setOpenDialog,
   event,
   deleteEvent,
+  editEvent,
   isLoading,
   isError,
+  isEditLoading,
+  isEditError,
   crewList,
 }: Props) => {
-  if (!event) return null; // If no event is provided, do not render anything
+  const [isEditing, setIsEditing] = useState(false);
+
+  if (!event) return null;
 
   // Format dates using date-fns
   const formattedStartDate = format(new Date(event.start), "dd-MM-yyyy");
@@ -40,6 +50,26 @@ const EventDialog = ({
       return foundObject ? foundObject.label : null;
     })
     .filter((label) => label !== null);
+
+  const handleEdit = (formData: CalenderFormFieldType) => {
+    if (editEvent && event) {
+      editEvent(event.id, formData);
+      setIsEditing(false);
+    }
+  };
+  const handleOpenEditDialog = () => {
+    setIsEditing(true);
+    setOpenDialog(false);
+  };
+
+  const formDefaultValue = {
+    title: event.title,
+    start: format(new Date(event.start), "yyyy-MM-dd'T'HH:mm"),
+    end: format(new Date(event.end), "yyyy-MM-dd'T'HH:mm"),
+    participants: event.participants || [],
+    description: event.description || "",
+    location: event.location || "",
+  };
 
   return (
     <>
@@ -73,9 +103,15 @@ const EventDialog = ({
             )}
           </div>
           {isError && <p className="my-2 text-red-600">Failed to delete event</p>}
+          {isEditError && <p className="my-2 text-red-600">Failed to edit event</p>}
           <div className="flex flex-wrap justify-between gap-1 w-full mt-4">
-            <Button onClick={() => setOpenDialog(false)} className="w-[150px] font-bold">
-              Close
+            <Button
+              className="flex items-center gap-4 font-poppins-semibold"
+              onClick={handleOpenEditDialog}
+              variant="outline"
+            >
+              <Edit className="w-5 h-5" />
+              Edit
             </Button>
             {deleteEvent && (
               <Button
@@ -90,6 +126,16 @@ const EventDialog = ({
           </div>
         </DialogContent>
       </Dialog>
+      <AddEvent
+        openDialog={isEditing}
+        setOpenDialog={setIsEditing}
+        formDefaultValue={formDefaultValue}
+        createCalenderEvent={handleEdit}
+        isLoading={isEditLoading || false}
+        isError={isEditError || false}
+        crewList={crewList}
+        isEdit={true}
+      />
     </>
   );
 };
