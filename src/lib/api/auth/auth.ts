@@ -1,5 +1,6 @@
 import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { customFetch } from "../api";
 
 export const registerUser = async (data: {
   email: string;
@@ -68,16 +69,9 @@ export const getUserDetails = async (token: string) => {
 };
 
 export const getUserProfile = async () => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/getprofile/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return customFetch(`${NEW_API_URL_V2}/accounts/v2/getprofile/`, {
+    method: "GET",
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch user details");
-  }
-  return res.json();
 };
 
 export const getNewAccessToken = async () => {

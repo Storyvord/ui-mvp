@@ -63,20 +63,3 @@ export const useGetUserProfile = () => {
     queryFn: getUserProfile,
   });
 };
-
-export const useGetNewAccessToken = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: getNewAccessToken,
-    onSuccess: (data) => {
-      Cookies.set("accessToken", data?.data?.tokens?.access);
-      queryClient.invalidateQueries({
-        queryKey: ["getProjects"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["userProfile"],
-      });
-      return data;
-    },
-  });
-};
