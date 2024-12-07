@@ -7,10 +7,13 @@ import RoomForm from "@/components/user-dashboard/project-details/general/file-d
 import RoomCard from "@/components/user-dashboard/project-details/general/file-documents/RoomCard";
 import {
   useCreateFileDocumentRoom,
+  useDeleteRoom,
   useGetAllFileDocumentRooms,
+  useUpdateRoom,
 } from "@/lib/react-query/queriesAndMutations/file";
 import { RoomFormData } from "@/types";
 import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
+import { useToast } from "@/components/ui/use-toast";
 
 type RoomDataType = {
   id: string;
@@ -22,31 +25,81 @@ type RoomDataType = {
 
 const FileSection: FC = () => {
   const [showForm, setShowForm] = useState(false);
+  const [formMode, setFormMode] = useState<"create" | "edit">("create");
+  const [selectedRoom, setSelectedRoom] = useState<RoomFormData | null>(null);
   const { id: projectId }: { id: string } = useParams();
   const router = useRouter();
+  const { toast } = useToast();
 
   const { data: roomData, isLoading: isLoadingFiles } = useGetAllFileDocumentRooms(projectId);
   const {
     mutateAsync,
     isPending: isLoadingCreateRoom,
     isError: isErrorCreateRoom,
+    error,
   } = useCreateFileDocumentRoom();
-  const { data: crew_list } = useGetCrewList(projectId);
-  const crewList = crew_list?.accepted.map(
-    (crew: { invited_user: { id: number }; firstName: string }) => ({
-      value: crew.invited_user?.id,
-      label: crew.firstName,
-    })
-  );
+  const {
+    mutateAsync: deleteRoom,
+    isPending: isPendingDelete,
+    isError: isErrorDelete,
+  } = useDeleteRoom();
+  const {
+    mutateAsync: updateRoom,
+    isPending: isLoadingUpdateRoom,
+    isError: isErrorUpdateRoom,
+  } = useUpdateRoom();
+
+  const { data: crewListData } = useGetCrewList(projectId);
+  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
+    value: crew.id,
+    label: crew.user,
+  }));
 
   const handleCardClick = (roomId: string) => {
     router.push(`/project-details/${projectId}/file-documents/${roomId}`);
   };
 
-  const handleCreateRoom = async (data: RoomFormData) => {
+  const handleCloseRoomForm = () => {
+    setShowForm(false);
+    setSelectedRoom(null);
+    setFormMode("create");
+  };
+
+  const handleFormSubmit = async (data: RoomFormData) => {
     const transformData = { ...data, icon: "IoFolderOpenOutline", allowed_users: data.accessRight };
-    const res = await mutateAsync({ roomFormData: transformData, projectId });
+
+    try {
+      if (formMode === "create") {
+        await mutateAsync({ roomFormData: transformData, projectId });
+      } else if (selectedRoom?.id) {
+        await updateRoom({ roomId: selectedRoom.id.toString(), roomFormData: transformData });
+      }
+      setShowForm(false);
+      setSelectedRoom(null);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create Folder",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteRoom = async (roomId: number) => {
+    if (confirm("Are you sure you want to delete this room?") === false) return;
+    const res = await deleteRoom(roomId);
     if (res.ok) setShowForm(false);
+  };
+
+  const handleEditRoom = (room: any) => {
+    setSelectedRoom({
+      id: room.id,
+      name: room.name,
+      description: room.description,
+      accessRight: room.allowed_users || [],
+    });
+    setFormMode("edit");
+    setShowForm(true);
   };
 
   return (
@@ -60,19 +113,28 @@ const FileSection: FC = () => {
           <FaPlus className="mr-2" /> Create Room
         </Button>
       </div>
-      {isLoadingFiles && <p className=" text-center">Fetching your files...</p>}
+      {isLoadingFiles && <p className="text-center">Fetching your files...</p>}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
-        {roomData?.map((room: RoomDataType, index: number) => (
-          <RoomCard key={index} room={room} onClick={handleCardClick} />
+        {roomData?.data.map((room: RoomDataType, index: number) => (
+          <RoomCard
+            key={index}
+            room={room}
+            onClick={handleCardClick}
+            handleDeleteRoom={handleDeleteRoom}
+            handleEditRoom={handleEditRoom}
+            isPendingDelete={isPendingDelete}
+          />
         ))}
       </div>
       <RoomForm
-        createRoom={handleCreateRoom}
-        isLoading={isLoadingCreateRoom}
-        isError={isErrorCreateRoom}
+        onSubmit={handleFormSubmit}
+        isLoading={formMode === "create" ? isLoadingCreateRoom : isLoadingUpdateRoom}
+        isError={formMode === "create" ? isErrorCreateRoom : isErrorUpdateRoom}
         open={showForm}
-        onClose={() => setShowForm(false)}
+        onClose={handleCloseRoomForm}
         crewList={crewList}
+        mode={formMode}
+        initialData={selectedRoom}
       />
     </section>
   );

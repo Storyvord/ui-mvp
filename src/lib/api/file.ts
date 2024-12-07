@@ -1,9 +1,9 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { RoomFormData, UploadFileFormData } from "@/types";
 import { customFetch } from "./api";
 
 export const getAllFileDocumentRooms = async (projectId: string) => {
-  return customFetch(`${USER_API}/api/files/folders/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/${projectId}/`, {
     method: "GET",
   });
 };
@@ -15,7 +15,7 @@ export const createFileDocumentRoom = async ({
   roomFormData: RoomFormData;
   projectId: string;
 }) => {
-  return customFetch(`${USER_API}/api/files/folders/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/${projectId}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,8 +24,32 @@ export const createFileDocumentRoom = async ({
   });
 };
 
+export const deleteRoom = async (roomId: number) => {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/details/${roomId}/`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const updateRoom = async ({
+  roomId,
+  roomFormData,
+}: {
+  roomId: string;
+  roomFormData: RoomFormData;
+}) => {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/details/${roomId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(roomFormData),
+  });
+};
 export const getAllFiles = async (roomId: string) => {
-  return customFetch(`${USER_API}/api/files/folders/files/${roomId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/files/${roomId}/`, {
     method: "GET",
   });
 };
@@ -37,7 +61,7 @@ export const uploadFile = async ({
   uploadedFileData: UploadFileFormData;
   roomId: string;
 }) => {
-  return customFetch(`${USER_API}/api/files/folders/files/${roomId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/files/folders/files/${roomId}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +71,7 @@ export const uploadFile = async ({
 };
 
 export const deleteFile = async (fileId: number) => {
-  return customFetch(`${USER_API}/api/files/${fileId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/files/${fileId}/`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
