@@ -6,7 +6,10 @@ import Link from "next/link";
 
 import { userLogout } from "@/lib/api/auth/auth";
 import { Project as ProjectType } from "@/types/project";
-import { useGetProjects } from "@/lib/react-query/queriesAndMutations/project";
+import {
+  useGetProjectDetails,
+  useGetProjects,
+} from "@/lib/react-query/queriesAndMutations/project";
 
 import {
   DropdownMenu,
@@ -20,9 +23,9 @@ import { Button } from "@/components/ui/button";
 const ProjectDetailsNavBar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
-  const { id: projectId } = useParams();
+  const { id: projectId }: { id: string } = useParams();
 
-  const { data: projects, isPending, isError } = useGetProjects();
+  const { data: projects, isPending, isError } = useGetProjectDetails(projectId);
 
   const { project } = useProjectControl();
   const { toggle } = useSideBarControl();
@@ -34,16 +37,16 @@ const ProjectDetailsNavBar = () => {
     setToggleMenu(false);
   };
 
-  useEffect(() => {
-    if (projects) {
-      // Filter ongoing projects based on their status
-      const filteredOngoingProjects = projects?.results.filter(
-        (project: ProjectType) =>
-          !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
-      );
-      setOngoingProjects(projects);
-    }
-  }, [projects]);
+  // useEffect(() => {
+  //   if (projects) {
+  //     // Filter ongoing projects based on their status
+  //     const filteredOngoingProjects = projects?.results.filter(
+  //       (project: ProjectType) =>
+  //         !["COMPLETED", "CANCELLED", "POST_PRODUCTION"].includes(project.status)
+  //     );
+  //     setOngoingProjects(projects);
+  //   }
+  // }, [projects]);
 
   const profile = ["profile", "settings", "subscriptions"].map((item) => (
     <Link
@@ -153,7 +156,7 @@ const ProjectDetailsNavBar = () => {
         </section>
       </nav>
       <section className=" mt-1 block md:hidden">
-        <h3 className=" line-clamp-2">{project?.name}</h3>
+        <h3 className=" line-clamp-2">{projects?.name}</h3>
         <div className=" flex gap-3 items-center">
           <button onClick={toggle}>
             <Image src="/icons/menu.svg" alt="language-icon" width={20} height={20} />
