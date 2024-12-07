@@ -33,7 +33,7 @@ const FilePreview = ({ fileName, fileUrl, onClose }: FilePreviewProps) => {
       return (
         <div className="relative w-full h-full">
           <Image
-            src={url}
+            src={`${url}`}
             alt={fileName}
             layout="fill"
             objectFit="contain"

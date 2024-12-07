@@ -114,6 +114,7 @@ export type CalenderEventType = {
 };
 
 export type RoomFormData = {
+  id: string;
   name: string;
   description: string;
   accessRight: string | never[];

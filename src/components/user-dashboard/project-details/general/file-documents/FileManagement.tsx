@@ -48,18 +48,28 @@ const FileManagement = () => {
     setPreviewFile(null);
   };
 
-  const { data: fileList } = useGetAllFiles(roomId);
+  const { data: fileList, error } = useGetAllFiles(roomId);
   const { mutateAsync: deleteFile } = useDeleteFile();
   const handleDeleteFile = (fileId: number) => {
     deleteFile(fileId);
   };
-  const { mutateAsync, isError, isPending } = useUploadFile();
+  const { mutateAsync, isError, isPending, error: uploadError } = useUploadFile();
+  console.log(uploadError);
   const handleUploadFile = async (data: UploadFileFormData) => {
     const base64 = await convertToBase64(data.file);
     const transformData = { ...data, file: base64, allowed_users: [], project: projectId };
-    const res = await mutateAsync({ uploadedFileData: transformData, roomId });
-    if (res) {
+
+    try {
+      await mutateAsync({ uploadedFileData: transformData, roomId });
       handleCloseModal();
+      toast({
+        title: "File created",
+      });
+    } catch (error) {
+      toast({
+        title: uploadError?.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -90,7 +100,7 @@ const FileManagement = () => {
       </div>
 
       <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {fileList?.map((file: FileType, index: number) => (
+        {fileList?.data.map((file: FileType, index: number) => (
           <FileCard
             key={index}
             file={file}
@@ -99,8 +109,8 @@ const FileManagement = () => {
           />
         ))}
       </div>
-
-      {fileList?.length === 0 && (
+      {error && <p className=" text-center">{error.message}</p>}
+      {fileList?.data.length === 0 && (
         <div className="relative mb-4 border-2 border-solid border-gray-200 rounded flex flex-col items-center justify-center py-10">
           <FaRegFolderOpen className=" w-12 sm:w-20 h-12 sm:h-20 text-blue-600" />
           <label className="block text-sm text-slate-500 mb-2">

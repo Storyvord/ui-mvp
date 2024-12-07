@@ -19,13 +19,11 @@ const AccessRights = ({ handleSubmit, isLoading }: Props) => {
   const { id: projectId }: { id: string } = useParams();
   const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
 
-  const { data: crew_list } = useGetCrewList(projectId);
-  const crewList = crew_list?.accepted.map(
-    (crew: { invited_user: { id: number }; crew_email: string }) => ({
-      value: crew.invited_user?.id,
-      label: crew.crew_email,
-    })
-  );
+  const { data: crewListData } = useGetCrewList(projectId);
+  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
+    value: crew.id,
+    label: crew.user,
+  }));
 
   const handleSubmitAccessRightsForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

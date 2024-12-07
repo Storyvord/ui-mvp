@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/accordion";
 
 import { Crew, Equipment, ProjectStatus } from "@/types/project";
+import { format } from "date-fns/format";
 
 interface ProjectDetailsUIProps {
   projectDetails: {
@@ -29,6 +30,7 @@ interface ProjectDetailsUIProps {
     selected_crew: Crew[];
     equipment: Equipment[];
     brief: string;
+    created_at: string;
   };
   projectRequirements: any;
   shootDetails: any;
@@ -42,6 +44,7 @@ interface ProjectDetailsUIProps {
 
 const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   projectDetails,
+  projectRequirements,
   selectedStatus,
   deletingProject,
   projectStatuses,
@@ -50,6 +53,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
   handleEditForm,
   shootDetails,
 }) => {
+  console.log(projectDetails?.name);
   return (
     <div className="flex w-full h-auto px-4">
       <Accordion type="single" collapsible defaultValue="project-details" className=" w-full">
@@ -134,7 +138,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     Budget:
                   </h2>
                   <p className="text-base text-gray-600 dark:text-gray-200">
-                    ${projectDetails?.budget_amount}
+                    ${projectRequirements?.results[0].budget}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
@@ -154,7 +158,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     Crew List:
                   </h2>
                   <CardDescription className="text-base flex flex-wrap text-gray-600 dark:text-gray-200">
-                    {projectDetails?.selected_crew?.map((crew: Crew) => (
+                    {projectRequirements?.results[0].crew_requirements?.map((crew: Crew) => (
                       <p key={crew.id} className="min-w-fit">
                         {crew.title}, &nbsp;
                       </p>
@@ -166,11 +170,13 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     Equipment List:
                   </h2>
                   <CardDescription className="text-base flex flex-wrap text-gray-600 dark:text-gray-200">
-                    {projectDetails?.equipment?.map((equipment: Equipment) => (
-                      <p key={equipment.id} className="min-w-fit">
-                        {equipment.title}, &nbsp;
-                      </p>
-                    ))}
+                    {projectRequirements?.results[0].equipment_requirements?.map(
+                      (equipment: Equipment) => (
+                        <p key={equipment.id} className="min-w-fit">
+                          {equipment.title}, &nbsp;
+                        </p>
+                      )
+                    )}
                   </CardDescription>
                 </div>
                 <Accordion type="single" collapsible>

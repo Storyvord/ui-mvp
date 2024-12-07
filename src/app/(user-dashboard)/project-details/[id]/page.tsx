@@ -47,13 +47,8 @@ const ProjectDetails: React.FC = () => {
   // Get the function to set the project in global context
   const { setProject } = useProjectControl();
 
-  // Fetch project details, handle loading and error states
-  // const {
-  //   data: projectDetails,
-  //   isPending: projectDetailsLoading,
-  //   isError,
-  // } = useGetProjectDetails(projectId);
   const { data: projectDetails, isPending: projectDetailsLoading, isError } = useGetProjects();
+  const { data: singleProject } = useGetProjectDetails(projectId);
   const { data: projectRequirements } = useGetProjectRequirements(projectId);
   const { data: shootDetails } = useGetShootDetails(projectId);
   // Mutation hook for deleting a project
@@ -110,7 +105,7 @@ const ProjectDetails: React.FC = () => {
   return (
     <>
       <ProjectDetailsUI
-        projectDetails={projectDetails}
+        projectDetails={singleProject}
         projectRequirements={projectRequirements}
         shootDetails={shootDetails}
         selectedStatus={selectedStatus}

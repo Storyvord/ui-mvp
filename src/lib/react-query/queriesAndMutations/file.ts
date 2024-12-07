@@ -1,10 +1,12 @@
 import {
   createFileDocumentRoom,
   deleteFile,
+  deleteRoom,
   getAllFileDocumentRooms,
   getAllFiles,
   updateRoomAccessRights,
   uploadFile,
+  updateRoom,
 } from "@/lib/api/file";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -44,6 +46,38 @@ export const useCreateFileDocumentRoom = () => {
       });
       return data;
     },
+    onError: (error) => {
+      return error;
+    },
+  });
+};
+
+export const useDeleteRoom = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteRoom,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllFileDocumentRooms"],
+      });
+      return data;
+    },
+  });
+};
+
+export const useUpdateRoom = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateRoom,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllFileDocumentRooms"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 
@@ -74,6 +108,9 @@ export const useUploadFile = () => {
       });
       return data;
     },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 
@@ -98,9 +135,13 @@ export const useDeleteFile = () => {
 };
 
 export const useUpdateRoomAccessRights = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateRoomAccessRights,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllFileDocumentRooms"],
+      });
       return data;
     },
   });

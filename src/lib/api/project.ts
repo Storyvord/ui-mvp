@@ -19,7 +19,7 @@ export const getProjects = async () => {
 };
 
 export const getProjectDetails = async ({ project_id }: { project_id: string }) => {
-  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${project_id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/projects/${project_id}/`, {
     method: "GET",
   });
 };
@@ -31,13 +31,12 @@ export const getShootDetails = async (project_id: string) => {
 };
 
 export const getProjectRequirements = async (project_id: string) => {
-  return customFetch(`${NEW_API_URL_V2}/project/v2/project-requirements/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ project: project_id }),
-  });
+  return customFetch(
+    `${NEW_API_URL_V2}/project/v2/project-requirements/?project_id=${project_id}`,
+    {
+      method: "GET",
+    }
+  );
 };
 
 export const deleteProject = async ({ project_id }: { project_id: string }) => {
