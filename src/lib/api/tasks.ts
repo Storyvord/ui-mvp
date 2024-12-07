@@ -1,9 +1,12 @@
 import { taskFormType, taskType } from "@/types";
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
 export const getTasks = async (project_id: string) => {
-  return customFetch(`${USER_API}/api/tasks/projects/${project_id}/tasks/`, {
+  // return customFetch(`${USER_API}/api/tasks/projects/${project_id}/tasks/`, {
+  //   method: "GET",
+  // });
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/`, {
     method: "GET",
   });
 };
@@ -15,7 +18,7 @@ export const createNewTask = async ({
   taskData: taskFormType;
   projectId: string;
 }) => {
-  return customFetch(`${USER_API}/api/tasks/projects/${projectId}/tasks/`, {
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +28,7 @@ export const createNewTask = async ({
 };
 
 export const deleteTask = async (taskId: number) => {
-  return customFetch(`${USER_API}/api/tasks/tasks/${taskId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/${taskId}`, {
     method: "DELETE",
   });
 };

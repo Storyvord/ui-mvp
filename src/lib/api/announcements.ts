@@ -1,15 +1,15 @@
 import { Announcements } from "@/types";
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
 export const getAllAnnouncements = async () => {
-  return customFetch(`${USER_API}/api/announcement/announcements/`, {
+  return customFetch(`${NEW_API_URL_V2}/announcement/v2/project-announcements/`, {
     method: "GET",
   });
 };
 
 export const CreateAnnouncement = async (announcementData: Announcements) => {
-  return customFetch(`${USER_API}/api/announcement/announcements/`, {
+  return customFetch(`${NEW_API_URL_V2}/announcement/v2/project-announcements/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export const CreateAnnouncement = async (announcementData: Announcements) => {
 };
 
 export const deleteAnnouncement = async (id: number) => {
-  return customFetch(`${USER_API}/api/announcement/announcements/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/announcement/v2/project-announcements/${id}/`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
