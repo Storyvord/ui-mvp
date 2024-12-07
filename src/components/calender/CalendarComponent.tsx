@@ -109,8 +109,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   }, [events]);
 
   return (
-    <div className="h-full bg-white">
-      <div className="h-full bg-white">
+    <>
+      <div className="h-[500px] 2xl:h-[700px] bg-white mb-3">
         <Calendar
           localizer={localizer}
           events={transformEvents}
@@ -146,7 +146,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
         isEditLoading={isEditLoading}
         isEditError={isEditError}
       />
-    </div>
+    </>
   );
 };
 

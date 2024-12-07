@@ -23,3 +23,19 @@ export const deleteCompanyCalenderEvent = async (eventId: number | null) => {
     method: "DELETE",
   });
 };
+
+export const editCompanyCalenderEvent = async ({
+  eventId,
+  eventData,
+}: {
+  eventId: number | null;
+  eventData: CalenderFormType;
+}) => {
+  return customFetch(`${NEW_API_URL_V2}/calendar/user/calendar/events/${eventId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+};

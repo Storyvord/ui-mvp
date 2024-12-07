@@ -1,6 +1,7 @@
 import {
   createCompanyCalenderEvent,
   deleteCompanyCalenderEvent,
+  editCompanyCalenderEvent,
   getCompanyCalenderEvents,
 } from "@/lib/api/company/calender";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -52,6 +53,19 @@ export const useDeleteCompanyCalenderEvent = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteCompanyCalenderEvent,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCompanyCalenderEvents"],
+      });
+      return data;
+    },
+  });
+};
+
+export const useEditCompanyCalenderEvent = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editCompanyCalenderEvent,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["getCompanyCalenderEvents"],

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import {
   useCreateCompanyCalenderEvents,
   useDeleteCompanyCalenderEvent,
+  useEditCompanyCalenderEvent,
   useGetCompanyCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/company/calender";
 import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
@@ -53,6 +54,12 @@ const CompanyCalender = ({
     isError: isDeleteError,
   } = useDeleteCompanyCalenderEvent();
 
+  const {
+    mutateAsync: editEvent,
+    isPending: isEditLoading,
+    isError: isEditError,
+  } = useEditCompanyCalenderEvent();
+
   // Prepare crew list for the CalendarComponent
   const crewList = employeeListData?.accepted.map(
     (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
@@ -70,18 +77,14 @@ const CompanyCalender = ({
     setOpenEventDialog(false);
   };
 
-  // Loading state
-  if (isEventsLoading) {
-    return <div className="text-center mt-10">Loading...</div>;
-  }
-
-  // Error state
-  if (isEventsError) {
-    return <div className="text-center mt-10 text-red-500">Error loading data.</div>;
-  }
+  const handleEditEvent = async (eventId: number, formData: CalenderFormFieldType) => {
+    await editEvent({ eventId, eventData: formData });
+  };
 
   return (
-    <div className="h-screen">
+    <div className="">
+      {isEventsError && <p className="text-center my-1 text-red-500">Error loading data.</p>}
+      {isEventsLoading && <p className="text-center mt-10">Loading...</p>}
       <CalendarComponent
         events={events?.data?.user_calendar_events || []}
         calendarType={calendarType}
@@ -90,12 +93,15 @@ const CompanyCalender = ({
         isCreateError={isCreateError}
         isDeleteLoading={isDeleteLoading}
         isDeleteError={isDeleteError}
+        isEditLoading={isEditLoading}
+        isEditError={isEditError}
         openFormDialog={openFormDialog}
         setOpenFormDialog={setOpenFormDialog}
         handleCreateEvent={handleCreateEvent}
         openEventDialog={openEventDialog}
         setOpenEventDialog={setOpenEventDialog}
         handleDeleteEvent={handleDeleteEvent}
+        handleEditEvent={handleEditEvent}
         handleNavigate={handleNavigate}
         currentDate={currentDate}
       />
