@@ -24,24 +24,20 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const { mutateAsync: completeTaskMutation } = useCompleteTask();
   const { mutateAsync: taskApprovalMutation, isPending: isLoadingApprovedTask } =
     useTaskCompletionApproval();
-  const { data: crew_list } = useGetCrewList(params.id);
-  const crewList = crew_list?.accepted.map(
-    (crew: { invited_user: { id: number }; firstName: string }) => ({
-      value: crew.invited_user?.id,
-      label: crew.firstName,
-    })
-  );
-
+  const { data: crewListData } = useGetCrewList(params.id);
+  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
+    value: crew.id,
+    label: crew.user,
+  }));
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (tasksList) setTasks([...tasksList]);
+    if (tasksList) setTasks([...tasksList.data.tasks]);
   }, [params.id, tasksList]);
 
   const completeTask = (task: taskType) => {
     const updatedTasks = { ...task, completed: !task.completed };
-    console.log(updatedTasks);
     completeTaskMutation({ taskId: task.id, taskData: updatedTasks });
   };
 
@@ -55,14 +51,14 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
 
   const createTask = async (task: taskFormType) => {
     const newTask = {
+      project: params.id,
       title: task.title,
       description: task.description,
-      due_date: task.due_date,
-      completed: false,
-      completion_requested: false,
-      project: params.id,
       assigned_to: task.assigned_to,
-      requester: null,
+      due_date: task.due_date,
+      status: "in progress",
+      // completion_requested: false,
+      // requester: null,
     };
 
     try {

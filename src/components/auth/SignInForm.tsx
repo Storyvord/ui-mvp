@@ -29,8 +29,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSubmit, isLoading }) => {
   } = useForm<SignInFormData>({
     resolver: zodResolver(signinFormSchema),
     defaultValues: {
-      email: "souviksarkar4311+8@gmail.com",
-      password: "String@123",
+      email: "",
+      password: "",
     },
   });
 

@@ -39,11 +39,11 @@ const Calender = () => {
         endAccessor="end"
         selectable
       />
-      <EventDialog
+      {/* <EventDialog
         event={eventToDisplay}
         openDialog={openEventDialog}
         setOpenDialog={setOpenEventDialog}
-      />
+      /> */}
     </div>
   );
 };

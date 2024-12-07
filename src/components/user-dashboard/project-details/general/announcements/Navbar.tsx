@@ -10,7 +10,7 @@ type Props = {
 
 const Navbar = ({ openDialog, setOpenDialog }: Props) => {
   return (
-    <section className=" flex justify-between">
+    <section className=" flex justify-between items-center">
       <CreateButton openDialog={openDialog} setOpenDialog={setOpenDialog} />
       <div className=" flex gap-4">
         <Button variant="outline" className="flex gap-3 font-semibold border border-gray-500">

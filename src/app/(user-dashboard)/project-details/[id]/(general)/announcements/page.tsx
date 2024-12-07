@@ -12,7 +12,7 @@ import { ReturnAnnouncements } from "@/types";
 const Announcements = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const { data, isPending } = useGetAllAnnouncements();
-
+  console.log(data);
   return (
     <div className=" w-full px-4">
       <h1 className=" text-3xl my-4 underline">Announcements</h1>
@@ -20,13 +20,13 @@ const Announcements = () => {
       {isPending && <AnnouncementSkeleton />}
 
       <Navbar openDialog={openDialog} setOpenDialog={setOpenDialog} />
-      {data?.length === 0 && <p className=" text-center pt-6 lg:pt-24">No Announcement</p>}
+      {data?.results.length === 0 && <p className=" text-center pt-6 lg:pt-24">No Announcement</p>}
 
       <section
         className="my-4 grid gap-4"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
       >
-        {data?.map((item: ReturnAnnouncements) => (
+        {data?.results.map((item: ReturnAnnouncements) => (
           <Announcement key={item.id} title={item.title} message={item.message} id={item.id} />
         ))}
       </section>
