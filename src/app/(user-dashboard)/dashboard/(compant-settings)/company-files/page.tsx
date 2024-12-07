@@ -11,6 +11,7 @@ import {
   useGetCompanyFileDocumentRooms,
 } from "@/lib/react-query/queriesAndMutations/company/file-docs";
 import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import PremiumFeaturePage from "@/components/PremiumFeaturePage";
 
 type RoomDataType = {
   id: string;
@@ -49,39 +50,40 @@ const CompanyFileSection: FC = () => {
   };
 
   return (
-    <section className="relative py-5 px-4">
-      <div className="mb-5 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
-        <Button
-          variant="outline"
-          className="flex items-center mb-4 md:mb-0 lg:mb-0"
-          onClick={() => setShowForm(true)}
-        >
-          <FaPlus className="mr-2" /> Create Room
-        </Button>
-      </div>
-      {roomData?.length === 0 && (
-        <>
-          <h1 className=" text-center text-gray-700 text-xl mt-8">No room found</h1>
-          <h3 className="text-center text-gray-600 text-md mt-2">
-            Create Room and manage your company files
-          </h3>
-        </>
-      )}
-      {isLoadingFiles && <p className=" text-center">Fetching your files...</p>}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
-        {roomData?.map((room: RoomDataType, index: number) => (
-          <RoomCard key={index} room={room} onClick={handleCardClick} />
-        ))}
-      </div>
-      <RoomForm
-        createRoom={handleCreateRoom}
-        isLoading={isLoadingCreateRoom}
-        isError={isErrorCreateRoom}
-        open={showForm}
-        onClose={() => setShowForm(false)}
-        crewList={employeeList}
-      />
-    </section>
+    // <section className="relative py-5 px-4">
+    //   <div className="mb-5 flex flex-col md:flex-row lg:flex-row items-center lg:justify-between md:justify-between mt-5">
+    //     <Button
+    //       variant="outline"
+    //       className="flex items-center mb-4 md:mb-0 lg:mb-0"
+    //       onClick={() => setShowForm(true)}
+    //     >
+    //       <FaPlus className="mr-2" /> Create Room
+    //     </Button>
+    //   </div>
+    //   {roomData?.length === 0 && (
+    //     <>
+    //       <h1 className=" text-center text-gray-700 text-xl mt-8">No room found</h1>
+    //       <h3 className="text-center text-gray-600 text-md mt-2">
+    //         Create Room and manage your company files
+    //       </h3>
+    //     </>
+    //   )}
+    //   {isLoadingFiles && <p className=" text-center">Fetching your files...</p>}
+    //   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
+    //     {roomData?.map((room: RoomDataType, index: number) => (
+    //       <RoomCard key={index} room={room} onClick={handleCardClick} />
+    //     ))}
+    //   </div>
+    //   <RoomForm
+    //     createRoom={handleCreateRoom}
+    //     isLoading={isLoadingCreateRoom}
+    //     isError={isErrorCreateRoom}
+    //     open={showForm}
+    //     onClose={() => setShowForm(false)}
+    //     crewList={employeeList}
+    //   />
+    // </section>
+    <PremiumFeaturePage />
   );
 };
 

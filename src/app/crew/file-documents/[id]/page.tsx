@@ -35,9 +35,9 @@ const FileSection: FC = () => {
       </Button>
       {isLoadingFiles && <p className=" text-center">Fetching your rooms...</p>}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
-        {roomData?.map((room: RoomDataType, index: number) => (
+        {/* {roomData?.map((room: RoomDataType, index: number) => (
           <RoomCard key={index} room={room} onClick={handleCardClick} />
-        ))}
+        ))} */}
       </div>
     </section>
   );

@@ -55,7 +55,7 @@ const Page: FC = () => {
             Create Call Sheet
           </Button>
           {isError && <p> Failed to get call sheets</p>}
-          {data.length === 0 ? (
+          {data?.length === 0 ? (
             <Image
               src={callSheetImg}
               alt="Call Sheet Example"
