@@ -9,9 +9,9 @@ import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import { CalenderEventType, CalenderFormFieldType } from "@/types";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
-import { CalenderEventType, CalenderFormFieldType } from "@/types";
 
 type CalendarComponentProps = {
   events: CalenderEventType[];
@@ -21,9 +21,12 @@ type CalendarComponentProps = {
   isCreateError: boolean;
   isDeleteLoading: boolean;
   isDeleteError: boolean;
+  isEditLoading: boolean;
+  isEditError: boolean;
   openFormDialog: boolean;
   setOpenFormDialog: (value: boolean) => void;
   handleCreateEvent: (formData: CalenderFormFieldType) => void;
+  handleEditEvent: (eventId: number, formData: CalenderFormFieldType) => void;
   openEventDialog: boolean;
   setOpenEventDialog: (value: boolean) => void;
   handleDeleteEvent: (eventId: number) => void;
@@ -52,12 +55,15 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   isCreateError,
   isDeleteLoading,
   isDeleteError,
+  isEditLoading,
+  isEditError,
   openFormDialog,
   setOpenFormDialog,
   handleCreateEvent,
   openEventDialog,
   setOpenEventDialog,
   handleDeleteEvent,
+  handleEditEvent,
   handleNavigate,
   currentDate,
 }) => {
@@ -77,8 +83,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   // Handlers
   const handleSelectSlot = ({ start, end }: { start: Date; end: Date }) => {
     setFormDefaultValue({
-      start: format(start, "yyyy-MM-dd'T'HH:mm"),
-      end: format(end, "yyyy-MM-dd'T'HH:mm"),
+      start: format(new Date(start), "yyyy-MM-dd'T'HH:mm"),
+      end: format(new Date(end), "yyyy-MM-dd'T'HH:mm"),
       title: "",
       participants: [],
       description: "",
@@ -103,8 +109,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   }, [events]);
 
   return (
-    <div className="h-auto bg-white">
-      <div className="h-[85vh] bg-white">
+    <>
+      <div className="h-[500px] 2xl:h-[700px] bg-white mb-3">
         <Calendar
           localizer={localizer}
           events={transformEvents}
@@ -136,8 +142,11 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
         isLoading={isDeleteLoading}
         isError={isDeleteError}
         crewList={crewList}
+        editEvent={handleEditEvent}
+        isEditLoading={isEditLoading}
+        isEditError={isEditError}
       />
-    </div>
+    </>
   );
 };
 

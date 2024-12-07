@@ -1,4 +1,4 @@
-import { createCalenderEvent, deleteCalenderEvent, getAllCalenderEvents } from "@/lib/api/calender";
+import { createCalenderEvent, deleteCalenderEvent, editCalenderEvent, getAllCalenderEvents } from "@/lib/api/calender";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
@@ -51,6 +51,19 @@ export const useDeleteEvent = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteCalenderEvent,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllCalenderEvents"],
+      });
+      return data;
+    },
+  });
+};
+
+export const useEditEvent = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editCalenderEvent,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["getAllCalenderEvents"],

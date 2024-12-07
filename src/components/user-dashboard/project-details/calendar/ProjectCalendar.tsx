@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import {
   useCreateCalenderEvents,
   useDeleteEvent,
+  useEditEvent,
   useGetAllCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/calender";
 import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
@@ -56,13 +57,20 @@ const ProjectCalendar = ({
     isError: isDeleteError,
   } = useDeleteEvent();
 
+  const { mutateAsync: editEvent, isPending: isEditLoading, isError: isEditError } = useEditEvent();
+
   // Prepare crew list for the CalendarComponent
-  const crewList = crewListData?.accepted.map(
-    (crew: { invited_user: { id: number }; firstName: string }) => ({
-      value: crew.invited_user?.id,
-      label: crew.firstName,
-    })
-  );
+  // const crewList = crewListData?.accepted.map(
+  //   (crew: { invited_user: { id: number }; firstName: string }) => ({
+  //     value: crew.invited_user?.id,
+  //     label: crew.firstName,
+  //   })
+  // );
+
+  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
+    value: crew.id,
+    label: crew.user,
+  }));
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
     await createCalenderEvent({ eventData: formData, projectId });
@@ -74,26 +82,33 @@ const ProjectCalendar = ({
     setOpenEventDialog(false);
   };
 
+  const handleEditEvent = async (eventId: number, formData: CalenderFormFieldType) => {
+    await editEvent({ eventId, projectId, eventData: formData });
+  };
+
   return (
-    <div className="h-screen bg-white px-4 py-2">
+    <div className="bg-white px-4 py-2">
       {(isEventsError || isCrewError) && (
         <p className="text-center my-1 text-red-500">Error loading data.</p>
       )}
       {(isEventsLoading || isCrewLoading) && <p className="text-center mt-10">Loading...</p>}
       <CalendarComponent
-        events={events || []}
+        events={events?.data || []}
         calendarType={calendarType}
         crewList={crewList}
         isCreateLoading={isCreateLoading}
         isCreateError={isCreateError}
         isDeleteLoading={isDeleteLoading}
         isDeleteError={isDeleteError}
+        isEditLoading={isEditLoading}
+        isEditError={isEditError}
         openFormDialog={openFormDialog}
         setOpenFormDialog={setOpenFormDialog}
         handleCreateEvent={handleCreateEvent}
         openEventDialog={openEventDialog}
         setOpenEventDialog={setOpenEventDialog}
         handleDeleteEvent={handleDeleteEvent}
+        handleEditEvent={handleEditEvent}
         handleNavigate={handleNavigate}
         currentDate={currentDate}
       />

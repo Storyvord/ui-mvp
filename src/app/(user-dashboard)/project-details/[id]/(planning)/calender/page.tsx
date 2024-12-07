@@ -1,14 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import CompanyCalender from "@/components/user-dashboard/dashboard/calendar/CompanyCalendar";
-import ProjectCalendar from "@/components/user-dashboard/project-details/calendar/ProjectCalendar";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import ProjectCalendar from "@/components/user-dashboard/project-details/calendar/ProjectCalendar";
 
 const CompanyCalendarPage = () => {
   const [openFormDialog, setOpenFormDialog] = useState(false);
 
   return (
-    <div className=" pt-2 p-4">
+    <div className=" pt-2 px-4 h-screen">
       <Button
         onClick={() => setOpenFormDialog(true)}
         className=" uppercase bg-green-500 hover:bg-green-700 font-bold mb-4"

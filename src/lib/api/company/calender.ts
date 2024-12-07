@@ -1,15 +1,15 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2 } from "@/constant/constant";
 import { CalenderFormType } from "@/types";
 import { customFetch } from "../api";
 
 export const getCompanyCalenderEvents = async () => {
-  return customFetch(`${USER_API}/api/client/company-calendar/events/`, {
+  return customFetch(`${NEW_API_URL_V2}/calendar/user/calendar/`, {
     method: "GET",
   });
 };
 
 export const createCompanyCalenderEvent = async (eventData: CalenderFormType) => {
-  return customFetch(`${USER_API}/api/client/company-calendar/events/`, {
+  return customFetch(`${NEW_API_URL_V2}/calendar/user/calendar/events/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,23 @@ export const createCompanyCalenderEvent = async (eventData: CalenderFormType) =>
 };
 
 export const deleteCompanyCalenderEvent = async (eventId: number | null) => {
-  return customFetch(`${USER_API}/api/client/company-calendar/events/${eventId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/calendar/user/calendar/events/${eventId}/`, {
     method: "DELETE",
+  });
+};
+
+export const editCompanyCalenderEvent = async ({
+  eventId,
+  eventData,
+}: {
+  eventId: number | null;
+  eventData: CalenderFormType;
+}) => {
+  return customFetch(`${NEW_API_URL_V2}/calendar/user/calendar/events/${eventId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
   });
 };

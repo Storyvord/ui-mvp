@@ -10,7 +10,10 @@ const ShowTasks = () => {
 
   return (
     <div className=" bg-white rounded-xl mt-2 p-3">
-      {tasksList?.map((task: any) => (
+      {tasksList?.data?.tasks.length === 0 && (
+        <p className=" text-center text-gray-500">No tasks found</p>
+      )}
+      {tasksList?.data?.tasks.map((task: any) => (
         <div
           key={task.id}
           className=" bg-gray-100 p-2 flex justify-between items-center mt-2 rounded-md"

@@ -17,7 +17,8 @@ export async function middleware(request: NextRequest) {
     return path.startsWith(clientPath);
   });
   if (!token) {
-    return NextResponse.next();
+    return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+    // return NextResponse.next();
   } else if (isClient === "true") {
     if (isRestrictedCrewPath) {
       return NextResponse.redirect(new URL("/dashboard", request.url));

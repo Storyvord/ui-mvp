@@ -1,5 +1,6 @@
 import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
+import { customFetch } from "../api";
 
 export const registerUser = async (data: {
   email: string;
@@ -68,14 +69,22 @@ export const getUserDetails = async (token: string) => {
 };
 
 export const getUserProfile = async () => {
-  const token = Cookies.get("accessToken");
-  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/getprofile/`, {
+  return customFetch(`${NEW_API_URL_V2}/accounts/v2/getprofile/`, {
+    method: "GET",
+  });
+};
+
+export const getNewAccessToken = async () => {
+  const refreshToken = Cookies.get("refreshToken");
+  const res = await fetch(`${NEW_API_URL_V2}/accounts/v2/token/refresh/`, {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({ refresh: refreshToken }),
   });
   if (!res.ok) {
-    throw new Error("Failed to fetch user details");
+    throw new Error("Failed to refresh access token");
   }
   return res.json();
 };

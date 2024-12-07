@@ -26,7 +26,7 @@ const SignInPage = () => {
         // After the user selects a userType, set userStage to 1
         // Once the user updates their profile, set userStage to 2
 
-        const { user_type, user_stage, steps } = res?.data;
+        const { user_type, steps } = res?.data?.user;
         if (user_type === 1 && steps) {
           Cookies.set("isClient", "true");
           router.push("/dashboard");
@@ -48,7 +48,7 @@ const SignInPage = () => {
   };
 
   return (
-    <section className="flex md:h-screen h-full justify-between">
+    <section className="flex md:h-screen h-full justify-between pt-20 md:pt-0">
       <SideBanner />
       <div className="md:w-6/12 md:h-screen h-full w-full flex items-center justify-center">
         <SignInForm onSubmit={handleLogin} isLoading={isLoading} />
