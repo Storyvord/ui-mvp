@@ -160,7 +160,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                   <CardDescription className="text-base flex flex-wrap text-gray-600 dark:text-gray-200">
                     {projectRequirements?.results[0].crew_requirements?.map((crew: Crew) => (
                       <p key={crew.id} className="min-w-fit">
-                        {crew.title}, &nbsp;
+                        {crew.crew_title}, &nbsp;
                       </p>
                     ))}
                   </CardDescription>
