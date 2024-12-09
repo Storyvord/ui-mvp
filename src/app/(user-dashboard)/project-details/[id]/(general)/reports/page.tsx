@@ -50,29 +50,30 @@ const ReportsPage = () => {
 
         setCrewRequirements(requirementsSuggestions?.data.suggested_crew);
         setEquipmentRequirements(requirementsSuggestions?.data.suggested_equipment);
-
-        if (suggestions?.data?.suggestion?.data) {
-          const logistics = suggestions.data.suggestion.data.map((item: any) => {
-            return { location: item.location, data: item.ai_suggestion[0].logistics };
-          });
-          const compliance = suggestions.data.suggestion.data.map((item: any) => {
-            return { location: item.location, data: item.ai_suggestion[0].compliance };
-          });
-          const culture = suggestions.data.suggestion.data.map((item: any) => {
-            return { location: item.location, data: item.ai_suggestion[0].culture };
-          });
-          const budget = suggestions.data.suggestion.data.map((item: any) => {
-            return { location: item.location, data: item.ai_suggestion[0].budget };
-          });
-
-          setLogisticsData(logistics);
-          setComplianceData(compliance);
-          setCultureData(culture);
-          setBudgetData(budget);
-        }
       }
     })();
-  }, [projectRequirements, suggestions]);
+  }, [projectRequirements]);
+
+  useEffect(() => {
+    if (suggestions?.data?.suggestion?.data) {
+      const logistics: any[] = [];
+      const compliance: any[] = [];
+      const culture: any[] = [];
+      const budget: any[] = [];
+
+      suggestions.data.suggestion.data.forEach((item: any) => {
+        logistics.push({ location: item.location, data: item.ai_suggestion[0].logistics });
+        compliance.push({ location: item.location, data: item.ai_suggestion[0].compliance });
+        culture.push({ location: item.location, data: item.ai_suggestion[0].culture });
+        budget.push({ location: item.location, data: item.ai_suggestion[0].budget });
+      });
+
+      setLogisticsData(logistics);
+      setComplianceData(compliance);
+      setCultureData(culture);
+      setBudgetData(budget);
+    }
+  }, [suggestions]);
 
   return (
     <div className="container mx-auto p-4">

@@ -35,7 +35,7 @@ const CrewPage: React.FC<CrewPageClientProps> = ({ crewRequirements, isPending, 
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4">
       <h1 className="mb-6 text-center font-poppins-semibold text-2xl text-gray-900">
         {crewRequirements?.message}
       </h1>

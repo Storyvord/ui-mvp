@@ -15,7 +15,7 @@ export type Crew = {
 
 export type Equipment = {
   id: number;
-  title: string;
+  equipment_title: string;
   quantity: number;
 };
 export type ProjectStatus =

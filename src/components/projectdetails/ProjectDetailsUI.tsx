@@ -173,7 +173,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                     {projectRequirements?.results[0].equipment_requirements?.map(
                       (equipment: Equipment) => (
                         <p key={equipment.id} className="min-w-fit">
-                          {equipment.title}, &nbsp;
+                          {equipment.equipment_title}, &nbsp;
                         </p>
                       )
                     )}
