@@ -1,61 +1,47 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useProjectComplience } from "@/lib/react-query/queriesAndMutations";
-import { FC, useState } from "react";
-import CultureLoading from "../culture/components/CultureLoading";
-import ComplianceCard from "./components/ComplianceCard";
+import React from "react";
+import LoadingUi from "../LoadingUi";
 
-interface CompliancePageProps {
-  project_id: string;
+interface ComplianceData {
+  location: string;
+  data: string[];
 }
 
-const CompliancePage: FC<CompliancePageProps> = ({ project_id }) => {
-  // const {data: projectCompliance, isPending, error} = useProjectComplience(project_id)
+interface CompliancePageProps {
+  data: ComplianceData[] | null;
+  isPending: boolean;
+  isError: boolean;
+}
 
-  const [selectedLocation, setSelectedLocation] = useState("all");
+const CompliancePage: React.FC<CompliancePageProps> = ({ data, isPending, isError }) => {
+  if (isPending) {
+    return <LoadingUi isPending={isPending} text="Getting compliance suggestions..." />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-xl font-poppins-semibold text-red-600">
+          An error occurred while fetching data. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full text-center mt-3">
-      Compliance Details
-      {/* <Select onValueChange={(value)=>setSelectedLocation(value)} value={selectedLocation || "all"}>
-          <SelectTrigger className="w-full xsm:w-44 py-2 mb-2 px-4 border border-gray-300 rounded-lg bg-[#111827] text-white transition-colors duration-300">
-            <SelectValue placeholder="Select a location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Locations</SelectLabel>
-              <SelectItem value="all">All Locations</SelectItem>
-              {projectCompliance?.map((item: any) => (
-                <SelectItem key={item.id} value={item.location}>
-                  {item.location}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-      </Select>
-      {
-        isPending ? <CultureLoading/> : 
-        error ? <p className='text-center text-gray-700'>Something went wrong</p> :
-        (
-          <div className="flex flex-col gap-4">
-            {
-              projectCompliance?.length===0 ? <p className='text-center text-gray-700'>No compliance details found</p> :
-              projectCompliance?.filter((item: any) => {
-                return selectedLocation === "all" ? true : item.location === selectedLocation
-              })
-              .map((item:any)=>(
-                <ComplianceCard key={item.id} compliance={item}/>
-              ))
-            }
-          </div>
-        )
-      } */}
+    <div className="mt-6 space-y-4">
+      <h2 className="text-2xl font-bold mb-4">Compliance Details</h2>
+      {data?.map((locationData, index) => (
+        <div key={index} className="border p-4 rounded shadow-sm">
+          <h3 className="text-xl font-bold mb-2">{locationData.location}</h3>
+          <ul className="list-disc pl-5">
+            {locationData.data.map((item, idx) => (
+              <li key={idx} className="mb-1">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };

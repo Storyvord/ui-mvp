@@ -1,61 +1,47 @@
-import { useProjectCulture } from "@/lib/react-query/queriesAndMutations";
-import { FC, useState } from "react";
-import CultureCard from "./components/CultureCard";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import CultureLoading from "./components/CultureLoading";
+import React from "react";
+import LoadingUi from "../LoadingUi";
 
-interface CulturePageProps {
-  project_id: string;
+interface CultureData {
+  location: string;
+  data: string[];
 }
 
-const CulturePage: FC<CulturePageProps> = ({ project_id }) => {
-  // const {data: projectCulture, isPending, error} = useProjectCulture(project_id)
+interface CulturePageProps {
+  data: CultureData[] | null;
+  isPending: boolean;
+  isError: boolean;
+}
 
-  const [selectedLocation, setSelectedLocation] = useState("all");
+const CulturePage: React.FC<CulturePageProps> = ({ data, isPending, isError }) => {
+  if (isPending) {
+    return <LoadingUi isPending={isPending} text="Getting culture suggestions..." />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-xl font-poppins-semibold text-red-600">
+          An error occurred while fetching data. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full mt-2 text-center">
-      Culture Details
-      {/* {
-        isPending ? <CultureLoading/> : 
-        error ? <p className='text-center text-gray-700'>Something went wrong</p> :
-        (
-          <div className="flex flex-col gap-4">
-            <Select onValueChange={(value)=>setSelectedLocation(value)} value={selectedLocation || "all"}>
-              <SelectTrigger className="w-full xsm:w-44 py-2 px-4 border border-gray-300 rounded-lg bg-[#111827] text-white transition-colors duration-300">
-                <SelectValue placeholder="Select a role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Locations</SelectLabel>
-                  <SelectItem value="all">All Locations</SelectItem>
-                  {projectCulture?.map((item: any) => (
-                    <SelectItem key={item.id} value={item.culture.location}>
-                      {item.culture.location}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {
-              projectCulture?.length===0 ? <p className='text-center text-gray-700'>No culture details found</p> :
-              projectCulture?.filter((item: any) => {
-                return selectedLocation === "all" ? true : item.culture.location === selectedLocation
-              })
-              .map((item:any)=>(
-                <CultureCard key={item.id} location={item.culture.location} details={item.culture.details}/>
-              ))
-            }
-          </div>
-        )
-      } */}
+    <div className="mt-6 space-y-4">
+      <h2 className="text-2xl font-bold mb-4">Culture Details</h2>
+      {data?.map((locationData, index) => (
+        <div key={index} className="border p-4 rounded shadow-sm">
+          <h3 className="text-xl font-bold mb-2">{locationData.location}</h3>
+          <ul className="list-disc pl-5">
+            {locationData.data.map((item, idx) => (
+              <li key={idx} className="mb-1">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };

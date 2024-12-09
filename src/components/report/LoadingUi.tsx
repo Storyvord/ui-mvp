@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const LoadingUi = ({ isPending }: { isPending: boolean }) => {
+const LoadingUi = ({ isPending, text = "Loading..." }: { isPending: boolean; text?: string }) => {
   const loadingMessages = [
     "Fetching best fit data, please wait.",
     "Hang tight! Gathering the latest information.",
@@ -23,7 +23,7 @@ const LoadingUi = ({ isPending }: { isPending: boolean }) => {
   if (isPending) {
     return (
       <div className="flex flex-col items-center h-screen space-y-4 transition-opacity duration-500 pt-8">
-        <p className="text-xl font-poppins-bold text-gray-700">Loading...</p>
+        <p className="text-xl font-poppins-bold text-gray-700">{text}</p>
         <p className="text-lg font-poppins-semibold text-gray-600 transition-transform transform duration-500 ease-in-out">
           {loadingMessages[currentMessageIndex]}
         </p>
