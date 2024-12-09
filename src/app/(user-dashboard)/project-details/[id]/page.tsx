@@ -21,6 +21,7 @@ import ShootingSchedule from "@/components/user-dashboard/project-details/shooti
 import WhatsGoingOn from "@/components/user-dashboard/project-details/whatsGoingOn/WhatsGoingOn";
 import { useToast } from "@/components/ui/use-toast";
 import ProjectDetailsCalendar from "@/components/user-dashboard/project-details/calendar/ProjectDetailsCalendar";
+import Link from "next/link";
 
 // Define available project statuses for selection
 const projectStatuses = [
@@ -116,11 +117,14 @@ const ProjectDetails: React.FC = () => {
         handleEditForm={handleEditForm}
       />
       <main className=" sm:p-4">
-        <div className=" relative mt-6 p-2 rounded-lg">
-          <button className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md">
+        <div className=" relative mt-6 p-2 rounded-lg group">
+          <Link
+            href={`/project-details/${projectId}/reports`}
+            className=" flex gap-3 bg-green-500 bg-opacity-10 px-4 py-3 border-2 border-green-500 rounded-md w-fit group-hover:animate-bounce"
+          >
             <Image src="/icons/ai.svg" alt="icons" width={20} height={20} />
             Get AI Suggestions
-          </button>
+          </Link>
           <button className="rounded-t-lg rounded-br-lg absolute -top-8 left-40 shadow-lg shadow-gray-400 bg-gradient-to-r from-[#22CB67] to-[#092579] text-white font-semibold p-2 text-lg">
             It&apos;s Free
           </button>

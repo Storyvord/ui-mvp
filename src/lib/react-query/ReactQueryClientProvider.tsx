@@ -10,11 +10,11 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
     try {
       const res = await getNewAccessToken();
       Cookies.set("accessToken", res.access);
-      return true; // Indicate success
+      return true;
     } catch (error) {
       console.error("Token refresh failed:", error);
-      userLogout(); // Logout on failure
-      return false; // Indicate failure
+      userLogout();
+      return false;
     }
   };
 
@@ -27,15 +27,15 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
             retry: (failureCount: number, error: any): boolean => {
               if (error?.status === 401) {
                 handleTokenError();
-                return false; // Prevent immediate retry; token handling is async
+                return false;
               }
-              return failureCount <= 1; // Retry once for other errors
+              return failureCount <= 1;
             },
           },
           mutations: {
             onSettled: async (data: any, error: any) => {
               if (error?.status === 401) {
-                await handleTokenError(); // Handle token error in mutations
+                await handleTokenError();
               }
             },
           },

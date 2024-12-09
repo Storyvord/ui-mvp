@@ -1,50 +1,61 @@
 "use client";
 
-import Image from "next/image";
-import React from "react";
-import { CrewMember as CrewMemberInterface } from "@/types";
+import React, { useState, useEffect } from "react";
 
-interface CrewCardProps {
-  role: string;
-  crewMember: CrewMemberInterface;
-}
+// Crew type definition
+export type Crew = {
+  id: string;
+  name: string;
+  job_title: string;
+  bio: string;
+  location: string;
+  languages: string;
+  contact_number: string;
+  experience: string;
+  skills: string;
+  specializations: string;
+  standardRate: string;
+  technicalProficiencies: string;
+};
 
-const CrewCard: React.FC<CrewCardProps> = ({ role, crewMember }) => {
+type CrewRequirements = {
+  message: string;
+  data: {
+    id: string;
+    location: string;
+    crew_suggestion: Crew[];
+  }[];
+};
+
+// CrewCard Component
+const CrewCard: React.FC<{ crew: Crew }> = ({ crew }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center transition-transform duration-300 hover:scale-105 max-w-sm w-full mx-auto">
-      <div className="flex-shrink-0">
-        <Image
-          src={crewMember.profile_pic}
-          width={96}
-          height={96}
-          className="w-24 h-24 rounded-full border-4 border-gray-200 object-cover mb-4"
-          alt="Crew Image"
-        />
-      </div>
-      <div className="text-center">
-        <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-2">
-          {role}
-        </div>
-        <h3 className="block text-xl leading-tight font-medium text-balance truncate max-w-full">
-          {crewMember.name}
-        </h3>
-        <div className="mt-2 space-y-2">
-          <p className="text-gray-500 text-base">
-            Years of Experience: {crewMember.yoe}
-          </p>
-          <p className="text-gray-500 text-base">
-            Rate Per Day: ${crewMember.minRatePerDay} - $
-            {crewMember.maxRatePerDay}
-          </p>
-          <p className="text-gray-500 text-base">
-            Location: {crewMember.location}
-          </p>
-        </div>
-      </div>
-      <div className="flex mt-4">
-        <button className="py-2 px-4 bg-[#111827] text-white rounded-lg transition-colors duration-300 text-base w-full">
-          View Profile
-        </button>
+    <div className="p-4 bg-gray-50 rounded-md  border border-gray-200">
+      <h3 className="text-xl font-poppins-bold text-gray-900">{crew.name}</h3>
+      <p className="text-sm md:text-base font-poppins-semibold text-gray-700">{crew.job_title}</p>
+      <p className="text-sm md:text-base font-poppins-regular text-gray-700 mt-2">{crew.bio}</p>
+      <div className="mt-4 text-sm md:text:base text-gray-600">
+        <p className=" text-base">
+          <span className="font-poppins-semibold">Languages:</span> {crew.languages}
+        </p>
+        <p className=" text-base">
+          <span className="font-poppins-semibold">Contact:</span> {crew.contact_number}
+        </p>
+        <p className=" text-base">
+          <span className="font-poppins-semibold">Experience:</span> {crew.experience}
+        </p>
+        <p className=" text-base">
+          <span className="font-poppins-semibold">Skills:</span> {crew.skills}
+        </p>
+        <p className=" text-base">
+          <span className="font-poppins-semibold">Specializations:</span> {crew.specializations}
+        </p>
+        <p className=" text-base">
+          <span className="font-semibold">Rate:</span> {crew.standardRate}
+        </p>
+        <p className=" text-base">
+          <span className="font-semibold">Tools:</span> {crew.technicalProficiencies}
+        </p>
       </div>
     </div>
   );

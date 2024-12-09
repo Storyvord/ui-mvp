@@ -9,13 +9,13 @@ export type LocationDetails = {
 
 export type Crew = {
   id: number;
-  title: string;
+  crew_title: string;
   quantity: number;
 };
 
 export type Equipment = {
   id: number;
-  title: string;
+  equipment_title: string;
   quantity: number;
 };
 export type ProjectStatus =
