@@ -91,7 +91,7 @@ export const ClientProfileSchema = z.object({
   bio: z.string().min(10, "Bio must be at least 10 characters long"),
   role: z.string().min(1, "Role is required"),
   address: z.string().min(1, "Address is required"),
-  personalWebsite: z.string().url("Personal Website must be a valid URL"),
+  personalWebsite: z.string().url("Personal Website must be a valid URL").optional(),
   drive: z.boolean(),
 });
 export type ClientProfileType = z.infer<typeof ClientProfileSchema>;
