@@ -159,6 +159,7 @@ export const ClientProfileFormFields: FormFieldConfig<ClientProfileType>[] = [
     type: "text",
     placeholder: "Enter your personal website URL",
     label: "Personal Website",
+    optional: true,
   },
 
   {
@@ -170,7 +171,8 @@ export const ClientProfileFormFields: FormFieldConfig<ClientProfileType>[] = [
   {
     name: "drive",
     type: "checkbox",
-    label: "Do you drive?",
+    label: "Are you able to drive?",
+    optional: true,
   },
 
   //   {
@@ -190,6 +192,5 @@ export const ClientProfileFormDefaultValues = {
   bio: "",
   role: "",
   address: "",
-  personalWebsite: "",
   drive: false,
 };

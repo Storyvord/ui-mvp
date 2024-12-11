@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "next/navigation";
+// @ts-nocheck
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useCreateAnnouncement } from "@/lib/react-query/queriesAndMutations/announcements";
+
 import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
@@ -24,12 +24,6 @@ export type AnnouncementFormType = z.infer<typeof announcementFormSchema>;
 
 const announcementFormFields: FormFieldConfig<AnnouncementFormType>[] = [
   {
-    name: "recipients",
-    label: "Recipients",
-    type: "text",
-    placeholder: "Recipients",
-  },
-  {
     name: "title",
     label: "Title",
     type: "text",
@@ -41,47 +35,55 @@ const announcementFormFields: FormFieldConfig<AnnouncementFormType>[] = [
     type: "textarea",
   },
   {
-    name: "file",
-    label: "Attach Document",
-    type: "file",
+    name: "recipients",
+    label: "Recipients",
+    type: "select",
+    isMulti: true,
+    placeholder: "Recipients",
+  },
+  {
+    name: "is_urgent",
+    label: "Mark as urgent",
+    type: "checkbox",
     optional: true,
   },
 ];
 
 export const announcementFormDefaultValues = {
-  recipients: "",
+  recipients: [],
   title: "",
   message: "",
 };
 type Props = {
   openDialog: boolean;
   setOpenDialog: (value: boolean) => void;
+  crewList: { value: string; label: string }[];
+  createAnnouncement: (data: AnnouncementFormType) => void;
+  isPending: boolean;
+  isError: boolean;
 };
 
-const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }) => {
-  const params = useParams();
-  const projectId = params.id;
-  const { mutateAsync, isPending } = useCreateAnnouncement();
+const CreateAnnouncementDialog = ({
+  openDialog,
+  setOpenDialog,
+  crewList,
+  createAnnouncement,
+  isPending,
+  isError,
+}: Props) => {
+  useEffect(() => {
+    announcementFormFields[2].options = crewList;
+  }, [crewList]);
 
   const form = useForm({
     resolver: zodResolver(announcementFormSchema),
     defaultValues: announcementFormDefaultValues,
   });
 
-  const onSubmit = async (data: AnnouncementFormType) => {
-    const transformData = {
-      title: data.recipients,
-      message: data.message,
-      project: projectId,
-      recipients: [2],
-    };
-
-    const res = await mutateAsync(transformData);
-    if (res) setOpenDialog(false);
+  const onSubmit = (data: AnnouncementFormType) => {
+    createAnnouncement(data);
   };
 
-  const isError = false;
-  const isLoading = false;
   const isEdit = false;
 
   return (
@@ -123,12 +125,12 @@ const CreateAnnouncementDialog: React.FC<Props> = ({ openDialog, setOpenDialog }
                   Cancel
                 </Button>
                 {isEdit ? (
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? <Loader /> : "Update"}
+                  <Button type="submit" disabled={isPending}>
+                    {isPending ? <Loader /> : "Update"}
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={isLoading} className="">
-                    {isLoading ? <Loader /> : "Save"}
+                  <Button type="submit" disabled={isPending} className="">
+                    {isPending ? <Loader /> : "Save"}
                   </Button>
                 )}
               </DialogFooter>

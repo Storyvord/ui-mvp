@@ -6,18 +6,6 @@ import { getNewAccessToken, userLogout } from "../api/auth/auth";
 import Cookies from "js-cookie";
 
 export const ReactQueryClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const handleTokenError = async () => {
-    try {
-      const res = await getNewAccessToken();
-      Cookies.set("accessToken", res.access);
-      return true;
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-      userLogout();
-      return false;
-    }
-  };
-
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -42,6 +30,17 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
         },
       })
   );
-
+  const handleTokenError = async () => {
+    try {
+      const res = await getNewAccessToken();
+      Cookies.set("accessToken", res.access);
+      queryClient.invalidateQueries();
+      return true;
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      userLogout();
+      return false;
+    }
+  };
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };

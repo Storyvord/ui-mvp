@@ -8,7 +8,7 @@ const AnnouncementSkeleton = () => {
       style={{ gridTemplateColumns: "repeat(auto-fill, minmax(24rem, 1fr))" }}
     >
       {Array.from({ length: 5 }).map((_, index) => (
-        <Card key={index} className=" max-w-96 relative">
+        <Card key={index} className=" relative">
           <CardHeader>
             <Skeleton className=" h-6 w-3/4 " />
           </CardHeader>

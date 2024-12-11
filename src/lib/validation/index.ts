@@ -83,7 +83,7 @@ export const taskFormSchema = z.object({
   title: z.string().min(1, { message: "Task title is required" }),
   description: z.string(),
   due_date: z.string().date(),
-  assigned_to: z.number().min(1),
+  assigned_to: z.array(z.string()),
 });
 
 export const ClientProfileUpdateSchema = z.object({
@@ -103,33 +103,10 @@ export const ClientProfileUpdateSchema = z.object({
 });
 
 export const announcementFormSchema = z.object({
-  recipients: z.string().min(1, "Recipients is required"),
   title: z.string().min(1, "Title is required"),
   message: z.string().min(1, "Message is required"),
-  file: z
-    .union([
-      z.string(),
-      z.instanceof(ArrayBuffer).refine((buffer) => buffer.byteLength > 0, {
-        message: "Document cannot be an empty ArrayBuffer",
-      }),
-      z.instanceof(File).refine(
-        (file) =>
-          (file.type === "image/jpeg" ||
-            file.type === "image/png" ||
-            file.type === "application/pdf" ||
-            file.type === "application/msword" || // For .doc files
-            file.type ===
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || // For .docx files
-            file.type === "text/plain") && // For .txt files
-          file.size > 0, // Ensure the file is not empty
-        {
-          message:
-            "Only .jpg, .png, .pdf, .doc, .docx, or .txt files are accepted and must not be empty",
-        }
-      ),
-    ])
-    .optional()
-    .nullable(),
+  recipients: z.array(z.number()),
+  is_urgent: z.boolean().optional(),
 });
 
 export const calenderFormSchema = z

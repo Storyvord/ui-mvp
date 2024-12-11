@@ -27,7 +27,7 @@ const userTypeOptions = [
     userType: 2,
     type: "crew",
     icon: CrewIcon,
-    title: "Crew",
+    title: "Others Crew",
     description: "",
   },
 ];

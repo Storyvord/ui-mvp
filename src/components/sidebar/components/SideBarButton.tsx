@@ -34,14 +34,14 @@ const SideBarButton = ({
       <button
         onClick={handleClick}
         className={cn(
-          "w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start rounded-lg",
+          "w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start rounded-lg ",
           checkLink
             ? "bg-gradient-to-tr from-gray-900 to-gray-800 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]"
             : "text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30"
         )}
       >
         {Icon && <Icon className="w-6 h-6" />}
-        <p className="block font-sans antialiased text-base leading-relaxed text-inherit font-medium capitalize">
+        <p className="block antialiased text-base leading-relaxed text-inherit font-medium capitalize">
           {text}
         </p>
       </button>

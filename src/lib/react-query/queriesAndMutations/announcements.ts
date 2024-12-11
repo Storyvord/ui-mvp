@@ -11,10 +11,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
  * `useQuery` function from an external library and configures it to fetch all announcements by
  * providing a query key and a query function.
  */
-export const useGetAllAnnouncements = () => {
+export const useGetAllAnnouncements = (projectId: string) => {
   return useQuery({
     queryKey: ["getAllAnnouncements"],
-    queryFn: getAllAnnouncements,
+    queryFn: () => getAllAnnouncements(projectId),
   });
 };
 

@@ -8,7 +8,7 @@ type Props = {
 };
 const ProjectCard = ({ name, status, location }: Props) => {
   return (
-    <div className=" w-80 md:min-h-52 border rounded-2xl p-4 bg-white flex flex-col gap-4 cursor-pointer">
+    <div className=" w-80 md:min-h-full border rounded-2xl p-4 bg-white flex flex-col gap-4 cursor-pointer">
       <div className=" flex justify-between">
         <Image height={25} width={25} src="/icons/project.svg" alt="icon" />
         <p className=" px-2 py-1 rounded-md bg-gray-200 text-green-500 text-sm ">{status}</p>

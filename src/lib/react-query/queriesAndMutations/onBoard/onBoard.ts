@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { postPersonalDetails, postUserType, skipOnBoard } from "@/lib/api/onBoard/onBoard";
+import {
+  postPersonalDetails,
+  postUserType,
+  skipOnBoard,
+  updatePersonalDetails,
+} from "@/lib/api/onBoard/onBoard";
 
 export const useSelectUserType = () => {
   const queryClient = useQueryClient();
@@ -23,6 +28,21 @@ export const usePostPersonalDetails = () => {
         queryKey: ["userProfile"],
       });
       return data;
+    },
+  });
+};
+export const useUpdatePersonalDetails = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updatePersonalDetails,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["userProfile"],
+      });
+      return data;
+    },
+    onError: async (error) => {
+      throw error;
     },
   });
 };

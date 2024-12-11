@@ -1,6 +1,6 @@
 import { API_URL, USER_API } from "@/constant/constant";
 import Cookies from "js-cookie";
-import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
+// import { ProfileType } from "@/app/(user-dashboard)/dashboard/update-profile/page";
 
 /**
  * The `customFetch` function is a TypeScript function that performs a fetch request with added
@@ -50,15 +50,15 @@ export const getClientProfile = async () => {
   });
 };
 
-export const updateClientProfile = async (data: ProfileType) => {
-  return customFetch(`${USER_API}/api/client/profile/detail/`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-};
+// export const updateClientProfile = async (data: ProfileType) => {
+//   return customFetch(`${USER_API}/api/client/profile/detail/`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   });
+// };
 
 //---------------------------------
 export const fetchLocation = async (params: { search: string; page: number }) => {

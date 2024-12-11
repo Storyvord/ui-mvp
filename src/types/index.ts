@@ -89,8 +89,9 @@ export type AnnouncementFormFieldConfig = {
 export type Announcements = {
   title: string;
   message: string;
-  project: string | string[];
+  project: string;
   recipients: number[];
+  is_urgent?: boolean;
 };
 
 export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;
@@ -139,7 +140,7 @@ export type taskType = {
   completed: boolean;
   completion_requested: boolean;
   project?: { name: string };
-  assigned_to: number;
+  assigned_to: string[];
   requester: number | null;
   created_by: number;
 };

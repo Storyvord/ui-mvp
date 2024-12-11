@@ -20,6 +20,15 @@ export const postPersonalDetails = async (data: any) => {
     body: JSON.stringify(data),
   });
 };
+export const updatePersonalDetails = async (data: any) => {
+  return customFetch(`${NEW_API_URL_V2}/accounts/v2/saveprofile/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+};
 
 export const skipOnBoard = async () => {
   return customFetch(`${NEW_API_URL_V2}/project/v2/skiponboard/`, {

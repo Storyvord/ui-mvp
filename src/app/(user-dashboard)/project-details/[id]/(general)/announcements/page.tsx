@@ -1,18 +1,70 @@
 "use client";
 import React, { useState } from "react";
 
-import { useGetAllAnnouncements } from "@/lib/react-query/queriesAndMutations/announcements";
+import {
+  useCreateAnnouncement,
+  useDeleteAnnouncement,
+  useGetAllAnnouncements,
+} from "@/lib/react-query/queriesAndMutations/announcements";
 import Announcement from "@/components/user-dashboard/project-details/general/announcements/Announcement";
-import CreateAnnouncementDialog from "@/components/user-dashboard/project-details/general/announcements/CreateAnnouncementDialog";
+import CreateAnnouncementDialog, {
+  AnnouncementFormType,
+} from "@/components/user-dashboard/project-details/general/announcements/CreateAnnouncementDialog";
 import CreateButton from "@/components/user-dashboard/project-details/general/announcements/CreateButton";
 import AnnouncementSkeleton from "@/components/user-dashboard/project-details/general/announcements/AnnouncementSkeleton";
 import Navbar from "@/components/user-dashboard/project-details/general/announcements/Navbar";
 import { ReturnAnnouncements } from "@/types";
+import { useParams } from "next/navigation";
+import { useGetCrewList } from "@/lib/react-query/queriesAndMutations/crew";
+import { useToast } from "@/components/ui/use-toast";
 
 const Announcements = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const { data, isPending } = useGetAllAnnouncements();
-  console.log(data);
+  const { id: projectId }: { id: string } = useParams();
+  const { toast } = useToast();
+  const { data, isPending } = useGetAllAnnouncements(projectId);
+  const {
+    mutateAsync,
+    isPending: isPendingCreate,
+    isError: isErrorCreate,
+  } = useCreateAnnouncement();
+  const {
+    data: crewListData,
+    isPending: isCrewLoading,
+    isError: isCrewError,
+  } = useGetCrewList(projectId);
+
+  const crewList = crewListData?.results.map(
+    (crew: { membership_id: string; user: { email: string } }) => ({
+      value: crew.membership_id,
+      label: crew.user.email,
+    })
+  );
+
+  const createAnnouncement = async (data: AnnouncementFormType) => {
+    try {
+      const transformData = {
+        ...data,
+        project: projectId,
+      };
+
+      const res = await mutateAsync(transformData);
+      if (res) setOpenDialog(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong, Try again",
+        variant: "destructive",
+      });
+    }
+  };
+  const deleteAnnouncement = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className=" w-full px-4">
       <h1 className=" text-3xl my-4 underline">Announcements</h1>
@@ -31,7 +83,14 @@ const Announcements = () => {
         ))}
       </section>
 
-      <CreateAnnouncementDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <CreateAnnouncementDialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        crewList={crewList}
+        createAnnouncement={createAnnouncement}
+        isPending={isPendingCreate}
+        isError={isErrorCreate}
+      />
     </div>
   );
 };

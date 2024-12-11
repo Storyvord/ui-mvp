@@ -170,8 +170,8 @@ export const projectdetailsItems: projectDetailItem[] = [
         icon: LuFileSpreadsheet,
       },
       {
-        text: "calender",
-        link: "calender",
+        text: "calendar",
+        link: "calendar",
         icon: SlCalender,
       },
     ],
