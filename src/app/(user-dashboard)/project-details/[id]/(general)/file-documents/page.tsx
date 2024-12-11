@@ -50,10 +50,12 @@ const FileSection: FC = () => {
   } = useUpdateRoom();
 
   const { data: crewListData } = useGetCrewList(projectId);
-  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
-    value: crew.id,
-    label: crew.user,
-  }));
+  const crewList = crewListData?.results.map(
+    (crew: { membership_id: string; user: { email: string } }) => ({
+      value: crew.membership_id,
+      label: crew.user.email,
+    })
+  );
 
   const handleCardClick = (roomId: string) => {
     router.push(`/project-details/${projectId}/file-documents/${roomId}`);

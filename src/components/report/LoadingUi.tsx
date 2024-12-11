@@ -24,8 +24,9 @@ const LoadingUi = ({ isPending, text = "Loading..." }: { isPending: boolean; tex
     return (
       <div className="flex flex-col items-center h-screen space-y-4 transition-opacity duration-500 pt-8">
         <p className="text-xl font-poppins-bold text-gray-700">{text}</p>
-        <p className="text-lg font-poppins-semibold text-gray-600 transition-transform transform duration-500 ease-in-out">
+        <p className="relative text-lg font-poppins-semibold text-gray-600 transition-transform transform duration-500 ease-in-out overflow-hidden">
           {loadingMessages[currentMessageIndex]}
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent blur-md animate-slide"></span>
         </p>
       </div>
     );

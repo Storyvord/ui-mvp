@@ -1,5 +1,5 @@
 import { FormFieldConfig, taskFormType, taskType } from "@/types";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 
@@ -29,7 +29,8 @@ const formFields: FormFieldConfig<taskFormType>[] = [
     name: "assigned_to",
     label: "Assign To",
     type: "select",
-    options: [{ value: "", label: "" }],
+    isMulti: true,
+    options: [],
   },
 ];
 interface CreateTaskProps {
@@ -47,7 +48,11 @@ const CreateTask: FC<CreateTaskProps> = ({
   setFormOpen,
   crewList,
 }) => {
-  formFields[3].options = crewList;
+  useEffect(() => {
+    if (crewList && crewList.length > 0) {
+      formFields[3].options = crewList;
+    }
+  }, [crewList]);
   const defaultData: taskFormType = taskEditing
     ? {
         title: taskEditing.title,
@@ -59,7 +64,7 @@ const CreateTask: FC<CreateTaskProps> = ({
         title: "",
         description: "",
         due_date: "",
-        assigned_to: 0,
+        assigned_to: [],
       };
 
   const form = useForm<taskFormType>({
