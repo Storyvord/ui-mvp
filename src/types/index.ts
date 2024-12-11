@@ -89,8 +89,9 @@ export type AnnouncementFormFieldConfig = {
 export type Announcements = {
   title: string;
   message: string;
-  project: string | string[];
+  project: string;
   recipients: number[];
+  is_urgent?: boolean;
 };
 
 export type CalenderFormFieldType = z.infer<typeof calenderFormSchema>;

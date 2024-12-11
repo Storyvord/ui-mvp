@@ -6,7 +6,7 @@ import {
   fetchProjectLogistics,
   getSuggestedCrew,
   getClientProfile,
-  updateClientProfile,
+  // updateClientProfile,
 } from "../api/api";
 
 export const useGetClientProfile = () => {
@@ -16,18 +16,18 @@ export const useGetClientProfile = () => {
   });
 };
 
-export const useUpdateClientProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateClientProfile,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["getClientProfile"],
-      });
-      return data;
-    },
-  });
-};
+// export const useUpdateClientProfile = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: updateClientProfile,
+//     onSuccess: (data) => {
+//       queryClient.invalidateQueries({
+//         queryKey: ["getClientProfile"],
+//       });
+//       return data;
+//     },
+//   });
+// };
 
 //----------------------------------------------------
 export const useProjectLogistics = (project_id: string) => {

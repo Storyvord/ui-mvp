@@ -2,10 +2,13 @@ import { Announcements } from "@/types";
 import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
-export const getAllAnnouncements = async () => {
-  return customFetch(`${NEW_API_URL_V2}/announcement/v2/project-announcements/`, {
-    method: "GET",
-  });
+export const getAllAnnouncements = async (projectId: string) => {
+  return customFetch(
+    `${NEW_API_URL_V2}/announcement/v2/project-announcements/?project_id=${projectId}`,
+    {
+      method: "GET",
+    }
+  );
 };
 
 export const CreateAnnouncement = async (announcementData: Announcements) => {
