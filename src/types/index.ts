@@ -140,7 +140,7 @@ export type taskType = {
   completed: boolean;
   completion_requested: boolean;
   project?: { name: string };
-  assigned_to: number;
+  assigned_to: string[];
   requester: number | null;
   created_by: number;
 };
