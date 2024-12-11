@@ -32,15 +32,15 @@ const Dashboard = () => {
   return (
     <main className=" p-4 sm:py-6 sm:px-10">
       <h1 className="text-xl md:text-2xl font-semibold">Dashboard</h1>
-      <div className=" grid grid-cols-1 md:grid-cols-4">
+      <div className=" grid grid-cols-1 md:grid-cols-4 gap-4">
         <section className="md:col-span-3 h-full py-3 pr-2">
           <Project onGoingProjects={onGoingProjects} />
-          <Posting />
           <DashboardCalendar />
         </section>
         <section className=" h-full pl-1 space-y-6">
           <Tasks />
           <MyNetwork />
+          <Posting />
         </section>
       </div>
       <PastProjects projects={pastProjects} isLoading={isPending} isError={isError} />

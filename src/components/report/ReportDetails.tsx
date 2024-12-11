@@ -64,12 +64,12 @@ export const mdComponentStyle: Record<string, React.FC<any>> = {
 
 const ReportDetails = ({ isPending, isError, report, refetch }: ReportDetailsProps) => {
   if (isPending) {
-    return <LoadingUi isPending={isPending} text="Getting budget suggestions..." />;
+    return <LoadingUi isPending={isPending} text="Getting suggestions..." />;
   }
 
   if (isError && !isPending) {
     return (
-      <div className="flex justify-center items-center pt-8 md:p-6">
+      <div className="flex flex-col gap-6 justify-center items-center pt-8 md:p-6">
         <p className="text-xl font-poppins-semibold text-red-600">
           An error occurred while fetching data. Please try again.
         </p>

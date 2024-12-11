@@ -171,7 +171,8 @@ export const ClientProfileFormFields: FormFieldConfig<ClientProfileType>[] = [
   {
     name: "drive",
     type: "checkbox",
-    label: "Do you drive?",
+    label: "Are you able to drive?",
+    optional: true,
   },
 
   //   {

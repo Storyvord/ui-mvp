@@ -12,6 +12,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
+import { usePathname } from "next/navigation";
 
 type CalendarComponentProps = {
   events: CalenderEventType[];
@@ -69,6 +70,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 }) => {
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
   const [transformEvents, setTransformEvents] = useState<CalenderEventType[]>([]);
+  const pathname = usePathname();
+  console.log(pathname);
 
   // Default form values
   const [formDefaultValue, setFormDefaultValue] = useState({
@@ -110,7 +113,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 
   return (
     <>
-      <div className="h-[500px] 2xl:h-[700px] bg-white mb-3">
+      <div className="h-[600px] bg-white mb-3">
         <Calendar
           localizer={localizer}
           events={transformEvents}
