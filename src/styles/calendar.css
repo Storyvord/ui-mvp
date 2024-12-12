@@ -1,0 +1,25 @@
+/* Custom calendar styles */
+.rbc-event {
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+.rbc-event:hover {
+  filter: brightness(85%) !important;
+}
+
+/* Selected event style */
+.rbc-selected {
+  filter: brightness(85%) !important;
+}
+
+/* Event time and title */
+.rbc-event-content {
+  color: white !important;
+  font-size: 14px !important;
+}
+
+/* Optional: Customize the today's date highlight */
+.rbc-today {
+  background-color: rgba(49, 116, 173, 0.1) !important;
+}

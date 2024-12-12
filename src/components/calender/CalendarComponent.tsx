@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Calendar, dateFnsLocalizer, Event as BigCalendarEvent } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, Event as BigCalendarEvent, Views } from "react-big-calendar";
 import { format } from "date-fns/format";
 import { parse } from "date-fns/parse";
 import { startOfWeek } from "date-fns/startOfWeek";
 import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "@/styles/calendar.css";
 
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { usePathname } from "next/navigation";
+import { eventColors } from "@/constant/eventColor";
 
 type CalendarComponentProps = {
   events: CalenderEventType[];
@@ -101,6 +103,18 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     setOpenEventDialog(true);
   };
 
+  const eventPropGetter = (event: CalenderEventType) => {
+    const colorIndex = event.id % eventColors.length;
+    return {
+      style: {
+        backgroundColor: eventColors[colorIndex],
+        border: '2px solid rgb(236, 228, 228)',
+        borderRadius: '4px',
+        color: 'rgb(236, 228, 228)',
+      }
+    };
+  };
+
   // Transform Events for Calendar
   useEffect(() => {
     const transformed = events?.map((event) => ({
@@ -110,9 +124,10 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     }));
     setTransformEvents(transformed);
   }, [events]);
+  let allViews = Object.keys(Views).map((k) => Views[k])
 
   return (
-    <>
+    <div className="bg-white px-4 py-2">
       <div className="h-[600px] bg-white mb-3">
         <Calendar
           localizer={localizer}
@@ -125,7 +140,10 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
           onNavigate={handleNavigate}
           date={currentDate}
           selectable
+          eventPropGetter={eventPropGetter}
           style={{ height: "100%" }}
+          views={allViews}
+
         />
       </div>
       <AddEvent
@@ -149,7 +167,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
         isEditLoading={isEditLoading}
         isEditError={isEditError}
       />
-    </>
+    </div>
   );
 };
 
