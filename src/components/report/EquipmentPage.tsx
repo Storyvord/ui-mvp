@@ -20,7 +20,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({
   isError,
 }) => {
   if (isPending) {
-    return <LoadingUi isPending={isPending} />;
+    return <LoadingUi isPending={isPending} text="AI is matching the best-fit suppliers..." />;
   }
 
   if (isError) {

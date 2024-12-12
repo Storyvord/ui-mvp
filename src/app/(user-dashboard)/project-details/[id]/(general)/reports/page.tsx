@@ -17,7 +17,7 @@ import {
 import CrewPage from "@/components/report/CrewPage";
 import ReportDetails from "@/components/report/ReportDetails";
 
-const tabs = ["Crew", "Equipment", "Logistics", "Compliance", "Culture", "Budget"];
+const tabs = ["Crew", "Suppliers", "Logistics", "Compliance", "Culture", "Budget"];
 
 const ReportsPage = () => {
   const [activeTab, setActiveTab] = useState("Crew");
@@ -88,7 +88,7 @@ const ReportsPage = () => {
           isError={isErrorRequirementsSuggestions}
         />
       )}
-      {activeTab === "Equipment" && (
+      {activeTab === "Suppliers" && (
         <EquipmentPage
           equipmentRequirements={equipmentRequirements}
           isPending={isPendingRequirementsSuggestions}

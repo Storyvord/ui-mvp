@@ -67,10 +67,12 @@ const ProjectCalendar = ({
   //   })
   // );
 
-  const crewList = crewListData?.results.map((crew: { id: number; user: string }) => ({
-    value: crew.id,
-    label: crew.user,
-  }));
+  const crewList = crewListData?.results.map(
+    (crew: { membership_id: string; user: { email: string } }) => ({
+      value: crew.membership_id,
+      label: crew.user.email,
+    })
+  );
 
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
     await createCalenderEvent({ eventData: formData, projectId });
