@@ -18,8 +18,3 @@
   color: white !important;
   font-size: 14px !important;
 }
-
-/* Optional: Customize the today's date highlight */
-.rbc-today {
-  background-color: rgba(49, 116, 173, 0.1) !important;
-}

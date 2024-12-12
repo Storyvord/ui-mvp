@@ -103,8 +103,8 @@ export type CalenderFormFieldConfig = {
 };
 
 export type CalenderEventType = {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   id: number;
   title: string;
   description: string | null;

@@ -71,7 +71,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   currentDate,
 }) => {
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
-  const [transformEvents, setTransformEvents] = useState<CalenderEventType[]>([]);
+  const [transformEvents, setTransformEvents] = useState<any>([]);
   const pathname = usePathname();
   console.log(pathname);
 
@@ -108,7 +108,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     return {
       style: {
         backgroundColor: eventColors[colorIndex],
-        border: '2px solid rgb(236, 228, 228)',
         borderRadius: '4px',
         color: 'rgb(236, 228, 228)',
       }
@@ -117,14 +116,16 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 
   // Transform Events for Calendar
   useEffect(() => {
-    const transformed = events?.map((event) => ({
-      ...event,
-      start: new Date(event.start),
-      end: new Date(event.end),
-    }));
+    const transformed = events?.map((event) => {
+      // Parse UTC strings directly to local time
+      return {
+        ...event,
+        start: new Date(event.start.replace('Z', '')),
+        end: new Date(event.end.replace('Z', '')),
+      };
+    });
     setTransformEvents(transformed);
   }, [events]);
-  let allViews = Object.keys(Views).map((k) => Views[k])
 
   return (
     <div className="bg-white px-4 py-2">
@@ -142,8 +143,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
           selectable
           eventPropGetter={eventPropGetter}
           style={{ height: "100%" }}
-          views={allViews}
-
         />
       </div>
       <AddEvent
