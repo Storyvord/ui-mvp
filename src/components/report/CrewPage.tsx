@@ -21,7 +21,7 @@ type CrewPageClientProps = {
 
 const CrewPage: React.FC<CrewPageClientProps> = ({ crewRequirements, isPending, isError }) => {
   if (isPending) {
-    return <LoadingUi isPending={isPending} />;
+    return <LoadingUi isPending={isPending} text="AI is matching the best-fit crew..." />;
   }
 
   if (isError) {
