@@ -20,7 +20,7 @@ interface TaskCardProps {
   completeTask: (task: taskType) => void;
   deleteTask: (id: number) => void;
   editTask: (id: number, task: any) => void;
-  crewList: [{ value: string; label: string }];
+  crewList: [{ value: number; label: string }];
   approveTaskCompletion: (taskId: number) => void;
   isLoading: boolean;
 }
@@ -35,8 +35,10 @@ const TaskCard: FC<TaskCardProps> = ({
   isLoading,
 }) => {
   const [formOpen, setFormOpen] = useState(false);
+  console.log(crewList);
+  console.log(task);
   const assignedCrew = crewList?.find((crew) => {
-    return crew.value == String(task?.assigned_to);
+    return crew.value == task?.assigned_to;
   });
   return (
     <Card className="min-h-[60px] py-0 px-2 rounded-sm">

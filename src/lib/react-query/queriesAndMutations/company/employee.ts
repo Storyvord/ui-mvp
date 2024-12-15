@@ -21,10 +21,11 @@ export const useSentInvitationToEmployee = () => {
   });
 };
 
-export const useGetOnBoardedEmployeeList = () => {
+export const useGetOnBoardedEmployeeList = (companyID?: number) => {
   return useQuery({
-    queryKey: ["getOnBoardedEmployeeList"],
-    queryFn: () => getOnBoardedEmployeeList(),
+    queryKey: ["getOnBoardedEmployeeList", companyID],
+    queryFn: () => getOnBoardedEmployeeList(companyID!),
+    enabled: !!companyID, // Query only runs when companyID is truthy
   });
 };
 

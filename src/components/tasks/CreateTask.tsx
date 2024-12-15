@@ -29,7 +29,6 @@ const formFields: FormFieldConfig<taskFormType>[] = [
     name: "assigned_to",
     label: "Assign To",
     type: "select",
-    isMulti: true,
     options: [],
   },
 ];
@@ -38,7 +37,7 @@ interface CreateTaskProps {
   formOpen: boolean;
   handleSubmission: (newTask: taskFormType) => void;
   setFormOpen: (value: boolean) => void;
-  crewList: { value: string; label: string }[];
+  crewList: { value: number; label: string }[];
 }
 
 const CreateTask: FC<CreateTaskProps> = ({
@@ -94,7 +93,7 @@ const CreateTask: FC<CreateTaskProps> = ({
 
   return (
     <Dialog open={formOpen} onOpenChange={() => setFormOpen(!formOpen)}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[625px] px-6">
         <DialogHeader>
           <DialogTitle>{taskEditing ? "Edit Task" : "Create Task"}</DialogTitle>
         </DialogHeader>

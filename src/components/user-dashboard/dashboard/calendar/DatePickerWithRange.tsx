@@ -21,7 +21,7 @@ const DatePickerWithRange = ({ onSelectRange, className, ...props }: DatePickerW
   };
 
   return (
-    <div className={`bg-white rounded-lg ${className}`} {...props}>
+    <div className={`bg-white hidden xl:flex rounded-lg ${className}`} {...props}>
       <Calendar
         // initialFocus
         mode="range"

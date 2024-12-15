@@ -7,13 +7,10 @@ import React from "react";
 
 const ShowTasks = () => {
   const { data: tasksList, isPending, isError } = useGetCompanyTasks();
-
   return (
     <div className=" bg-white rounded-xl mt-2 p-3">
-      {tasksList?.data?.tasks.length === 0 && (
-        <p className=" text-center text-gray-500">No tasks found</p>
-      )}
-      {tasksList?.data?.tasks.map((task: any) => (
+      {tasksList?.length === 0 && <p className=" text-center text-gray-500">No tasks found</p>}
+      {tasksList?.map((task: any) => (
         <div
           key={task.id}
           className=" bg-gray-100 p-2 flex justify-between items-center mt-2 rounded-md"

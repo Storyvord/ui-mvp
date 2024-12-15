@@ -62,6 +62,9 @@ export const useDeleteRoom = () => {
       });
       return data;
     },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 

@@ -36,7 +36,7 @@ type FormFieldConfig<T extends FieldValues> = {
     | "select"
     | "link";
   isMulti?: boolean; // this is only for type select
-  options?: { value: string; label: string }[]; // this is only for type select
+  options?: { value: string | number; label: string }[]; // this is only for type select
   placeholder?: string;
   title?: string;
   routeTo?: string;
@@ -183,7 +183,7 @@ const CustomForm = <TFormValues extends FieldValues>({
           </p>
         </div> */}
         <Button className="mt-5" type="submit" disabled={isLoading}>
-          {isLoading ? <Loader /> : 'Submit'}
+          {isLoading ? <Loader /> : "Submit"}
         </Button>
       </form>
     </Form>

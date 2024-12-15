@@ -3,18 +3,13 @@ import { taskFormType } from "@/types";
 import { customFetch } from "../api";
 
 export const getCompanyTasks = async () => {
-  return customFetch(`${USER_API}/tasks/v2/tasks/`, {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/`, {
     method: "GET",
   });
 };
 
-export const getCompanyEmployeeTasks = async () => {
-  return customFetch(`${USER_API}/api/company/employee/tasks/`, {
-    method: "GET",
-  });
-};
-export const createNewCompanyTask = async (taskData: taskFormType) => {
-  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/`, {
+export const createCompanyTask = async (taskData: taskFormType) => {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +19,7 @@ export const createNewCompanyTask = async (taskData: taskFormType) => {
 };
 
 export const deleteCompanyTask = async (taskId: number) => {
-  return customFetch(`${USER_API}/tasks/v2/tasks/${taskId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/${taskId}/`, {
     method: "DELETE",
   });
 };
@@ -36,7 +31,7 @@ export const updateCompanyTask = async ({
   taskId: number;
   taskData: any;
 }) => {
-  return customFetch(`${USER_API}/api/company/tasks/${taskId}`, {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/${taskId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -45,14 +40,20 @@ export const updateCompanyTask = async ({
   });
 };
 
+export const getCompanyEmployeeTasks = async () => {
+  return customFetch(`${NEW_API_URL_V2}/company/employee/tasks/`, {
+    method: "GET",
+  });
+};
+
 export const companyTaskCompletionApproval = async (taskId: number) => {
-  return customFetch(`${USER_API}/api/company/tasks/${taskId}/approve-completion/`, {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/${taskId}/approve-completion/`, {
     method: "POST",
   });
 };
 
 export const companyTaskCompletionRequest = async (taskId: number) => {
-  return customFetch(`${USER_API}/api/company/tasks/${taskId}/request-completion/`, {
+  return customFetch(`${NEW_API_URL_V2}/company/tasks/${taskId}/request-completion/`, {
     method: "POST",
   });
 };

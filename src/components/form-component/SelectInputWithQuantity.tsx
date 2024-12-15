@@ -8,18 +8,18 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Badge } from "@/components/ui/badge";
 
 // Define the type for the options used in the Select component
-type OptionType = { value: string; label: string } | null;
+type OptionType = { value: string | number; label: string } | null;
 
 // Define a unique identifier for each item
 interface SelectedItem {
   id: string; // Unique identifier
-  title: string;
+  title: string | number; // Updated to allow both string and number
   quantity: number;
 }
 
 interface SelectableFieldsProps {
   fieldName: string; // The name of the field in the form
-  options: { value: string; label: string }[]; // Options for the Select component
+  options: { value: string | number; label: string }[]; // Options for the Select component
   form: UseFormReturn<any>; // The react-hook-form instance
 }
 
@@ -66,7 +66,7 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                   <input
                     placeholder="Enter name"
                     className="font-sans font-bold w-full bg-slate-900 border-b-2 border-slate-700 focus:outline-none focus:border-slate-500 p-2 text-[0.9rem] text-white"
-                    value={customNames[item.id] || item.title}
+                    value={customNames[item.id] || String(item.title)}
                     onChange={(e) => {
                       const newName = e.target.value;
                       setCustomNames((prev) => ({ ...prev, [item.id]: newName }));
@@ -78,7 +78,9 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                     }}
                   />
                 ) : (
-                  <FormLabel className="font-sans font-bold text-white">{item.title}</FormLabel>
+                  <FormLabel className="font-sans font-bold text-white">
+                    {String(item.title)}
+                  </FormLabel>
                 )}
                 <FormControl>
                   <div className="flex gap-2 items-center relative -top-1">
@@ -142,7 +144,7 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
                 const selectedOption = selected as OptionType;
                 const currentValue: SelectedItem[] = field.value || [];
 
-                if (selectedOption && typeof selectedOption.value === "string") {
+                if (selectedOption) {
                   // Prevent adding duplicate standard options
                   if (
                     selectedOption.value !== "Others" &&
@@ -168,16 +170,13 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
               }}
               onBlur={field.onBlur}
               value={null} // Ensure no selected value shows up in the select input
-              // react-select props to improve user experience
               isClearable
               isSearchable
-              // Ensure multiple selection isn't allowed via the Select component itself
-              // since we're handling it manually
               isMulti={false}
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
-                  borderRadius: "0.5rem", // Equivalent to 'rounded-lg'
+                  borderRadius: "0.5rem",
                   borderColor: state.isFocused ? "black" : "#D1D5DB",
                   borderWidth: state.isFocused ? "2px" : "1px",
                   fontFamily: "'Poppins', sans-serif",
@@ -190,7 +189,6 @@ const SelectInputWithQuantity: React.FC<SelectableFieldsProps> = ({ fieldName, o
               }}
             />
           </FormControl>
-          {/* Render selected fields if there are any */}
           {Array.isArray(field.value) && field.value.length > 0 && (
             <div className="mt-2 flex gap-2 flex-wrap">{renderSelectedFields()}</div>
           )}

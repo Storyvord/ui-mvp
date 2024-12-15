@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Calendar, dateFnsLocalizer, Event as BigCalendarEvent } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, Event as BigCalendarEvent, Views } from "react-big-calendar";
 import { format } from "date-fns/format";
 import { parse } from "date-fns/parse";
 import { startOfWeek } from "date-fns/startOfWeek";
 import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "@/styles/calendar.css";
 
 import { CalenderEventType, CalenderFormFieldType } from "@/types";
 import AddEvent from "@/components/calender/AddEvent";
 import EventDialog from "@/components/calender/EventDialog";
 import { usePathname } from "next/navigation";
+import { eventColors } from "@/constant/eventColor";
 
 type CalendarComponentProps = {
   events: CalenderEventType[];
@@ -69,7 +71,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   currentDate,
 }) => {
   const [eventToDisplay, setEventToDisplay] = useState<CalenderEventType | null>(null);
-  const [transformEvents, setTransformEvents] = useState<CalenderEventType[]>([]);
+  const [transformEvents, setTransformEvents] = useState<any>([]);
   const pathname = usePathname();
   console.log(pathname);
 
@@ -101,18 +103,32 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     setOpenEventDialog(true);
   };
 
+  const eventPropGetter = (event: CalenderEventType) => {
+    const colorIndex = event.id % eventColors.length;
+    return {
+      style: {
+        backgroundColor: eventColors[colorIndex],
+        borderRadius: '4px',
+        color: 'rgb(236, 228, 228)',
+      }
+    };
+  };
+
   // Transform Events for Calendar
   useEffect(() => {
-    const transformed = events?.map((event) => ({
-      ...event,
-      start: new Date(event.start),
-      end: new Date(event.end),
-    }));
+    const transformed = events?.map((event) => {
+      // Parse UTC strings directly to local time
+      return {
+        ...event,
+        start: new Date(event.start.replace('Z', '')),
+        end: new Date(event.end.replace('Z', '')),
+      };
+    });
     setTransformEvents(transformed);
   }, [events]);
 
   return (
-    <>
+    <div className="bg-white px-4 py-2">
       <div className="h-[600px] bg-white mb-3">
         <Calendar
           localizer={localizer}
@@ -125,6 +141,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
           onNavigate={handleNavigate}
           date={currentDate}
           selectable
+          eventPropGetter={eventPropGetter}
           style={{ height: "100%" }}
         />
       </div>
@@ -149,7 +166,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
         isEditLoading={isEditLoading}
         isEditError={isEditError}
       />
-    </>
+    </div>
   );
 };
 

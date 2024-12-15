@@ -46,7 +46,7 @@ export type FormFieldConfig<T extends FieldValues> = {
   note?: ReactNode;
   optional?: boolean;
   isMulti?: boolean; // Only applicable for select type fields
-  options?: { value: string; label: string }[]; // Required for select & selectWithQuantity fields
+  options?: { value: string | number; label: string }[]; // Required for select & selectWithQuantity fields
 };
 
 // Define the props for the RenderFormFields component
