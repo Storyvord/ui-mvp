@@ -16,8 +16,12 @@ import ToolBar from "@/components/tasks/ToolBar";
 import { taskFormType, taskType } from "@/types";
 import TaskSkeleton from "@/components/TaskSkeleton";
 import { useToast } from "@/components/ui/use-toast";
-import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import {
+  useGetOnBoardedEmployeeList,
+  useGetSendInvitationsList,
+} from "@/lib/react-query/queriesAndMutations/company/employee";
 import AssignTaskCard from "@/components/tasks/AssignTaskCard";
+import { useGetCompanySettings } from "@/lib/react-query/queriesAndMutations/company/settings";
 
 const TaskPage = ({ params }: { params: { id: string } }) => {
   const { data: tasksList, isPending: isLoadingTask, isError: isErrorTask } = useGetCompanyTasks();
@@ -29,13 +33,12 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
     useCompanyTaskCompletionApproval();
   const { mutateAsync: taskRequestCompletionMutation, isPending: isLoadingRequestTask } =
     useCompanyTaskCompletionRequest();
-  const { data: employee_list } = useGetSendInvitationsList();
-  const employeeList = employee_list?.accepted.map(
-    (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
-      value: employee.invited_user.id,
-      label: employee.firstName || employee.employee_email,
-    })
-  );
+  const { data: companyProfile } = useGetCompanySettings();
+  const { data: employeeListData } = useGetOnBoardedEmployeeList(companyProfile?.data?.id);
+  const employeeList = employeeListData?.data.map((crew: { id: string; user_email: string }) => ({
+    value: crew.id,
+    label: crew.user_email,
+  }));
 
   const [tasks, setTasks] = useState<taskType[]>([]);
   const { toast } = useToast();
@@ -180,7 +183,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
         </div>
       )}
       {taskFilter === "assign-task" &&
-        employeeTaskList?.map((task: any) => (
+        employeeTaskList?.data?.map((task: any) => (
           <AssignTaskCard
             key={task.id}
             task={task}

@@ -23,7 +23,7 @@ export type FormFieldConfig<T extends FieldValues> = {
     | "datetime-local"
     | "select";
   isMulti?: boolean; // this is only for type select
-  options?: { value: string; label: string }[]; // this is only for type select
+  options?: { value: string | number; label: string }[]; // this is only for type select
   placeholder?: string;
   disabled?: boolean;
   optional?: boolean; // this is for optional fields
@@ -140,7 +140,7 @@ export type taskType = {
   completed: boolean;
   completion_requested: boolean;
   project?: { name: string };
-  assigned_to: string[];
+  assigned_to: number[] | number;
   requester: number | null;
   created_by: number;
 };

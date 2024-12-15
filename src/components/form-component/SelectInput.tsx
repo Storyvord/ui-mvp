@@ -1,13 +1,15 @@
 import React from "react";
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
 import { Control, Controller } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
+
+type Option = { value: string | number; label: string };
 
 type MultiSelectProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
-  options: { value: string; label: string }[];
-  isMulti?: boolean; // Add isMulti prop
+  options: Option[];
+  isMulti?: boolean;
   placeholder?: string;
 };
 
@@ -25,30 +27,32 @@ const SelectInput = <T extends FieldValues>({
       render={({ field }) => (
         <Select
           options={options}
-          isMulti={isMulti} // Use isMulti prop
+          isMulti={isMulti}
           onChange={(selectedOption) => {
             field.onChange(
               isMulti
-                ? selectedOption
-                  ? (selectedOption as any[]).map((option) => option.value)
-                  : []
-                : (selectedOption as any)?.value || ""
+                ? Array.isArray(selectedOption)
+                  ? (selectedOption as MultiValue<Option>).map((option) => option.value)
+                  : [] // Handle no options selected
+                : (selectedOption as Option)?.value || "" // Single select value
             );
           }}
           value={
             isMulti
-              ? options.filter((option) => (field.value as string[]).includes(option.value))
+              ? options.filter((option) =>
+                  (field.value as (string | number)[]).includes(option.value)
+                )
               : options.find((option) => option.value === field.value) || null
           }
           placeholder={placeholder}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
-              borderRadius: "0.5rem", // Equivalent to 'rounded-lg'
+              borderRadius: "0.5rem",
               borderColor: state.isFocused ? "black" : "#D1D5DB",
               borderWidth: state.isFocused ? "2px" : "1px",
               fontFamily: "'Poppins', sans-serif",
-              height: "3rem",
+              minHeight: "3rem",
               boxShadow: state.isFocused ? "0 0 0 2px transparent" : baseStyles.boxShadow,
               ":hover": {
                 borderColor: "black",

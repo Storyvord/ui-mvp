@@ -14,7 +14,6 @@ import { useGetOnBoardedEmployeeList } from "@/lib/react-query/queriesAndMutatio
 const Dashboard = () => {
   const [pastProjects, setPastProjects] = useState<ProjectType[]>([]);
   const [onGoingProjects, setOngoingProjects] = useState<ProjectType[]>([]);
-  const [companyId, setCompanyId] = useState();
 
   const { data: projects, isPending, isError } = useGetProjects();
   const { data: companyProfile } = useGetCompanySettings();
@@ -49,7 +48,7 @@ const Dashboard = () => {
           <DashboardCalendar employeeList={employeeList} />
         </section>
         <section className=" h-full pl-1 space-y-6">
-          <Tasks />
+          <Tasks employeeList={employeeList} />
           <MyNetwork />
           <Posting />
         </section>

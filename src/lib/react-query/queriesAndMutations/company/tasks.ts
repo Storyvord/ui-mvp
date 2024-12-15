@@ -1,6 +1,6 @@
 import {
   updateCompanyTask,
-  createNewCompanyTask,
+  createCompanyTask,
   deleteCompanyTask,
   getCompanyTasks,
   companyTaskCompletionApproval,
@@ -26,12 +26,15 @@ export const useGetCompanyEmployeeTasks = () => {
 export const useCreateNewCompanyTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createNewCompanyTask,
+    mutationFn: createCompanyTask,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["getCompanyTasks"],
       });
       return data;
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };
@@ -44,6 +47,9 @@ export const useDeleteCompanyTask = () => {
       queryClient.invalidateQueries({
         queryKey: ["getCompanyTasks"],
       });
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };
@@ -58,6 +64,9 @@ export const useUpdateCompanyTask = () => {
       });
       return data;
     },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 
@@ -71,6 +80,9 @@ export const useCompanyTaskCompletionApproval = () => {
       });
       return data;
     },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 
@@ -83,6 +95,9 @@ export const useCompanyTaskCompletionRequest = () => {
         queryKey: ["getCompanyEmployeeTasks"],
       });
       return data;
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };
