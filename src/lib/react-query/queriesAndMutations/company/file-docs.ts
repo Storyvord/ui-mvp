@@ -1,16 +1,19 @@
 import {
   createCompanyFileDocumentRoom,
   deleteCompanyFile,
+  deleteCompanyRoom,
   getAllCompanyFiles,
   getCompanyFileDocumentRooms,
+  updateCompanyRoom,
   uploadCompanyFile,
 } from "@/lib/api/company/file-docs";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useGetCompanyFileDocumentRooms = () => {
+export const useGetCompanyFileDocumentRooms = (companyId: string) => {
   return useQuery({
     queryKey: ["getCompanyFileDocumentRooms"],
-    queryFn: getCompanyFileDocumentRooms,
+    queryFn: () => getCompanyFileDocumentRooms(companyId),
+    enabled: !!companyId, // Query only runs when companyID is truthy
   });
 };
 
@@ -23,6 +26,37 @@ export const useCreateCompanyFileDocumentRoom = () => {
         queryKey: ["getCompanyFileDocumentRooms"],
       });
       return data;
+    },
+  });
+};
+
+export const useDeleteCompanyRoom = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteCompanyRoom,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCompanyFileDocumentRooms"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useUpdateCompanyRoom = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateCompanyRoom,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCompanyFileDocumentRooms"],
+      });
+      return data;
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };
