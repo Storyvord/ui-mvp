@@ -11,7 +11,7 @@ const Posting = () => {
       </span>
       <Link
         href="#"
-        className=" w-80 border rounded-2xl p-4 bg-white flex flex-col gap-4 cursor-pointer"
+        className=" max-w-80 border rounded-2xl p-4 bg-white flex flex-col gap-4 cursor-pointer"
       >
         <Image height={27} width={27} src="/icons/plus.svg" alt="plus-icon" />
         <span>

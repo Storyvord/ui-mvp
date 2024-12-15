@@ -8,7 +8,10 @@ import {
   useEditCompanyCalenderEvent,
   useGetCompanyCalenderEvents,
 } from "@/lib/react-query/queriesAndMutations/company/calender";
-import { useGetSendInvitationsList } from "@/lib/react-query/queriesAndMutations/company/employee";
+import {
+  useGetOnBoardedEmployeeList,
+  useGetSendInvitationsList,
+} from "@/lib/react-query/queriesAndMutations/company/employee";
 import CalendarComponent from "@/components/calender/CalendarComponent";
 import { CalenderFormFieldType } from "@/types";
 
@@ -18,12 +21,14 @@ const CompanyCalender = ({
   handleNavigate,
   currentDate,
   calendarType,
+  employeeList,
 }: {
   openFormDialog: boolean;
   setOpenFormDialog: (value: boolean) => void;
   handleNavigate?: (date: Date) => void;
   currentDate?: Date;
   calendarType: "month" | "week" | "day" | "agenda";
+  employeeList: { value: string; label: string }[];
 }) => {
   const [openEventDialog, setOpenEventDialog] = useState(false);
   // Fetch all calendar events
@@ -32,13 +37,6 @@ const CompanyCalender = ({
     isPending: isEventsLoading,
     isError: isEventsError,
   } = useGetCompanyCalenderEvents();
-
-  // Fetch crew list (employees)
-  const {
-    data: employeeListData,
-    isPending: isCrewLoading,
-    isError: isCrewError,
-  } = useGetSendInvitationsList();
 
   // Create calendar event mutation
   const {
@@ -60,13 +58,6 @@ const CompanyCalender = ({
     isError: isEditError,
   } = useEditCompanyCalenderEvent();
 
-  // Prepare crew list for the CalendarComponent
-  const crewList = employeeListData?.accepted.map(
-    (employee: { firstName: string; invited_user: { id: number }; employee_email: string }) => ({
-      value: employee.invited_user.id,
-      label: employee.firstName || employee.employee_email,
-    })
-  );
   const handleCreateEvent = async (formData: CalenderFormFieldType) => {
     await createCalenderEvent(formData);
     setOpenFormDialog(false);
@@ -88,7 +79,7 @@ const CompanyCalender = ({
       <CalendarComponent
         events={events?.data?.user_calendar_events || []}
         calendarType={calendarType}
-        crewList={crewList}
+        crewList={employeeList}
         isCreateLoading={isCreateLoading}
         isCreateError={isCreateError}
         isDeleteLoading={isDeleteLoading}

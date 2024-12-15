@@ -6,7 +6,11 @@ import CompanyCalendar from "./CompanyCalendar";
 import DatePickerWithRange from "./DatePickerWithRange";
 import { Button } from "@/components/ui/button";
 
-const DashboardCalendar = () => {
+type Props = {
+  employeeList: { value: string; label: string }[];
+};
+
+const DashboardCalendar = ({ employeeList }: Props) => {
   const [openFormDialog, setOpenFormDialog] = useState(false);
 
   const [selectedRange, setSelectedRange] = useState<any | undefined>({
@@ -47,6 +51,7 @@ const DashboardCalendar = () => {
             handleNavigate={handleNavigate}
             currentDate={currentDate}
             calendarType="week"
+            employeeList={employeeList}
           />
         </div>
       </main>
