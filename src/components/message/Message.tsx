@@ -58,12 +58,12 @@ const Message: React.FC = () => {
       return;
     }
 
-    const wsUrl = `wss://api-stage.storyvord.com:8001/ws/chat/${receiverId}/?access_token=${token}`;
+    const wsUrl = `wss://api-dev.storyvord.com:8001/ws/chat/user/${receiverId}/?access_token=${token}`;
     const wsClient = new W3CWebSocket(wsUrl);
     clientRef.current = wsClient;
 
     wsClient.onopen = () => {
-      // console.log("WebSocket Client Connected");
+      console.log("WebSocket Client Connected");
       setIsConnected(true);
     };
 
@@ -91,9 +91,9 @@ const Message: React.FC = () => {
     };
 
     wsClient.onerror = (error) => {
-      // console.error("WebSocket Error:", error);
       setIsErrorConnection(true);
-      alert("WebSocket connection failed. Please try again.");
+      // console.error("WebSocket Error:", error);
+      // alert("WebSocket connection failed. Please try again.");
     };
 
     wsClient.onclose = (event) => {
