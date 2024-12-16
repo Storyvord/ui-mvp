@@ -126,7 +126,8 @@ const DashboardNavbar = () => {
               />
             </Link>
           )}
-          <div className="hidden lg:flex gap-4 border p-2 rounded-lg h-10 lg:ml-16">
+          {/* temporary comment */}
+          {/* <div className="hidden lg:flex gap-4 border p-2 rounded-lg h-10 lg:ml-16">
             <Image
               className="w-[30px]"
               src={"/icons/search.svg"}
@@ -138,7 +139,7 @@ const DashboardNavbar = () => {
               className=" border-l-2 pl-4 focus:border-l-2 focus:outline-none"
               placeholder="Search or type"
             />
-          </div>
+          </div> */}
         </section>
         <section className=" flex items-center gap-3 sm:gap-10">
           <NavigationMenu>
