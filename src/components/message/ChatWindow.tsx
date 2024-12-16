@@ -21,7 +21,7 @@ type Conversation = {
 
 type Message = {
   message: string;
-  sender: string;
+  sender?: number;
 };
 
 type ChatWindowProps = {
@@ -32,6 +32,8 @@ type ChatWindowProps = {
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   sendMessage: (e: FormEvent) => void;
+  senderId: number;
+  isReceiverOnline: boolean;
 };
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -42,8 +44,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   message,
   setMessage,
   sendMessage,
+  senderId,
+  isReceiverOnline
 }) => {
-  const senderId = JSON.parse(localStorage.getItem("user-details") || "{}")?.id;
   const [isConversationListVisible, setIsConversationListVisible] = useState(true);
   return (
     <main className=" flex sm:p-8 gap-2">
@@ -66,16 +69,19 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           onClick={() => setIsConversationListVisible((prev) => !prev)}
           className=" w-6 h-6 sm:hidden block absolute cursor-pointer"
         />
-        <h1 className="w-full border-b pb-2 pl-8 sm:pl-2 font-semibold">{receiverName}</h1>
+        <h1 className="w-full border-b pb-2 pl-8 sm:pl-2 font-semibold flex items-center gap-2">
+          {receiverName}
+          <span className={`inline-block w-2 h-2 rounded-full ${isReceiverOnline ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+        </h1>
         <main className=" h-96 overflow-auto p-4 ">
           {messages?.map((message, index) => (
             <div
               key={index}
-              className={`flex mb-2 ${message.sender == senderId ? "justify-end" : "justify-start"}`}
+              className={`flex mb-2 ${Number(message.sender) === Number(senderId) ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`max-w-xs p-2 rounded-lg ${
-                  message.sender == senderId ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
+                  Number(message.sender) === Number(senderId) ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
                 }`}
               >
                 <p>{message.message}</p>
@@ -92,4 +98,4 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   );
 };
 
-export default React.memo(ChatWindow);
+ export default React.memo(ChatWindow);
