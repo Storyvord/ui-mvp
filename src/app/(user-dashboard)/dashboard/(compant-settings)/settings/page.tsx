@@ -104,16 +104,16 @@ const CompanySettings = () => {
   useEffect(() => {
     if (data) {
       form.reset({
-        company_name: data.company_name || "",
-        company_logo: data.company_logo || null,
-        street: data.street || "",
-        cityandstate: data.cityandstate || "",
-        postalcode: data.postalcode || 0,
-        country: data.country || "",
-        name: data.name || "",
-        email: data.email || "",
-        phone: data.phone || 0,
-        fax: data.fax || 0,
+        company_name: data.data.company_name || "",
+        company_logo: data.data.company_logo || null,
+        street: data.data.street || "",
+        cityandstate: data.data.cityandstate || "",
+        postalcode: data.data.postalcode || 0,
+        country: data.data.country || "",
+        name: data.data.name || "",
+        email: data.data.email || "",
+        phone: data.data.phone || 0,
+        fax: data.data.fax || 0,
       });
     }
   }, [data, form]);
