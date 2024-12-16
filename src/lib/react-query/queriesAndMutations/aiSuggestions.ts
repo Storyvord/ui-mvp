@@ -8,14 +8,11 @@ export const useGetSuggestions = (project_id: string) => {
   });
 };
 
-export const useGetRequirements = () => {
-  return useMutation({
-    mutationFn: getRequirements,
-    onSuccess: (data) => {
-      return data;
-    },
-    onError: (error) => {
-      throw error;
-    },
+export const useGetRequirements = (reqId: string) => {
+  return useQuery({
+    queryKey: ["getRequirements"],
+    queryFn: () => getRequirements(reqId),
+    // The query will not execute until the reqId exists
+    enabled: !!reqId,
   });
 };

@@ -31,30 +31,21 @@ const ReportsPage = () => {
   const { id: project_id }: { id: string } = useParams();
 
   const { data: projectRequirements } = useGetProjectRequirements(project_id);
+
+  // ai Requirements suggestions
   const {
-    mutateAsync: getRequirementsSuggestions,
+    data: getRequirementsSuggestions,
     isPending: isPendingRequirementsSuggestions,
     isError: isErrorRequirementsSuggestions,
-  } = useGetRequirements();
+  } = useGetRequirements(projectRequirements?.results[0]?.id);
+  console.log(getRequirementsSuggestions);
   const {
     data: suggestions,
     isPending: isPendingSuggestions,
     isError: isErrorSuggestions,
     refetch,
   } = useGetSuggestions(project_id);
-
-  useEffect(() => {
-    (async () => {
-      if (projectRequirements) {
-        const requirementsSuggestions = await getRequirementsSuggestions(
-          projectRequirements.results[0].id
-        );
-
-        setCrewRequirements(requirementsSuggestions?.data.suggested_crew);
-        setEquipmentRequirements(requirementsSuggestions?.data.suggested_equipment);
-      }
-    })();
-  }, [projectRequirements]);
+  console.log(suggestions);
 
   // useEffect(() => {
   //   if (suggestions?.data?.suggestion?.data) {
@@ -83,14 +74,14 @@ const ReportsPage = () => {
 
       {activeTab === "Crew" && (
         <CrewPage
-          crewRequirements={crewRequirements}
+          crewRequirements={getRequirementsSuggestions?.data.suggested_crew}
           isPending={isPendingRequirementsSuggestions}
           isError={isErrorRequirementsSuggestions}
         />
       )}
       {activeTab === "Suppliers" && (
         <EquipmentPage
-          equipmentRequirements={equipmentRequirements}
+          equipmentRequirements={getRequirementsSuggestions?.data.suggested_equipment}
           isPending={isPendingRequirementsSuggestions}
           isError={isErrorRequirementsSuggestions}
         />
