@@ -37,6 +37,7 @@ const ReportsPage = () => {
     data: getRequirementsSuggestions,
     isPending: isPendingRequirementsSuggestions,
     isError: isErrorRequirementsSuggestions,
+    refetch: refetchRequirement,
   } = useGetRequirements(projectRequirements?.results[0]?.id);
   console.log(getRequirementsSuggestions);
   const {
@@ -77,6 +78,7 @@ const ReportsPage = () => {
           crewRequirements={getRequirementsSuggestions?.data.suggested_crew}
           isPending={isPendingRequirementsSuggestions}
           isError={isErrorRequirementsSuggestions}
+          refetch={refetchRequirement}
         />
       )}
       {activeTab === "Suppliers" && (
@@ -84,6 +86,7 @@ const ReportsPage = () => {
           equipmentRequirements={getRequirementsSuggestions?.data.suggested_equipment}
           isPending={isPendingRequirementsSuggestions}
           isError={isErrorRequirementsSuggestions}
+          refetch={refetchRequirement}
         />
       )}
       {activeTab === "Logistics" && (

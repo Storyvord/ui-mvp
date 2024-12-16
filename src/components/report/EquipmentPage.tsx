@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import LoadingUi from "./LoadingUi";
 import EquipmentCard, { Equipment } from "./EquipmentCard";
+import { Button } from "../ui/button";
 
 type EquipmentRequirements = {
   message: string;
@@ -12,23 +13,28 @@ type EquipmentPageProps = {
   equipmentRequirements: EquipmentRequirements;
   isPending: boolean;
   isError: boolean;
+  refetch: () => void;
 };
 
 const EquipmentPage: React.FC<EquipmentPageProps> = ({
   equipmentRequirements,
   isPending,
   isError,
+  refetch,
 }) => {
   if (isPending) {
     return <LoadingUi isPending={isPending} text="AI is matching the best-fit suppliers..." />;
   }
 
-  if (isError) {
+  if (isError && !isPending) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex flex-col gap-6 justify-center items-center pt-8 md:p-6">
         <p className="text-xl font-poppins-semibold text-red-600">
-          An error occurred while fetching equipment data. Please try again later.
+          An error occurred while fetching data. Please try again.
         </p>
+        <Button variant="outline" onClick={() => refetch()}>
+          Try again
+        </Button>
       </div>
     );
   }

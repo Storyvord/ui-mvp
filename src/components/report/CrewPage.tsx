@@ -3,6 +3,7 @@
 import React from "react";
 import LoadingUi from "./LoadingUi";
 import CrewCard, { Crew } from "./CrewCard";
+import { Button } from "../ui/button";
 
 type CrewRequirements = {
   message: string;
@@ -17,19 +18,28 @@ type CrewPageClientProps = {
   crewRequirements: CrewRequirements;
   isPending: boolean;
   isError: boolean;
+  refetch: () => void;
 };
 
-const CrewPage: React.FC<CrewPageClientProps> = ({ crewRequirements, isPending, isError }) => {
+const CrewPage: React.FC<CrewPageClientProps> = ({
+  crewRequirements,
+  isPending,
+  isError,
+  refetch,
+}) => {
   if (isPending) {
     return <LoadingUi isPending={isPending} text="AI is matching the best-fit crew..." />;
   }
 
-  if (isError) {
+  if (isError && !isPending) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex flex-col gap-6 justify-center items-center pt-8 md:p-6">
         <p className="text-xl font-poppins-semibold text-red-600">
-          An error occurred while fetching Crew data. Please try again later.
+          An error occurred while fetching data. Please try again.
         </p>
+        <Button variant="outline" onClick={() => refetch()}>
+          Try again
+        </Button>
       </div>
     );
   }
