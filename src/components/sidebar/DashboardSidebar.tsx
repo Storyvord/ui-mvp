@@ -1,17 +1,15 @@
 "use client";
-import { projectdetailsItems } from "@/constant/constant";
+import Image from "next/image";
+import { companySettingsMenuItems } from "@/constant/constant";
+import Link from "next/link";
 import { useProjectControl } from "@/context/ProjectContext";
 import { useSideBarControl } from "@/context/SideBarContext";
-import Image from "next/image";
-import Link from "next/link";
 import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
-import { useParams } from "next/navigation";
 
-const SideBar = () => {
+const DashboardSidebar = () => {
   const { isSideBarOpen } = useSideBarControl();
   const { setProject } = useProjectControl();
-  const { id: projectId } = useParams();
 
   return (
     <aside
@@ -19,7 +17,7 @@ const SideBar = () => {
     >
       <div className="relative">
         <SideBarCloseButton />
-        <Link href={`/project-details/${projectId}`}>
+        <Link className="" href={`/dashboard`}>
           <Image
             onClick={() => setProject({ id: "", name: "" })}
             className=" mx-auto w-[150px]"
@@ -33,21 +31,12 @@ const SideBar = () => {
       <div className="mx-4">
         <Link
           href="/dashboard"
-          className=" flex items-center gap-4 py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+          className=" flex items-center gap-4 py-3 hover:text-text-color-1 pl-4 w-full text-[#607D8B] font-semibold"
         >
           <Image src="/icons/left-arrow.svg" alt="" width={17} height={17} />
           Dashboard
         </Link>
-
-        <Link
-          href={`/project-details/${projectId}`}
-          className=" flex items-center gap-4 border rounded-lg py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
-        >
-          <Image src="/icons/dashboard-icon.svg" alt="" width={17} height={17} />
-          Project Details
-        </Link>
-
-        {projectdetailsItems.map((details) => (
+        {companySettingsMenuItems.map((details) => (
           <div key={details.title} className="flex flex-col gap-1">
             <h1 className=" pl-2 text-sm text-gray-400 mt-4 uppercase">{details.title}</h1>
             {details.items.map((item) => (
@@ -67,4 +56,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default DashboardSidebar;

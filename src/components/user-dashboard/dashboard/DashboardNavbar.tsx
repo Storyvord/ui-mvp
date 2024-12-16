@@ -80,7 +80,7 @@ const DashboardNavbar = () => {
 
       <span className=" text-gray-500 text-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-2">
         <Image width={20} height={20} className="w-[20px]" src={"/icons/back.svg"} alt="icon" />
-        <Link href="#past-project" className=" ml-4">
+        <Link href="/dashboard/#past-project" className=" ml-4">
           Past Projects
         </Link>
       </span>
@@ -109,7 +109,7 @@ const DashboardNavbar = () => {
             alt="storyvord-logo"
           />
         </Link>
-        <div className="hidden lg:flex gap-4 border p-2 rounded-lg h-10">
+        <div className="hidden lg:flex gap-4 border p-2 rounded-lg h-10 lg:ml-16">
           <Image
             className="w-[30px]"
             src={"/icons/search.svg"}
@@ -126,7 +126,7 @@ const DashboardNavbar = () => {
       <section className=" flex items-center gap-3 sm:gap-10">
         <DropdownMenu>
           <DropdownMenuTrigger className="sm:flex items-center gap-4 cursor-pointer hidden">
-            <h1>Project Name</h1>
+            <h1>Select Project </h1>
             <Image
               width={20}
               height={20}

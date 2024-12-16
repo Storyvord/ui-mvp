@@ -52,7 +52,7 @@ const SubscriptionPackages = () => {
         {packages.map((pkg, index) => (
           <div
             key={index}
-            className="border flex flex-col justify-between rounded-lg p-6 relative shadow-sm hover:shadow-md transition duration-300"
+            className="border flex flex-col justify-between rounded-lg p-6 relative shadow-sm hover:shadow-md transition duration-300 bg-white"
           >
             <h3 className="text-xl font-poppins-semibold mb-2">{pkg.name}</h3>
             <p className="text-gray-600 mb-4">{pkg.description}</p>
