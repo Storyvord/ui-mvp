@@ -38,7 +38,6 @@ const ProjectDetails: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string } | null>(
     null
   );
-  const [selectProject, setSelectedProject] = useState();
   const { toast } = useToast();
 
   // Get the project ID from the URL parameters
@@ -48,10 +47,14 @@ const ProjectDetails: React.FC = () => {
   // Get the function to set the project in global context
   const { setProject } = useProjectControl();
 
-  const { data: projectDetails, isPending: projectDetailsLoading, isError } = useGetProjects();
-  const { data: singleProject } = useGetProjectDetails(projectId);
+  const {
+    data: singleProject,
+    isPending: projectDetailsLoading,
+    isError,
+  } = useGetProjectDetails(projectId);
   const { data: projectRequirements } = useGetProjectRequirements(projectId);
   const { data: shootDetails } = useGetShootDetails(projectId);
+
   // Mutation hook for deleting a project
   const { mutateAsync: deleteProject, isPending: deletingProject } = useDeleteProject();
 
@@ -60,11 +63,10 @@ const ProjectDetails: React.FC = () => {
 
   // Set the project in the global state when project details are loaded
   useEffect(() => {
-    if (projectDetails) {
-      setProject({ id: projectDetails?.project_id, name: projectDetails?.name });
-      setSelectedProject(projectDetails.results.find((item: any) => item.project_id === projectId));
+    if (singleProject) {
+      setProject({ id: singleProject?.project_id, name: singleProject?.name });
     }
-  }, [projectDetails, setProject]);
+  }, [singleProject, setProject]);
 
   // Handle project deletion, redirect to home after successful deletion
   const handleDeleteProject = async () => {
@@ -75,7 +77,7 @@ const ProjectDetails: React.FC = () => {
       });
       return;
     }
-    await deleteProject({ project_id: projectId });
+    await deleteProject(projectId);
     router.replace("/dashboard");
   };
 

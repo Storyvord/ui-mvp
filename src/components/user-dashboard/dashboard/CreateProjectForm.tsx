@@ -120,9 +120,23 @@ const CreateProjectForm = ({
 
   return (
     <div className="px-4">
-      <h1 className="text-center md:mt-1 md:mb-4 sm:text-3xl text-xl font-semibold">
-        {isEdit ? `Edit (${projectDetails?.projectName}) Project` : "Create a new Project"}
+      <h1 className="text-center md:mt-1 md:mb-4 sm:text-2xl text-xl font-poppins-semibold">
+        {isEdit ? (
+          <>
+            Edit Project
+            <br />
+            <span
+              onClick={() => router.back()}
+              className="inline-block font-poppins-normal text-lg underline cursor-pointer"
+            >
+              {projectDetails?.projectName}
+            </span>
+          </>
+        ) : (
+          "Create a new Project"
+        )}
       </h1>
+
       <div className="w-full space-y-8 mx-auto max-w-[800px] mt-4 lg:mt-6 lg:w-3/5 bg-white p-4">
         <Form {...form}>
           <form

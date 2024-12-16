@@ -1,4 +1,8 @@
+"use client";
+import DashboardSidebar from "@/components/sidebar/DashboardSidebar";
 import DashboardNavbar from "@/components/user-dashboard/dashboard/DashboardNavbar";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 interface LayoutProps {
@@ -6,10 +10,15 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
+  const path = usePathname();
+  console.log(path);
   return (
     <div className="max-w-[2000px] mx-auto relative">
       <DashboardNavbar />
-      <main className=" relative pt-16 ">{children}</main>
+      <main className={cn("pt-16 relative", path !== "/dashboard" && "md:ml-60 xl:ml-72 ")}>
+        {path !== "/dashboard" && <DashboardSidebar />}
+        {children}
+      </main>
     </div>
   );
 };

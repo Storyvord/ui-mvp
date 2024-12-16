@@ -39,8 +39,8 @@ export const getProjectRequirements = async (project_id: string) => {
   );
 };
 
-export const deleteProject = async ({ project_id }: { project_id: string }) => {
-  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${project_id}/`, {
+export const deleteProject = async (projectId: string) => {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/projects/${projectId}/`, {
     method: "DELETE",
   });
 };
@@ -52,7 +52,7 @@ export const editProject = async ({
   projectData: ProjectFormFieldType;
   projectId: string;
 }) => {
-  return customFetch(`${NEW_API_URL_V2}/api/project/projects/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/firstproject/${projectId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

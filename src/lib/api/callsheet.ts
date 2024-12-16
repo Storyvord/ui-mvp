@@ -1,5 +1,5 @@
 import { ShootFormType } from "@/components/user-dashboard/project-details/planning/call-sheet/CallSheetForm";
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
 // Create a call sheet
@@ -10,7 +10,7 @@ export const createCallSheet = async ({
   formData: ShootFormType;
   projectId: string;
 }) => {
-  return customFetch(`${USER_API}/api/callsheets/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/callsheets/${projectId}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const createCallSheet = async ({
 };
 
 export const editCallSheet = async ({ id, formData }: { id: number; formData: ShootFormType }) => {
-  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/callsheets/details/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -31,20 +31,20 @@ export const editCallSheet = async ({ id, formData }: { id: number; formData: Sh
 
 // get call sheet data
 export const getCallSheets = async (projectId: string) => {
-  return customFetch(`${USER_API}/api/callsheets/${projectId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/callsheets/${projectId}/`, {
     method: "GET",
   });
 };
 
 export const getCallSheetDetails = async (id: number) => {
-  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/callsheets/details/${id}/`, {
     method: "GET",
   });
 };
 
 // Delete a call sheet
 export const deleteCallSheet = async (id: number) => {
-  return customFetch(`${USER_API}/api/callsheets/details/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/callsheets/details/${id}/`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

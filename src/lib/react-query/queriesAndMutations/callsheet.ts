@@ -17,6 +17,9 @@ export const useCreateCallSheet = () => {
       });
       return data;
     },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 export const useGetCallSheets = (projectId: string) => {
@@ -35,6 +38,9 @@ export const useEditCallSheet = () => {
         queryKey: ["getCallSheets"],
       });
       return data;
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };
@@ -56,6 +62,9 @@ export const useDeleteCallSheet = () => {
       queryClient.invalidateQueries({
         queryKey: ["getCallSheets"],
       });
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };

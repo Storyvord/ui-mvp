@@ -26,7 +26,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
             <Toaster />
-            {/* <Chatbot /> */}
+            <Chatbot />
           </>
         ) : (
           <Loading />
