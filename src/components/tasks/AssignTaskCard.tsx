@@ -33,7 +33,8 @@ const AssignTaskCard: FC<TaskCardProps> = ({ task, handleRequestApproval, isLoad
                   <h1 className="font-sans text-gray-700 font-bold text-[14px] sm:text-[16px]">
                     {task.title}
                   </h1>
-                  {task.project && <h3 className="text-sm">Project:- {task.project.name}</h3>}
+                  {/* temporary comments */}
+                  {/* {task.project && <h3 className="text-sm">Project:- {task.project.name}</h3>} */}
                   {/* {task.created_by } */}
                 </span>
               </div>
