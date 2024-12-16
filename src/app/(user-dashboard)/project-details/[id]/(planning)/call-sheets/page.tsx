@@ -55,7 +55,7 @@ const Page: FC = () => {
             Create Call Sheet
           </Button>
           {isError && <p> Failed to get call sheets</p>}
-          {data?.length === 0 ? (
+          {data?.data?.length === 0 ? (
             <Image
               src={callSheetImg}
               alt="Call Sheet Example"
@@ -63,17 +63,19 @@ const Page: FC = () => {
               className="mt-5 w-5/6 max-w-[80%] h-auto mx-auto"
             />
           ) : (
-            data?.map((item: { id: number; title: string; date: string; calltime: string }) => (
-              <CallSheetCard
-                key={item.id}
-                title={item.title}
-                date={item.date}
-                time={item.calltime}
-                deleteCallSheet={handleDeleteCallSheet}
-                isLoadingDelete={isLoadingDelete}
-                id={item.id}
-              />
-            ))
+            data?.data?.map(
+              (item: { id: number; title: string; date: string; calltime: string }) => (
+                <CallSheetCard
+                  key={item.id}
+                  title={item.title}
+                  date={item.date}
+                  time={item.calltime}
+                  deleteCallSheet={handleDeleteCallSheet}
+                  isLoadingDelete={isLoadingDelete}
+                  id={item.id}
+                />
+              )
+            )
           )}
         </div>
       </div>

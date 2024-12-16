@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
-import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { CallSheetFormSchema } from "@/lib/validation";
+import { defaultValues, formFields } from "@/constant/formFields/callSheet";
 
 import RenderFormFields from "@/components/form-component/RenderFormFields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
-import { defaultValues, formFields } from "@/constant/formFields/callSheet";
 import RenderDynamicFormFields from "@/components/form-component/RenderDynamicFormFields";
+import { Form } from "@/components/ui/form";
 
 export type ShootFormType = z.infer<typeof CallSheetFormSchema>;
 
@@ -37,7 +37,6 @@ const CallSheetForm = ({
   // useEffect(() => {
   //   formFields[18].options = crewList;
   // }, [crewList]);
-
   const form = useForm({
     resolver: zodResolver(CallSheetFormSchema),
     defaultValues,
@@ -83,7 +82,7 @@ const CallSheetForm = ({
 
             {isError && (
               <p className="text-center text-sm text-red-600 font-semibold">
-                {error?.detail}
+                {error?.message}
                 <br />
               </p>
             )}
