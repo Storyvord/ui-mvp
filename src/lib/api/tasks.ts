@@ -28,7 +28,7 @@ export const createNewTask = async ({
 };
 
 export const deleteTask = async (taskId: number) => {
-  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/${taskId}`, {
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/${taskId}/`, {
     method: "DELETE",
   });
 };
@@ -40,7 +40,7 @@ export const completeTask = async ({
   taskId: number;
   taskData: taskType;
 }) => {
-  return customFetch(`${USER_API}/api/tasks/tasks/${taskId}/`, {
+  return customFetch(`${NEW_API_URL_V2}/tasks/v2/tasks/${taskId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

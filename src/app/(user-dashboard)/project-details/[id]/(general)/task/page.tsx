@@ -50,25 +50,28 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   };
 
   const deleteTask = async (id: number) => {
-    try {
-      await deleteTaskMutation(id);
-    } catch (error) {
-      console.log(error);
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      try {
+        await deleteTaskMutation(id);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const createTask = async (task: taskFormType) => {
+    console.log(task);
     const newTask = {
       project: params.id,
       title: task.title,
       description: task.description,
-      assigned_to: task.assigned_to,
+      assigned_to: Array.isArray(task.assigned_to) ? task.assigned_to : [task.assigned_to],
       due_date: task.due_date,
       status: "in progress",
       // completion_requested: false,
       // requester: null,
     };
-
+    console.log(newTask);
     try {
       await createNewTaskMutation({ taskData: newTask, projectId: params.id });
     } catch (error) {
@@ -79,10 +82,11 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
   const editTask = (id: number, task: taskType) => {
     const updatedTasks = {
       ...task,
+      project: params.id,
       title: task.title,
       desc: task.description,
       deadline: task.due_date,
-      assigned_to: task.assigned_to,
+      assigned_to: Array.isArray(task.assigned_to) ? task.assigned_to : [task.assigned_to],
     };
     completeTaskMutation({ taskId: id, taskData: updatedTasks });
   };

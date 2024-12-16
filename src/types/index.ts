@@ -134,12 +134,13 @@ export type ReturnAnnouncements = Announcements & {
 
 export type taskType = {
   id: number;
+  project: string;
   title: string;
   description: string;
   due_date: string;
   completed: boolean;
   completion_requested: boolean;
-  project?: { name: string };
+  // project?: { name: string };
   assigned_to: number[] | number;
   requester: number | null;
   created_by: number;
