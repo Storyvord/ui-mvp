@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   useEditProject,
   useGetProjectDetails,
+  useGetProjectRequirements,
+  useGetShootDetails,
 } from "@/lib/react-query/queriesAndMutations/project";
 import { useToast } from "@/components/ui/use-toast";
 import CreateProjectPage from "@/components/user-dashboard/dashboard/CreateProjectForm";
@@ -16,7 +18,9 @@ const EditProjectContent = () => {
   const { toast } = useToast();
 
   // Fetch project details using the projectId.
-  const { data } = useGetProjectDetails(projectId);
+  const { data, isPending: projectDetailsLoading, isError } = useGetProjectDetails(projectId);
+  const { data: projectRequirements } = useGetProjectRequirements(projectId);
+  const { data: shootDetails } = useGetShootDetails(projectId);
   // Mutation hook to edit a project, using the projectId.
   const {
     mutateAsync: editProject,
@@ -45,9 +49,9 @@ const EditProjectContent = () => {
   const projectDetails = {
     projectName: data?.name,
     contentType: data?.content_type,
-    budget: parseFloat(data?.budget_amount), // Convert budget amount to a float.
     description: data?.brief,
-    locationDetails: data?.location_details.map((location: any) => ({
+    budget: projectRequirements?.results[0].budget_amount, // Convert budget amount to a float.
+    locationDetails: shootDetails?.results.map((location: any) => ({
       location: location.location,
       start_date: location.start_date,
       end_date: location.end_date,
@@ -56,14 +60,18 @@ const EditProjectContent = () => {
     })),
     uploadedDocument: data?.documents,
     aiSuggestions: data?.ai_suggestions,
-    crew: data?.selected_crew.map((crew: { title: string; quantity: number }) => ({
-      title: crew.title,
-      quantity: crew.quantity,
-    })),
-    equipment: data?.equipment.map((item: { title: string; quantity: number }) => ({
-      title: item.title,
-      quantity: item.quantity,
-    })),
+    crew: projectRequirements?.results[0]?.crew_requirements?.map(
+      (crew: { crew_title: string; quantity: number }) => ({
+        title: crew.crew_title,
+        quantity: crew.quantity,
+      })
+    ),
+    equipment: projectRequirements?.results[0]?.equipment_requirements?.map(
+      (item: { equipment_title: string; quantity: number }) => ({
+        title: item.equipment_title,
+        quantity: item.quantity,
+      })
+    ),
   };
 
   return (

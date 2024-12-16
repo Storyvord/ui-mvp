@@ -87,7 +87,7 @@ const ProjectDetailsUI: React.FC<ProjectDetailsUIProps> = ({
                         )}
                     </div>
                   </div>
-
+                  {/* 3 dot */}
                   <Popover>
                     <PopoverTrigger>
                       <BsThreeDotsVertical className=" cursor-pointer w-4 h-4" />
