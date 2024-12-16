@@ -151,7 +151,7 @@ const Message: React.FC = () => {
     }
   };
   return (
-    <div className="mx-auto p-4">
+    <div className="mx-auto -mt-3 sm:mt-1 w-full h-[89vh]">
       {isErrorConnection && <p className=" w-full p-4 text-center">Failed to connect</p>}
       <ChatWindow
         receiverName={receiverName}

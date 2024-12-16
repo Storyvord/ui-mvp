@@ -115,7 +115,7 @@ const DashboardNavbar = () => {
     <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm pr-4">
       <nav className="flex justify-between w-full mx-auto max-w-[2000]">
         <section className=" flex items-center gap-4 xl:gap-16 sm:ml-8">
-          {path === "/dashboard" && (
+          {path === "/dashboard" || path.includes("message") && (
             <Link href="/dashboard">
               <Image
                 className=" w-[125px] sm:w-[150px]"
