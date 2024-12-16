@@ -1,3 +1,4 @@
+import { format } from "date-fns/format";
 import React, { Key } from "react";
 
 interface ChatbotSidebarProps {
@@ -20,13 +21,13 @@ export const ChatbotSidebar: React.FC<ChatbotSidebarProps> = ({
           <p
             className="font-bold cursor-pointer"
             onClick={() => {
-              setCurrentSession({ id: 2, session_id: "eaa1fce4-a427-4605-aa21-cbdb4e84b755" });
+              setCurrentSession({ id: 2, session_id: item.session_id });
               !expanded && setOpenHistory(false);
             }}
           >
-            Topic
+            Chat On
           </p>
-          <p>{item.session_id}</p>
+          <p>{format(new Date(item.created_at as string), "dd-MM-yyyy")}</p>
         </div>
       ))}
     </div>
