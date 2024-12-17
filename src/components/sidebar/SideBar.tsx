@@ -6,12 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import SideBarButton from "./components/SideBarButton";
 import SideBarCloseButton from "./components/SideBarCloseButton";
-import { useParams } from "next/navigation";
+import { useParams, useSelectedLayoutSegments } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const SideBar = () => {
   const { isSideBarOpen } = useSideBarControl();
   const { setProject } = useProjectControl();
   const { id: projectId } = useParams();
+  const segment = useSelectedLayoutSegments();
+  console.log(segment);
 
   return (
     <aside
@@ -41,10 +44,18 @@ const SideBar = () => {
 
         <Link
           href={`/project-details/${projectId}`}
-          className=" flex items-center gap-4 border rounded-lg py-3 hover:text-text-color-1 pl-4 w-full text-gray-500 font-semibold"
+          className={cn(
+            "w-full h-auto flex items-center gap-4 px-4 py-3 capitalize justify-start rounded-lg ",
+            segment?.length === 0
+              ? "bg-gradient-to-tr from-gray-800 to-gray-600 text-white hover:text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85]"
+              : "text-[#607D8B] hover:bg-[#607D8B]/10 active:bg-[#607D8B]/30"
+          )}
         >
           <Image src="/icons/dashboard-icon.svg" alt="" width={17} height={17} />
-          Project Details
+
+          <p className="block antialiased text-base leading-relaxed text-inherit font-medium capitalize truncate overflow-hidden whitespace-nowrap text-ellipsis">
+            Project Details
+          </p>
         </Link>
 
         {projectdetailsItems.map((details) => (
