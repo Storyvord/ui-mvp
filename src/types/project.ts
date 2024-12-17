@@ -8,13 +8,13 @@ export type LocationDetails = {
 };
 
 export type Crew = {
-  id: number;
+  id?: number;
   crew_title: string;
   quantity: number;
 };
 
 export type Equipment = {
-  id: number;
+  id?: number;
   equipment_title: string;
   quantity: number;
 };
@@ -46,3 +46,35 @@ export type Project = {
   updated_at: string;
   crew_profiles: number[];
 };
+
+type CrewRequirement = {
+  title: string;
+  quantity: string;
+};
+
+type EquipmentRequirement = {
+  title: string;
+  quantity: string;
+};
+
+export interface ProjectRequirements {
+  budget: string;
+  budget_currency: string;
+  crew_requirements: CrewRequirement[];
+  equipment_requirements: EquipmentRequirement[];
+}
+
+export interface ShootingSchedule {
+  location: string;
+  start_date: string;
+  end_date: string;
+  mode_of_shooting: "indoor" | "outdoor" | "both";
+  permits: boolean;
+}
+
+export interface ProjectDetails {
+  additional_details: string;
+  brief: string;
+  content_type: string;
+  name: string;
+}
