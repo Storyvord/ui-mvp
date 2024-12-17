@@ -23,7 +23,7 @@ export default function Chatbot() {
   useEffect(() => {
     let wsUrl = "";
     if (!currentSession) {
-      wsUrl = `wss://api-dev.storyvord.com:8001/ws/ai_assistant/?token=${token}`;
+      wsUrl = `wss://api-dev.storyvord.com:8001/ws/ai_assistant/?token=${token}&agent=1`;
     } else {
       wsUrl = `wss://api-dev.storyvord.com:8001/ws/ai_assistant/?session_id=${currentSession.session_id}&token=${token}`;
     }

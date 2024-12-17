@@ -2,7 +2,9 @@
 import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  useEditProject,
+  useEditProjectDetails,
+  useEditProjectRequirements,
+  useEditShootDetails,
   useGetProjectDetails,
   useGetProjectRequirements,
   useGetShootDetails,
@@ -21,27 +23,43 @@ const EditProjectContent = () => {
   const { data, isPending: projectDetailsLoading, isError } = useGetProjectDetails(projectId);
   const { data: projectRequirements } = useGetProjectRequirements(projectId);
   const { data: shootDetails } = useGetShootDetails(projectId);
+
   // Mutation hook to edit a project, using the projectId.
   const {
-    mutateAsync: editProject,
+    mutateAsync: editProjectDetails,
     isPending: isLoadingEditProject,
     isError: isErrorEditProject,
-  } = useEditProject(projectId);
+  } = useEditProjectDetails(projectId);
+  const { mutateAsync: editShootDetails } = useEditShootDetails(projectId);
+  const { mutateAsync: editProjectRequirements } = useEditProjectRequirements(
+    projectRequirements?.results[0]?.id
+  );
 
   // Handler function to edit a project with the provided project data.
   const handleEditProject = async (projectData: any) => {
     try {
-      // Attempt to update the project with the given data.
-      const res = await editProject({ projectData, projectId });
-      if (res) {
-        // Show a success toast message if the project is updated successfully.
-        toast({ title: "Project has been successfully updated" });
-        // Redirect to the project details page after a successful update.
-        router.push(`/project-details/${projectId}`);
-      }
-    } catch (e) {
-      // Show an error toast message if the update fails.
+      // Run all three async calls in parallel using Promise.all
+      await Promise.all([
+        editProjectDetails({
+          projectData: projectData.project_details,
+          projectId,
+        }),
+        editShootDetails({
+          shootDetails: projectData.shooting_details,
+          projectId,
+        }),
+        editProjectRequirements({
+          requirementData: projectData.project_requirement,
+          reqId: projectRequirements?.results[0]?.id,
+        }),
+      ]);
+      toast({ title: "Project has been successfully updated" });
+      router.push(`/project-details/${projectId}`);
+      return "success";
+    } catch (error) {
       toast({ title: "Failed to update Project", variant: "destructive" });
+      console.error("Error updating project:", error);
+      return "error";
     }
   };
 

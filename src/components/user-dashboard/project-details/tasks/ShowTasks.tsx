@@ -2,9 +2,12 @@
 import React from "react";
 import { useGetCompanyTasks } from "@/lib/react-query/queriesAndMutations/company/tasks";
 import { cn } from "@/lib/utils";
+import { useGetTasks } from "@/lib/react-query/queriesAndMutations/tasks";
+import { useParams } from "next/navigation";
 
 const ShowTasks = () => {
-  const { data: tasksList, isPending, isError } = useGetCompanyTasks();
+  const { id: projectId }: { id: string } = useParams();
+  const { data: tasksList, isPending: isLoadingTask } = useGetTasks(projectId);
 
   return (
     <div className=" bg-white rounded-xl mt-0 p-3">

@@ -31,6 +31,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
+import { CgProfile } from "react-icons/cg";
 
 const DashboardNavbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -115,7 +116,7 @@ const DashboardNavbar = () => {
     <header className=" bg-white p-2 flex-col md:flex-row justify-between md:justify-end fixed w-screen  top-0 left-0 z-50 shadow-sm pr-4">
       <nav className="flex justify-between w-full mx-auto max-w-[2000]">
         <section className=" flex items-center gap-4 xl:gap-16 sm:ml-8">
-          {path === "/dashboard" && (
+          {(path === "/dashboard" || path.includes("message")) && (
             <Link href="/dashboard">
               <Image
                 className=" w-[125px] sm:w-[150px]"
@@ -182,7 +183,8 @@ const DashboardNavbar = () => {
           <div className=" hidden sm:flex">
             <DropdownMenu>
               <DropdownMenuTrigger className=" flex items-center gap-2 cursor-pointer">
-                <Image width={40} height={40} src={"/profile.png"} alt="profile" />
+                {/* <Image width={40} height={40} src={"/profile.png"} alt="profile" /> */}
+                <CgProfile className=" w-10 h-10 text-gray-500" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {profile}

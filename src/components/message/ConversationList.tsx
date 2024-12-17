@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { CgProfile } from "react-icons/cg";
 
 type User = {
   id: number;
@@ -33,7 +34,7 @@ const ConversationList: React.FC<{
     return { name: convo.user1.name || "Unnamed User", id: convo.user1.id };
   };
   return (
-    <div className="conversation-list p-4 overflow-y-auto flex flex-col gap-2">
+    <div className="conversation-list mt-4 overflow-y-auto flex flex-col gap-2">
       {filteredConversations.length > 0 ? (
         filteredConversations.map((convo) => {
           const { name, id } = getOtherUserName(convo);
@@ -41,9 +42,15 @@ const ConversationList: React.FC<{
             <Link
               href={`?receiverId=${id}&name=${name}`}
               key={convo.id}
-              className="my-1 p-1 hover:bg-gray-100 cursor-pointer border-b"
+              className="my-1 p-3 hover:bg-gray-100 cursor-pointer border rounded-lg shadow-sm flex items-center gap-3"
             >
-              {name}
+              <CgProfile className=" w-12 h-12 text-gray-500" />
+              <span>
+                <h1 className=" text-[#0A0A41] font-poppins-semibold text-base truncate overflow-hidden whitespace-nowrap text-ellipsis max-w-60">
+                  {name}
+                </h1>
+                <p>...</p>
+              </span>
             </Link>
           );
         })

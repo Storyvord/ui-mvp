@@ -1,8 +1,8 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import { customFetch } from "./api";
 
 export const sendMessage = async (formData: any) => {
-  return customFetch(`${USER_API}/api/inbox/messages/1/send/`, {
+  return customFetch(`${NEW_API_URL_V2}/inbox/messages/1/send/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const sendMessage = async (formData: any) => {
 };
 
 export const readMessage = async (formData: any) => {
-  return customFetch(`${USER_API}/api/inbox/messages/1/read/`, {
+  return customFetch(`${NEW_API_URL_V2}/inbox/messages/1/read/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,13 +29,13 @@ export const getMessageList = async () => {
 
 export const getMessages = async (receiverId: string) => {
   if (!receiverId) return;
-  return customFetch(`${USER_API}/api/inbox/dialogs/${receiverId}/messages/`, {
+  return customFetch(`${NEW_API_URL_V2}/inbox/dialogs/${receiverId}/messages/`, {
     method: "GET",
   });
 };
 
 export const getConversationsList = async () => {
-  return customFetch(`${USER_API}/api/inbox/dialogs/`, {
+  return customFetch(`${NEW_API_URL_V2}/inbox/dialogs/`, {
     method: "GET",
   });
 };

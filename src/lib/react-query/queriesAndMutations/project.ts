@@ -2,7 +2,10 @@ import {
   createProject,
   deleteProject,
   editProject,
+  editProjectDetails,
+  editProjectRequirements,
   editProjectStatus,
+  editShootDetails,
   getProjectDetails,
   getProjectRequirements,
   getProjects,
@@ -60,6 +63,43 @@ export const useGetProjectRequirements = (project_id: string) => {
       return getProjectRequirements(project_id);
     },
     retry: false,
+  });
+};
+
+export const useEditProjectDetails = (projectId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editProjectDetails,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["projectDetails", projectId],
+      });
+      return data;
+    },
+  });
+};
+export const useEditShootDetails = (projectId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editShootDetails,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["shootDetails", projectId],
+      });
+      return data;
+    },
+  });
+};
+export const useEditProjectRequirements = (reqId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editProjectRequirements,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["projectRequirements", reqId],
+      });
+      return data;
+    },
   });
 };
 

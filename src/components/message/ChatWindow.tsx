@@ -2,8 +2,11 @@
 import React, { FormEvent, useState } from "react";
 import ConversationList from "./ConversationList";
 import MessageInput from "./MessageInput";
-import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
+import DisplayMessage from "./DisplayMessage";
+import ChatHeader from "./ChatHeader";
+import { RxCross2 } from "react-icons/rx";
 import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 
 type User = {
   id: number;
@@ -21,7 +24,7 @@ type Conversation = {
 
 type Message = {
   message: string;
-  sender: string;
+  sender?: number;
 };
 
 type ChatWindowProps = {
@@ -32,6 +35,8 @@ type ChatWindowProps = {
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   sendMessage: (e: FormEvent) => void;
+  senderId: number;
+  isReceiverOnline: boolean;
 };
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -42,48 +47,47 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   message,
   setMessage,
   sendMessage,
+  senderId,
+  isReceiverOnline,
 }) => {
-  const senderId = JSON.parse(localStorage.getItem("user-details") || "{}")?.id;
   const [isConversationListVisible, setIsConversationListVisible] = useState(true);
+
+  const toggleConversationList = () => setIsConversationListVisible((prev) => !prev);
+
   return (
-    <main className=" flex sm:p-8 gap-2">
+    <main className="flex h-full">
       <section
         className={cn(
-          "flex-[0.2] border rounded p-2 bg-white relative",
+          "flex-[0.25] p-2 px-4 bg-white relative pt-4 border-r-2",
           isConversationListVisible && "block",
           !isConversationListVisible && "hidden"
         )}
       >
         <RxCross2
-          onClick={() => setIsConversationListVisible((prev) => !prev)}
-          className=" w-6 h-6 sm:hidden block absolute cursor-pointer"
+          onClick={toggleConversationList}
+          className="w-6 h-6 sm:hidden block absolute cursor-pointer"
         />
-        <h1 className="w-full text-center border-b pb-2 font-semibold">Chats</h1>
+        <h1 className="w-full text-left font-poppins-semibold text-green-500 text-lg tracking-widest">
+          Messages
+        </h1>
+        <Input className="my-2 rounded-3xl" placeholder="Search" />
+        <div className="flex gap-2">
+          <button className=" bg-[#0A0A41] text-white py-1 px-3 rounded-lg text-sm">
+            All Messages{" "}
+          </button>
+          <button className=" py-1 border px-2 rounded-lg text-sm">Unread </button>
+        </div>
         <ConversationList conversations={conversationsList} senderId={senderId} />
       </section>
-      <section className=" flex-1 border rounded p-2 bg-white relative">
-        <RxHamburgerMenu
-          onClick={() => setIsConversationListVisible((prev) => !prev)}
-          className=" w-6 h-6 sm:hidden block absolute cursor-pointer"
+      <section className="flex-1 flex flex-col justify-between relative">
+        <ChatHeader
+          receiverName={receiverName}
+          isReceiverOnline={isReceiverOnline}
+          onMenuClick={toggleConversationList}
         />
-        <h1 className="w-full border-b pb-2 pl-8 sm:pl-2 font-semibold">{receiverName}</h1>
-        <main className=" h-96 overflow-auto p-4 ">
-          {messages?.map((message, index) => (
-            <div
-              key={index}
-              className={`flex mb-2 ${message.sender == senderId ? "justify-end" : "justify-start"}`}
-            >
-              <div
-                className={`max-w-xs p-2 rounded-lg ${
-                  message.sender == senderId ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
-                }`}
-              >
-                <p>{message.message}</p>
-              </div>
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </main>
+
+        <DisplayMessage messages={messages} messagesEndRef={messagesEndRef} senderId={senderId} />
+
         {receiverName && (
           <MessageInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
         )}

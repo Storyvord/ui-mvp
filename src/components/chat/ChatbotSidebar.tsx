@@ -19,15 +19,14 @@ export const ChatbotSidebar: React.FC<ChatbotSidebarProps> = ({
       {data?.map((item: Session, key: Key) => (
         <div className="bg-gray-50 p-3" key={key}>
           <p
-            className="font-bold cursor-pointer"
+            className="font-poppins-medium cursor-pointer"
             onClick={() => {
               setCurrentSession({ id: 2, session_id: item.session_id });
               !expanded && setOpenHistory(false);
             }}
           >
-            Chat On
+            {item.title?.replaceAll('"', "")}
           </p>
-          <p>{format(new Date(item.created_at as string), "dd-MM-yyyy")}</p>
         </div>
       ))}
     </div>
