@@ -15,7 +15,7 @@ const ShowSchedule = () => {
   // const { data: tasksList, isPending, isError } = useGetCompanyTasks();
 
   return (
-    <div className=" bg-white rounded-xl mt-5 p-3">
+    <div className=" bg-white rounded-xl p-3">
       {tasksList?.map((task: any) => (
         <div
           key={task.id}

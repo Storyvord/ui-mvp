@@ -37,9 +37,9 @@ const TaskCard: FC<TaskCardProps> = ({
   const [formOpen, setFormOpen] = useState(false);
   console.log(crewList);
   console.log(task);
-  const assignedCrew = crewList?.find((crew) => {
-    return crew.value == task?.assigned_to;
-  });
+  // const assignedCrew = crewList?.find((crew) => {
+  //   return crew.value == task?.assigned_to;
+  // });
   return (
     <Card className="min-h-[60px] py-0 px-2 rounded-sm">
       <Accordion type="single" collapsible>
@@ -53,9 +53,9 @@ const TaskCard: FC<TaskCardProps> = ({
                 <Checkbox checked={task.completed} onClick={() => completeTask(task)} />
                 <span className=" flex sm:gap-4 flex-col sm:flex-row">
                   <h1 className="font-sans text-gray-700 font-bold">{task.title}</h1>
-                  {assignedCrew?.label && (
+                  {/* {assignedCrew?.label && (
                     <h3 className=" text-sm text-gray-600">Assign to: {assignedCrew?.label}</h3>
-                  )}
+                  )} */}
                 </span>
               </div>
               <div className="flex gap-2 items-center">

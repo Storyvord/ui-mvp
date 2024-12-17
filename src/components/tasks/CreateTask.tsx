@@ -29,6 +29,7 @@ const formFields: FormFieldConfig<taskFormType>[] = [
     name: "assigned_to",
     label: "Assign To",
     type: "select",
+    isMulti: true,
     options: [],
   },
 ];

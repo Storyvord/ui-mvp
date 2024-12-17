@@ -65,7 +65,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       project: params.id,
       title: task.title,
       description: task.description,
-      assigned_to: Array.isArray(task.assigned_to) ? task.assigned_to : [task.assigned_to],
+      assigned_to: task.assigned_to,
       due_date: task.due_date,
       status: "in progress",
       // completion_requested: false,
@@ -86,7 +86,7 @@ const TaskPage = ({ params }: { params: { id: string } }) => {
       title: task.title,
       desc: task.description,
       deadline: task.due_date,
-      assigned_to: Array.isArray(task.assigned_to) ? task.assigned_to : [task.assigned_to],
+      assigned_to: task.assigned_to,
     };
     completeTaskMutation({ taskId: id, taskData: updatedTasks });
   };

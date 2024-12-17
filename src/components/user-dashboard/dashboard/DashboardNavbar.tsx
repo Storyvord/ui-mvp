@@ -31,6 +31,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
+import { CgProfile } from "react-icons/cg";
 
 const DashboardNavbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -182,7 +183,8 @@ const DashboardNavbar = () => {
           <div className=" hidden sm:flex">
             <DropdownMenu>
               <DropdownMenuTrigger className=" flex items-center gap-2 cursor-pointer">
-                <Image width={40} height={40} src={"/profile.png"} alt="profile" />
+                {/* <Image width={40} height={40} src={"/profile.png"} alt="profile" /> */}
+                <CgProfile className=" w-10 h-10 text-gray-500" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {profile}
