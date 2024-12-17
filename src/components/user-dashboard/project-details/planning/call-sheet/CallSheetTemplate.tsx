@@ -10,9 +10,10 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
   const weather = "Sunny, 25°C";
 
   const { data } = useGetCallSheetDetails(props.id);
+  console.log(data);
 
   useEffect(() => {
-    setLocation(data?.location.split(","));
+    setLocation(data?.location?.split(","));
   }, [data]);
 
   // Generate the Google Maps Embed URL
@@ -118,7 +119,7 @@ const CallSheetTemplate = forwardRef<HTMLDivElement, { id: number }>((props, ref
           </tr>
         </thead>
         <tbody>
-          {data?.call_time.map((item: any) => (
+          {data?.call_time?.map((item: any) => (
             <tr key={item.id}>
               <td className="border px-2 py-1">{item.position}</td>
               <td className="border px-2 py-1">{item.name}</td>
