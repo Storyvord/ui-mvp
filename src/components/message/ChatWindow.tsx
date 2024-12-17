@@ -49,12 +49,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   setMessage,
   sendMessage,
   senderId,
-  isReceiverOnline
+  isReceiverOnline,
 }) => {
   const [isConversationListVisible, setIsConversationListVisible] = useState(true);
-  
-  const toggleConversationList = () => setIsConversationListVisible(prev => !prev);
-  
+
+  const toggleConversationList = () => setIsConversationListVisible((prev) => !prev);
+
   return (
     <main className="flex h-full">
       <section
@@ -68,27 +68,27 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           onClick={toggleConversationList}
           className="w-6 h-6 sm:hidden block absolute cursor-pointer"
         />
-        <h1 className="w-full text-left font-poppins-semibold text-green-500 tracking-widest">Messages</h1>
+        <h1 className="w-full text-left font-poppins-semibold text-green-500 tracking-widest">
+          Messages
+        </h1>
         <Input className="my-2 rounded-3xl" placeholder="Search" />
         <div className="flex gap-2">
-          <button className=" bg-[#0A0A41] text-white py-1 px-3 rounded-lg text-sm">All Messages </button>
-          <button  className=" py-1 border px-2 rounded-lg text-sm">Unread </button>
+          <button className=" bg-[#0A0A41] text-white py-1 px-3 rounded-lg text-sm">
+            All Messages{" "}
+          </button>
+          <button className=" py-1 border px-2 rounded-lg text-sm">Unread </button>
         </div>
         <ConversationList conversations={conversationsList} senderId={senderId} />
       </section>
       <section className="flex-1 flex flex-col justify-between relative">
-        <ChatHeader 
+        <ChatHeader
           receiverName={receiverName}
           isReceiverOnline={isReceiverOnline}
           onMenuClick={toggleConversationList}
         />
-        
-        <DisplayMessage 
-          messages={messages}
-          messagesEndRef={messagesEndRef}
-          senderId={senderId}
-        />
-        
+
+        <DisplayMessage messages={messages} messagesEndRef={messagesEndRef} senderId={senderId} />
+
         {receiverName && (
           <MessageInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
         )}

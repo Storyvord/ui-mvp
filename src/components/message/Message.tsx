@@ -38,7 +38,6 @@ const Message: React.FC = () => {
       setSenderId(userDetails.data.personal_info.user);
     }
   }, [userDetails]);
-  console.log(senderId);
   const { data: conversationsList } = useGetConversationsList();
   const { data } = useGetMessages(receiverId);
   useEffect(() => {
@@ -95,14 +94,16 @@ const Message: React.FC = () => {
           // Only add message if it's from the other user or it's an echo of our message
           const newMessage: Message = {
             message: dataFromServer.message,
-            sender: dataFromServer.sender || Number(senderId)
+            sender: dataFromServer.sender || Number(senderId),
           };
 
           // Check for duplicate messages
           setMessages((prevMessages) => {
             const lastMessage = prevMessages[prevMessages.length - 1];
-            if (lastMessage?.message === newMessage.message && 
-                lastMessage?.sender === newMessage.sender) {
+            if (
+              lastMessage?.message === newMessage.message &&
+              lastMessage?.sender === newMessage.sender
+            ) {
               return prevMessages;
             }
             return [...prevMessages, newMessage];
@@ -138,11 +139,11 @@ const Message: React.FC = () => {
     if (clientRef.current && clientRef.current.readyState === W3CWebSocket.OPEN) {
       const outgoingMessage = JSON.stringify({ message });
       clientRef.current.send(outgoingMessage);
-      
+
       // Add message to local state with current user as sender
       const newMessage: Message = {
         message: message,
-        sender: Number(senderId)
+        sender: Number(senderId),
       };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessage("");

@@ -12,13 +12,9 @@ type DisplayMessageProps = {
   senderId: number;
 };
 
-const DisplayMessage: React.FC<DisplayMessageProps> = ({
-  messages,
-  messagesEndRef,
-  senderId,
-}) => {
+const DisplayMessage: React.FC<DisplayMessageProps> = ({ messages, messagesEndRef, senderId }) => {
   return (
-    <main className="h-full flex-1 overflow-auto p-4">
+    <main className="h-full flex-1 overflow-auto p-4 ">
       {messages?.map((message, index) => (
         <div
           key={index}
@@ -26,7 +22,9 @@ const DisplayMessage: React.FC<DisplayMessageProps> = ({
         >
           <div
             className={`max-w-sm p-2 px-4 rounded-3xl ${
-              Number(message.sender) === Number(senderId) ? "bg-[#001835] text-white rounded-tr-none" : "bg-[#D9FFE9] text-black rounded-tl-none"
+              Number(message.sender) === Number(senderId)
+                ? "bg-[#001835] text-white rounded-tr-none"
+                : "bg-[#D9FFE9] text-black rounded-tl-none"
             }`}
           >
             <p>{message.message}</p>
