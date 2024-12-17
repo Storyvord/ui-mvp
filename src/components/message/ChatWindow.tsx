@@ -7,7 +7,6 @@ import ChatHeader from "./ChatHeader";
 import { RxCross2 } from "react-icons/rx";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 
 type User = {
   id: number;
@@ -59,7 +58,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     <main className="flex h-full">
       <section
         className={cn(
-          "flex-[0.25] p-2 bg-white relative pt-4 border-r-2",
+          "flex-[0.25] p-2 px-4 bg-white relative pt-4 border-r-2",
           isConversationListVisible && "block",
           !isConversationListVisible && "hidden"
         )}
@@ -68,7 +67,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           onClick={toggleConversationList}
           className="w-6 h-6 sm:hidden block absolute cursor-pointer"
         />
-        <h1 className="w-full text-left font-poppins-semibold text-green-500 tracking-widest">
+        <h1 className="w-full text-left font-poppins-semibold text-green-500 text-lg tracking-widest">
           Messages
         </h1>
         <Input className="my-2 rounded-3xl" placeholder="Search" />

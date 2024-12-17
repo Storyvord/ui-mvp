@@ -42,10 +42,12 @@ const Message: React.FC = () => {
   const { data } = useGetMessages(receiverId);
   useEffect(() => {
     if (data) {
-      const newMappedMessages = data.map((item: { text: string; sender: { id: number } }) => ({
-        message: item.text,
-        sender: item.sender.id,
-      }));
+      const newMappedMessages = data?.results.map(
+        (item: { text: string; sender: { id: number } }) => ({
+          message: item.text,
+          sender: item.sender.id,
+        })
+      );
       setMessages(newMappedMessages);
     }
   }, [data]);
@@ -71,7 +73,7 @@ const Message: React.FC = () => {
     clientRef.current = wsClient;
 
     wsClient.onopen = () => {
-      console.log("WebSocket Client Connected");
+      // console.log("WebSocket Client Connected");
       setIsConnected(true);
     };
 
@@ -82,7 +84,7 @@ const Message: React.FC = () => {
 
         // Handle user status updates
         if (dataFromServer.status && dataFromServer.user_id) {
-          console.log(`User ${dataFromServer.user_id} is ${dataFromServer.status}`);
+          // console.log(`User ${dataFromServer.user_id} is ${dataFromServer.status}`);
           if (dataFromServer.user_id === receiverId) {
             setIsReceiverOnline(dataFromServer.status === "online");
           }
@@ -158,7 +160,7 @@ const Message: React.FC = () => {
         receiverName={receiverName}
         messages={messages}
         messagesEndRef={messagesEndRef}
-        conversationsList={conversationsList!}
+        conversationsList={conversationsList?.results!}
         message={message}
         setMessage={setMessage}
         sendMessage={sendMessage}
