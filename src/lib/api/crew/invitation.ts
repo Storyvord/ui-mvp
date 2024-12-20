@@ -13,17 +13,16 @@ export const acceptInvitation = async (inviteId: string) => {
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ action: "accept" }),
   });
 };
 
-export const rejectInvitation = async (referralCode: string) => {
-  return customFetch(
-    `${NEW_API_URL_V2}/api/referral/invitations/reject/?referral_code=${referralCode}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+export const rejectInvitation = async (inviteId: string) => {
+  return customFetch(`${NEW_API_URL_V2}/project/v2/invites/${inviteId}/respond/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "reject" }),
+  });
 };

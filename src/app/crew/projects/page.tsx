@@ -71,15 +71,13 @@ const Projects = () => {
     }
   };
 
-  const handleReject = async (referral_code: string) => {
-    toast({ title: "This feature will coming soon..." });
-    return;
-    // const res = await rejectInvitation(referral_code);
-    // if (res) {
-    //   toast({ title: "Invitation rejected" });
-    // } else {
-    //   toast({ title: "Failed to send reject request", variant: "destructive" });
-    // }
+  const handleReject = async (inviteId: string) => {
+    try {
+      await rejectInvitation(inviteId);
+      toast({ title: "Invitation rejected" });
+    } catch (error) {
+      toast({ title: "Failed to send reject request", variant: "destructive" });
+    }
   };
 
   return (
