@@ -36,17 +36,17 @@ const ProjectCard = ({
         <p>
           <strong>Created At:</strong> {new Date(project.created_at).toLocaleString()}
         </p>
-        <Accordion type="single" collapsible className=" sm:w-[50%]">
+        {/* <Accordion type="single" collapsible className=" sm:w-[50%]">
           <AccordionItem value="item-1">
             <AccordionTrigger>Note</AccordionTrigger>
             <AccordionContent>{project.message}</AccordionContent>
           </AccordionItem>
-        </Accordion>
-        {project.status === "pending" && (
+        </Accordion> */}
+        {project.status === "PENDING" && (
           <div className="mt-4">
             {handleAccept && (
               <Button
-                onClick={() => handleAccept(project.referral_code)}
+                onClick={() => handleAccept(project.id)}
                 className="mr-2 bg-green-500 hover:bg-green-400 text-white rounded-lg"
                 disabled={isAcceptLoading}
               >
@@ -55,7 +55,7 @@ const ProjectCard = ({
             )}
             {handleReject && (
               <Button
-                onClick={() => handleReject(project.referral_code)}
+                onClick={() => handleReject(project.id)}
                 variant="destructive"
                 disabled={isRejectLoading}
               >
