@@ -80,7 +80,7 @@ const CreditsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   const { mutateAsync: updateCredit } = useUpdateCredit();
   const { data } = useGetCredit();
 
-  const editableData = data?.find((item: CreditsFormFields) => item.id === fieldId);
+  const editableData = data?.data.find((item: CreditsFormFields) => item.id === fieldId);
 
   const form = useForm({
     resolver: zodResolver(creditsFormValidationSchema),
@@ -126,7 +126,7 @@ const CreditsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className=" max-w-[700px] mx-auto">
         <DialogHeader>
           <DialogTitle>Credits Details</DialogTitle>
         </DialogHeader>

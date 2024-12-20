@@ -58,7 +58,7 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   const { mutateAsync: updateEducation } = useUpdateEducation();
   const { data } = useGetEducation();
 
-  const editableData = data?.find((item: EducationFormType) => item.id === fieldId);
+  const editableData = data?.data.find((item: EducationFormType) => item.id === fieldId);
 
   const form = useForm({
     resolver: zodResolver(educationFormValidationSchema),
@@ -102,7 +102,7 @@ const EducationsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className=" max-w-[700px] mx-auto">
         <DialogHeader>
           <DialogTitle>Education Details</DialogTitle>
         </DialogHeader>

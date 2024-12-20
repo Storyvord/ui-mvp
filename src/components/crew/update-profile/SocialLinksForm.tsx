@@ -45,7 +45,7 @@ const SocialLinksForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   const { mutateAsync: updateSocialLink } = useUpdateSocialLink();
   const { data } = useGetSocialLink();
 
-  const editableData = data?.find((item: SocialLinkFormType) => item.id === fieldId);
+  const editableData = data?.data.find((item: SocialLinkFormType) => item.id === fieldId);
 
   const form = useForm({
     resolver: zodResolver(socialLinksFormValidationSchema),
@@ -86,7 +86,7 @@ const SocialLinksForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className=" max-w-[700px] mx-auto">
         <DialogHeader>
           <DialogTitle>Social Links</DialogTitle>
         </DialogHeader>

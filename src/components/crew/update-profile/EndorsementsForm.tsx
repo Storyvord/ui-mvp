@@ -53,7 +53,9 @@ const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   const { mutateAsync: updateEndorsement } = useUpdateEndorsement();
   const { data: endorsementData } = useGetEndorsement();
 
-  const editableData = endorsementData?.find((item: EndorsementFormType) => item.id === fieldId);
+  const editableData = endorsementData?.data.find(
+    (item: EndorsementFormType) => item.id === fieldId
+  );
 
   const form = useForm({
     resolver: zodResolver(endorsementFormValidationSchema),
@@ -96,7 +98,7 @@ const EndorsementsForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className=" max-w-[700px] mx-auto">
         <DialogHeader>
           <DialogTitle>Endorsement Details</DialogTitle>
         </DialogHeader>

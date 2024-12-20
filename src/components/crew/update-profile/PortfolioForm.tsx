@@ -81,7 +81,7 @@ const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
   const { mutateAsync: updatePortfolio } = useUpdatePortfolio();
   const { data } = useGetPortfolio();
 
-  const editableData = data?.find((item: PortfolioFormData) => item.id === fieldId);
+  const editableData = data?.data.find((item: PortfolioFormData) => item.id === fieldId);
 
   const form = useForm({
     resolver: zodResolver(portfolioFormValidationSchema),
@@ -130,7 +130,7 @@ const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => setOpenDialog(!openDialog)}>
-      <DialogContent>
+      <DialogContent className=" max-w-[700px] mx-auto">
         <DialogHeader>
           <DialogTitle>Portfolio Details</DialogTitle>
         </DialogHeader>

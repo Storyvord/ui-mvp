@@ -1,4 +1,4 @@
-import { USER_API } from "@/constant/constant";
+import { NEW_API_URL_V2, USER_API } from "@/constant/constant";
 import {
   CreditsFormFields,
   EducationFormType,
@@ -75,37 +75,37 @@ export const createCredit = async (creditData: CreditsFormFields & { crew: numbe
 /////////////////////////////get details////////////////
 
 export const getProfile = async () => {
-  return customFetch(`${USER_API}/api/crew/crew-profile/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-profile/`, {
     method: "GET",
   });
 };
 
 export const getPortfolio = async () => {
-  return customFetch(`${USER_API}/api/crew/portfolios/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/portfolios/`, {
     method: "GET",
   });
 };
 
 export const getEducation = async () => {
-  return customFetch(`${USER_API}/api/crew/crew-education/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-education/`, {
     method: "GET",
   });
 };
 
 export const getSocialLink = async () => {
-  return customFetch(`${USER_API}/api/crew/social-links/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/social-links/`, {
     method: "GET",
   });
 };
 
 export const getEndorsement = async () => {
-  return customFetch(`${USER_API}/api/crew/endorsement-from-peers/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/endorsement-from-peers/`, {
     method: "GET",
   });
 };
 
 export const getCredit = async () => {
-  return customFetch(`${USER_API}/api/crew/crew-credits/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-credits/`, {
     method: "GET",
   });
 };
@@ -190,8 +190,6 @@ export const updateCredit = async ({
     body: JSON.stringify(creditData),
   });
 };
-
-
 
 // Delete functions for each resource
 export const deletePortfolio = async (id: number) => {
