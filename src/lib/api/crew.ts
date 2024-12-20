@@ -23,9 +23,17 @@ export const getCrewFullProfile = async (crewId: string) => {
   });
 };
 
-export const searchCrew = async ({ location, service }: { location: string; service: string }) => {
+export const searchCrew = async ({
+  location,
+  service,
+  name,
+}: {
+  location: string;
+  service: string;
+  name: string;
+}) => {
   return customFetch(
-    `${USER_API}/api/crew/crew-profile/search/?location=${location}&skills=${service}`,
+    `${NEW_API_URL_V2}/crew/crew-profile/search/?location=${location}&skills=${service}&name=${name}`,
     {
       method: "GET",
     }

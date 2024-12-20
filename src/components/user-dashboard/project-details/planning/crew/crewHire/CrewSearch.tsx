@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/card";
 import { crewData } from "@/constant/dummyCrew";
 import Loader from "@/components/Loader";
+import { useSearchCrew } from "@/lib/react-query/queriesAndMutations/crew";
 
 const CrewSearch = () => {
   const [formData, setFormDate] = useState({
+    name: "S",
     service: "",
     location: "",
   });
@@ -23,8 +25,8 @@ const CrewSearch = () => {
   const [showResult, setShowResult] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
 
-  // const { data, isPending } = useSearchCrew({ location: "london", service: "camera" });
-
+  const { data, isPending } = useSearchCrew(formData);
+  console.log(data);
   const handelSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -54,6 +56,11 @@ const CrewSearch = () => {
         className=" sm:w-[500px] sm:mx-auto mt-8 flex flex-col md:flex-row gap-4"
       >
         <Input
+          placeholder="Crew name"
+          value={formData.name}
+          onChange={(e) => setFormDate({ ...formData, name: e.target.value })}
+        />
+        <Input
           placeholder="Service"
           value={formData.service}
           onChange={(e) => setFormDate({ ...formData, service: e.target.value })}
@@ -76,6 +83,20 @@ const CrewSearch = () => {
           <Loader />
         </div>
       )}
+
+      {/* {
+            "id": 31,
+            "image": null,
+            "experience": "Production Manager",
+            "skills": "Production Manager",
+            "standardRate": "1050.0",
+            "technicalProficiencies": "Production Manager",
+            "specializations": "Production Manager",
+            "drive": true,
+            "active": true,
+            "user": 59,
+            "personal_info": 39
+        }, */}
       {showResult && (
         <>
           <h1 className=" my-4 text-lg md:text-xl">Search Results</h1>
