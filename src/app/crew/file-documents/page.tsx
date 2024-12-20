@@ -11,11 +11,11 @@ const FileDocument = () => {
   return (
     <div>
       <h1 className=" text-center font-semibold text-xl text-gray-700">FileDocument</h1>
-      {listOfProjects?.accepted.length === 0 && (
+      {listOfProjects?.length === 0 && (
         <p className=" text-center text-gray-600 mt-4">You are not on boarder in any project</p>
       )}
       <section className=" mt-4">
-        {listOfProjects?.accepted.map((item: Project) => (
+        {listOfProjects?.map((item: Project) => (
           <Card
             onClick={() => router.push(`/crew/file-documents/${item.project}`)}
             key={item.id}

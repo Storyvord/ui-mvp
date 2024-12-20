@@ -29,9 +29,17 @@ export const useGetCrewFullProfile = (crewId: string) => {
   });
 };
 
-export const useSearchCrew = ({ location, service }: { location: string; service: string }) => {
+export const useSearchCrew = ({
+  location,
+  service,
+  name,
+}: {
+  location: string;
+  service: string;
+  name: string;
+}) => {
   return useQuery({
     queryKey: ["searchCrew"],
-    queryFn: () => searchCrew({ location, service }),
+    queryFn: () => searchCrew({ location, service, name }),
   });
 };
