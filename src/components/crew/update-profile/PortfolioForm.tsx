@@ -69,12 +69,6 @@ type Props = {
 };
 
 const PortfolioForm = ({ openDialog, setOpenDialog, fieldId }: Props) => {
-  const { data: profileData } = useGetProfile();
-  const [crewProfileId, setCrewProfileId] = useState();
-  useEffect(() => {
-    setCrewProfileId(profileData?.id);
-  }, [profileData]);
-
   const { toast } = useToast();
 
   const { mutateAsync, isPending, isError } = useCreatePortfolio();

@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 import { customFetch } from "../api";
 
 export const createProfile = async (profileData: ProfileFormData) => {
-  return customFetch(`${USER_API}/api/crew/crew-profile/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-profile/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const createProfile = async (profileData: ProfileFormData) => {
 };
 
 export const createPortfolio = async (portfolioData: PortfolioFormData) => {
-  return customFetch(`${USER_API}/api/crew/portfolios/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/portfolios/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const createPortfolio = async (portfolioData: PortfolioFormData) => {
 };
 
 export const createEducation = async (educationData: EducationFormType & { crew: number }) => {
-  return customFetch(`${USER_API}/api/crew/crew-education/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-education/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const createEducation = async (educationData: EducationFormType & { crew:
 };
 
 export const createSocialLink = async (socialLinkData: SocialLinkFormType & { crew: number }) => {
-  return customFetch(`${USER_API}/api/crew/social-links/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/social-links/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export const createSocialLink = async (socialLinkData: SocialLinkFormType & { cr
 export const createEndorsement = async (
   endorsementData: EndorsementFormType & { crew: number }
 ) => {
-  return customFetch(`${USER_API}/api/crew/endorsement-from-peers/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/endorsement-from-peers/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export const createEndorsement = async (
 };
 
 export const createCredit = async (creditData: CreditsFormFields & { crew: number }) => {
-  return customFetch(`${USER_API}/api/crew/crew-credits/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-credits/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export const updatePortfolio = async ({
   portfolioData: PortfolioFormData;
   id: number;
 }) => {
-  return customFetch(`${USER_API}/api/crew/portfolios/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/portfolios/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export const updateEducation = async ({
   educationData: EducationFormType;
   id: number;
 }) => {
-  return customFetch(`${USER_API}/api/crew/crew-education/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-education/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -150,7 +150,7 @@ export const updateSocialLink = async ({
   socialLinkData: SocialLinkFormType;
   id: number;
 }) => {
-  return customFetch(`${USER_API}/api/crew/social-links/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/social-links/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -166,7 +166,7 @@ export const updateEndorsement = async ({
   endorsementData: EndorsementFormType;
   id: number;
 }) => {
-  return customFetch(`${USER_API}/api/crew/endorsement-from-peers/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/endorsement-from-peers/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -182,7 +182,7 @@ export const updateCredit = async ({
   creditData: CreditsFormFields;
   id: number;
 }) => {
-  return customFetch(`${USER_API}/api/crew/crew-credits/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-credits/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -193,31 +193,31 @@ export const updateCredit = async ({
 
 // Delete functions for each resource
 export const deletePortfolio = async (id: number) => {
-  return customFetch(`${USER_API}/api/crew/portfolios/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/portfolios/${id}/`, {
     method: "DELETE",
   });
 };
 
 export const deleteEducation = async (id: number) => {
-  return customFetch(`${USER_API}/api/crew/crew-education/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-education/${id}/`, {
     method: "DELETE",
   });
 };
 
 export const deleteSocialLink = async (id: number) => {
-  return customFetch(`${USER_API}/api/crew/social-links/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/social-links/${id}/`, {
     method: "DELETE",
   });
 };
 
 export const deleteEndorsement = async (id: number) => {
-  return customFetch(`${USER_API}/api/crew/endorsement-from-peers/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/endorsement-from-peers/${id}/`, {
     method: "DELETE",
   });
 };
 
 export const deleteCredit = async (id: number) => {
-  return customFetch(`${USER_API}/api/crew/crew-credits/${id}/`, {
+  return customFetch(`${NEW_API_URL_V2}/crew/crew-credits/${id}/`, {
     method: "DELETE",
   });
 };
